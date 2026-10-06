@@ -1,0 +1,18 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": null,
+  "installCommand": "npm ci --legacy-peer-deps",
+  "buildCommand": "npm run build:vercel",
+  "outputDirectory": "dist/vercel",
+  "rewrites": [
+    {
+      "source": "/remotes/adminDashboard/:path*",
+      "destination": "/remotes/adminDashboard/index.html"
+    },
+    {
+      "source": "/remotes/roseApp/:path*",
+      "destination": "/remotes/roseApp/index.html"
+    },
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
+}

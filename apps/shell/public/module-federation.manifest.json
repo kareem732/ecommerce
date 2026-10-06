@@ -1,0 +1,4 @@
+{
+  "adminDashboard": "http://localhost:4201/mf-manifest.json",
+  "roseApp": "http://localhost:4202/mf-manifest.json"
+}

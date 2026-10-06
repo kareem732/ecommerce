@@ -1,0 +1,108 @@
+{
+  "name": "roseApp",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "prefix": "app",
+  "sourceRoot": "apps/roseApp/src",
+  "tags": ["scope:rose-app"],
+  "targets": {
+    "build": {
+      "executor": "@nx/angular:webpack-browser",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "outputPath": "dist/apps/roseApp",
+        "index": "apps/roseApp/src/index.html",
+        "main": "apps/roseApp/src/main.ts",
+        "tsConfig": "apps/roseApp/tsconfig.app.json",
+        "assets": [
+          {
+            "glob": "**/*",
+            "input": "apps/roseApp/public"
+          }
+        ],
+        "styles": ["styles/tailwind.css", "apps/roseApp/src/styles.scss"],
+        "inlineStyleLanguage": "scss",
+        "customWebpackConfig": {
+          "path": "apps/roseApp/webpack.config.ts"
+        }
+      },
+      "configurations": {
+        "production": {
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "500kb",
+              "maximumError": "1mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "4kb",
+              "maximumError": "8kb"
+            }
+          ],
+          "outputHashing": "all",
+          "customWebpackConfig": {
+            "path": "apps/roseApp/webpack.prod.config.ts"
+          }
+        },
+        "development": {
+          "buildOptimizer": false,
+          "optimization": false,
+          "vendorChunk": true,
+          "extractLicenses": false,
+          "sourceMap": true,
+          "namedChunks": true
+        }
+      }
+    },
+    "serve": {
+      "continuous": true,
+      "executor": "@nx/angular:dev-server",
+      "defaultConfiguration": "development",
+      "options": {
+        "port": 4202,
+        "publicHost": "http://localhost:4202",
+        "headers": {
+          "Access-Control-Allow-Origin": "http://localhost:4200"
+        }
+      },
+      "configurations": {
+        "production": {
+          "buildTarget": "roseApp:build:production"
+        },
+        "development": {
+          "buildTarget": "roseApp:build:development"
+        }
+      },
+      "dependsOn": ["shell:serve"]
+    },
+    "extract-i18n": {
+      "executor": "@angular-devkit/build-angular:extract-i18n",
+      "options": {
+        "buildTarget": "roseApp:build"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    },
+    "serve-static": {
+      "continuous": true,
+      "executor": "@nx/web:file-server",
+      "defaultConfiguration": "production",
+      "options": {
+        "buildTarget": "roseApp:build",
+        "port": 4202,
+        "watch": false
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "roseApp:build:development"
+        },
+        "production": {
+          "buildTarget": "roseApp:build:production"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,6 @@
+@layer theme, base, primeng, components, utilities;
+
+@import "tailwindcss" source("../apps");
+@import "tailwindcss-primeui";
+
+@source "../packages";
