@@ -1,0 +1,46 @@
+<main
+  dir="ltr"
+  class="grid min-h-dvh grid-cols-1 bg-white text-zinc-800 md:grid-cols-[36fr_38fr]"
+>
+  <section
+    class="flex min-w-0 items-center justify-center px-6 py-10 sm:px-10 md:px-0"
+  >
+    <div class="w-full max-w-sm md:w-3/4 lg:w-7/12 lg:max-w-md">
+      <div class="mb-8 flex min-h-6 items-center justify-end pe-3">
+        <span lang="ar" dir="rtl" class="text-xs font-normal">العربية</span>
+      </div>
+
+      <p-image
+        src="assets/images/auth/auth-aside-up.webp"
+        alt=""
+        aria-hidden="true"
+        styleClass="mx-auto block w-7/10"
+        imageClass="block h-auto w-full"
+      />
+
+      <div class="my-8 min-h-64 min-w-0 [&>router-outlet]:hidden">
+        <router-outlet></router-outlet>
+      </div>
+
+      <p-image
+        src="assets/images/auth/auth-aside-down.webp"
+        alt=""
+        aria-hidden="true"
+        styleClass="mx-auto block w-7/10"
+        imageClass="block h-auto w-full"
+      />
+    </div>
+  </section>
+
+  <aside
+    aria-hidden="true"
+    class="sticky top-0 hidden h-dvh self-start overflow-hidden md:block"
+  >
+    <p-image
+      src="assets/images/auth/auth-cover.webp"
+      alt=""
+      styleClass="block h-full w-full"
+      imageClass="block h-full w-full object-cover object-center"
+    />
+  </aside>
+</main>
