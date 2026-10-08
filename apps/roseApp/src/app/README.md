@@ -1,0 +1,22 @@
+# RoseApp Folder Structure
+
+- assets/: static files imported from code.
+  - images/: images.
+  - icons/: icons.
+- core/: app-wide singletons, created once.
+  - guards/: route guards.
+  - interceptors/: HTTP interceptors.
+  - models/: global models and types.
+  - services/: app-wide services.
+- features/: one folder per feature.
+  - auth/: authentication feature.
+    - base/: base classes and shared logic for auth.
+    - components/: auth-specific components.
+    - enums/: auth enums.
+    - interfaces/: auth interfaces.
+    - pages/: auth pages (login, register, OTP, forgot/reset password).
+    - services/: auth-specific services.
+- shared/: reusable across features.
+  - business/: reusable business logic.
+  - ui/: reusable UI components.
+  - utils/: utility functions and helpers.
