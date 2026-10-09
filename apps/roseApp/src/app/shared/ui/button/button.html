@@ -1,0 +1,16 @@
+<button
+  class="btn"
+  [class]="'btn btn--' + variant()"
+  [class.btn--full]="fullWidth()"
+  [class.btn--loading]="loading()"
+  [type]="type()"
+  [disabled]="isDisabled()"
+  (click)="onClick($event)"
+>
+  @if (loading()) {
+    <i class="pi pi-spin pi-spinner"></i>
+  } @else if (icon()) {
+    <i [class]="icon()"></i>
+  }
+  <span>{{ label() }}</span>
+</button>

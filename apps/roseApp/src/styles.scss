@@ -1,1 +1,18 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+  --font-sans: 'Sarabun', 'Tajawal', sans-serif;
+  --font-arabic: 'Tajawal', 'Sarabun', sans-serif;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+  font-family: var(--font-sans);
+  background: var(--bg-page);
+  color: var(--text-primary);
+}
+
+:lang(ar),
+[dir='rtl'] {
+  font-family: var(--font-arabic);
+}
