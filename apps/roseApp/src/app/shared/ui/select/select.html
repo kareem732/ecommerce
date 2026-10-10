@@ -1,0 +1,60 @@
+<div
+  class="field"
+  [class.field--error]="error()"
+  [class.field--disabled]="isDisabled()"
+  [class.field--open]="open()"
+>
+  @if (label()) {
+    <label class="field__label" [for]="id">{{ label() }}</label>
+  }
+
+  <div class="select">
+    <button
+      type="button"
+      class="field__control select__trigger"
+      [id]="id"
+      aria-haspopup="listbox"
+      [attr.aria-expanded]="open()"
+      [disabled]="isDisabled()"
+      (click)="toggle()"
+    >
+      <span class="select__value" [class.select__value--placeholder]="!selectedLabel()">
+        {{ selectedLabel() || placeholder() }}
+      </span>
+      <lucide-icon
+        [img]="arrow() === 'updown' ? ChevronsUpDown : ChevronDown"
+        [size]="18"
+        class="select__arrow"
+      ></lucide-icon>
+    </button>
+
+    @if (open()) {
+      <ul class="select__menu" role="listbox">
+        @for (opt of options(); track opt.value) {
+          <li>
+            <button
+              type="button"
+              role="option"
+              class="select__option"
+              [class.select__option--selected]="opt.value === value()"
+              [attr.aria-selected]="opt.value === value()"
+              [disabled]="opt.disabled"
+              (click)="select(opt)"
+            >
+              <span>{{ opt.label }}</span>
+              @if (opt.value === value()) {
+                <lucide-icon [img]="Check" [size]="16"></lucide-icon>
+              }
+            </button>
+          </li>
+        } @empty {
+          <li class="select__empty">No options</li>
+        }
+      </ul>
+    }
+  </div>
+
+  @if (error()) {
+    <span class="field__error">{{ error() }}</span>
+  }
+</div>

@@ -4,3 +4,8 @@
 @import "tailwindcss-primeui";
 
 @source "../packages";
+
+@theme {
+  --font-sans: 'Sarabun', 'Tajawal', sans-serif;
+  --font-arabic: 'Tajawal', 'Sarabun', sans-serif;
+}

@@ -1,0 +1,35 @@
+<div class="field" [class.field--error]="error()" [class.field--disabled]="isDisabled()">
+  @if (label()) {
+    <label class="field__label" [for]="id">{{ label() }}</label>
+  }
+
+  <div class="field__control">
+    @if (icon(); as ic) {
+      <lucide-icon [img]="ic" [size]="18" class="field__icon"></lucide-icon>
+    }
+    <input
+      [id]="id"
+      [type]="inputType()"
+      [placeholder]="placeholder()"
+      [value]="value()"
+      [disabled]="isDisabled()"
+      (input)="onInput($event)"
+      (blur)="onBlur()"
+    />
+    @if (isPassword()) {
+      <button
+        type="button"
+        class="field__toggle"
+        [attr.aria-label]="showPassword() ? 'Hide password' : 'Show password'"
+        [disabled]="isDisabled()"
+        (click)="togglePassword()"
+      >
+        <lucide-icon [img]="showPassword() ? Eye : EyeOff" [size]="20"></lucide-icon>
+      </button>
+    }
+  </div>
+
+  @if (error()) {
+    <span class="field__error">{{ error() }}</span>
+  }
+</div>

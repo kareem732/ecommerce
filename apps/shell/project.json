@@ -21,7 +21,20 @@
             "input": "apps/shell/public"
           }
         ],
-        "styles": ["styles/tailwind.css", "apps/shell/src/styles.scss"],
+       "styles": [
+  "styles/tailwind.css",
+  "apps/roseApp/src/styles/index.scss",
+  "apps/shell/src/styles.scss",
+  "node_modules/flag-icons/css/flag-icons.min.css",
+  "node_modules/@fontsource/sarabun/400.css",
+"node_modules/@fontsource/sarabun/500.css",
+"node_modules/@fontsource/sarabun/600.css",
+"node_modules/@fontsource/sarabun/700.css",
+"node_modules/@fontsource/tajawal/400.css",
+"node_modules/@fontsource/tajawal/500.css",
+"node_modules/@fontsource/tajawal/700.css",
+"node_modules/@fontsource/tajawal/800.css"
+],
         "inlineStyleLanguage": "scss",
         "customWebpackConfig": {
           "path": "apps/shell/webpack.config.ts"
