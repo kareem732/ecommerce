@@ -3,7 +3,7 @@ import { Injectable, inject } from '@angular/core';
 import { AUTH_CONFIG } from '../config/auth.config';
 import { TokenPayload } from '../models/token.model';
 
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class TokenService {
   private readonly doc = inject(DOCUMENT);
   private readonly name = inject(AUTH_CONFIG).tokenCookieName;

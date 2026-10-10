@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 import { SessionService } from './session.service';
 import { TokenService } from './token.service';
-import { provideAuthConfigForTests, makeJwt, TEST_USER } from '../testing/auth-testing';
+import { provideAuthConfigForTests, provideAuthServicesForTests, makeJwt, TEST_USER } from '../testing/auth-testing';
 
 describe('SessionService', () => {
   let tokens: TokenService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({ providers: [provideAuthConfigForTests()] });
+    TestBed.configureTestingModule({ providers: [provideAuthConfigForTests(), provideAuthServicesForTests()] });
     tokens = TestBed.inject(TokenService);
     tokens.clear();
   });

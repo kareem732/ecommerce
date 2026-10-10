@@ -5,7 +5,7 @@ import { AuthPayload } from '../models/register.model';
 import { AuthApiService } from './auth-api.service';
 import { SessionService } from './session.service';
 
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class LoginService {
   private readonly api = inject(AuthApiService);
   private readonly session = inject(SessionService);

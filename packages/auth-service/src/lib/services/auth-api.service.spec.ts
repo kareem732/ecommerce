@@ -1,4 +1,4 @@
-import { provideAuthConfigForTests, TEST_API_URL, TEST_USER } from './../testing/auth-testing';
+import { provideAuthConfigForTests, provideAuthServicesForTests, TEST_API_URL, TEST_USER } from './../testing/auth-testing';
 import { provideHttpClient } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
@@ -10,7 +10,7 @@ describe('AuthApiService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [provideHttpClient(), provideHttpClientTesting(), provideAuthConfigForTests()],
+      providers: [provideHttpClient(), provideHttpClientTesting(), provideAuthConfigForTests(), provideAuthServicesForTests()],
     });
     api = TestBed.inject(AuthApiService);
     http = TestBed.inject(HttpTestingController);

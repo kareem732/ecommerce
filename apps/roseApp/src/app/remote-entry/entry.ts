@@ -1,10 +1,13 @@
 import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
+import { Toast } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
 import { LanguageService, LanguageEnum } from '@org/shared-i18n';
 
 @Component({
-  imports: [RouterOutlet, TranslatePipe],
+  imports: [RouterOutlet, TranslatePipe, Toast],
+  providers: [MessageService],
   selector: 'app-rose-app-entry',
   template: `
     <div [dir]="language.direction()">
@@ -20,6 +23,7 @@ import { LanguageService, LanguageEnum } from '@org/shared-i18n';
           {{ 'COMMON.SWITCH_LANGUAGE' | translate }}
         </button>
       </div>
+      <p-toast />
       <router-outlet></router-outlet>
     </div>`,
 })

@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { AuthApiService } from './auth-api.service';
 import { PasswordResetService } from './password-reset.service';
-import { provideAuthConfigForTests } from '../testing/auth-testing';
+import { provideAuthConfigForTests, provideAuthServicesForTests } from '../testing/auth-testing';
 
 describe('PasswordResetService', () => {
   const api = { forgotPassword: jest.fn(), resetPassword: jest.fn() };
@@ -11,7 +11,7 @@ describe('PasswordResetService', () => {
   beforeEach(() => {
     jest.resetAllMocks();
     TestBed.configureTestingModule({
-      providers: [provideAuthConfigForTests(), { provide: AuthApiService, useValue: api }],
+      providers: [provideAuthConfigForTests(), provideAuthServicesForTests(), { provide: AuthApiService, useValue: api }],
     });
     service = TestBed.inject(PasswordResetService);
   });

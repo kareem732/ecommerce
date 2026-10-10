@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { ResetPasswordRequest } from '../models/password.model';
 import { AuthApiService } from './auth-api.service';
 
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class PasswordResetService {
   private readonly api = inject(AuthApiService);
 

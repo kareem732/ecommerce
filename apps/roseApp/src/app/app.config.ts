@@ -12,9 +12,10 @@ import { provideRouter } from '@angular/router';
 import { definePreset } from '@primeuix/themes';
 import Aura from '@primeuix/themes/aura';
 import { providePrimeNG } from 'primeng/config';
+import { MessageService } from 'primeng/api';
 import { appRoutes } from './app.routes';
 import { environment } from '../environments/environment';
-  
+
 const RosePreset = definePreset(Aura, {
   semantic: {
     primary: {
@@ -50,6 +51,7 @@ const RosePreset = definePreset(Aura, {
 
 export const appConfig: ApplicationConfig = {
   providers: [
+    MessageService,
     provideBrowserGlobalErrorListeners(),
     provideHttpClient(),
     provideI18n(i18nConfig),
