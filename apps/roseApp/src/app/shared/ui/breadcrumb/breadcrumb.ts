@@ -1,12 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, input, output } from '@angular/core';
 import { LucideAngularModule, ChevronRight } from 'lucide-angular';
-
-export interface BreadcrumbItem {
-  label: string;
-  value?: string;
-}
-
-type Crumb = { kind: 'item'; item: BreadcrumbItem; last: boolean } | { kind: 'ellipsis' };
+import { BreadcrumbItem, Crumb } from './breadcrumb.types';
 
 @Component({
   selector: 'app-breadcrumb',
