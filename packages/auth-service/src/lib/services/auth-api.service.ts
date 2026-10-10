@@ -10,7 +10,7 @@ import { ConfirmEmailVerificationRequest, SendEmailVerificationRequest } from '.
 import { ForgotPasswordRequest, ResetPasswordRequest } from '../models/password.model';
 import { AuthPayload, RegisterRequest } from '../models/register.model';
 
-@Injectable({ providedIn: 'root' })
+@Injectable()
 
 export class AuthApiService {
 

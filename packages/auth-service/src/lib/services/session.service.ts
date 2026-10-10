@@ -3,7 +3,7 @@ import { AuthPayload } from '../models/register.model';
 import { AuthUser } from '../models/user.model';
 import { TokenService } from './token.service';
 
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class SessionService {
   private readonly tokens = inject(TokenService);
   private readonly _user = signal<AuthUser | null>(null);

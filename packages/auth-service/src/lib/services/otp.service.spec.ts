@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { AuthApiService } from './auth-api.service';
 import { OtpService } from './otp.service';
-import { provideAuthConfigForTests } from '../testing/auth-testing';
+import { provideAuthConfigForTests, provideAuthServicesForTests } from '../testing/auth-testing';
 
 describe('OtpService', () => {
   const api = { sendEmailVerification: jest.fn(), confirmEmailVerification: jest.fn() };
@@ -11,7 +11,7 @@ describe('OtpService', () => {
   beforeEach(() => {
     jest.resetAllMocks();
     TestBed.configureTestingModule({
-      providers: [provideAuthConfigForTests(), { provide: AuthApiService, useValue: api }],
+      providers: [provideAuthConfigForTests(), provideAuthServicesForTests(), { provide: AuthApiService, useValue: api }],
     });
     service = TestBed.inject(OtpService);
   });

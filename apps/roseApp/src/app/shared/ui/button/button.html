@@ -9,8 +9,9 @@
 >
   @if (loading()) {
     <i class="pi pi-spin pi-spinner"></i>
-  } @else if (icon()) {
-    <i [class]="icon()"></i>
   }
   <span>{{ label() }}</span>
+  @if (!loading() && icon()) {
+    <i [class]="icon()" [style.color]="iconColor() || null"></i>
+  }
 </button>

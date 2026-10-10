@@ -6,7 +6,7 @@ import Aura from '@primeuix/themes/aura';
 import { providePrimeNG } from 'primeng/config';
 import { appRoutes } from './app.routes';
 import { environment } from '../environments/environment';
-
+import { MessageService } from 'primeng/api';
 const RosePreset = definePreset(Aura, {
   semantic: {
     primary: {
@@ -42,6 +42,7 @@ const RosePreset = definePreset(Aura, {
 
 export const appConfig: ApplicationConfig = {
   providers: [
+    MessageService,
     provideBrowserGlobalErrorListeners(),
     provideAuth({ apiUrl: environment.apiUrl }),
     provideRouter(appRoutes),

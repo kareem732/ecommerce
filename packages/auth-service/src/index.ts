@@ -18,7 +18,7 @@ export * from './lib/services/otp.service';
 export * from './lib/services/password-reset.service';
 export * from './lib/services/token.service';
 export * from './lib/services/session.service';
-
+export * from './lib/services/auth-api.service';
 export * from './lib/interceptors/auth.interceptor';
 export * from './lib/interceptors/error.interceptor';
 export * from './lib/guards/auth.guard';

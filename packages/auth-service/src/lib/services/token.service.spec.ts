@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 import { TokenService } from './token.service';
-import { provideAuthConfigForTests, makeJwt } from '../testing/auth-testing';
+import { provideAuthConfigForTests, provideAuthServicesForTests, makeJwt } from '../testing/auth-testing';
 
 describe('TokenService', () => {
   let service: TokenService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({ providers: [provideAuthConfigForTests()] });
+    TestBed.configureTestingModule({ providers: [provideAuthConfigForTests(), provideAuthServicesForTests()] });
     service = TestBed.inject(TokenService);
     service.clear();
   });

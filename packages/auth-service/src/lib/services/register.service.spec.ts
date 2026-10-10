@@ -4,7 +4,7 @@ import { AuthApiService } from './auth-api.service';
 import { RegisterService } from './register.service';
 import { SessionService } from './session.service';
 import { TokenService } from './token.service';
-import { provideAuthConfigForTests, TEST_USER, makeJwt } from '../testing/auth-testing';
+import { provideAuthConfigForTests, provideAuthServicesForTests, TEST_USER, makeJwt } from '../testing/auth-testing';
 
 const request = {
   username: 'u', email: 'e@x.com', password: 'p', confirmPassword: 'p',
@@ -19,7 +19,7 @@ describe('RegisterService', () => {
   beforeEach(() => {
     api.register.mockReset();
     TestBed.configureTestingModule({
-      providers: [provideAuthConfigForTests(), { provide: AuthApiService, useValue: api }],
+      providers: [provideAuthConfigForTests(), provideAuthServicesForTests(), { provide: AuthApiService, useValue: api }],
     });
     TestBed.inject(TokenService).clear();
     service = TestBed.inject(RegisterService);

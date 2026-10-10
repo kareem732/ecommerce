@@ -13,11 +13,12 @@ export class Button {
   label = input<string>('Button');
   variant = input<ButtonVariant>('primary');
   type = input<'button' | 'submit' | 'reset'>('button');
-  icon = input<string>(''); 
+  icon = input<string>('');
+  iconColor = input<string>('');
   loading = input<boolean>(false);
   disabled = input<boolean>(false);
   fullWidth = input<boolean>(false);
-
+  
   clicked = output<MouseEvent>();
 
   isDisabled = computed(() => this.disabled() || this.loading());

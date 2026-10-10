@@ -4,7 +4,7 @@ import { AuthApiService } from './auth-api.service';
 import { LoginService } from './login.service';
 import { SessionService } from './session.service';
 import { TokenService } from './token.service';
-import { provideAuthConfigForTests, TEST_USER, makeJwt } from '../testing/auth-testing';
+import { provideAuthConfigForTests, provideAuthServicesForTests, TEST_USER, makeJwt } from '../testing/auth-testing';
 
 describe('LoginService', () => {
   const api = { login: jest.fn() };
@@ -14,7 +14,7 @@ describe('LoginService', () => {
   beforeEach(() => {
     api.login.mockReset();
     TestBed.configureTestingModule({
-      providers: [provideAuthConfigForTests(), { provide: AuthApiService, useValue: api }],
+      providers: [provideAuthConfigForTests(), provideAuthServicesForTests(), { provide: AuthApiService, useValue: api }],
     });
     TestBed.inject(TokenService).clear();
     service = TestBed.inject(LoginService);

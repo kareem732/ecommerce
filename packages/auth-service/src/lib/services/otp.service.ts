@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AuthApiService } from './auth-api.service';
 
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class OtpService {
   private readonly api = inject(AuthApiService);
 

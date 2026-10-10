@@ -2,7 +2,7 @@ import { HttpClient, provideHttpClient, withInterceptors } from '@angular/common
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { TokenService } from '../services/token.service';
-import { TEST_API_URL, makeJwt, provideAuthConfigForTests } from '../testing/auth-testing';
+import { TEST_API_URL, makeJwt, provideAuthConfigForTests, provideAuthServicesForTests } from '../testing/auth-testing';
 import { authInterceptor } from './auth.interceptor';
 
 describe('authInterceptor', () => {
@@ -16,6 +16,7 @@ describe('authInterceptor', () => {
         provideHttpClient(withInterceptors([authInterceptor])),
         provideHttpClientTesting(),
         provideAuthConfigForTests(),
+        provideAuthServicesForTests(),
       ],
     });
     http = TestBed.inject(HttpClient);

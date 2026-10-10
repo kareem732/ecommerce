@@ -6,7 +6,7 @@ import { AuthError } from '../models/auth-error.model';
 import { SessionService } from '../services/session.service';
 import { TokenService } from '../services/token.service';
 import { errorInterceptor } from './error.interceptor';
-import { provideAuthConfigForTests, TEST_API_URL, TEST_USER, makeJwt } from '../testing/auth-testing';
+import { provideAuthConfigForTests, provideAuthServicesForTests, TEST_API_URL, TEST_USER, makeJwt } from '../testing/auth-testing';
 
 describe('errorInterceptor', () => {
   let http: HttpClient;
@@ -21,6 +21,7 @@ describe('errorInterceptor', () => {
         provideHttpClientTesting(),
         provideRouter([]),
         provideAuthConfigForTests(),
+        provideAuthServicesForTests(),
       ],
     });
     TestBed.inject(TokenService).clear();
