@@ -1,0 +1,51 @@
+<div
+  class="field"
+  [class.field--error]="error()"
+  [class.field--disabled]="isDisabled()"
+>
+  @if (label()) {
+  <app-label
+    class="field__label"
+    [text]="label()"
+    [for]="id"
+    [error]="!!error()"
+  />
+  }
+
+  <div class="field__control">
+    <input
+      #fileInput
+      class="upload__native"
+      type="file"
+      [id]="id"
+      [accept]="accept()"
+      [disabled]="isDisabled()"
+      (change)="onFileChange($event)"
+    />
+
+    <div class="upload__info">
+      @if (file(); as f) {
+      <span class="upload__name" [title]="f.name">{{ f.name }}</span>
+      } @else if (currentLabel()) {
+      <button type="button" class="upload__review" (click)="reviewClick.emit()">
+        <lucide-icon [img]="ImageIcon" [size]="18"></lucide-icon>
+        <span>{{ currentLabel() }}</span>
+      </button>
+      }
+    </div>
+
+    <button
+      type="button"
+      class="upload__btn"
+      [disabled]="isDisabled()"
+      (click)="open()"
+    >
+      <lucide-icon [img]="UploadIcon" [size]="18"></lucide-icon>
+      <span>{{ buttonLabel() }}</span>
+    </button>
+  </div>
+
+  @if (error()) {
+  <span class="field__error">{{ error() }}</span>
+  }
+</div>
