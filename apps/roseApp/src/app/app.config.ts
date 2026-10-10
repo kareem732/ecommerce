@@ -1,9 +1,11 @@
+import { provideAuth } from '@org/auth-service';
 import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/core';
 import { provideRouter } from '@angular/router';
-import { providePrimeNG } from 'primeng/config';
-import Aura from '@primeuix/themes/aura';
 import { definePreset } from '@primeuix/themes';
+import Aura from '@primeuix/themes/aura';
+import { providePrimeNG } from 'primeng/config';
 import { appRoutes } from './app.routes';
+import { environment } from '../environments/environment';
 
 const RosePreset = definePreset(Aura, {
   semantic: {
@@ -41,12 +43,17 @@ const RosePreset = definePreset(Aura, {
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
+    provideAuth({ apiUrl: environment.apiUrl }),
     provideRouter(appRoutes),
     providePrimeNG({
       theme: {
         preset: RosePreset,
         options: {
-          darkModeSelector: 'system',
+          darkModeSelector: '[data-theme="dark"]',
+          cssLayer: {
+            name: 'primeng',
+            order: 'theme, base, primeng, components, utilities',
+          },
         },
       },
     }),
