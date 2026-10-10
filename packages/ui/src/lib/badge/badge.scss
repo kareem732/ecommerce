@@ -1,0 +1,46 @@
+:host {
+  display: inline-flex;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  height: 16px;
+  padding: 2px 8px;
+  font-family: var(--font-sans);
+  font-size: 10px;
+  font-weight: 500;
+  line-height: 1;
+  white-space: nowrap;
+  border-radius: 999px;
+  box-sizing: border-box;
+
+  &--primary {
+    background: var(--color-maroon-500);
+    color: var(--color-white);
+  }
+  &--primary-dark {
+    background: var(--color-maroon-700);
+    color: var(--color-white);
+  }
+
+  &--soft {
+    background: var(--color-maroon-50);
+    color: var(--color-maroon-600);
+  }
+  &--soft-strong {
+    background: var(--color-maroon-100);
+    color: var(--color-maroon-600);
+  }
+
+  &--neutral {
+    background: var(--color-zinc-100);
+    color: var(--color-zinc-800);
+  }
+  &--neutral-strong {
+    background: var(--color-zinc-200);
+    color: var(--color-zinc-800);
+  }
+}

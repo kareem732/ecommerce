@@ -1,0 +1,48 @@
+<div class="account-menu">
+  <button
+    type="button"
+    class="account-menu__trigger"
+    aria-haspopup="menu"
+    [attr.aria-expanded]="open()"
+    (click)="toggle()"
+  >
+    {{ triggerLabel() }}
+  </button>
+
+  @if (open()) {
+  <div class="account-menu__panel" role="menu">
+    @if (title()) {
+    <div class="account-menu__title">{{ title() }}</div>
+    } @for (group of groups(); track $index) { @if (title() || !$first) {
+    <div class="account-menu__separator" role="separator"></div>
+    } @for (item of group; track item.id) {
+    <button
+      type="button"
+      role="menuitem"
+      class="account-menu__item"
+      [disabled]="item.disabled"
+      (click)="select(item)"
+    >
+      @if (item.icon) {
+      <lucide-icon
+        [img]="item.icon"
+        [size]="20"
+        class="account-menu__icon"
+      ></lucide-icon>
+      }
+      <span class="account-menu__label">{{ item.label }}</span>
+
+      @if (item.hasSubmenu) {
+      <lucide-icon
+        [img]="ChevronRight"
+        [size]="18"
+        class="account-menu__chevron"
+      ></lucide-icon>
+      } @else if (item.shortcut) {
+      <span class="account-menu__shortcut">{{ item.shortcut }}</span>
+      }
+    </button>
+    } }
+  </div>
+  }
+</div>
