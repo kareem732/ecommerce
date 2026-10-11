@@ -1,0 +1,71 @@
+<div class="flex flex-col items-center justify-center">
+    <form [formGroup]="loginForm" class="w-101.5  flex flex-col opacity-100" (ngSubmit)="loginButton()">
+        <div class="flex items-center justify-center pb-10">
+            <img src="/assets/images/auth/Welcomeback!.png" alt="">
+        </div>
+
+
+        <!-- Email -->
+        <div>
+            <div class="pb-5">
+                <hr class="w-full border-0 border-t border-[#52525B]" />
+            </div>
+            <div class="relative">
+                <div>
+                    <app-input formControlName="username" label="Email" type="email"
+                        placeholder="user@example.com"></app-input>
+                </div>
+                <div class="pt-2">
+                    @if (email.errors && email.touched)
+                    {
+                        <app-alert 
+                        severity="error"
+                        [closable]="false"
+                        [message] ="email.errors['required']?'Email is required':'must be a valid email (ex: test@gmail.com)'"></app-alert>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <!-- Password -->
+        <div class="pb-6">
+            <div class="relative">
+                <div>
+                    <app-input formControlName="password" label="Password" type="password" placeholder="********"></app-input>
+                </div>
+                <div class="pt-2">
+                    @if (pass.errors && pass.touched)
+                    {
+                        <app-alert 
+                        severity="error"
+                        [closable]="false"
+                        [message] ="pass.errors['required']?'Password is required':'must be a valid Password (ex: Rose#2026)'"></app-alert>
+                    }
+                </div>
+            </div>
+            <!-- Forgot Password -->
+            <div class="pt-2.5">
+                <p class="font-primary text-sm font-semibold leading-none tracking-normal text-right text-[#741C21]">
+                    Forgot
+                    your password?</p>
+            </div>
+        </div>
+
+        <!-- Login Button -->
+        <div>
+            <!-- [disabled]="loginForm.invalid" class="disabled:cursor-not-allowed bg-yellow-500" -->
+            <app-button label="Continue" [fullWidth]="true"></app-button>
+            <div class="pt-5">
+                <hr class="w-full border-0 border-t border-[#52525B]" />
+            </div>
+        </div>
+
+        <!-- Create Account -->
+        <div class="pt-5">
+            <p class="font-primary text-white text-center text-sm font-medium leading-none tracking-normal">Don’t have
+                an account yet? <span
+                    class="font-primary text-sm font-bold leading-none tracking-normal text-[#741C21]">Create one
+                    now!</span></p>
+        </div>
+    </form>
+</div>
