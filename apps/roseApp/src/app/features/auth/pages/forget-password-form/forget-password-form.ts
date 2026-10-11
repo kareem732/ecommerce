@@ -1,4 +1,5 @@
 import { Component, inject } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Input } from '../../../../shared/ui/input/input';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -17,6 +18,8 @@ import { MessageService } from 'primeng/api';
 export class ForgetPasswordForm {
   private readonly authApi = inject(AuthApiService);
   private readonly messageService = inject(MessageService);
+  private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
   forgetPasswordForm = new FormGroup({
     email: new FormControl('', {nonNullable: true,
   validators: [Validators.required, Validators.email],} 
@@ -44,17 +47,22 @@ this.forgetPasswordForm.markAllAsTouched();
   if (this.forgetPasswordForm.invalid) {
     return;
   }
+  const email = this.forgetPasswordForm.controls.email.value?.trim();
   const body :ForgotPasswordRequest = {
-    email:this.forgetPasswordForm.controls.email.value?.trim(),
+    email,
     redirectUrl: `${window.location.origin}/roseApp/auth/reset-password`,
   }
   this.authApi.forgotPassword(body).subscribe({
       next: (message) => {
      this.messageService.add({ severity: 'success',
     summary: 'Success',
-    detail: message || 'Password recovery instructions have been requested.',
+    detail: message || 'A password reset link has been sent to your email.',
     life: 3000,
-    })}, 
+    });
+    this.router.navigate(['../reset-link-received'], {
+      relativeTo: this.route,
+      state: { email },
+    });},
   error: (error) => {
       const response = error?.error ?? error;
 

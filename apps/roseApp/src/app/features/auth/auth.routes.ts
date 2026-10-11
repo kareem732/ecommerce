@@ -12,6 +12,13 @@ export const AUTH_ROUTES: Routes = [
             (m) => m.ForgetPasswordForm,
           ),
       },
+      {
+        path: 'reset-link-received',
+        loadComponent: () =>
+          import('./pages/reset-link-received/reset-link-received').then(
+            (m) => m.ResetLinkReceived,
+          ),
+      },
     ],
   },
 ];

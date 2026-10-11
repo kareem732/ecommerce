@@ -7,6 +7,6 @@ import { MessageService } from 'primeng/api';
   imports: [RouterOutlet,Toast],
   providers: [MessageService],
   selector: 'app-rose-app-entry',
-  template: `<p-toast /> <router-outlet></router-outlet>`,
+  template: `<p-toast position="bottom-right" /> <router-outlet></router-outlet>`,
 })
 export class RemoteEntry {}
