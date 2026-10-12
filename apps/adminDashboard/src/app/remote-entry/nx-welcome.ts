@@ -1,9 +1,11 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, ViewEncapsulation, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { TranslatePipe } from '@ngx-translate/core';
+import { LanguageService } from '@org/shared-i18n';
 
 @Component({
   selector: 'app-nx-welcome',
-  imports: [CommonModule],
+  imports: [CommonModule, TranslatePipe],
   template: `
     <!--
      * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -512,9 +514,21 @@ import { CommonModule } from '@angular/common';
         <!--  WELCOME  -->
         <div id="welcome">
           <h1>
-            <span> Hello there, </span>
-            Welcome adminDashboard 👋
+            <span>{{ 'HOME.HELLO' | translate }}</span>
+            {{ 'HOME.GREETING' | translate: { name: 'adminDashboard' } }}
           </h1>
+          <button
+            type="button"
+            [disabled]="language.loading()"
+            [attr.lang]="language.currentLang() === 'en' ? 'ar' : 'en'"
+            (click)="
+              language.changeLanguage(
+                language.currentLang() === 'en' ? 'ar' : 'en'
+              )
+            "
+          >
+            {{ 'COMMON.SWITCH_LANGUAGE' | translate }}
+          </button>
         </div>
         <!--  HERO  -->
         <div id="hero" class="rounded">
@@ -950,4 +964,6 @@ nx g &#64;nx/angular:component ui/src/lib/button</pre>
   styles: [],
   encapsulation: ViewEncapsulation.None,
 })
-export class NxWelcome {}
+export class NxWelcome {
+  readonly language = inject(LanguageService);
+}

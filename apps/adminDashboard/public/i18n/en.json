@@ -1,0 +1,18 @@
+{
+  "COMMON": {
+    "HOME": "Home",
+    "LOGIN": "Login",
+    "LOGOUT": "Logout",
+    "SAVE": "Save",
+    "CANCEL": "Cancel",
+    "SWITCH_LANGUAGE": "العربية"
+  },
+  "NAVIGATION": {
+    "DASHBOARD": "Dashboard",
+    "SETTINGS": "Settings"
+  },
+  "HOME": {
+    "HELLO": "Hello there,",
+    "GREETING": "Welcome {{name}} 👋"
+  }
+}

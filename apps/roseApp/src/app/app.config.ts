@@ -1,5 +1,13 @@
+import { provideHttpClient } from '@angular/common/http';
+import { LanguageService, provideI18n } from '@org/shared-i18n';
+import { i18nConfig } from './i18n.config';
+import {
+  ApplicationConfig,
+  inject,
+  provideAppInitializer,
+  provideBrowserGlobalErrorListeners,
+} from '@angular/core';
 import { provideAuth } from '@org/auth-service';
-import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { definePreset } from '@primeuix/themes';
 import Aura from '@primeuix/themes/aura';
@@ -43,6 +51,9 @@ const RosePreset = definePreset(Aura, {
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
+    provideHttpClient(),
+    provideI18n(i18nConfig),
+    provideAppInitializer(() => inject(LanguageService).initialize()),
     provideAuth({ apiUrl: environment.apiUrl }),
     provideRouter(appRoutes),
     providePrimeNG({
