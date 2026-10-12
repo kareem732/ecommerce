@@ -1,0 +1,54 @@
+<form [formGroup]="emailForm" (ngSubmit)="emailButton()">
+    <!-- Qoute -->
+    <div class="mx-auto pb-10">
+        <img src="http://localhost:4202/assets/images/auth/Becomepartofourfamily!.png" alt="">
+    </div>
+
+    <!-- Email -->
+    <div>
+        <div class="pb-5">
+            <hr class="w-full border-0 border-t border-[#52525B]" />
+        </div>
+        <div class="relative">
+            <div>
+                <app-input formControlName="email" label="Email" placeholder="user@example.com"></app-input>
+            </div>
+            <div class="pt-2">
+                @if (email.errors && email.touched)
+                {
+                <app-alert severity="error" [closable]="false"
+                    [message]="email.errors['required']?'Email is required':'must be a valid email (ex: test@gmail.com)'"></app-alert>
+                }
+            </div>
+        </div>
+    </div>
+
+    <!-- Button -->
+    <div class="pt-9">
+        <app-button type="submit" icon="arrow-right" [fullWidth]="true" label="Next"></app-button>
+    </div>
+
+    <div class="pt-3">
+        @if (errorMsg()) {
+        <app-alert severity="error" [message]="errorMsg()"></app-alert>
+        }
+    </div>
+
+    <div class="pt-3">
+        @if (successMsg()) {
+        <app-alert severity="success" [message]="successMsg()"></app-alert>
+        }
+    </div>
+
+    <!-- Navigate To Login -->
+    <div class="pt-10">
+        <div class="pb-5">
+            <hr class="w-full border-0 border-t border-[#52525B]" />
+        </div>
+        <p class="font-primary text-center text-sm font-medium leading-none tracking-normal text-white">Already have an
+            account?
+            <span routerLink="/roseApp/auth/login"
+                class="font-primary cursor-pointer text-sm font-bold leading-none tracking-normal text-[#741C21]">Login</span>
+        </p>
+    </div>
+</form>

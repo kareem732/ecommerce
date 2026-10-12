@@ -8,4 +8,9 @@ export const remoteRoutes: Route[] = [
     loadChildren: () =>
       import('../features/auth/auth.routes').then((m) => m.AUTH_ROUTES),
   },
+  {
+    path: '',
+    redirectTo: 'auth/register',
+    pathMatch: 'full',
+  },
 ];

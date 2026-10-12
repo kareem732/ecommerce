@@ -22,6 +22,7 @@
           }
         ],
      "styles": [
+      "node_modules/ngx-spinner/animations/ball-scale-multiple.css",
   "apps/roseApp/src/styles/tailwind.css",
   "apps/roseApp/src/styles/index.scss",
   "apps/roseApp/src/styles.scss",

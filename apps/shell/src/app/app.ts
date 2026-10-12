@@ -1,9 +1,10 @@
+import { NgxSpinnerModule } from 'ngx-spinner';
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { NxWelcome } from './nx-welcome';
 
 @Component({
-  imports: [NxWelcome, RouterModule],
+  imports: [NxWelcome, RouterModule, NgxSpinnerModule],
   selector: 'app-root',
   templateUrl: './app.html',
   styleUrl: './app.scss',

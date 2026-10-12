@@ -1,11 +1,15 @@
 import { provideAuth } from '@org/auth-service';
-import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/core';
+import { ApplicationConfig, importProvidersFrom, provideBrowserGlobalErrorListeners } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { definePreset } from '@primeuix/themes';
 import Aura from '@primeuix/themes/aura';
 import { providePrimeNG } from 'primeng/config';
 import { appRoutes } from './app.routes';
 import { environment } from '../environments/environment';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { headerInterceptor } from './core/interceptors/headers/header-interceptor';
+import { NgxSpinnerModule } from "ngx-spinner";
+import { loadingInterceptor } from './core/interceptors/loading/loading-interceptor';
 
 const RosePreset = definePreset(Aura, {
   semantic: {
@@ -42,6 +46,8 @@ const RosePreset = definePreset(Aura, {
 
 export const appConfig: ApplicationConfig = {
   providers: [
+    provideHttpClient(withInterceptors([headerInterceptor, loadingInterceptor])),
+    importProvidersFrom(NgxSpinnerModule),
     provideBrowserGlobalErrorListeners(),
     provideAuth({ apiUrl: environment.apiUrl }),
     provideRouter(appRoutes),

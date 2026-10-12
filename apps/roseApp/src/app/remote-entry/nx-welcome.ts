@@ -12,10 +12,11 @@ import { Otp } from '../shared/ui/otp/otp';
 import { Tabs, TabItem } from '../shared/ui/tabs/tabs';
 import { AccountMenu } from '../shared/ui/account-menu/account-menu';
 import { Badge } from '../shared/ui/badge/badge';
-import { Breadcrumb, BreadcrumbItem } from '../shared/ui/breadcrumb/breadcrumb';
+import { Breadcrumb} from '../shared/ui/breadcrumb/breadcrumb';
 import { Select, SelectOption } from '../shared/ui/select/select';
 import { Phone } from '../shared/ui/phone/phone';
 import { Upload } from '../shared/ui/upload/upload';
+import { BreadcrumbItem } from '../shared/ui/breadcrumb/breadcrumb.types';
 
 @Component({
   selector: 'app-nx-welcome',
