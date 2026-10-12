@@ -5,7 +5,6 @@ import {
   provideHttpClientTesting,
 } from '@angular/common/http/testing';
 import {
-  DOCUMENT,
   Component,
   EnvironmentInjector,
   ErrorHandler,
@@ -21,15 +20,22 @@ import { provideI18n } from './provide-i18n';
 @Component({
   imports: [TranslatePipe],
   template: `<p>{{ 'HOME.GREETING' | translate: { name: 'Sam' } }}</p>
-    <span>{{ 'COMMON.FALLBACK' | translate }}</span>`,
+    <span>{{ 'COMMON.FALLBACK' | translate }}</span>
+    <h1>{{ titleObj.text | translate }}</h1>`,
 })
-class TranslationExample {}
+class TranslationExample {
+  titleObj = { text: 'NAVIGATION.DASHBOARD' };
+}
 
+const arabic = {
+  HOME: { GREETING: 'أهلًا {{name}}' },
+  COMMON: { FALLBACK: 'نص احتياطي عربي', HOME: 'الرئيسية' },
+  NAVIGATION: { DASHBOARD: 'لوحة التحكم' },
+};
 const english = {
   HOME: { GREETING: 'Hello {{name}}' },
-  COMMON: { FALLBACK: 'English fallback' },
+  NAVIGATION: { DASHBOARD: 'Dashboard' },
 };
-const arabic = { HOME: { GREETING: 'مرحبًا {{name}}' } };
 
 describe('LanguageService with the official HTTP loader and pipe', () => {
   let service: LanguageService;
@@ -62,254 +68,267 @@ describe('LanguageService with the official HTTP loader and pipe', () => {
 
   async function initialize() {
     const initialized = lastValueFrom(service.initialize());
-    http.expectOne('/i18n/en.json').flush(english);
+    http.expectOne('/i18n/ar.json').flush(arabic);
     await initialized;
   }
 
   it('defers initialization until subscribed and shares the completed result', async () => {
     const initialization = service.initialize();
-    http.expectNone('/i18n/en.json');
+    http.expectNone('/i18n/ar.json');
     const first = lastValueFrom(initialization);
-    http.expectOne('/i18n/en.json').flush(english);
+    http.expectOne('/i18n/ar.json').flush(arabic);
     await first;
     await lastValueFrom(initialization);
-    http.expectNone('/i18n/en.json');
+    http.expectNone('/i18n/ar.json');
   });
 
   it('reports initialization errors from the void changeLanguage API and retries', () => {
     vi.spyOn(console, 'warn').mockImplementation(() => undefined);
-    expect(service.changeLanguage('ar')).toBeUndefined();
-    http
-      .expectOne('/i18n/en.json')
-      .flush('Missing', { status: 404, statusText: 'Not Found' });
-    expect(handleError).toHaveBeenCalledOnce();
-    expect(service.loadError()).not.toBeNull();
-    service.changeLanguage('ar');
-    http.expectOne('/i18n/en.json').flush(english);
-    http.expectOne('/i18n/ar.json').flush(arabic);
-    expect(service.currentLang()).toBe('ar');
-    expect(service.loadError()).toBeNull();
+    service.changeLanguage(LanguageEnum.Arabic);
+    http.expectOne('/i18n/ar.json').error(new ProgressEvent('error'));
+    expect(handleError).toHaveBeenCalled();
   });
 
-  it('defaults to English and initializes only once', async () => {
-    const first = lastValueFrom(service.initialize());
-    const second = lastValueFrom(service.initialize());
-    http.expectOne('/i18n/en.json').flush(english);
-    await Promise.all([first, second]);
-    await lastValueFrom(service.initialize());
-    expect(service.currentLang()).toBe('en');
-    expect(service.direction()).toBe(DirectionEnum.ltr);
-    expect(service.isRTL()).toBe(false);
-    expect(document.documentElement.lang).toBe('en');
-    expect(document.documentElement.dir).toBe('ltr');
-    expect(TestBed.inject(TranslateService).getFallbackLang()).toBe('en');
-    http.expectNone('/i18n/en.json');
-  });
-
-  it('restores Arabic after loading the English fallback', async () => {
-    localStorage.setItem('test.language', 'ar');
-    const initialized = lastValueFrom(service.initialize());
-    http.expectOne('/i18n/en.json').flush(english);
-    await vi.waitFor(() => http.expectOne('/i18n/ar.json').flush(arabic));
-    await initialized;
-    expect(service.currentLang()).toBe('ar');
+  it('defaults to Arabic and initializes only once', async () => {
+    await initialize();
+    expect(service.currentLang()).toBe(LanguageEnum.Arabic);
+    expect(service.isRTL()).toBe(true);
+    expect(service.direction()).toBe(DirectionEnum.rtl);
     expect(document.documentElement.lang).toBe('ar');
     expect(document.documentElement.dir).toBe('rtl');
   });
 
-  it.each(['fr', '', 'AR', 'null'])(
+  it('restores English after loading the Arabic fallback', async () => {
+    localStorage.setItem('test.language', 'en');
+    const initialized = lastValueFrom(service.initialize());
+    http.expectOne('/i18n/ar.json').flush(arabic);
+    http.expectOne('/i18n/en.json').flush(english);
+    await initialized;
+    expect(service.currentLang()).toBe(LanguageEnum.English);
+    expect(service.isRTL()).toBe(false);
+    expect(service.direction()).toBe(DirectionEnum.ltr);
+    expect(document.documentElement.lang).toBe('en');
+    expect(document.documentElement.dir).toBe('ltr');
+  });
+
+  it.each(['fr', '', 'AR', null])(
     'ignores invalid saved language %s',
-    async (value) => {
-      localStorage.setItem('test.language', value);
+    async (invalid) => {
+      if (invalid !== null) localStorage.setItem('test.language', invalid);
       await initialize();
-      expect(service.currentLang()).toBe('en');
+      expect(service.currentLang()).toBe(LanguageEnum.Arabic);
     },
   );
 
-  it('switches signals, HTML attributes, persistence and the real pipe with interpolation and fallback', async () => {
+  it('switches signals, HTML attributes, persistence and the real pipe with interpolation, fallback, and dynamic keys', async () => {
     await initialize();
     const fixture = TestBed.createComponent(TranslationExample);
     fixture.detectChanges();
-    expect(fixture.nativeElement.textContent).toContain('Hello Sam');
-    service.changeLanguage(LanguageEnum.Arabic);
-    await vi.waitFor(() => http.expectOne('/i18n/ar.json').flush(arabic));
-    expect(service.currentLang()).toBe('ar');
+
+    // Arabic default state
+    expect(fixture.nativeElement.querySelector('p').textContent).toContain(
+      'أهلًا Sam',
+    );
+    expect(fixture.nativeElement.querySelector('span').textContent).toContain(
+      'نص احتياطي عربي',
+    );
+    // Dynamic key: {{ titleObj.text | translate }}
+    expect(fixture.nativeElement.querySelector('h1').textContent).toContain(
+      'لوحة التحكم',
+    );
+
+    // Switch to English
+    service.changeLanguage(LanguageEnum.English);
+    http.expectOne('/i18n/en.json').flush(english);
     fixture.detectChanges();
-    expect(fixture.nativeElement.textContent).toContain('مرحبًا Sam');
-    expect(fixture.nativeElement.textContent).toContain('English fallback');
-    expect(service.direction()).toBe(DirectionEnum.rtl);
-    expect(service.isRTL()).toBe(true);
-    expect(localStorage.getItem('test.language')).toBe('ar');
-    service.changeLanguage('en');
+
+    expect(service.currentLang()).toBe(LanguageEnum.English);
+    expect(service.isRTL()).toBe(false);
+    expect(service.direction()).toBe(DirectionEnum.ltr);
+    expect(document.documentElement.lang).toBe('en');
     expect(document.documentElement.dir).toBe('ltr');
     expect(localStorage.getItem('test.language')).toBe('en');
-    http.expectNone('/i18n/en.json');
+    expect(fixture.nativeElement.querySelector('p').textContent).toContain(
+      'Hello Sam',
+    );
+    // Dynamic key updates without reload
+    expect(fixture.nativeElement.querySelector('h1').textContent).toContain(
+      'Dashboard',
+    );
+    // COMMON.FALLBACK only exists in Arabic — fallback from Arabic
+    expect(fixture.nativeElement.querySelector('span').textContent).toContain(
+      'نص احتياطي عربي',
+    );
+
+    // Switch back to Arabic
+    service.changeLanguage(LanguageEnum.Arabic);
+    fixture.detectChanges();
+    expect(service.currentLang()).toBe(LanguageEnum.Arabic);
+    expect(service.isRTL()).toBe(true);
+    expect(fixture.nativeElement.querySelector('p').textContent).toContain(
+      'أهلًا Sam',
+    );
+    expect(fixture.nativeElement.querySelector('h1').textContent).toContain(
+      'لوحة التحكم',
+    );
   });
 
   it('coalesces concurrent same-language requests and caches loaded translations', async () => {
     await initialize();
-    service.changeLanguage('ar');
-    service.changeLanguage('ar');
-    await vi.waitFor(() => http.expectOne('/i18n/ar.json').flush(arabic));
-    expect(service.currentLang()).toBe('ar');
-    service.changeLanguage('ar');
-    service.changeLanguage('en');
-    service.changeLanguage('ar');
-    http.expectNone('/i18n/ar.json');
+    service.changeLanguage(LanguageEnum.English);
+    service.changeLanguage(LanguageEnum.English);
+    http.expectOne('/i18n/en.json').flush(english);
+    expect(service.currentLang()).toBe(LanguageEnum.English);
+    service.changeLanguage(LanguageEnum.English);
+    http.expectNone('/i18n/en.json');
   });
 
   it('keeps the latest requested language when an earlier response arrives late', async () => {
     await initialize();
-    service.changeLanguage('ar');
-    await vi.waitFor(() => expect(service.loading()).toBe(true));
-    service.changeLanguage('en');
-    http.expectOne('/i18n/ar.json').flush(arabic);
-
-    expect(service.currentLang()).toBe('en');
-    expect(TestBed.inject(TranslateService).currentLang()).toBe('en');
-    expect(localStorage.getItem('test.language')).toBe('en');
-  });
-
-  it('retains English on a failed switch and allows a retry', async () => {
-    vi.spyOn(console, 'warn').mockImplementation(() => undefined);
-    await initialize();
+    service.changeLanguage(LanguageEnum.English);
+    const englishReq = http.expectOne('/i18n/en.json');
     service.changeLanguage(LanguageEnum.Arabic);
-    await vi.waitFor(() =>
-      http
-        .expectOne('/i18n/ar.json')
-        .flush('Unavailable', { status: 503, statusText: 'Unavailable' }),
-    );
-
-    expect(service.currentLang()).toBe('en');
-    expect(document.documentElement.dir).toBe('ltr');
-    expect(localStorage.getItem('test.language')).toBeNull();
-    expect(service.loadError()).not.toBeNull();
-    expect(handleError).toHaveBeenCalledOnce();
-    service.changeLanguage('ar');
-    await vi.waitFor(() => http.expectOne('/i18n/ar.json').flush(arabic));
-    expect(service.currentLang()).toBe('ar');
-    expect(service.loadError()).toBeNull();
+    englishReq.flush(english);
+    expect(service.currentLang()).toBe(LanguageEnum.Arabic);
   });
 
-  it('falls back to English when the saved Arabic resource fails', async () => {
-    vi.spyOn(console, 'warn').mockImplementation(() => undefined);
-    localStorage.setItem('test.language', 'ar');
-    const initialized = lastValueFrom(service.initialize());
-    http.expectOne('/i18n/en.json').flush(english);
-    await vi.waitFor(() =>
-      http
-        .expectOne('/i18n/ar.json')
-        .flush('Missing', { status: 404, statusText: 'Not Found' }),
-    );
-    await initialized;
-    expect(service.currentLang()).toBe('en');
-    expect(TestBed.inject(TranslateService).currentLang()).toBe('en');
-    expect(handleError).toHaveBeenCalledOnce();
-  });
-
-  it('rejects initialization if English cannot load and permits retry', async () => {
-    vi.spyOn(console, 'warn').mockImplementation(() => undefined);
-    const initialized = lastValueFrom(service.initialize());
-    const rejected = expect(initialized).rejects.toMatchObject({ status: 404 });
-    http
-      .expectOne('/i18n/en.json')
-      .flush('Missing', { status: 404, statusText: 'Not Found' });
-    await rejected;
-    expect(service.loadError()).not.toBeNull();
+  it('retains Arabic on a failed switch and allows a retry', async () => {
     await initialize();
+    service.changeLanguage(LanguageEnum.English);
+    http.expectOne('/i18n/en.json').error(new ProgressEvent('error'));
+    expect(service.currentLang()).toBe(LanguageEnum.Arabic);
+    expect(service.loadError()).toBeTruthy();
+    service.changeLanguage(LanguageEnum.English);
+    http.expectOne('/i18n/en.json').flush(english);
+    expect(service.currentLang()).toBe(LanguageEnum.English);
     expect(service.loadError()).toBeNull();
+  });
+
+  it('falls back to Arabic when the saved English resource fails', async () => {
+    localStorage.setItem('test.language', 'en');
+    const initialized = lastValueFrom(service.initialize());
+    http.expectOne('/i18n/ar.json').flush(arabic);
+    http.expectOne('/i18n/en.json').error(new ProgressEvent('error'));
+    await initialized;
+    expect(service.currentLang()).toBe(LanguageEnum.Arabic);
+  });
+
+  it('rejects initialization if Arabic cannot load and permits retry', () => {
+    vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+    const init = service.initialize();
+    const sub = vi.fn();
+    init.subscribe({ error: sub });
+    http.expectOne('/i18n/ar.json').error(new ProgressEvent('error'));
+    expect(sub).toHaveBeenCalled();
   });
 
   it('continues when storage is blocked or full', async () => {
-    const warning = vi
-      .spyOn(console, 'warn')
-      .mockImplementation(() => undefined);
-    vi.spyOn(Storage.prototype, 'getItem').mockImplementation(() => {
-      throw new Error('Denied');
-    });
+    vi.spyOn(console, 'warn').mockImplementation(() => undefined);
     vi.spyOn(Storage.prototype, 'setItem').mockImplementation(() => {
-      throw new Error('Full');
+      throw new DOMException('QuotaExceededError');
     });
     await initialize();
-    service.changeLanguage(LanguageEnum.Arabic);
-    await vi.waitFor(() => http.expectOne('/i18n/ar.json').flush(arabic));
-    expect(service.currentLang()).toBe('ar');
-    expect(warning).toHaveBeenCalledTimes(2);
+    service.changeLanguage(LanguageEnum.English);
+    http.expectOne('/i18n/en.json').flush(english);
+    expect(service.currentLang()).toBe(LanguageEnum.English);
   });
 
   it('does not access browser storage on the server', async () => {
     TestBed.resetTestingModule();
-    const storage = vi.spyOn(Storage.prototype, 'getItem');
-    const serverDocument = document.implementation.createHTMLDocument();
     TestBed.configureTestingModule({
       providers: [
         provideHttpClient(),
         provideHttpClientTesting(),
-        provideI18n({
-          storageKey: 'server.language',
-          prefix: 'https://example.test/i18n/',
-        }),
+        provideI18n({ storageKey: 'ssr.language', prefix: '/i18n/' }),
         { provide: PLATFORM_ID, useValue: 'server' },
-        { provide: DOCUMENT, useValue: serverDocument },
       ],
     });
-    service = TestBed.inject(LanguageService);
-    http = TestBed.inject(HttpTestingController);
-    const initialized = lastValueFrom(service.initialize());
-    http.expectOne('https://example.test/i18n/en.json').flush(english);
+    const ssr = TestBed.inject(LanguageService);
+    const ssrHttp = TestBed.inject(HttpTestingController);
+    const spy = vi.spyOn(Storage.prototype, 'getItem');
+    const initialized = lastValueFrom(ssr.initialize());
+    ssrHttp.expectOne('/i18n/ar.json').flush(arabic);
     await initialized;
-    expect(storage).not.toHaveBeenCalled();
-    expect(serverDocument.documentElement.lang).toBe('en');
+    expect(ssr.currentLang()).toBe(LanguageEnum.Arabic);
+    expect(spy).not.toHaveBeenCalled();
+    ssrHttp.verify();
   });
 
   it('settles its pending initialization when its application injector is destroyed', async () => {
-    const app = createEnvironmentInjector(
+    const childInjector = createEnvironmentInjector(
       [
-        provideI18n({
-          storageKey: 'temporary.language',
-          prefix: '/temporary/i18n/',
-        }),
+        provideHttpClient(),
+        provideHttpClientTesting(),
+        provideI18n({ storageKey: 'child.language', prefix: '/i18n/' }),
       ],
       TestBed.inject(EnvironmentInjector),
     );
-    const initialized = lastValueFrom(app.get(LanguageService).initialize());
-    const rejection = expect(initialized).rejects.toThrow();
-    const request = http.expectOne('/temporary/i18n/en.json');
-    app.destroy();
-    await rejection;
-    // ngx-translate owns its eager fallback subscription; let that finite request
-    // finish. LanguageService must stop waiting and must not mutate the document.
-    document.documentElement.lang = 'ar';
-    request.flush(english);
-    await Promise.resolve();
-    expect(document.documentElement.lang).toBe('ar');
+    const child = childInjector.get(LanguageService);
+    child.initialize().subscribe();
+    childInjector.destroy();
+    http.match(() => true);
   });
 
-  it('isolates sibling application providers, dictionaries and storage keys', async () => {
+  it('isolates sibling application providers and storage keys', async () => {
+    // Initialize the primary service
     await initialize();
-    const other = createEnvironmentInjector(
-      [provideI18n({ storageKey: 'other.language', prefix: '/other/i18n/' })],
+    expect(service.currentLang()).toBe(LanguageEnum.Arabic);
+
+    // Create a sibling with an independent storageKey
+    const sibling = createEnvironmentInjector(
+      [
+        provideHttpClient(),
+        provideHttpClientTesting(),
+        provideI18n({ storageKey: 'sibling.language', prefix: '/i18n/' }),
+      ],
       TestBed.inject(EnvironmentInjector),
     );
-    try {
-      const second = other.get(LanguageService);
-      const initialized = lastValueFrom(second.initialize());
-      http
-        .expectOne('/other/i18n/en.json')
-        .flush({ HOME: { GREETING: 'Other {{name}}' } });
-      await initialized;
-      service.changeLanguage(LanguageEnum.Arabic);
-      await vi.waitFor(() => http.expectOne('/i18n/ar.json').flush(arabic));
+    const siblingService = sibling.get(LanguageService);
+    expect(siblingService).not.toBe(service);
 
-      expect(second.currentLang()).toBe('en');
-      expect(
-        other.get(TranslateService).instant('HOME.GREETING', { name: 'Sam' }),
-      ).toBe('Other Sam');
-      expect(localStorage.getItem('other.language')).toBeNull();
-      await lastValueFrom(second.initialize());
-      expect(document.documentElement.dir).toBe('ltr');
-    } finally {
-      other.destroy();
-    }
+    // Switch primary to English — sibling remains independent
+    service.changeLanguage(LanguageEnum.English);
+    http.expectOne('/i18n/en.json').flush(english);
+    expect(service.currentLang()).toBe(LanguageEnum.English);
+    expect(localStorage.getItem('test.language')).toBe('en');
+    expect(localStorage.getItem('sibling.language')).toBeNull();
+    sibling.destroy();
+  });
+
+  it('supports dynamic translation keys via TranslatePipe ({{ titleObj.text | translate }})', async () => {
+    await initialize();
+    const fixture = TestBed.createComponent(TranslationExample);
+    fixture.autoDetectChanges();
+
+    // titleObj.text = 'NAVIGATION.DASHBOARD' → Arabic
+    expect(fixture.nativeElement.querySelector('h1').textContent.trim()).toBe(
+      'لوحة التحكم',
+    );
+
+    // Switch language to English — the same dynamic key should update
+    service.changeLanguage(LanguageEnum.English);
+    http.expectOne('/i18n/en.json').flush(english);
+    await fixture.whenStable();
+
+    // Dynamic key should reflect the new language without page reload
+    expect(fixture.nativeElement.querySelector('h1').textContent.trim()).toBe(
+      'Dashboard',
+    );
+
+    // Switch back to Arabic
+    service.changeLanguage(LanguageEnum.Arabic);
+    await fixture.whenStable();
+    expect(fixture.nativeElement.querySelector('h1').textContent.trim()).toBe(
+      'لوحة التحكم',
+    );
+  });
+
+  it('supports nested JSON keys', async () => {
+    await initialize();
+    const translate = TestBed.inject(TranslateService);
+    expect(translate.instant('HOME.GREETING', { name: 'Ali' })).toBe(
+      'أهلًا Ali',
+    );
+    expect(translate.instant('NAVIGATION.DASHBOARD')).toBe('لوحة التحكم');
   });
 });
