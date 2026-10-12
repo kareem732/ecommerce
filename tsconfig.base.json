@@ -19,7 +19,8 @@
       ],
       "roseApp/Routes": ["./apps/roseApp/src/app/remote-entry/entry.routes.ts"],
       "@org/auth-service": ["./packages/auth-service/src/index.ts"],
-      "@org/ui": ["./packages/ui/src/index.ts"]
+      "@org/ui": ["./packages/ui/src/index.ts"],
+      "@org/theme": ["./packages/theme/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

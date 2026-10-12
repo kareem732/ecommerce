@@ -1,0 +1,9 @@
+<button
+  type="button"
+  class="theme-toggle"
+  [attr.aria-label]="isDark() ? 'Switch to light mode' : 'Switch to dark mode'"
+  [attr.aria-pressed]="isDark()"
+  (click)="toggle()"
+>
+  <lucide-icon [img]="isDark() ? Sun : Moon" [size]="20"></lucide-icon>
+</button>

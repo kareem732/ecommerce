@@ -1,5 +1,8 @@
 import { provideAuth } from '@org/auth-service';
-import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/core';
+import {
+  ApplicationConfig,
+  provideBrowserGlobalErrorListeners,
+} from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { definePreset } from '@primeuix/themes';
 import Aura from '@primeuix/themes/aura';
@@ -49,7 +52,7 @@ export const appConfig: ApplicationConfig = {
       theme: {
         preset: RosePreset,
         options: {
-          darkModeSelector: '[data-theme="dark"]',
+          darkModeSelector: '.dark',
           cssLayer: {
             name: 'primeng',
             order: 'theme, base, primeng, components, utilities',
