@@ -1,0 +1,12 @@
+@if (visible()) {
+  <div [class]="'alert alert--' + severity()" role="alert">
+    <lucide-icon [img]="icon()" [size]="20" class="alert__icon"></lucide-icon>
+    <span class="alert__text">{{ message() }}</span>
+
+    @if (closable()) {
+      <button type="button" class="alert__close" aria-label="Close" (click)="close()">
+        <lucide-icon [img]="CloseIcon" [size]="18"></lucide-icon>
+      </button>
+    }
+  </div>
+}

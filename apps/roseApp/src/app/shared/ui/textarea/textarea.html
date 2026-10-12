@@ -1,0 +1,20 @@
+<div class="field" [class.field--error]="error()" [class.field--disabled]="isDisabled()">
+  @if (label()) {
+    <label class="field__label" [for]="id">{{ label() }}</label>
+  }
+
+  <textarea
+    class="field__textarea"
+    [id]="id"
+    [rows]="rows()"
+    [placeholder]="placeholder()"
+    [value]="value()"
+    [disabled]="isDisabled()"
+    (input)="onInput($event)"
+    (blur)="onBlur()"
+  ></textarea>
+
+  @if (error()) {
+    <span class="field__error">{{ error() }}</span>
+  }
+</div>

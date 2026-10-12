@@ -1,0 +1,13 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme inline {
+  --color-brand: var(--color-primary);
+  --color-brand-hover: var(--color-primary-hover);
+  --color-surface: var(--bg-surface);
+  --color-page: var(--bg-page);
+  --color-content: var(--text-primary);
+  --color-content-muted: var(--text-secondary);
+  --color-line: var(--border-default);
+}

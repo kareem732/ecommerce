@@ -1,0 +1,73 @@
+<div
+  class="field"
+  [class.field--error]="error()"
+  [class.field--disabled]="isDisabled()"
+>
+  @if (label()) {
+    <label class="field__label" [for]="id">{{ label() }}</label>
+  }
+
+  <div class="phone">
+    <div class="field__control">
+      <button
+        type="button"
+        class="phone__country"
+        aria-haspopup="listbox"
+        [attr.aria-expanded]="open()"
+        [disabled]="isDisabled()"
+        (click)="toggle()"
+      >
+        <span class="fi" [class]="'fi fi-' + activeCode().toLowerCase()"></span>
+        <span class="phone__dial">{{ activeCode() }}(+{{ activeCountry().dial }})</span>
+        <lucide-icon [img]="ChevronsUpDown" [size]="16" class="phone__arrow"></lucide-icon>
+      </button>
+
+      <input
+        [id]="id"
+        type="tel"
+        inputmode="numeric"
+        [placeholder]="placeholder()"
+        [value]="national()"
+        [disabled]="isDisabled()"
+        (input)="onInput($event)"
+        (blur)="onBlur()"
+      />
+    </div>
+
+    @if (open()) {
+      <div class="phone__menu">
+        <input
+          class="phone__search"
+          type="text"
+          placeholder="Search country..."
+          [value]="search()"
+          (input)="onSearch($event)"
+        />
+        <ul class="phone__list" role="listbox">
+          @for (c of filtered(); track c.code) {
+            <li>
+              <button
+                type="button"
+                role="option"
+                class="phone__option"
+                [class.phone__option--selected]="c.code === activeCode()"
+                [attr.aria-selected]="c.code === activeCode()"
+                (click)="pick(c)"
+              >
+                <span [class]="'fi fi-' + c.code.toLowerCase()"></span>
+                <span class="phone__name">{{ c.name }}</span>
+                <span class="phone__code">+{{ c.dial }}</span>
+              </button>
+            </li>
+          } @empty {
+            <li class="phone__empty">No results</li>
+          }
+        </ul>
+      </div>
+    }
+  </div>
+
+  @if (error()) {
+    <span class="field__error">{{ error() }}</span>
+  }
+</div>

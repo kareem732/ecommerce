@@ -1,0 +1,85 @@
+@mixin light-tokens {
+  /* brand */
+  --color-primary:        var(--color-maroon-500);
+  --color-primary-hover:  var(--color-maroon-600);
+  --color-primary-active: var(--color-maroon-700);
+  --color-primary-subtle: var(--color-maroon-50);
+  --text-on-primary:      var(--color-white);
+
+  /* backgrounds */
+  --bg-page:     var(--color-zinc-50);
+  --bg-surface:  var(--color-white);
+  --bg-muted:    var(--color-zinc-100);
+  --bg-disabled: var(--color-zinc-100);
+
+  /* borders */
+  --border-default: var(--color-zinc-200);
+  --border-strong:  var(--color-zinc-300);
+  --border-focus:   var(--color-maroon-500);
+  --border-error:   var(--color-danger);
+
+  /* focus ring */
+  --ring-focus: var(--color-maroon-100);
+
+  /* text */
+  --text-primary:   var(--color-zinc-900);
+  --text-secondary: var(--color-zinc-500);
+  --text-disabled:  var(--color-zinc-400);
+  --text-error:     var(--color-danger);
+
+  /* status */
+  --color-success: var(--color-emerald-600);
+  --color-warning: var(--color-yellow-500);
+  --color-danger:  var(--color-red-600);
+  --color-info:    var(--color-blue-600);
+}
+
+@mixin dark-tokens {
+  /* brand */
+  --color-primary:        var(--color-maroon-400);
+  --color-primary-hover:  var(--color-maroon-300);
+  --color-primary-active: var(--color-maroon-200);
+  --color-primary-subtle: var(--color-maroon-950);
+  --text-on-primary:      var(--color-white);
+
+  /* backgrounds */
+  --bg-page:     var(--color-zinc-950);
+  --bg-surface:  var(--color-zinc-900);
+  --bg-muted:    var(--color-zinc-800);
+  --bg-disabled: var(--color-zinc-800);
+
+  /* borders */
+  --border-default: var(--color-zinc-700);
+  --border-strong:  var(--color-zinc-600);
+  --border-focus:   var(--color-maroon-400);
+  --border-error:   var(--color-danger);
+
+  /* focus ring */
+  --ring-focus: var(--color-maroon-900);
+
+  /* text */
+  --text-primary:   var(--color-zinc-50);
+  --text-secondary: var(--color-zinc-400);
+  --text-disabled:  var(--color-zinc-600);
+  --text-error:     var(--color-danger);
+
+  /* status */
+  --color-success: var(--color-emerald-400);
+  --color-warning: var(--color-yellow-400);
+  --color-danger:  var(--color-red-400);
+  --color-info:    var(--color-blue-400);
+}
+
+:root {
+  @include light-tokens;
+}
+
+.dark {
+  @include dark-tokens;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not(.light) {
+    @include dark-tokens;
+  }
+}

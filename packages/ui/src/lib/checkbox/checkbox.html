@@ -1,0 +1,19 @@
+<div class="checkbox">
+  <div class="checkbox__row">
+    <p-checkbox
+      [inputId]="id"
+      [ngModel]="checked()"
+      (ngModelChange)="checked.set($event)"
+      [binary]="true"
+      [disabled]="disabled()"
+      [invalid]="!!error()"
+    />
+    @if (label()) {
+    <label class="checkbox__label" [for]="id">{{ label() }}</label>
+    }
+  </div>
+
+  @if (error()) {
+  <p class="checkbox__error" role="alert">{{ error() }}</p>
+  }
+</div>

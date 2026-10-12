@@ -1,0 +1,28 @@
+<nav class="breadcrumb" aria-label="Breadcrumb">
+  <ol class="breadcrumb__list">
+    @for (crumb of crumbs(); track $index) {
+    <li class="breadcrumb__item">
+      @if (crumb.kind === 'ellipsis') {
+      <span class="breadcrumb__ellipsis">...</span>
+      } @else {
+      <button
+        type="button"
+        class="breadcrumb__link"
+        [class.breadcrumb__link--current]="crumb.last"
+        [attr.aria-current]="crumb.last ? 'page' : null"
+        [disabled]="crumb.last"
+        (click)="onClick(crumb.item, crumb.last)"
+      >
+        {{ crumb.item.label }}
+      </button>
+      } @if (!$last) {
+      <lucide-icon
+        [img]="ChevronRight"
+        [size]="16"
+        class="breadcrumb__separator"
+      ></lucide-icon>
+      }
+    </li>
+    }
+  </ol>
+</nav>

@@ -1,0 +1,89 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+:host ::ng-deep {
+  .p-tabs {
+    background: transparent;
+  }
+
+  .p-tablist-tab-list {
+    display: flex;
+    width: 100%;
+    gap: 0;
+    background: transparent;
+    border: 0;
+  }
+
+  .p-tablist-active-bar {
+    display: none;
+  }
+
+  .p-tab {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    flex: 1;
+    height: 56px;
+    padding: 0 16px;
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--text-primary);
+    background: var(--bg-surface);
+    border: 1px solid var(--border-default);
+    transition:
+      background-color 0.15s,
+      box-shadow 0.15s;
+
+    &:first-of-type {
+      border-radius: 12px 0 0 12px;
+    }
+
+    &:last-of-type {
+      border-radius: 0 12px 12px 0;
+    }
+
+    &:hover {
+      background: var(--bg-muted);
+    }
+
+    &:focus-visible {
+      outline: 0;
+      box-shadow: 0 0 0 4px var(--border-strong);
+    }
+
+    > * {
+      width: 100%;
+      text-align: center;
+    }
+  }
+
+  /* Active */
+  .p-tab.p-tab-active {
+    background: var(--color-primary);
+    border-color: var(--color-primary);
+    color: var(--text-on-primary);
+
+    &:hover {
+      background: var(--color-primary-active);
+      border-color: var(--color-primary-active);
+    }
+  }
+
+  /* Disabled */
+  .p-tab.p-disabled,
+  .p-tab[aria-disabled='true'] {
+    background: var(--bg-disabled);
+    border-color: var(--bg-disabled);
+    color: var(--text-primary);
+    cursor: not-allowed;
+    opacity: 1;
+  }
+
+  .p-tabpanels {
+    padding: 16px 0 0;
+    background: transparent;
+  }
+}
