@@ -1,10 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 import { ActivatedRoute, convertToParamMap, provideRouter } from '@angular/router';
+import { FormControl, FormGroup } from '@angular/forms';
 import { provideTranslateService } from '@ngx-translate/core';
 import { AuthApiService } from '@org/auth-service';
 import { MessageService } from 'primeng/api';
 import { of } from 'rxjs';
 import { ForgetPasswordForm } from './forget-password-form';
+import { passwordsMatch } from '../../../../shared/utils/forget-password.utils';
 
 describe('ForgetPasswordForm', () => {
   const api = {
@@ -61,6 +63,7 @@ describe('ForgetPasswordForm', () => {
     expect(api.forgotPassword).toHaveBeenCalled();
     expect(component.step()).toBe('sent');
     expect(component.email()).toBe('user@example.com');
+    expect(component.loading()).toBe(false);
   });
 
   it('does not submit an invalid email', async () => {
@@ -76,5 +79,63 @@ describe('ForgetPasswordForm', () => {
     component.step.set('sent');
     component.backToEmail();
     expect(component.step()).toBe('email');
+  });
+
+  it('does not submit reset when passwords do not match', async () => {
+    const component = await setup('reset-token');
+    component.passwordForm.setValue({
+      password: 'password123',
+      confirmPassword: 'different123',
+    });
+    component.submitReset();
+    expect(component.passwordForm.hasError('passwordMismatch')).toBe(true);
+    expect(api.resetPassword).not.toHaveBeenCalled();
+  });
+
+  it('sets passwordMismatch on the confirmPassword control', async () => {
+    const component = await setup('reset-token');
+    component.passwordForm.setValue({
+      password: 'password123',
+      confirmPassword: 'different123',
+    });
+    expect(
+      component.passwordForm.controls.confirmPassword.hasError('passwordMismatch'),
+    ).toBe(true);
+  });
+
+  it('submits reset with the token when passwords match', async () => {
+    vi.useFakeTimers();
+    const component = await setup('reset-token');
+    component.passwordForm.setValue({
+      password: 'password123',
+      confirmPassword: 'password123',
+    });
+    component.submitReset();
+    expect(api.resetPassword).toHaveBeenCalledWith({
+      token: 'reset-token',
+      newPassword: 'password123',
+      confirmPassword: 'password123',
+    });
+    expect(component.loading()).toBe(false);
+    vi.useRealTimers();
+  });
+});
+
+describe('passwordsMatch', () => {
+  const makeGroup = (password: string, confirmPassword: string) =>
+    new FormGroup(
+      {
+        password: new FormControl(password),
+        confirmPassword: new FormControl(confirmPassword),
+      },
+      { validators: passwordsMatch() },
+    );
+
+  it('returns null when the passwords match', () => {
+    expect(makeGroup('abc12345', 'abc12345').errors).toBeNull();
+  });
+
+  it('returns passwordMismatch when they differ', () => {
+    expect(makeGroup('abc12345', 'zzz').errors).toEqual({ passwordMismatch: true });
   });
 });

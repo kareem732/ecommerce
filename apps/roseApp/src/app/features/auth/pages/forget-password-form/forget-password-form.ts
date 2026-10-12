@@ -2,31 +2,22 @@ import { Component, DestroyRef, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import {
-  AbstractControl,
   FormControl,
   FormGroup,
   ReactiveFormsModule,
-  ValidationErrors,
   Validators,
 } from '@angular/forms';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
+import { finalize } from 'rxjs';
 import { Input } from '../../../../shared/ui/input/input';
 import { Button } from '../../../../shared/ui/button/button';
 import {
   AuthApiService,
-  AuthError,
   ForgotPasswordRequest,
   ResetPasswordRequest,
 } from '@org/auth-service';
 import { MessageService } from 'primeng/api';
-
-type Step = 'email' | 'sent' | 'reset';
-
-function passwordsMatch(group: AbstractControl): ValidationErrors | null {
-  const password = group.get('password')?.value;
-  const confirmPassword = group.get('confirmPassword')?.value;
-  return password === confirmPassword ? null : { passwordMismatch: true };
-}
+import { ForgetPasswordStep, passwordsMatch } from '../../../../shared/utils/forget-password.utils';
 
 @Component({
   selector: 'app-forget-password-form',
@@ -44,7 +35,7 @@ export class ForgetPasswordForm {
 
   private readonly token = this.route.snapshot.queryParamMap.get('token') ?? '';
 
-  readonly step = signal<Step>(this.token ? 'reset' : 'email');
+  readonly step = signal<ForgetPasswordStep>(this.token ? 'reset' : 'email');
   readonly email = signal('');
   readonly loading = signal(false);
 
@@ -66,7 +57,7 @@ export class ForgetPasswordForm {
         validators: [Validators.required],
       }),
     },
-    { validators: passwordsMatch },
+    { validators: passwordsMatch('password', 'confirmPassword') },
   );
 
   get emailError(): string {
@@ -97,28 +88,8 @@ export class ForgetPasswordForm {
     return '';
   }
 
-  get confirmPasswordError(): string {
-    const control = this.passwordForm.controls.confirmPassword;
-    if (!control.touched) {
-      return '';
-    }
-    if (control.hasError('required')) {
-      return this.translate.instant('AUTH.RESET_PASSWORD.CONFIRM_REQUIRED');
-    }
-    if (this.passwordForm.hasError('passwordMismatch')) {
-      return this.translate.instant('AUTH.RESET_PASSWORD.MISMATCH');
-    }
-    return '';
-  }
-
   backToEmail(): void {
     this.step.set('email');
-  }
-
-  private errorDetail(error: AuthError): string {
-    const key = `AUTH.ERRORS.${error.code}`;
-    const translated = this.translate.instant(key);
-    return translated === key ? error.message : translated;
   }
 
   submitEmail(): void {
@@ -136,10 +107,12 @@ export class ForgetPasswordForm {
     this.loading.set(true);
     this.authApi
       .forgotPassword(body)
-      .pipe(takeUntilDestroyed(this.destroyRef))
+      .pipe(
+        finalize(() => this.loading.set(false)),
+        takeUntilDestroyed(this.destroyRef),
+      )
       .subscribe({
         next: () => {
-          this.loading.set(false);
           this.email.set(email);
           this.messageService.add({
             severity: 'success',
@@ -148,15 +121,6 @@ export class ForgetPasswordForm {
             life: 3000,
           });
           this.step.set('sent');
-        },
-        error: (error: AuthError) => {
-          this.loading.set(false);
-          this.messageService.add({
-            severity: 'error',
-            summary: this.translate.instant('AUTH.FORGET_PASSWORD.ERROR_TITLE'),
-            detail: this.errorDetail(error),
-            life: 4000,
-          });
         },
       });
   }
@@ -176,10 +140,12 @@ export class ForgetPasswordForm {
     this.loading.set(true);
     this.authApi
       .resetPassword(body)
-      .pipe(takeUntilDestroyed(this.destroyRef))
+      .pipe(
+        finalize(() => this.loading.set(false)),
+        takeUntilDestroyed(this.destroyRef),
+      )
       .subscribe({
         next: () => {
-          this.loading.set(false);
           this.messageService.add({
             severity: 'success',
             summary: this.translate.instant('AUTH.RESET_PASSWORD.SUCCESS_TITLE'),
@@ -187,15 +153,6 @@ export class ForgetPasswordForm {
             life: 3000,
           });
           setTimeout(() => this.router.navigate(['/']), 1500);
-        },
-        error: (error: AuthError) => {
-          this.loading.set(false);
-          this.messageService.add({
-            severity: 'error',
-            summary: this.translate.instant('AUTH.RESET_PASSWORD.ERROR_TITLE'),
-            detail: this.errorDetail(error),
-            life: 4000,
-          });
         },
       });
   }

@@ -2,17 +2,27 @@ import { HttpClient, provideHttpClient, withInterceptors } from '@angular/common
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { Router, provideRouter } from '@angular/router';
+import { TranslateService, provideTranslateService } from '@ngx-translate/core';
+import { MessageService } from 'primeng/api';
 import { AuthError } from '../models/auth-error.model';
 import { SessionService } from '../services/session.service';
 import { TokenService } from '../services/token.service';
 import { errorInterceptor } from './error.interceptor';
-import { provideAuthConfigForTests, provideAuthServicesForTests, TEST_API_URL, TEST_USER, makeJwt } from '../testing/auth-testing';
+import {
+  provideAuthConfigForTests,
+  provideAuthServicesForTests,
+  TEST_API_URL,
+  TEST_USER,
+  makeJwt,
+} from '../testing/auth-testing';
 
 describe('errorInterceptor', () => {
   let http: HttpClient;
   let controller: HttpTestingController;
   let session: SessionService;
+  let translate: TranslateService;
   let navigate: jest.SpyInstance;
+  let toastAdd: jest.SpyInstance;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -20,15 +30,22 @@ describe('errorInterceptor', () => {
         provideHttpClient(withInterceptors([errorInterceptor])),
         provideHttpClientTesting(),
         provideRouter([]),
+        provideTranslateService(),
+        MessageService,
         provideAuthConfigForTests(),
         provideAuthServicesForTests(),
       ],
     });
+
     TestBed.inject(TokenService).clear();
     http = TestBed.inject(HttpClient);
     controller = TestBed.inject(HttpTestingController);
     session = TestBed.inject(SessionService);
-    navigate = jest.spyOn(TestBed.inject(Router), 'navigateByUrl').mockResolvedValue(true);
+    translate = TestBed.inject(TranslateService);
+    navigate = jest
+      .spyOn(TestBed.inject(Router), 'navigateByUrl')
+      .mockResolvedValue(true);
+    toastAdd = jest.spyOn(TestBed.inject(MessageService), 'add');
   });
 
   afterEach(() => {
@@ -36,22 +53,33 @@ describe('errorInterceptor', () => {
     TestBed.inject(TokenService).clear();
   });
 
-  function failGet(url: string, status: number, body: object = { message: 'boom' }): AuthError {
-  let error!: AuthError;
-  http.get(url).subscribe({ error: (e) => (error = e) });
-  controller.expectOne(url).flush(body, { status, statusText: 'err' });
-  return error;
-}
+  function failGet(
+    url: string,
+    status: number,
+    body: object = { message: 'boom' },
+  ): AuthError {
+    let error!: AuthError;
+    http.get(url).subscribe({ error: (e) => (error = e) });
+    controller.expectOne(url).flush(body, { status, statusText: 'err' });
+    return error;
+  }
+
   it('maps server errors to AuthError', () => {
     const error = failGet(`${TEST_API_URL}/api/products`, 500);
+
     expect(error).toEqual({ code: 'SERVER_ERROR', status: 500, message: 'boom' });
     expect(navigate).not.toHaveBeenCalled();
   });
 
   it('maps network errors', () => {
     let error!: AuthError;
-    http.get(`${TEST_API_URL}/api/products`).subscribe({ error: (e) => (error = e) });
-    controller.expectOne(`${TEST_API_URL}/api/products`).error(new ProgressEvent('error'));
+    http
+      .get(`${TEST_API_URL}/api/products`)
+      .subscribe({ error: (e) => (error = e) });
+    controller
+      .expectOne(`${TEST_API_URL}/api/products`)
+      .error(new ProgressEvent('error'));
+
     expect(error.code).toBe('NETWORK_ERROR');
   });
 
@@ -66,10 +94,68 @@ describe('errorInterceptor', () => {
   });
 
   it('reports invalid credentials on 401 from an auth endpoint without redirecting', () => {
-    const error = failGet(`${TEST_API_URL}/api/auth/login`, 401, { message: 'Invalid credentials' });
+    const error = failGet(`${TEST_API_URL}/api/auth/login`, 401, {
+      message: 'Invalid credentials',
+    });
 
     expect(error.code).toBe('INVALID_CREDENTIALS');
     expect(error.message).toBe('Invalid credentials');
     expect(navigate).not.toHaveBeenCalled();
+  });
+
+  describe('error toast', () => {
+    it('shows an error toast when a request fails', () => {
+      failGet(`${TEST_API_URL}/api/products`, 500);
+
+      expect(toastAdd).toHaveBeenCalledTimes(1);
+      expect(toastAdd).toHaveBeenCalledWith(
+        expect.objectContaining({ severity: 'error' }),
+      );
+    });
+
+    it('uses the translated message when a translation exists for the error code', () => {
+      translate.setTranslation('en', {
+        AUTH: { ERRORS: { TITLE: 'Something went wrong', SERVER_ERROR: 'Server error, try again' } },
+      });
+      translate.use('en');
+
+      failGet(`${TEST_API_URL}/api/products`, 500);
+
+      expect(toastAdd).toHaveBeenCalledWith(
+        expect.objectContaining({
+          severity: 'error',
+          summary: 'Something went wrong',
+          detail: 'Server error, try again',
+        }),
+      );
+    });
+
+    it('falls back to the server message when there is no translation', () => {
+      failGet(`${TEST_API_URL}/api/products`, 500, { message: 'boom' });
+
+      expect(toastAdd).toHaveBeenCalledWith(
+        expect.objectContaining({ severity: 'error', detail: 'boom' }),
+      );
+    });
+
+    it('shows a toast for invalid credentials on an auth endpoint', () => {
+      failGet(`${TEST_API_URL}/api/auth/login`, 401, {
+        message: 'Invalid credentials',
+      });
+
+      expect(toastAdd).toHaveBeenCalledWith(
+        expect.objectContaining({
+          severity: 'error',
+          detail: 'Invalid credentials',
+        }),
+      );
+    });
+
+    it('still propagates the AuthError after showing the toast', () => {
+      const error = failGet(`${TEST_API_URL}/api/products`, 500);
+
+      expect(toastAdd).toHaveBeenCalled();
+      expect(error.code).toBe('SERVER_ERROR');
+    });
   });
 });
