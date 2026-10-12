@@ -1,0 +1,27 @@
+<article
+  class="card"
+  [class.card--bordered]="bordered()"
+  [class.card--interactive]="interactive()"
+>
+  @if (image()) {
+  <div class="card__media" [style.aspect-ratio]="aspectRatio()">
+    <img
+      class="card__image"
+      [src]="image()"
+      [alt]="imageAlt()"
+      loading="lazy"
+    />
+    <div class="card__badge">
+      <ng-content select="[card-badge]" />
+    </div>
+  </div>
+  }
+
+  <div class="card__body">
+    <ng-content />
+  </div>
+
+  <div class="card__footer">
+    <ng-content select="[card-footer]" />
+  </div>
+</article>

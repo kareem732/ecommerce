@@ -1,0 +1,76 @@
+:host {
+  display: block;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  background: var(--bg-surface);
+  color: var(--text-primary);
+  border: 1px solid transparent;
+  border-radius: 12px;
+  overflow: hidden;
+  transition:
+    box-shadow 0.15s,
+    border-color 0.15s;
+
+  &--bordered {
+    border-color: var(--border-default);
+  }
+
+  &--interactive {
+    cursor: pointer;
+
+    &:hover {
+      box-shadow: 0 10px 30px rgb(0 0 0 / 0.08);
+    }
+
+    &:focus-within {
+      box-shadow: 0 0 0 3px var(--ring-focus);
+    }
+  }
+
+  &__media {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    border-radius: 12px;
+    background: var(--bg-muted);
+  }
+
+  &__image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  &__badge {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    display: flex;
+    gap: 4px;
+
+    &:empty {
+      display: none;
+    }
+  }
+
+  &__body {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 0 4px;
+  }
+
+  &__footer {
+    padding: 0 4px 4px;
+
+    &:empty {
+      display: none;
+    }
+  }
+}

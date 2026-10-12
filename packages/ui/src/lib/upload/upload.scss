@@ -1,0 +1,141 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+
+  &__label {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-primary);
+  }
+
+  &__control {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    height: 49px;
+    padding: 0 16px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-default);
+    border-radius: 10px;
+    color: var(--text-primary);
+    transition:
+      border-color 0.15s,
+      box-shadow 0.15s;
+
+    &:hover {
+      border-color: var(--border-strong);
+    }
+
+    &:focus-within {
+      border-color: var(--border-focus);
+      box-shadow: 0 0 0 3px var(--ring-focus);
+    }
+  }
+
+  &__error {
+    font-size: 12px;
+    color: var(--text-error);
+  }
+
+  &--error {
+    .field__label {
+      color: var(--text-error);
+    }
+
+    .field__control {
+      border-color: var(--border-error);
+
+      &:focus-within {
+        border-color: var(--border-error);
+        box-shadow: 0 0 0 3px
+          color-mix(in srgb, var(--border-error) 20%, transparent);
+      }
+    }
+  }
+
+  &--disabled {
+    opacity: 0.6;
+    pointer-events: none;
+
+    .field__control {
+      background: var(--bg-disabled);
+      color: var(--text-disabled);
+    }
+  }
+}
+
+.upload {
+  &__native {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  &__info {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+  }
+
+  &__name {
+    overflow: hidden;
+    font-size: 14px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: var(--text-primary);
+  }
+
+  &__review {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0;
+    font: inherit;
+    font-size: 14px;
+    color: var(--color-info);
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  &__btn {
+    display: inline-flex;
+    align-items: center;
+    flex-shrink: 0;
+    gap: 8px;
+    padding: 4px 0;
+    font: inherit;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--color-primary);
+    background: transparent;
+    border: 0;
+    border-radius: 6px;
+    cursor: pointer;
+
+    &:hover:not(:disabled) {
+      color: var(--color-primary-hover);
+    }
+
+    &:focus-visible {
+      outline: 0;
+      box-shadow: 0 0 0 3px var(--ring-focus);
+    }
+  }
+}

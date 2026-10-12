@@ -1,0 +1,23 @@
+:host {
+  display: inline-block;
+}
+
+.label {
+  display: inline-flex;
+  gap: 4px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-primary);
+
+  &__required {
+    color: var(--text-error);
+  }
+
+  &--error {
+    color: var(--text-error);
+  }
+
+  &--disabled {
+    color: var(--text-disabled);
+  }
+}

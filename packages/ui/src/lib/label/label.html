@@ -1,0 +1,12 @@
+<label
+  class="label"
+  [class.label--error]="error()"
+  [class.label--disabled]="disabled()"
+  [attr.for]="for() || null"
+>
+  <span>{{ text() }}</span>
+  <ng-content />
+  @if (required()) {
+  <span class="label__required" aria-hidden="true">*</span>
+  }
+</label>
