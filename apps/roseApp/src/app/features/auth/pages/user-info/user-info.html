@@ -1,1 +1,62 @@
-<p>user-info works!</p>
+<form [formGroup]="userInfoForm" class="w-full" (ngSubmit)="infoButton()">
+    <!-- Quote -->
+    <div class="mx-auto w-full">
+        <img src="http://localhost:4202/assets/images/auth/Becomepartofourfamily!.png" alt="Become part of our family"
+            class="mx-auto h-auto max-w-full object-contain" />
+    </div>
+
+    <!-- Stepper -->
+    <div class="w-full pt-6">
+        <app-stepper></app-stepper>
+    </div>
+
+    <!-- Heading -->
+    <div class="flex flex-col gap-4 pt-10">
+        <h2 class="font-primary text-[30px] font-bold leading-tight text-[#27272A]">
+            Create Account
+        </h2>
+
+        <div class="flex flex-col gap-2">
+            <span class="font-primary text-[20px] font-semibold leading-snug text-[#501419]">
+                Tell us more about you
+            </span>
+
+            <p class="font-primary text-[16px] font-normal leading-normal text-[#27272A]">
+                A few details to get started
+            </p>
+        </div>
+    </div>
+
+    <!-- Form Fields -->
+    <div class="flex flex-col gap-4 pt-6">
+        <!-- First & Last Name -->
+        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5">
+            <app-input formControlName="firstName" label="First name" placeholder="Zoe"></app-input>
+
+            <app-input formControlName="lastName" label="Last name" placeholder="Jonathan"></app-input>
+        </div>
+
+        <!-- Username -->
+        <app-input formControlName="username" label="Username" placeholder="zoe123"></app-input>
+
+        <!-- Phone -->
+        <app-phone formControlName="phone" label="Phone" placeholder="1012345678"></app-phone>
+
+        <!-- Gender -->
+        <app-select formControlName="gender" label="Gender" [options]="genderOptions" placeholder="Select gender"></app-select>
+    </div>
+
+    <!-- Actions -->
+    <div class="pt-8">
+        <div class="w-full">
+            <app-button type="submit" [fullWidth]="true" label="Next"></app-button>
+        </div>
+
+        <p class="mt-4 text-center font-primary text-[14px] font-medium leading-normal text-[#27272A]">
+            Need help?
+            <span class="cursor-pointer font-bold text-[#741C21]">
+                Contact us
+            </span>
+        </p>
+    </div>
+</form>

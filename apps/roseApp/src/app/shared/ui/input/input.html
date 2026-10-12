@@ -1,6 +1,6 @@
 <div class="field" [class.field--error]="error()" [class.field--disabled]="isDisabled()">
   @if (label()) {
-    <label class="field__label" [for]="id">{{ label() }}</label>
+    <label class="field__label" [for]="id">{{ label() }} <span class="text-red-500">*</span></label>
   }
 
   <div class="field__control">

@@ -17,4 +17,9 @@ emailVerification(data:any):Observable<any>{
 otpCode(data:any):Observable<any>{
  return this.httpClient.post(`${environment.apiUrl}/api/auth/confirm-email-verification`, data)
 }
+
+register(data:any):Observable<any>{
+ return this.httpClient.post(`${environment.apiUrl}/api/auth/register`, data)
+}
+
 }

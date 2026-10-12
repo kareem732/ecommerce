@@ -28,6 +28,12 @@ export const AUTH_ROUTES: Routes = [
         loadComponent: () => 
           import('./pages/user-info/user-info').then(
             (m) => m.UserInfo),
+      },
+      {
+        path: 'password',
+        loadComponent: () => 
+          import('./pages/pasword/password').then(
+            (m) => m.Password),
       }
     ],
   },

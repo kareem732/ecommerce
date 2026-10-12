@@ -4,6 +4,7 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { FormArray, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Alert } from '../../../../shared/ui/alert/alert';
 import { Stepper } from '../../../../shared/ui/stepper/stepper';
+import { RegisterData } from '../../services/register-data/register-data';
 
 
 @Component({
@@ -14,6 +15,7 @@ import { Stepper } from '../../../../shared/ui/stepper/stepper';
 })
 export class otp {
   private readonly authService = inject(AuthService)
+  private readonly registerData = inject(RegisterData);
   private readonly router = inject(Router)
 
   errorMsg: WritableSignal<string> = signal('')
@@ -68,10 +70,15 @@ export class otp {
         // 1- Show Success Msg
         this.successMsg.set(res.message);
 
+        // Store Email
+        this.registerData.registerData = {
+          ...this.registerData.registerData,
+          email: this.email
+        };
+
         // 2- Navigate To Register Info
         setTimeout(() => {
           this.router.navigate(['/roseApp/auth/user-info'], {
-            queryParams: { email: this.email }
           });
         }, 3000);
       },
