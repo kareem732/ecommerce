@@ -1,0 +1,22 @@
+{
+  "COMMON": {
+    "HOME": "الرئيسية",
+    "LOGIN": "تسجيل الدخول",
+    "LOGOUT": "تسجيل الخروج",
+    "SAVE": "حفظ",
+    "CANCEL": "إلغاء",
+    "SWITCH_LANGUAGE": "English"
+  },
+  "NAVIGATION": {
+    "DASHBOARD": "لوحة التحكم",
+    "SETTINGS": "الإعدادات"
+  },
+  "AUTH": {
+    "LOGIN_TITLE": "مرحبًا بعودتك",
+    "GREETING": "أهلًا {{name}}"
+  },
+  "HOME": {
+    "HELLO": "مرحبًا،",
+    "GREETING": "أهلًا بك {{name}} 👋"
+  }
+}
