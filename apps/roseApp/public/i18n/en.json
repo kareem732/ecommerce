@@ -14,6 +14,17 @@
   "AUTH": {
     "LOGIN_TITLE": "Welcome Back",
     "GREETING": "Hello {{name}}",
+    "ERRORS": {
+      "INVALID_CREDENTIALS": "Invalid username or password.",
+      "VALIDATION_ERROR": "Some of the submitted data is invalid.",
+      "UNAUTHORIZED": "Your session has expired. Please sign in again.",
+      "FORBIDDEN": "You do not have permission to do this.",
+      "NOT_FOUND": "The requested resource was not found.",
+      "CONFLICT": "This data already exists.",
+      "SERVER_ERROR": "Something went wrong on our side. Please try again later.",
+      "NETWORK_ERROR": "Unable to reach the server. Check your connection.",
+      "UNKNOWN": "Something went wrong."
+    },
     "FORGET_PASSWORD": {
       "TITLE": "Forget Password",
       "SUBTITLE": "Worry not, we’ll send you instructions to help you reset it.",

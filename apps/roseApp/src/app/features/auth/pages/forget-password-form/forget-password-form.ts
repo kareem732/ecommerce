@@ -115,6 +115,12 @@ export class ForgetPasswordForm {
     this.step.set('email');
   }
 
+  private errorDetail(error: AuthError): string {
+    const key = `AUTH.ERRORS.${error.code}`;
+    const translated = this.translate.instant(key);
+    return translated === key ? error.message : translated;
+  }
+
   submitEmail(): void {
     this.emailForm.markAllAsTouched();
     if (this.emailForm.invalid) {
@@ -132,15 +138,13 @@ export class ForgetPasswordForm {
       .forgotPassword(body)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
-        next: (message) => {
+        next: () => {
           this.loading.set(false);
           this.email.set(email);
           this.messageService.add({
             severity: 'success',
             summary: this.translate.instant('AUTH.FORGET_PASSWORD.SUCCESS_TITLE'),
-            detail:
-              message ||
-              this.translate.instant('AUTH.FORGET_PASSWORD.SUCCESS_DETAIL'),
+            detail: this.translate.instant('AUTH.FORGET_PASSWORD.SUCCESS_DETAIL'),
             life: 3000,
           });
           this.step.set('sent');
@@ -150,7 +154,7 @@ export class ForgetPasswordForm {
           this.messageService.add({
             severity: 'error',
             summary: this.translate.instant('AUTH.FORGET_PASSWORD.ERROR_TITLE'),
-            detail: error.message,
+            detail: this.errorDetail(error),
             life: 4000,
           });
         },
@@ -174,14 +178,12 @@ export class ForgetPasswordForm {
       .resetPassword(body)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
-        next: (message) => {
+        next: () => {
           this.loading.set(false);
           this.messageService.add({
             severity: 'success',
             summary: this.translate.instant('AUTH.RESET_PASSWORD.SUCCESS_TITLE'),
-            detail:
-              message ||
-              this.translate.instant('AUTH.RESET_PASSWORD.SUCCESS_DETAIL'),
+            detail: this.translate.instant('AUTH.RESET_PASSWORD.SUCCESS_DETAIL'),
             life: 3000,
           });
           setTimeout(() => this.router.navigate(['/']), 1500);
@@ -191,7 +193,7 @@ export class ForgetPasswordForm {
           this.messageService.add({
             severity: 'error',
             summary: this.translate.instant('AUTH.RESET_PASSWORD.ERROR_TITLE'),
-            detail: error.message,
+            detail: this.errorDetail(error),
             life: 4000,
           });
         },
