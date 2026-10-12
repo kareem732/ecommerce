@@ -13,7 +13,48 @@
   },
   "AUTH": {
     "LOGIN_TITLE": "Welcome Back",
-    "GREETING": "Hello {{name}}"
+    "GREETING": "Hello {{name}}",
+    "FORGET_PASSWORD": {
+      "TITLE": "Forget Password",
+      "SUBTITLE": "Worry not, we’ll send you instructions to help you reset it.",
+      "EMAIL_LABEL": "Email",
+      "EMAIL_PLACEHOLDER": "user@example.com",
+      "NEXT": "Next",
+      "EMAIL_REQUIRED": "Email is required",
+      "EMAIL_INVALID": "Please enter a valid email address",
+      "NO_ACCOUNT": "Don’t have an account yet?",
+      "CREATE_ONE": "Create one now!",
+      "SUCCESS_TITLE": "Success",
+      "SUCCESS_DETAIL": "A password reset link has been sent to your email.",
+      "ERROR_TITLE": "Error"
+    },
+    "LINK_SENT": {
+      "TITLE": "Password Reset Sent",
+      "SENT_TO": "We have sent a password reset link to:",
+      "INFO": "If an account exists for this email address, we’ve sent password reset instructions. If you don’t receive the email within a few minutes, check your spam or junk folder.",
+      "SPAM_NOTE": "If you don’t see the email within a few minutes, check your spam or junk folder.",
+      "NEED_HELP": "Need help?",
+      "CONTACT_US": "Contact us",
+      "BACK": "Back"
+    },
+    "RESET_PASSWORD": {
+      "TITLE": "Create a new password",
+      "SUBTITLE": "Set a strong password to secure your account.",
+      "PASSWORD_LABEL": "Password",
+      "PASSWORD_PLACEHOLDER": "Enter your password",
+      "CONFIRM_LABEL": "Confirm Password",
+      "CONFIRM_PLACEHOLDER": "Re-enter your password",
+      "SUBMIT": "Reset Password",
+      "PASSWORD_REQUIRED": "Password is required",
+      "PASSWORD_MIN": "Password must be at least 8 characters",
+      "CONFIRM_REQUIRED": "Please confirm your password",
+      "MISMATCH": "Passwords do not match",
+      "SUCCESS_TITLE": "Success",
+      "SUCCESS_DETAIL": "Your password has been successfully reset.",
+      "ERROR_TITLE": "Error",
+      "NEED_HELP": "Need help?",
+      "CONTACT_US": "Contact us"
+    }
   },
   "HOME": {
     "HELLO": "Hello there,",
