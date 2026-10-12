@@ -12,7 +12,8 @@ import { Otp } from '../shared/ui/otp/otp';
 import { Tabs, TabItem } from '../shared/ui/tabs/tabs';
 import { AccountMenu } from '../shared/ui/account-menu/account-menu';
 import { Badge } from '../shared/ui/badge/badge';
-import { Breadcrumb, BreadcrumbItem } from '../shared/ui/breadcrumb/breadcrumb';
+import { Breadcrumb } from '../shared/ui/breadcrumb/breadcrumb';
+import { BreadcrumbItem } from '../shared/ui/breadcrumb/breadcrumb.types';
 import { Select, SelectOption } from '../shared/ui/select/select';
 import { Phone } from '../shared/ui/phone/phone';
 import { Upload } from '../shared/ui/upload/upload';
@@ -71,14 +72,22 @@ import { Upload } from '../shared/ui/upload/upload';
               error="Required field"
             />
 
-            <app-select label="Label" [options]="options" [(ngModel)]="country" />
+            <app-select
+              label="Label"
+              [options]="options"
+              [(ngModel)]="country"
+            />
             <app-select
               label="Label"
               placeholder="Placeholder"
               arrow="updown"
               [options]="options"
             />
-            <app-select label="Label" [options]="options" error="Required field" />
+            <app-select
+              label="Label"
+              [options]="options"
+              error="Required field"
+            />
             <app-select label="Label" [options]="options" [disabled]="true" />
 
             <app-phone label="Label" [(ngModel)]="phoneNumber" />
@@ -95,8 +104,16 @@ import { Upload } from '../shared/ui/upload/upload';
             <app-upload label="Label" [disabled]="true" />
 
             <app-textarea label="Label" placeholder="Placeholder" />
-            <app-textarea label="Label" placeholder="Placeholder" error="Required field" />
-            <app-textarea label="Label" placeholder="Placeholder" [disabled]="true" />
+            <app-textarea
+              label="Label"
+              placeholder="Placeholder"
+              error="Required field"
+            />
+            <app-textarea
+              label="Label"
+              placeholder="Placeholder"
+              [disabled]="true"
+            />
 
             <app-button label="Save" />
             <app-button label="Cancel" variant="outline" />

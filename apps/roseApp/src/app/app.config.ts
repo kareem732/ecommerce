@@ -14,7 +14,7 @@ import Aura from '@primeuix/themes/aura';
 import { providePrimeNG } from 'primeng/config';
 import { appRoutes } from './app.routes';
 import { environment } from '../environments/environment';
-
+  
 const RosePreset = definePreset(Aura, {
   semantic: {
     primary: {
@@ -60,7 +60,7 @@ export const appConfig: ApplicationConfig = {
       theme: {
         preset: RosePreset,
         options: {
-          darkModeSelector: '[data-theme="dark"]',
+          darkModeSelector: '.dark',
           cssLayer: {
             name: 'primeng',
             order: 'theme, base, primeng, components, utilities',
