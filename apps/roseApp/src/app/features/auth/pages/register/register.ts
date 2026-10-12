@@ -41,8 +41,13 @@ export class Register {
 
           // 2- Navigate To OTP Page
           setTimeout(() => {
-            this.router.navigate(['/roseApp/auth/otp'])
-          }, 2000);
+            this.router.navigate(['/roseApp/auth/otp'], {
+              // To Store Email
+              queryParams:{
+                email:this.emailForm.value.email
+              }
+            })
+          }, 3000);
 
         },
         error: (err) => {

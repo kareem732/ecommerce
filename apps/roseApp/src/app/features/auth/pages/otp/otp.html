@@ -1,1 +1,75 @@
-<h1>Wellllllllllllllllllcommmmmmmmmmmmmm</h1>
+<form [formGroup]="codeForm" class="flex w-full flex-col gap-8" (ngSubmit)="verifyButton()">
+
+    <!-- Quote -->
+    <div class="mx-auto ">
+        <img src="http://localhost:4202/assets/images/auth/Becomepartofourfamily!.png" alt="" />
+    </div>
+
+    <!-- Stepper -->
+
+    <div class="w-full">
+        <app-stepper></app-stepper>
+    </div>
+
+    <!-- Paragraph -->
+    <div class="flex flex-col gap-4">
+        <h2 class="font-primary text-[30px] font-bold leading-[100%] text-[#27272A]">
+            Create Account
+        </h2>
+
+        <div>
+            <span class="font-primary text-[20px] font-semibold leading-[100%] text-[#501419]">
+                Enter the OTP Code
+            </span>
+
+            <p class="font-primary text-[16px] font-normal leading-normal text-[#27272A]">
+                We have sent a 6-digit code to {{email}}
+                <span routerLink='/roseApp/auth/login'
+                    class="font-primary text-[16px] font-medium underline text-[#1447E6]">
+                    Edit
+                </span>
+            </p>
+        </div>
+    </div>
+
+    <!-- Digits -->
+    <div>
+        <div formArrayName="code" class="flex gap-3">
+            @for (control of codeControls.controls; track $index) {
+            <input [formControlName]="$index" type="text" inputmode="numeric" maxlength="1"
+                class="w-12 rounded border p-3 text-center" />
+            }
+        </div>
+
+        <div class="mt-4 flex justify-end items-end">
+            <span class="font-primary text-[16px] font-medium text-[#27272A]">
+                Send a new code
+            </span>
+        </div>
+    </div>
+
+    <!-- Button -->
+    <div>
+        <button type="submit" class="w-full rounded bg-[#741C21] p-3 text-white">
+            Verify Code
+        </button>
+
+        <div class="pt-3">
+            @if (errorMsg()) {
+            <app-alert severity="error" [message]="errorMsg()"></app-alert>
+            }
+        </div>
+
+        <div class="pt-3">
+            @if (successMsg()) {
+            <app-alert severity="success" [message]="successMsg()"></app-alert>
+            }
+        </div>
+
+        <p class="mt-4 text-center font-primary text-[14px] font-medium text-[#27272A]">
+            Need help?
+            <span class="font-bold text-[#741C21]">Contact us</span>
+        </p>
+    </div>
+
+</form>

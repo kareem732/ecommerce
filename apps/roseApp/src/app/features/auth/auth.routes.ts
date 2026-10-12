@@ -21,7 +21,13 @@ export const AUTH_ROUTES: Routes = [
         path: 'otp',
         loadComponent: () => 
           import('./pages/otp/otp').then(
-            (m) => m.Otp),
+            (m) => m.otp),
+      },
+      {
+        path: 'user-info',
+        loadComponent: () => 
+          import('./pages/user-info/user-info').then(
+            (m) => m.UserInfo),
       }
     ],
   },

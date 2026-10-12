@@ -10,7 +10,7 @@ import { InputOtpModule } from 'primeng/inputotp';
   styleUrl: './otp.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class Otp {
+export class otp {
   length = input<number>(6);
   error = input<string>('');
   disabled = input<boolean>(false);

@@ -1,0 +1,36 @@
+
+<div class="flex w-full items-center">
+
+  @for (step of [1, 2, 3, 4]; track step) {
+
+    <!-- Step circle -->
+    <div
+      class="relative z-10 flex h-6.25 w-6.25 shrink-0
+             items-center justify-center rounded-full
+             text-[18px] font-medium transition-colors"
+
+      [class.bg-[#501419]]="currentStep() >= step"
+      [class.text-white]="currentStep() >= step"
+
+      [class.bg-[#FBEAEA]]="currentStep() < step"
+      [class.text-[#501419]]="currentStep() < step"
+
+      [class.border-4]="currentStep() === step"
+      [class.border-[#FBEAEA]]="currentStep() === step"
+      [class.ring-0]="currentStep() !== step"
+    >
+      {{ step }}
+    </div>
+
+    <!-- Connecting line -->
+    @if (step < 4) {
+      <div
+        class="h-px min-w-0 flex-1"
+        [class.bg-[#501419]]="currentStep() > step"
+        [class.bg-[#FBEAEA]]="currentStep() <= step"
+      ></div>
+    }
+
+  }
+
+</div>

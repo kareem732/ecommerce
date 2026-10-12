@@ -8,7 +8,7 @@ import { Textarea } from '../shared/ui/textarea/textarea';
 import { Checkbox } from '../shared/ui/checkbox/checkbox';
 import { Alert } from '../shared/ui/alert/alert';
 import { Pagination } from '../shared/ui/pagination/pagination';
-import { Otp } from '../shared/ui/otp/otp';
+import { otp } from '../shared/ui/otp/otp';
 import { Tabs, TabItem } from '../shared/ui/tabs/tabs';
 import { AccountMenu } from '../shared/ui/account-menu/account-menu';
 import { Badge } from '../shared/ui/badge/badge';
@@ -29,7 +29,7 @@ import { BreadcrumbItem } from '../shared/ui/breadcrumb/breadcrumb.types';
     Textarea,
     Checkbox,
     Pagination,
-    Otp,
+    otp,
     Tabs,
     AccountMenu,
     Alert,
