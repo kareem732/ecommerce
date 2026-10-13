@@ -1,9 +1,10 @@
 import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-reset-link-received',
-  imports: [RouterLink],
+  imports: [RouterLink, TranslatePipe],
   templateUrl: './reset-link-received.html',
   styleUrl: './reset-link-received.scss',
 })

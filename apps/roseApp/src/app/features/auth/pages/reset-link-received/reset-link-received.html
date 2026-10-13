@@ -3,19 +3,19 @@
     <div class="flex items-center gap-3">
       <a
         routerLink="../forget-password"
-        aria-label="Back to forget password"
+        [attr.aria-label]="'AUTH.LINK_SENT.BACK' | translate"
         class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[var(--color-maroon-700)] text-white transition-colors hover:bg-[var(--color-maroon-800)]"
       >
         <i class="pi pi-chevron-left text-sm"></i>
       </a>
       <h1 class="text-[var(--color-zinc-800)] font-bold text-[24px]">
-        Password Reset Sent
+        {{ 'AUTH.LINK_SENT.TITLE' | translate }}
       </h1>
     </div>
 
     <div class="border-b border-[var(--color-zinc-200)] pb-3">
       <p class="text-[var(--color-zinc-800)]">
-        We have sent a password reset link to:
+        {{ 'AUTH.LINK_SENT.SENT_TO' | translate }}
       </p>
       <p class="font-medium break-all text-[var(--color-maroon-700)]">
         {{ email() }}
@@ -25,18 +25,17 @@
 
   <div class="flex flex-col gap-3 border-b border-[var(--color-zinc-200)] pb-6">
     <p class="text-[var(--color-zinc-800)]">
-      If an account exists for this email address, we’ve sent password reset
-      instructions. If you don’t receive the email within a few minutes, check
-      your spam or junk folder.
+      {{ 'AUTH.LINK_SENT.INFO' | translate }}
     </p>
     <p class="text-sm text-[var(--color-zinc-500)]">
-      If you don’t see the email within a few minutes, check your spam or junk
-      folder.
+      {{ 'AUTH.LINK_SENT.SPAM_NOTE' | translate }}
     </p>
   </div>
 
   <p class="text-center font-semibold text-[var(--color-zinc-800)]">
-    Need help?
-    <a routerLink="/" class="!text-[var(--color-maroon-700)]">Contact us</a>
+    {{ 'AUTH.LINK_SENT.NEED_HELP' | translate }}
+    <a routerLink="/" class="!text-[var(--color-maroon-700)]">
+      {{ 'AUTH.LINK_SENT.CONTACT_US' | translate }}
+    </a>
   </p>
 </div>
