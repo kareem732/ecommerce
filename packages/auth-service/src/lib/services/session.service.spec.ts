@@ -12,7 +12,10 @@ describe('SessionService', () => {
     tokens.clear();
   });
 
-  afterEach(() => tokens.clear());
+  afterEach(() => {
+    jest.restoreAllMocks();
+    tokens.clear();
+  });
 
   it('starts logged out', () => {
     const session = TestBed.inject(SessionService);
@@ -31,6 +34,26 @@ describe('SessionService', () => {
     expect(tokens.getToken()).toBe(token);
   });
 
+  it('start() forwards remember = true to the token service', () => {
+    const session = TestBed.inject(SessionService);
+    const setToken = jest.spyOn(tokens, 'setToken');
+    const token = makeJwt();
+
+    session.start({ user: TEST_USER, token }, true);
+
+    expect(setToken).toHaveBeenCalledWith(token, true);
+  });
+
+  it('start() defaults remember to false', () => {
+    const session = TestBed.inject(SessionService);
+    const setToken = jest.spyOn(tokens, 'setToken');
+    const token = makeJwt();
+
+    session.start({ user: TEST_USER, token });
+
+    expect(setToken).toHaveBeenCalledWith(token, false);
+  });
+
   it('clear() removes everything', () => {
     const session = TestBed.inject(SessionService);
     session.start({ user: TEST_USER, token: makeJwt() });
@@ -46,6 +69,12 @@ describe('SessionService', () => {
     tokens.setToken(makeJwt());
     const session = TestBed.inject(SessionService);
     expect(session.isLoggedIn()).toBe(true);
+  });
+
+  it('is logged out when the stored token is expired', () => {
+    tokens.setToken(makeJwt({}, -10));
+    const session = TestBed.inject(SessionService);
+    expect(session.isLoggedIn()).toBe(false);
   });
 
   it('setUser() hydrates the user', () => {

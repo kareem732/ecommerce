@@ -23,3 +23,4 @@ export * from './lib/tabs/tabs';
 export * from './lib/tabs/tabs.types';
 export * from './lib/textarea/textarea';
 export * from './lib/upload/upload';
+export * from './lib/toast-host/toast-host';

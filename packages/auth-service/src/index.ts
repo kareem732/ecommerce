@@ -27,3 +27,6 @@ export * from './lib/guards/guest.guard';
 export * from './lib/utils/auth-error.mapper';
 
 export * from './lib/provide-auth';
+export * from './lib/services/auth-api.service';
+export * from './lib/testing/auth-testing';
+export * from './lib/services/notification.service';

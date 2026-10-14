@@ -5,7 +5,19 @@
 
 @source "../packages";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
   --font-sans: 'Sarabun', 'Tajawal', sans-serif;
   --font-arabic: 'Tajawal', 'Sarabun', sans-serif;
+}
+
+@theme inline {
+  --color-brand: var(--color-primary);
+  --color-brand-hover: var(--color-primary-hover);
+  --color-surface: var(--bg-surface);
+  --color-page: var(--bg-page);
+  --color-content: var(--text-primary);
+  --color-content-muted: var(--text-secondary);
+  --color-line: var(--border-default);
 }

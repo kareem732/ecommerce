@@ -46,7 +46,7 @@
     </div>
 
     @if (open()) {
-    <div class="phone__menu">
+    <div class="phone__menu" [class.phone__menu--up]="openUp()">
       <input
         class="phone__search"
         type="text"

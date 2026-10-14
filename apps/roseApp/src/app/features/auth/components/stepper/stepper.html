@@ -1,0 +1,27 @@
+<ol class="flex w-full items-center" [attr.aria-label]="'AUTH.REGISTER.STEPS_LABEL' | translate">
+  @for (step of steps(); track step.n) {
+    <li
+      class="flex items-center"
+      [class.flex-1]="!step.last"
+      [attr.aria-current]="step.active ? 'step' : null"
+    >
+      <span
+        class="flex size-6 shrink-0 items-center justify-center rounded-full text-xs font-medium"
+        [class]="
+          step.done || step.active
+            ? 'bg-zinc-700 text-white'
+            : 'bg-(--color-soft-pink-100) text-zinc-700'
+        "
+      >
+        {{ step.n }}
+      </span>
+      @if (!step.last) {
+        <span
+          class="mx-2 h-px flex-1"
+          [class]="step.done ? 'bg-zinc-700' : 'bg-zinc-200'"
+          aria-hidden="true"
+        ></span>
+      }
+    </li>
+  }
+</ol>

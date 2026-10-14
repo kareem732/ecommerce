@@ -1,0 +1,133 @@
+<div class="flex flex-col gap-6">
+  <div class="flex items-center gap-3">
+    @if (store.step() === Step.Email) {
+      <app-back-button [link]="Route.Login" [relativeTo]="parent" />
+    } @else {
+      <app-back-button (clicked)="back()" />
+    }
+    <app-stepper class="flex-1" [current]="store.step()" [total]="4" />
+  </div>
+
+  <div class="text-center">
+    <h1 class="text-xl font-semibold">{{ 'AUTH.REGISTER.TITLE' | translate }}</h1>
+    <p class="text-sm text-zinc-500">
+      {{ 'AUTH.REGISTER.SUBTITLE.' + store.step() | translate }}
+    </p>
+  </div>
+
+  @switch (store.step()) {
+    @case (Step.Email) {
+      <form [formGroup]="emailForm" (ngSubmit)="submitEmail()" class="flex flex-col gap-4" novalidate>
+        <app-input
+          formControlName="email"
+          type="email"
+          [label]="'AUTH.REGISTER.EMAIL' | translate"
+          [placeholder]="'AUTH.REGISTER.EMAIL_PLACEHOLDER' | translate"
+          [error]="errorOf(emailForm.controls.email)"
+        />
+        <app-button
+          type="submit"
+          [label]="'AUTH.REGISTER.SEND_CODE' | translate"
+          [loading]="loading()"
+          [fullWidth]="true"
+        />
+      </form>
+    }
+
+    @case (Step.Otp) {
+      <div class="flex flex-col gap-4">
+        <p class="text-center text-sm text-zinc-500">
+          {{ 'AUTH.REGISTER.OTP_SENT_TO' | translate }}
+          <span class="font-medium">{{ store.data().email }}</span>
+          <button type="button" class="ms-1 font-medium underline" (click)="back()">
+            {{ 'AUTH.REGISTER.EDIT_EMAIL' | translate }}
+          </button>
+        </p>
+
+        <app-otp (completed)="otpCode.set($event)" />
+
+        <div class="flex justify-end">
+          <app-button
+            type="button"
+            variant="ghost"
+            [label]="'AUTH.REGISTER.RESEND' | translate"
+            [disabled]="loading()"
+            (clicked)="resendCode()"
+          />
+        </div>
+
+        <app-button
+          type="button"
+          [label]="'AUTH.REGISTER.VERIFY' | translate"
+          [loading]="loading()"
+          [disabled]="!otpCode()"
+          [fullWidth]="true"
+          (clicked)="submitOtp(otpCode())"
+        />
+      </div>
+    }
+
+    @case (Step.Profile) {
+      <form [formGroup]="profileForm" (ngSubmit)="submitProfile()" class="flex flex-col gap-4" novalidate>
+        <div class="grid grid-cols-2 gap-3">
+          <app-input
+            formControlName="firstName"
+            [label]="'AUTH.REGISTER.FIRST_NAME' | translate"
+            [error]="errorOf(profileForm.controls.firstName)"
+          />
+          <app-input
+            formControlName="lastName"
+            [label]="'AUTH.REGISTER.LAST_NAME' | translate"
+            [error]="errorOf(profileForm.controls.lastName)"
+          />
+        </div>
+
+        <app-input
+          formControlName="username"
+          [label]="'AUTH.REGISTER.USERNAME' | translate"
+          [error]="errorOf(profileForm.controls.username)"
+        />
+
+        <app-phone
+          formControlName="phone"
+          [label]="'AUTH.REGISTER.PHONE_OPTIONAL' | translate"
+          placeholder="1012345678"
+          [error]="errorOf(profileForm.controls.phone)"
+        />
+
+        <app-select
+          formControlName="gender"
+          [label]="'AUTH.REGISTER.GENDER' | translate"
+          [options]="genderOptions()"
+          [error]="errorOf(profileForm.controls.gender)"
+        />
+
+        <app-button type="submit" [label]="'COMMON.NEXT' | translate" [fullWidth]="true" />
+      </form>
+    }
+
+    @case (Step.Password) {
+      <form [formGroup]="passwordForm" (ngSubmit)="submitPassword()" class="flex flex-col gap-4" novalidate>
+        <app-input
+          formControlName="password"
+          type="password"
+          [label]="'AUTH.REGISTER.PASSWORD' | translate"
+          [error]="errorOf(passwordForm.controls.password, 'PASSWORD')"
+        />
+        <app-input
+          formControlName="confirmPassword"
+          type="password"
+          [label]="'AUTH.REGISTER.CONFIRM_PASSWORD' | translate"
+          [error]="confirmError()"
+        />
+
+        <app-button
+          type="submit"
+          [fullWidth]="true"
+          [label]="'AUTH.REGISTER.SUBMIT' | translate"
+          [loading]="loading()"
+        />
+      </form>
+    }
+  }
+</div>

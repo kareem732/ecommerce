@@ -5,6 +5,9 @@ import { TokenPayload } from '../models/token.model';
 
 @Injectable({ providedIn: 'root' })
 export class TokenService {
+  private static readonly REMEMBER_DAYS = 30;
+  private static readonly DAY_MS = 24 * 60 * 60 * 1000;
+
   private readonly doc = inject(DOCUMENT);
   private readonly name = inject(AUTH_CONFIG).tokenCookieName;
 
@@ -14,9 +17,11 @@ export class TokenService {
     return entry ? decodeURIComponent(entry.slice(prefix.length)) : null;
   }
 
-  setToken(token: string): void {
-    const payload = this.decode(token);
-    const expires = payload ? `; expires=${new Date(payload.exp * 1000).toUTCString()}` : '';
+ 
+  setToken(token: string, remember = false): void {
+    const expires = remember
+      ? `; expires=${new Date(Date.now() + TokenService.REMEMBER_DAYS * TokenService.DAY_MS).toUTCString()}`
+      : '';
     const secure = this.doc.location?.protocol === 'https:' ? '; Secure' : '';
     this.doc.cookie = `${this.name}=${encodeURIComponent(token)}${expires}; path=/; SameSite=Strict${secure}`;
   }

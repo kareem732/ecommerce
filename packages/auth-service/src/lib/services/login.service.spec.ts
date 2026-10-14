@@ -21,7 +21,10 @@ describe('LoginService', () => {
     session = TestBed.inject(SessionService);
   });
 
-  afterEach(() => TestBed.inject(TokenService).clear());
+  afterEach(() => {
+    jest.restoreAllMocks();
+    TestBed.inject(TokenService).clear();
+  });
 
   it('starts the session on success', (done) => {
     const payload = { user: TEST_USER, token: makeJwt() };
@@ -35,11 +38,43 @@ describe('LoginService', () => {
     });
   });
 
+  it('sends the credentials to the api', (done) => {
+    api.login.mockReturnValue(of({ user: TEST_USER, token: makeJwt() }));
+
+    service.login({ username: 'u', password: 'p' }).subscribe(() => {
+      expect(api.login).toHaveBeenCalledWith({ username: 'u', password: 'p' });
+      done();
+    });
+  });
+
+  it('passes remember = true to the session', (done) => {
+    const payload = { user: TEST_USER, token: makeJwt() };
+    api.login.mockReturnValue(of(payload));
+    const start = jest.spyOn(session, 'start');
+
+    service.login({ username: 'u', password: 'p' }, true).subscribe(() => {
+      expect(start).toHaveBeenCalledWith(payload, true);
+      done();
+    });
+  });
+
+  it('defaults remember to false', (done) => {
+    const payload = { user: TEST_USER, token: makeJwt() };
+    api.login.mockReturnValue(of(payload));
+    const start = jest.spyOn(session, 'start');
+
+    service.login({ username: 'u', password: 'p' }).subscribe(() => {
+      expect(start).toHaveBeenCalledWith(payload, false);
+      done();
+    });
+  });
+
   it('does not start a session on failure', (done) => {
     api.login.mockReturnValue(throwError(() => ({ code: 'INVALID_CREDENTIALS' })));
 
     service.login({ username: 'u', password: 'bad' }).subscribe({
-      error: () => {
+      error: (e) => {
+        expect(e.code).toBe('INVALID_CREDENTIALS');
         expect(session.isLoggedIn()).toBe(false);
         done();
       },
