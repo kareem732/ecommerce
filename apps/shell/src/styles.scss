@@ -1,2 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
 @use 'flag-icons/css/flag-icons.min.css';
+@font-face {
+  font-family: 'Edwardian Script ITC';
+  src: url('/fonts/edwardian-script.woff2') format('woff2');
+  font-weight: 400;
+  font-display: swap;
+}

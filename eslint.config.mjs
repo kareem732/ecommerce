@@ -26,7 +26,10 @@ export default [
             },
             {
               sourceTag: 'scope:admin-dashboard',
-              onlyDependOnLibsWithTags: ['scope:admin-dashboard', 'scope:shared'],
+              onlyDependOnLibsWithTags: [
+                'scope:admin-dashboard',
+                'scope:shared',
+              ],
             },
             {
               sourceTag: 'scope:rose-app',

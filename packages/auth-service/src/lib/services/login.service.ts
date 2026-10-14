@@ -10,8 +10,10 @@ export class LoginService {
   private readonly api = inject(AuthApiService);
   private readonly session = inject(SessionService);
 
-  login(request: LoginRequest): Observable<AuthPayload> {
-    return this.api.login(request).pipe(tap((payload) => this.session.start(payload)));
+  login(request: LoginRequest, remember = false): Observable<AuthPayload> {
+    return this.api
+      .login(request)
+      .pipe(tap((payload) => this.session.start(payload, remember)));
   }
 
   logout(): void {

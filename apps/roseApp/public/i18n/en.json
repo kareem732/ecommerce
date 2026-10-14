@@ -5,6 +5,8 @@
     "LOGOUT": "Logout",
     "SAVE": "Save",
     "CANCEL": "Cancel",
+    "NEXT": "Next",
+    "BACK": "Back",
     "SWITCH_LANGUAGE": "العربية"
   },
   "NAVIGATION": {
@@ -13,7 +15,99 @@
   },
   "AUTH": {
     "LOGIN_TITLE": "Welcome Back",
-    "GREETING": "Hello {{name}}"
+    "GREETING": "Hello {{name}}",
+    "LOGIN": {
+      "TITLE": "Welcome back",
+      "SUBTITLE": "Sign in to your account",
+      "USERNAME": "Username",
+      "PASSWORD": "Password",
+      "REMEMBER_ME": "Remember me",
+      "FORGOT_PASSWORD": "Forgot your password?",
+      "SUBMIT": "Login",
+      "NO_ACCOUNT": "Don't have an account yet?",
+      "CREATE_ACCOUNT": "Create one now!",
+      "ERRORS": {
+        "REQUIRED": "This field is required"
+      }
+    },
+    "REGISTER": {
+      "TITLE": "Create a new account",
+      "SUBTITLE": {
+        "1": "Enter your email and we'll send you a verification code",
+        "2": "Enter the verification code we sent you",
+        "3": "Tell us about yourself",
+        "4": "Choose a strong password"
+      },
+      "STEPS_LABEL": "Registration steps",
+      "EMAIL": "Email",
+      "EMAIL_PLACEHOLDER": "name@example.com",
+      "SEND_CODE": "Send code",
+      "OTP_SENT_TO": "We have sent a 6-digit code to",
+      "EDIT_EMAIL": "Edit",
+      "RESEND": "Send a new code",
+      "VERIFY": "Verify code",
+      "FIRST_NAME": "First name",
+      "LAST_NAME": "Last name",
+      "USERNAME": "Username",
+      "PHONE_OPTIONAL": "Phone (optional)",
+      "GENDER": "Gender",
+      "MALE": "Male",
+      "FEMALE": "Female",
+      "PASSWORD": "Password",
+      "CONFIRM_PASSWORD": "Confirm password",
+      "SUBMIT": "Create account",
+      "ERRORS": {
+        "REQUIRED": "This field is required",
+        "EMAIL": "Enter a valid email address",
+        "MIN_LENGTH": "Too short",
+        "PATTERN": "Invalid format",
+        "PHONE": "Enter a valid Egyptian phone number",
+        "PASSWORD": "At least 8 characters, with letters and numbers",
+        "MISMATCH": "Passwords do not match"
+      }
+    },
+    "FORGOT": {
+      "TITLE": "Forgot your password?",
+      "SUBTITLE": "Enter your email and we'll send you a reset link",
+      "EMAIL": "Email",
+      "EMAIL_PLACEHOLDER": "name@example.com",
+      "SUBMIT": "Send reset link",
+      "SENT_TITLE": "Password reset sent",
+      "SENT": "If an account exists, we sent a reset link to",
+      "SENT_HINT": "If you don't see the email within a few minutes, check your spam or junk folder.",
+      "CHECK_INBOX": "Please check your inbox and follow the instructions to reset your password.",
+      "SPAM_HINT": "If you don't see the email within a few minutes, check your spam or junk folder.",
+      "BACK_TO_LOGIN": "Back to sign in",
+      "RESET_TITLE": "Create a new password",
+      "RESET_SUBTITLE": "Create a new strong password for your account",
+      "NEW_PASSWORD": "New password",
+      "CONFIRM_PASSWORD": "Confirm new password",
+      "RESET_SUBMIT": "Reset password",
+      "SUCCESS": "Your password has been reset successfully. Redirecting you to login...",
+      "INVALID_LINK": "Invalid or missing reset link. Please request a new one.",
+      "ERRORS": {
+        "REQUIRED": "This field is required",
+        "EMAIL": "Enter a valid email address",
+        "PASSWORD": "At least 8 characters, with letters and numbers",
+        "MISMATCH": "Passwords do not match"
+      }
+    },
+    "RESET": {
+      "TITLE": "Reset your password",
+      "SUBTITLE": "Choose a new password for your account",
+      "NEW_PASSWORD": "New password",
+      "CONFIRM_PASSWORD": "Confirm password",
+      "SUBMIT": "Reset password",
+      "SUCCESS": "Your password has been reset successfully.",
+      "GO_TO_LOGIN": "Go to sign in",
+      "INVALID_LINK": "This reset link is invalid or incomplete.",
+      "REQUEST_NEW": "Request a new link",
+      "ERRORS": {
+        "REQUIRED": "This field is required",
+        "PASSWORD": "At least 8 characters, with letters and numbers",
+        "MISMATCH": "Passwords do not match"
+      }
+    }
   },
   "HOME": {
     "HELLO": "Hello there,",

@@ -12,8 +12,8 @@ export class SessionService {
   readonly user = this._user.asReadonly();
   readonly isLoggedIn = computed(() => !this.tokens.isExpired(this._token()));
 
-  start(payload: AuthPayload): void {
-    this.tokens.setToken(payload.token);
+  start(payload: AuthPayload, remember = false): void {
+    this.tokens.setToken(payload.token, remember);
     this._token.set(payload.token);
     this._user.set(payload.user);
   }
