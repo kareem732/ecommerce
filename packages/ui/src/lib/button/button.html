@@ -5,12 +5,23 @@
   [class.btn--loading]="loading()"
   [type]="type()"
   [disabled]="isDisabled()"
+  [attr.aria-label]="ariaLabel() || null"
+  [attr.aria-busy]="loading()"
   (click)="onClick($event)"
 >
-  @if (loading()) {
-  <i class="pi pi-spin pi-spinner"></i>
-  } @else if (icon()) {
-  <i [class]="icon()"></i>
+  @if (icon() && !loading()) {
+    <i [class]="icon()"></i>
   }
-  <span>{{ label() }}</span>
+
+  @if (label()) {
+    <span>{{ label() }}</span>
+  }
+
+  @if (!loading() && endIcon(); as end) {
+    <lucide-icon [img]="end" [size]="20" aria-hidden="true"></lucide-icon>
+  }
+
+  @if (loading()) {
+    <app-spinner [size]="18" />
+  }
 </button>

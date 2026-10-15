@@ -10,6 +10,7 @@ describe('RegisterStore', () => {
   const otp = { sendCode: vi.fn(), confirmCode: vi.fn() };
   const api = { register: vi.fn() };
   const STRONG = 'Str0ng!Pass#2024';
+  const KEY = 'register-state';
 
   let navigate: MockInstance;
 
@@ -30,6 +31,7 @@ describe('RegisterStore', () => {
     throwError(() => ({ code: 'UNKNOWN', status: 500, message }));
 
   beforeEach(() => {
+    sessionStorage.clear();
     otp.sendCode.mockReset();
     otp.confirmCode.mockReset();
     api.register.mockReset();
@@ -242,6 +244,94 @@ describe('RegisterStore', () => {
       expect(store.error()).toBe('Username taken');
       expect(store.data().email).toBe('a@b.com');
       expect(navigate).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('persistence', () => {
+    it('saves the step and data when they change', () => {
+      const store = create();
+      store.patch({ email: 'a@b.com' });
+      store.next();
+      TestBed.tick();
+
+      expect(JSON.parse(sessionStorage.getItem(KEY) as string)).toMatchObject({
+        step: RegisterStep.Otp,
+        data: { email: 'a@b.com' },
+      });
+    });
+
+    it('restores the saved step and data on creation', () => {
+      sessionStorage.setItem(
+        KEY,
+        JSON.stringify({
+          step: RegisterStep.Profile,
+          data: { email: 'a@b.com', firstName: 'Ahmed' },
+        }),
+      );
+
+      const store = create();
+
+      expect(store.step()).toBe(RegisterStep.Profile);
+      expect(store.data().email).toBe('a@b.com');
+      expect(store.data().firstName).toBe('Ahmed');
+      expect(store.data().lastName).toBe('');
+    });
+
+    it('ignores corrupted saved state', () => {
+      sessionStorage.setItem(KEY, 'not json');
+
+      expect(create().step()).toBe(RegisterStep.Email);
+    });
+
+    it('ignores a saved step that does not exist', () => {
+      sessionStorage.setItem(KEY, JSON.stringify({ step: 99, data: {} }));
+
+      expect(create().step()).toBe(RegisterStep.Email);
+    });
+
+    it('does not restore unknown fields', () => {
+      sessionStorage.setItem(
+        KEY,
+        JSON.stringify({
+          step: RegisterStep.Profile,
+          data: { email: 'a@b.com', isAdmin: true },
+        }),
+      );
+
+      const store = create();
+
+      expect(Object.keys(store.data())).not.toContain('isAdmin');
+    });
+
+    it('never saves passwords', () => {
+      api.register.mockReturnValue(new Subject());
+      const store = create();
+      store.patch({ email: 'a@b.com', gender: 'MALE' });
+      store.next();
+      store.register({ password: STRONG, confirmPassword: STRONG });
+      TestBed.tick();
+
+      expect(sessionStorage.getItem(KEY)).not.toContain(STRONG);
+    });
+
+    it('clears the saved state after a successful registration', () => {
+      api.register.mockReturnValue(of({}));
+      const store = create();
+      store.patch({
+        email: 'a@b.com',
+        firstName: 'Ahmed',
+        lastName: 'Ali',
+        username: 'ahmed',
+        gender: 'MALE',
+      });
+      store.next();
+      TestBed.tick();
+      expect(sessionStorage.getItem(KEY)).not.toBeNull();
+
+      store.register({ password: STRONG, confirmPassword: STRONG });
+      TestBed.tick();
+
+      expect(sessionStorage.getItem(KEY)).toBeNull();
     });
   });
 });

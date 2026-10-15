@@ -9,7 +9,9 @@
   </div>
 
   <div class="text-center">
-    <h1 class="text-xl font-semibold">{{ 'AUTH.REGISTER.TITLE' | translate }}</h1>
+    <h1 class="text-xl font-semibold">
+      {{ 'AUTH.REGISTER.TITLE' | translate }}
+    </h1>
     <p class="text-sm text-zinc-500">
       {{ 'AUTH.REGISTER.SUBTITLE.' + store.step() | translate }}
     </p>
@@ -17,7 +19,12 @@
 
   @switch (store.step()) {
     @case (Step.Email) {
-      <form [formGroup]="emailForm" (ngSubmit)="submitEmail()" class="flex flex-col gap-4" novalidate>
+      <form
+        [formGroup]="emailForm"
+        (ngSubmit)="submitEmail()"
+        class="flex flex-col gap-4"
+        novalidate
+      >
         <app-input
           formControlName="email"
           type="email"
@@ -27,7 +34,8 @@
         />
         <app-button
           type="submit"
-          [label]="'AUTH.REGISTER.SEND_CODE' | translate"
+          [label]="'COMMON.NEXT' | translate"
+          [endIcon]="NextIcon()"
           [loading]="loading()"
           [fullWidth]="true"
         />
@@ -39,19 +47,29 @@
         <p class="text-center text-sm text-zinc-500">
           {{ 'AUTH.REGISTER.OTP_SENT_TO' | translate }}
           <span class="font-medium">{{ store.data().email }}</span>
-          <button type="button" class="ms-1 font-medium underline" (click)="back()">
+          <button
+            type="button"
+            class="ms-1 font-medium underline"
+            [disabled]="loading() || resending()"
+            (click)="back()"
+          >
             {{ 'AUTH.REGISTER.EDIT_EMAIL' | translate }}
           </button>
         </p>
 
-        <app-otp (completed)="otpCode.set($event)" />
+        <app-otp [length]="OTP_LENGTH" (changed)="otpCode.set($event)" />
 
         <div class="flex justify-end">
           <app-button
             type="button"
             variant="ghost"
-            [label]="'AUTH.REGISTER.RESEND' | translate"
-            [disabled]="loading()"
+            [label]="
+              resendSeconds() > 0
+                ? ('AUTH.REGISTER.RESEND_IN' | translate: { seconds: resendSeconds() })
+                : ('AUTH.REGISTER.RESEND' | translate)
+            "
+            [loading]="resending()"
+            [disabled]="resendSeconds() > 0"
             (clicked)="resendCode()"
           />
         </div>
@@ -60,7 +78,7 @@
           type="button"
           [label]="'AUTH.REGISTER.VERIFY' | translate"
           [loading]="loading()"
-          [disabled]="!otpCode()"
+          [disabled]="otpCode().length !== OTP_LENGTH || resending()"
           [fullWidth]="true"
           (clicked)="submitOtp(otpCode())"
         />
@@ -68,15 +86,22 @@
     }
 
     @case (Step.Profile) {
-      <form [formGroup]="profileForm" (ngSubmit)="submitProfile()" class="flex flex-col gap-4" novalidate>
+      <form
+        [formGroup]="profileForm"
+        (ngSubmit)="submitProfile()"
+        class="flex flex-col gap-3"
+        novalidate
+      >
         <div class="grid grid-cols-2 gap-3">
           <app-input
             formControlName="firstName"
+            placeholder="Zoe"
             [label]="'AUTH.REGISTER.FIRST_NAME' | translate"
             [error]="errorOf(profileForm.controls.firstName)"
           />
           <app-input
             formControlName="lastName"
+            placeholder="Jonathan"
             [label]="'AUTH.REGISTER.LAST_NAME' | translate"
             [error]="errorOf(profileForm.controls.lastName)"
           />
@@ -84,6 +109,7 @@
 
         <app-input
           formControlName="username"
+          placeholder="zoe123"
           [label]="'AUTH.REGISTER.USERNAME' | translate"
           [error]="errorOf(profileForm.controls.username)"
         />
@@ -98,33 +124,47 @@
         <app-select
           formControlName="gender"
           [label]="'AUTH.REGISTER.GENDER' | translate"
+          [placeholder]="'AUTH.REGISTER.GENDER_PLACEHOLDER' | translate"
           [options]="genderOptions()"
           [error]="errorOf(profileForm.controls.gender)"
         />
 
-        <app-button type="submit" [label]="'COMMON.NEXT' | translate" [fullWidth]="true" />
+        <app-button
+          type="submit"
+          [label]="'COMMON.NEXT' | translate"
+          [endIcon]="NextIcon()"
+          [fullWidth]="true"
+        />
       </form>
     }
 
     @case (Step.Password) {
-      <form [formGroup]="passwordForm" (ngSubmit)="submitPassword()" class="flex flex-col gap-4" novalidate>
+      <form
+        [formGroup]="passwordForm"
+        (ngSubmit)="submitPassword()"
+        class="flex flex-col gap-4"
+        novalidate
+      >
         <app-input
           formControlName="password"
           type="password"
           [label]="'AUTH.REGISTER.PASSWORD' | translate"
+          [placeholder]="'AUTH.REGISTER.PASSWORD_PLACEHOLDER' | translate"
           [error]="errorOf(passwordForm.controls.password, 'PASSWORD')"
         />
         <app-input
           formControlName="confirmPassword"
           type="password"
           [label]="'AUTH.REGISTER.CONFIRM_PASSWORD' | translate"
+          [placeholder]="'AUTH.REGISTER.CONFIRM_PASSWORD_PLACEHOLDER' | translate"
           [error]="confirmError()"
         />
 
         <app-button
           type="submit"
           [fullWidth]="true"
-          [label]="'AUTH.REGISTER.SUBMIT' | translate"
+          [label]="'COMMON.NEXT' | translate"
+          [endIcon]="NextIcon()"
           [loading]="loading()"
         />
       </form>

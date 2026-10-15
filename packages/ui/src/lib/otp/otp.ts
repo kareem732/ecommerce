@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy,Component,input,output} from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, output, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { InputOtpModule } from 'primeng/inputotp';
 
@@ -16,14 +16,22 @@ export class Otp {
   disabled = input<boolean>(false);
   mask = input<boolean>(false);
 
+  changed = output<string>();
   completed = output<string>();
 
-  code = '';
+  protected readonly code = signal('');
 
-  onChange(value: string): void {
-    this.code = value;
-    if (value?.length === this.length()) {
-      this.completed.emit(value);
+  onChange(value: string | null): void {
+    const next = value ?? '';
+    this.code.set(next);
+    this.changed.emit(next);
+    if (next.length === this.length()) {
+      this.completed.emit(next);
     }
+  }
+
+  clear(): void {
+    this.code.set('');
+    this.changed.emit('');
   }
 }

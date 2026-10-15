@@ -26,9 +26,7 @@
     border: 1px solid var(--border-default);
     border-radius: 10px;
     color: var(--text-primary);
-    transition:
-      border-color 0.15s,
-      box-shadow 0.15s;
+    transition: border-color 0.15s;
 
     input {
       flex: 1;
@@ -49,8 +47,8 @@
     }
 
     &:focus-within {
-      border-color: var(--border-focus);
-      box-shadow: 0 0 0 3px var(--ring-focus);
+      border-color: var(--border-default);
+      box-shadow: none;
     }
   }
 
@@ -69,8 +67,7 @@
 
       &:focus-within {
         border-color: var(--border-error);
-        box-shadow: 0 0 0 3px
-          color-mix(in srgb, var(--border-error) 20%, transparent);
+        box-shadow: none;
       }
     }
   }
@@ -100,6 +97,7 @@
     color: var(--text-primary);
     background: transparent;
     border: 0;
+    outline: 0;
     cursor: pointer;
 
     .fi {
@@ -151,7 +149,8 @@
     }
 
     &:focus {
-      border-color: var(--border-focus);
+      outline: 0;
+      border-color: var(--border-default);
     }
   }
 
@@ -177,6 +176,7 @@
     background: transparent;
     border: 0;
     border-radius: 8px;
+    outline: 0;
     cursor: pointer;
 
     .fi {
@@ -191,7 +191,8 @@
     }
 
     &--selected {
-      color: var(--color-primary);
+      color: var(--text-primary);
+      background: var(--bg-muted);
       font-weight: 500;
     }
   }

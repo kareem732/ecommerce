@@ -29,24 +29,23 @@
     border-radius: 10px;
     color: var(--text-primary);
     cursor: pointer;
-    transition:
-      border-color 0.15s,
-      box-shadow 0.15s;
+    transition: border-color 0.15s;
 
     &:hover {
       border-color: var(--border-strong);
     }
 
+    &:focus,
     &:focus-visible {
       outline: 0;
-      border-color: var(--border-focus);
-      box-shadow: 0 0 0 3px var(--ring-focus);
+      border-color: var(--border-default);
+      box-shadow: none;
     }
   }
 
   &--open .field__control {
-    border-color: var(--border-focus);
-    box-shadow: 0 0 0 3px var(--ring-focus);
+    border-color: var(--border-default);
+    box-shadow: none;
   }
 
   &__error {
@@ -58,13 +57,14 @@
     .field__label {
       color: var(--text-error);
     }
+
     .field__control {
       border-color: var(--border-error);
 
+      &:focus,
       &:focus-visible {
         border-color: var(--border-error);
-        box-shadow: 0 0 0 3px
-          color-mix(in srgb, var(--border-error) 20%, transparent);
+        box-shadow: none;
       }
     }
   }
@@ -131,6 +131,7 @@
     background: transparent;
     border: 0;
     border-radius: 8px;
+    outline: 0;
     cursor: pointer;
 
     &:hover:not(:disabled) {
@@ -138,7 +139,8 @@
     }
 
     &--selected {
-      color: var(--color-primary);
+      color: var(--text-primary);
+      background: var(--bg-muted);
       font-weight: 500;
     }
 

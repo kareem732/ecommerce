@@ -79,8 +79,7 @@
     }
   }
 
-  /* disabled */
-  &:disabled {
+  &:disabled:not(.btn--loading) {
     background: var(--bg-disabled);
     color: var(--text-disabled);
     border-color: transparent;
@@ -88,6 +87,10 @@
   }
 
   &--loading:disabled {
-    cursor: progress;
+    cursor: not-allowed;
+  }
+
+  &:disabled > * {
+    pointer-events: none;
   }
 }

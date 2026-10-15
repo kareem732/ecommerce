@@ -36,10 +36,11 @@
       border-color 0.15s,
       box-shadow 0.15s;
 
-    &:focus {
+    &:focus,
+    &:focus-visible {
       outline: 0;
-      border-color: var(--border-strong);
-      box-shadow: 0 0 0 3px var(--border-default);
+      box-shadow: none;
+      border-color: var(--border-default);
     }
 
     &.p-invalid {

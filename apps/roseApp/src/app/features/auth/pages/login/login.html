@@ -7,6 +7,7 @@
     <app-input
       formControlName="username"
       [label]="'AUTH.LOGIN.USERNAME' | translate"
+      [placeholder]="'AUTH.LOGIN.USERNAME_PLACEHOLDER' | translate"
       [error]="errorOf(form.controls.username)"
     />
 
@@ -14,6 +15,7 @@
       formControlName="password"
       type="password"
       [label]="'AUTH.LOGIN.PASSWORD' | translate"
+      [placeholder]="'AUTH.LOGIN.PASSWORD_PLACEHOLDER' | translate"
       [error]="errorOf(form.controls.password)"
     />
 

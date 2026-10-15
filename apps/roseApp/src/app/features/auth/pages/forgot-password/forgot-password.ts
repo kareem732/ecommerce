@@ -1,5 +1,12 @@
+import {
+  ChangeDetectionStrategy,
+  Component,
+  DestroyRef,
+  computed,
+  inject,
+  signal,
+} from '@angular/core';
 import { DOCUMENT } from '@angular/common';
-import { ChangeDetectionStrategy, Component, DestroyRef, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   AbstractControl,
@@ -10,7 +17,9 @@ import {
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { NotificationService, PasswordResetService } from '@org/auth-service';
+import { LanguageService } from '@org/shared-i18n';
 import { Button, Input } from '@org/ui';
+import { ArrowLeft, ArrowRight } from 'lucide-angular';
 import { Observable, finalize, timer } from 'rxjs';
 import { BackButton } from '../../components/back-button/back-button';
 import { Stepper } from '../../components/stepper/stepper';
@@ -45,16 +54,20 @@ export class ForgotPassword {
   private readonly document = inject(DOCUMENT);
   private readonly passwordReset = inject(PasswordResetService);
   private readonly notifications = inject(NotificationService);
+  private readonly language = inject(LanguageService);
 
   protected readonly Route = AuthRoute;
   protected readonly Step = { Email: 1, Sent: 2, Reset: 3 } as const;
   protected readonly parent = this.route.parent ?? undefined;
-
   protected readonly step = signal<number>(this.Step.Email);
   protected readonly loading = signal(false);
   protected readonly savedEmail = signal('');
   protected readonly resetToken = signal<string | null>(null);
   protected readonly resetSuccess = signal(false);
+
+  protected readonly NextIcon = computed(() =>
+    this.language.direction() === 'rtl' ? ArrowLeft : ArrowRight,
+  );
 
   protected readonly emailForm = this.fb.group<ForgotPasswordForm>({
     email: this.fb.control('', [Validators.required, Validators.email]),

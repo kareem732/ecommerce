@@ -1,7 +1,7 @@
 import { DestroyRef, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { patchState, signalStore, withMethods, withState } from '@ngrx/signals';
-import { AuthError, Gender, OtpService, RegisterService } from '@org/auth-service';
+import { Gender, OtpService, RegisterService } from '@org/auth-service';
 import { Observable, finalize } from 'rxjs';
 import { RegisterStep } from '../enums/register-step.enum';
 
@@ -18,8 +18,10 @@ interface RegisterState {
   step: RegisterStep;
   data: RegisterData;
   loading: boolean;
-  error: string | null;
+  resending: boolean;
 }
+
+type BusyFlag = 'loading' | 'resending';
 
 const EMPTY_DATA: RegisterData = {
   email: '',
@@ -34,7 +36,7 @@ const initialState: RegisterState = {
   step: RegisterStep.Email,
   data: EMPTY_DATA,
   loading: false,
-  error: null,
+  resending: false,
 };
 
 export const RegisterStore = signalStore(
@@ -46,17 +48,25 @@ export const RegisterStore = signalStore(
       registerService = inject(RegisterService),
       destroyRef = inject(DestroyRef),
     ) => {
-      const run = <T>(request$: Observable<T>, onSuccess?: () => void): void => {
-        patchState(store, { loading: true, error: null });
+      const setBusy = (flag: BusyFlag, value: boolean): void =>
+        patchState(store, flag === 'loading' ? { loading: value } : { resending: value });
+
+      const run = <T>(
+        request$: Observable<T>,
+        onSuccess?: () => void,
+        flag: BusyFlag = 'loading',
+      ): void => {
+        if (store.loading() || store.resending()) return;
+
+        setBusy(flag, true);
 
         request$
           .pipe(
-            finalize(() => patchState(store, { loading: false })),
+            finalize(() => setBusy(flag, false)),
             takeUntilDestroyed(destroyRef),
           )
           .subscribe({
             next: () => onSuccess?.(),
-            error: (err: AuthError) => patchState(store, { error: err.message }),
           });
       };
 
@@ -70,9 +80,7 @@ export const RegisterStore = signalStore(
 
       const back = (): void =>
         patchState(store, (s) => ({
-          error: null,
-          step:
-            s.step > RegisterStep.Email ? ((s.step - 1) as RegisterStep) : s.step,
+          step: s.step > RegisterStep.Email ? ((s.step - 1) as RegisterStep) : s.step,
         }));
 
       const reset = (): void => patchState(store, initialState);
@@ -83,7 +91,6 @@ export const RegisterStore = signalStore(
         back,
         reset,
 
-        // Step 1: email -> send OTP
         sendCode(email: string): void {
           run(otpService.sendCode(email), () => {
             patch({ email });
@@ -91,16 +98,14 @@ export const RegisterStore = signalStore(
           });
         },
 
-        resendCode(): void {
-          run(otpService.sendCode(store.data().email));
+        resendCode(onSuccess?: () => void): void {
+          run(otpService.sendCode(store.data().email), onSuccess, 'resending');
         },
 
-        // Step 2: OTP
         confirmCode(code: string): void {
           run(otpService.confirmCode(store.data().email, code), next);
         },
 
-        // Step 4: register
         register(
           credentials: { password: string; confirmPassword: string },
           onSuccess?: () => void,
