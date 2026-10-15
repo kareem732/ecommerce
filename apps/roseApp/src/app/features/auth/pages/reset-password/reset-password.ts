@@ -1,8 +1,8 @@
-import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
-import { Alert, Button, Input } from '@org/ui';
+import { Button, Input } from '@org/ui';
 import { BackButton } from '../../components/back-button/back-button';
 import { AuthRoute } from '../../enums/auth-route.enum';
 import { ResetPasswordForm } from '../../interfaces/reset-password-form.interface';
@@ -12,7 +12,7 @@ import { FormErrorService } from '../../utils/form-error.service';
 
 @Component({
   selector: 'app-reset-password',
-  imports: [ReactiveFormsModule, RouterLink, TranslatePipe, Alert, BackButton, Button, Input],
+  imports: [ReactiveFormsModule, RouterLink, TranslatePipe, BackButton, Button, Input],
   providers: [ResetPasswordStore, FormErrorService],
   templateUrl: './reset-password.html',
   styleUrl: './reset-password.scss',
@@ -29,7 +29,6 @@ export class ResetPassword {
   protected readonly token = this.route.snapshot.queryParamMap.get('token');
   protected readonly loading = this.store.loading;
   protected readonly done = this.store.succeeded;
-  protected readonly serverError = computed(() => this.store.error() ?? '');
 
   protected readonly form = this.fb.group<ResetPasswordForm>(
     {

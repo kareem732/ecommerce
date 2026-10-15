@@ -1,259 +1,282 @@
-import { type MockInstance, vi } from 'vitest';
-import { TestBed, ComponentFixture } from '@angular/core/testing';
+import { signal } from '@angular/core';
+import { TestBed } from '@angular/core/testing';
 import { Router, provideRouter } from '@angular/router';
-import { provideTranslateService } from '@ngx-translate/core';
-import { OtpService, RegisterService } from '@org/auth-service';
-import { of, throwError } from 'rxjs';
+import { TranslateService } from '@ngx-translate/core';
+import { of } from 'rxjs';
+import { type MockInstance, vi } from 'vitest';
+import { AuthRoute } from '../../enums/auth-route.enum';
 import { RegisterStep } from '../../enums/register-step.enum';
+import { RegisterStore } from '../../stores/register.store';
+import { FormErrorService } from '../../utils/form-error.service';
 import { Register } from './register';
 
-describe('Register', () => {
-  const otp = { sendCode: vi.fn(), confirmCode: vi.fn() };
-  const registerService = { register: vi.fn() };
-  const STRONG = 'Str0ng!Pass#2024';
+const STRONG = 'Str0ng!Pass#2024';
 
-  let fixture: ComponentFixture<Register>;
-  let component: Register;
+const createStore = () => ({
+  step: signal<RegisterStep>(RegisterStep.Email),
+  data: signal({ email: '' }),
+  loading: signal(false),
+  error: signal<string | null>(null),
+  sendCode: vi.fn(),
+  resendCode: vi.fn(),
+  confirmCode: vi.fn(),
+  patch: vi.fn(),
+  next: vi.fn(),
+  back: vi.fn(),
+  register: vi.fn(),
+});
+
+describe('Register', () => {
+  let store: ReturnType<typeof createStore>;
   let navigate: MockInstance;
 
-  const store = () => component['store'];
-
-  const fillProfile = () =>
-    component['profileForm'].setValue({
-      firstName: 'Ahmed',
-      lastName: 'Ali',
-      username: 'ahmed',
-      phone: '',
-      gender: 'MALE',
-    });
-
-  const seedStore = (phone = '1012345678') =>
-    store().patch({
-      email: 'a@b.com',
-      firstName: 'Ahmed',
-      lastName: 'Ali',
-      username: 'ahmed',
-      phone,
-      gender: 'MALE',
-    });
-
-  beforeEach(async () => {
-    otp.sendCode.mockReset();
-    otp.confirmCode.mockReset();
-    registerService.register.mockReset();
-
-    await TestBed.configureTestingModule({
-      imports: [Register],
+  const setup = () => {
+    TestBed.configureTestingModule({
       providers: [
         provideRouter([]),
-        provideTranslateService(),
-        { provide: OtpService, useValue: otp },
-        { provide: RegisterService, useValue: registerService },
+        {
+          provide: TranslateService,
+          useValue: {
+            stream: () =>
+              of({ 'AUTH.REGISTER.MALE': 'Male', 'AUTH.REGISTER.FEMALE': 'Female' }),
+          },
+        },
       ],
-    }).compileComponents();
+    });
 
-    navigate = vi.spyOn(TestBed.inject(Router), 'navigateByUrl').mockResolvedValue(true);
-    fixture = TestBed.createComponent(Register);
-    component = fixture.componentInstance;
+    TestBed.overrideComponent(Register, {
+      set: {
+        imports: [],
+        template: '',
+        providers: [
+          { provide: RegisterStore, useValue: store },
+          {
+            provide: FormErrorService,
+            useValue: { scope: () => ({ of: () => '', confirm: () => '' }) },
+          },
+        ],
+      },
+    });
+
+    navigate = vi.spyOn(TestBed.inject(Router), 'navigate').mockResolvedValue(true);
+
+    const fixture = TestBed.createComponent(Register);
     fixture.detectChanges();
+    return fixture;
+  };
+
+  const goTo = (fixture: ReturnType<typeof setup>, step: RegisterStep) => {
+    store.step.set(step);
+    fixture.detectChanges();
+  };
+
+  beforeEach(() => {
+    vi.useFakeTimers();
+    store = createStore();
   });
 
-  it('starts on the email step', () => {
-    expect(store().step()).toBe(RegisterStep.Email);
+  afterEach(() => {
+    vi.useRealTimers();
   });
 
-  describe('email step', () => {
-    it('does not send a code when the email is invalid', () => {
-      component['emailForm'].setValue({ email: 'nope' });
+  describe('gender options', () => {
+    it('builds the options from the translations', () => {
+      const component = setup().componentInstance;
 
-      component['submitEmail']();
-
-      expect(otp.sendCode).not.toHaveBeenCalled();
-      expect(component['emailForm'].touched).toBe(true);
-      expect(store().step()).toBe(RegisterStep.Email);
-    });
-
-    it('sends the code, stores the email and moves to the otp step', () => {
-      otp.sendCode.mockReturnValue(of('sent'));
-      component['emailForm'].setValue({ email: 'a@b.com' });
-
-      component['submitEmail']();
-
-      expect(otp.sendCode).toHaveBeenCalledWith('a@b.com');
-      expect(store().data().email).toBe('a@b.com');
-      expect(store().step()).toBe(RegisterStep.Otp);
-      expect(component['loading']()).toBe(false);
-    });
-
-    it('shows the server error and stays on the step on failure', () => {
-      otp.sendCode.mockReturnValue(
-        throwError(() => ({ code: 'UNKNOWN', status: 500, message: 'Boom' })),
-      );
-      component['emailForm'].setValue({ email: 'a@b.com' });
-
-      component['submitEmail']();
-      fixture.detectChanges();
-
-      expect(component['loading']()).toBe(false);
-      expect(store().step()).toBe(RegisterStep.Email);
-      expect(fixture.nativeElement.querySelector('[role="alert"]').textContent).toContain('Boom');
+      expect(component['genderOptions']()).toEqual([
+        { value: 'MALE', label: 'Male' },
+        { value: 'FEMALE', label: 'Female' },
+      ]);
     });
   });
 
-  describe('otp step', () => {
-    beforeEach(() => {
-      store().patch({ email: 'a@b.com' });
-      store().next();
+  describe('resend countdown', () => {
+    it('does not run before the otp step', () => {
+      const component = setup().componentInstance;
+
+      expect(component['resendSeconds']()).toBe(0);
+      expect(vi.getTimerCount()).toBe(0);
     });
 
-    it('confirms the code with the stored email and moves to the profile step', () => {
-      otp.confirmCode.mockReturnValue(of('ok'));
+    it('starts at 60 seconds when the otp step opens', () => {
+      const fixture = setup();
 
-      component['submitOtp']('123456');
+      goTo(fixture, RegisterStep.Otp);
 
-      expect(otp.confirmCode).toHaveBeenCalledWith('a@b.com', '123456');
-      expect(store().step()).toBe(RegisterStep.Profile);
+      expect(fixture.componentInstance['resendSeconds']()).toBe(60);
     });
 
-    it('stays on the otp step when the code is wrong', () => {
-      otp.confirmCode.mockReturnValue(
-        throwError(() => ({ code: 'VALIDATION_ERROR', status: 400, message: 'Invalid code' })),
-      );
+    it('counts down every second and stops at zero', () => {
+      const fixture = setup();
+      goTo(fixture, RegisterStep.Otp);
 
-      component['submitOtp']('000000');
+      vi.advanceTimersByTime(1000);
+      expect(fixture.componentInstance['resendSeconds']()).toBe(59);
 
-      expect(store().step()).toBe(RegisterStep.Otp);
+      vi.advanceTimersByTime(59_000);
+      expect(fixture.componentInstance['resendSeconds']()).toBe(0);
+
+      vi.advanceTimersByTime(5000);
+      expect(fixture.componentInstance['resendSeconds']()).toBe(0);
+      expect(vi.getTimerCount()).toBe(0);
     });
 
-    it('resends the code to the stored email without changing the step', () => {
-      otp.sendCode.mockReturnValue(of('sent'));
+    it('stops when the user leaves the otp step', () => {
+      const fixture = setup();
+      goTo(fixture, RegisterStep.Otp);
+      vi.advanceTimersByTime(3000);
+
+      goTo(fixture, RegisterStep.Profile);
+      vi.advanceTimersByTime(5000);
+
+      expect(fixture.componentInstance['resendSeconds']()).toBe(57);
+      expect(vi.getTimerCount()).toBe(0);
+    });
+
+    it('resendCode clears the code, calls the store and restarts the countdown', () => {
+      const fixture = setup();
+      const component = fixture.componentInstance;
+      goTo(fixture, RegisterStep.Otp);
+      component['otpCode'].set('123456');
+      vi.advanceTimersByTime(30_000);
 
       component['resendCode']();
 
-      expect(otp.sendCode).toHaveBeenCalledWith('a@b.com');
-      expect(store().step()).toBe(RegisterStep.Otp);
+      expect(store.resendCode).toHaveBeenCalledTimes(1);
+      expect(component['otpCode']()).toBe('');
+      expect(component['resendSeconds']()).toBe(60);
+    });
+
+    it('clears the timer when the component is destroyed', () => {
+      const fixture = setup();
+      goTo(fixture, RegisterStep.Otp);
+
+      fixture.destroy();
+
+      expect(vi.getTimerCount()).toBe(0);
     });
   });
 
-  describe('profile step', () => {
-    beforeEach(() => {
-      store().next();
-      store().next();
+  describe('step 1: email', () => {
+    it('does not send a code when the email is invalid', () => {
+      const component = setup().componentInstance;
+      component['emailForm'].controls.email.setValue('not-an-email');
+
+      component['submitEmail']();
+
+      expect(store.sendCode).not.toHaveBeenCalled();
+      expect(component['emailForm'].touched).toBe(true);
     });
 
-    it('does not advance when the form is invalid', () => {
+    it('sends the code for a valid email', () => {
+      const component = setup().componentInstance;
+      component['emailForm'].controls.email.setValue('a@b.com');
+
+      component['submitEmail']();
+
+      expect(store.sendCode).toHaveBeenCalledWith('a@b.com');
+    });
+  });
+
+  describe('step 2: otp', () => {
+    it('ignores an empty code', () => {
+      const component = setup().componentInstance;
+
+      component['submitOtp']('');
+
+      expect(store.confirmCode).not.toHaveBeenCalled();
+    });
+
+    it('confirms a code', () => {
+      const component = setup().componentInstance;
+
+      component['submitOtp']('123456');
+
+      expect(store.confirmCode).toHaveBeenCalledWith('123456');
+    });
+  });
+
+  describe('step 3: profile', () => {
+    it('does not continue while the form is invalid', () => {
+      const component = setup().componentInstance;
+
       component['submitProfile']();
 
+      expect(store.patch).not.toHaveBeenCalled();
+      expect(store.next).not.toHaveBeenCalled();
       expect(component['profileForm'].touched).toBe(true);
-      expect(store().step()).toBe(RegisterStep.Profile);
     });
 
-    it('saves the profile in the store and moves to the password step', () => {
-      fillProfile();
-
-      component['submitProfile']();
-
-      expect(store().data()).toEqual(
-        expect.objectContaining({
-          firstName: 'Ahmed',
-          lastName: 'Ali',
-          username: 'ahmed',
-          gender: 'MALE',
-        }),
-      );
-      expect(store().step()).toBe(RegisterStep.Password);
-    });
-  });
-
-  describe('password step', () => {
-    beforeEach(() => {
-      seedStore();
-      store().next();
-      store().next();
-      store().next();
-    });
-
-    it('does not register when the form is invalid', () => {
-      component['submitPassword']();
-
-      expect(registerService.register).not.toHaveBeenCalled();
-      expect(component['passwordForm'].touched).toBe(true);
-    });
-
-    it('does not register when the passwords do not match', () => {
-      component['passwordForm'].setValue({ password: STRONG, confirmPassword: 'different' });
-
-      component['submitPassword']();
-
-      expect(registerService.register).not.toHaveBeenCalled();
-    });
-
-    it('does not register without a gender', () => {
-      store().patch({ gender: '' });
-      component['passwordForm'].setValue({ password: STRONG, confirmPassword: STRONG });
-
-      component['submitPassword']();
-
-      expect(registerService.register).not.toHaveBeenCalled();
-    });
-
-    it('registers with the collected data, resets the store and navigates home', () => {
-      registerService.register.mockReturnValue(of({}));
-      component['passwordForm'].setValue({ password: STRONG, confirmPassword: STRONG });
-
-      component['submitPassword']();
-
-      expect(registerService.register).toHaveBeenCalledWith({
-        email: 'a@b.com',
+    it('saves the profile and moves on when valid', () => {
+      const component = setup().componentInstance;
+      component['profileForm'].setValue({
         firstName: 'Ahmed',
         lastName: 'Ali',
         username: 'ahmed',
+        phone: '',
         gender: 'MALE',
-        phone: '1012345678',
-        password: STRONG,
-        confirmPassword: STRONG,
       });
-      expect(store().step()).toBe(RegisterStep.Email);
-      expect(store().data().email).toBe('');
-      expect(navigate).toHaveBeenCalledWith('/');
-    });
 
-    it('sends phone as undefined when it was left empty', () => {
-      store().patch({ phone: '' });
-      registerService.register.mockReturnValue(of({}));
-      component['passwordForm'].setValue({ password: STRONG, confirmPassword: STRONG });
+      component['submitProfile']();
+
+      expect(store.patch).toHaveBeenCalledWith({
+        firstName: 'Ahmed',
+        lastName: 'Ali',
+        username: 'ahmed',
+        phone: '',
+        gender: 'MALE',
+      });
+      expect(store.next).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('step 4: password', () => {
+    it('does not register while the form is invalid', () => {
+      const component = setup().componentInstance;
 
       component['submitPassword']();
 
-      expect(registerService.register.mock.calls[0][0].phone).toBeUndefined();
+      expect(store.register).not.toHaveBeenCalled();
     });
 
-    it('shows the server error and keeps the data on failure', () => {
-      registerService.register.mockReturnValue(
-        throwError(() => ({ code: 'CONFLICT', status: 409, message: 'Username taken' })),
+    it('does not register when the passwords do not match', () => {
+      const component = setup().componentInstance;
+      component['passwordForm'].setValue({
+        password: STRONG,
+        confirmPassword: `${STRONG}x`,
+      });
+
+      component['submitPassword']();
+
+      expect(store.register).not.toHaveBeenCalled();
+    });
+
+    it('registers and goes to login on success', () => {
+      store.register.mockImplementation((_credentials: unknown, onSuccess?: () => void) =>
+        onSuccess?.(),
       );
+      const component = setup().componentInstance;
       component['passwordForm'].setValue({ password: STRONG, confirmPassword: STRONG });
 
       component['submitPassword']();
 
-      expect(component['loading']()).toBe(false);
-      expect(store().data().email).toBe('a@b.com');
-      expect(navigate).not.toHaveBeenCalled();
+      expect(store.register).toHaveBeenCalledWith(
+        { password: STRONG, confirmPassword: STRONG },
+        expect.any(Function),
+      );
+      expect(navigate).toHaveBeenCalledWith([AuthRoute.Login], { relativeTo: undefined });
     });
   });
 
   describe('back', () => {
-    it('goes to the previous step and clears the server error', () => {
-      otp.sendCode.mockReturnValue(
-        throwError(() => ({ code: 'UNKNOWN', status: 500, message: 'old error' })),
-      );
-      component['emailForm'].setValue({ email: 'a@b.com' });
-      component['submitEmail']();
+    it('clears the code and goes back in the store', () => {
+      const component = setup().componentInstance;
+      component['otpCode'].set('123456');
 
-      store().next();
       component['back']();
 
-      expect(store().step()).toBe(RegisterStep.Email);
+      expect(component['otpCode']()).toBe('');
+      expect(store.back).toHaveBeenCalledTimes(1);
     });
   });
 });

@@ -21,9 +21,7 @@
     border: 1px solid var(--border-default);
     border-radius: 10px;
     color: var(--text-primary);
-    transition:
-      border-color 0.15s,
-      box-shadow 0.15s;
+    transition: border-color 0.15s;
 
     input {
       flex: 1;
@@ -35,17 +33,18 @@
       font: inherit;
 
       &::placeholder {
-        color: var(--text-secondary);
+        font-family: 'Inter', sans-serif;
+        font-weight: 400;
+        font-style: normal;
+        font-size: 14px;
+        line-height: 100%;
+        letter-spacing: 0;
+        color: #a1a1aa;
       }
     }
 
     &:hover {
       border-color: var(--border-strong);
-    }
-
-    &:focus-within {
-      border-color: var(--border-focus);
-      box-shadow: 0 0 0 3px var(--ring-focus);
     }
   }
 
@@ -89,10 +88,8 @@
     .field__control {
       border-color: var(--border-error);
 
-      &:focus-within {
+      &:hover {
         border-color: var(--border-error);
-        box-shadow: 0 0 0 3px
-          color-mix(in srgb, var(--border-error) 20%, transparent);
       }
     }
   }

@@ -1,7 +1,7 @@
 <div class="otp">
   <div class="otp__boxes">
     <p-inputotp
-      [ngModel]="code"
+      [ngModel]="code()"
       (ngModelChange)="onChange($event)"
       [length]="length()"
       [integerOnly]="true"
@@ -12,6 +12,6 @@
   </div>
 
   @if (error()) {
-  <p class="otp__error" role="alert">{{ error() }}</p>
+    <p class="otp__error" role="alert">{{ error() }}</p>
   }
 </div>
