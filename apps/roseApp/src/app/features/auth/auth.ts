@@ -10,6 +10,9 @@ import { ToastHost } from '@org/ui';
   selector: 'app-auth',
   imports: [RouterOutlet, ImageModule, TranslatePipe, ThemeToggle, ToastHost],
   templateUrl: './auth.html',
+  host: {
+    class: 'block h-full w-full',
+  },
 })
 export class Auth {
   readonly language = inject(LanguageService);

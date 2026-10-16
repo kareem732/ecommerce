@@ -7,6 +7,9 @@ import { ThemeService } from '@org/theme';
   selector: 'app-root',
   templateUrl: './app.html',
   styleUrl: './app.scss',
+  host: {
+    class: 'block h-full w-full',
+  },
 })
 export class App {
   constructor() {

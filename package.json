@@ -3,7 +3,20 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "build:vercel": "node tools/build-vercel.mjs"
+    "start": "nx serve shell --devRemotes=adminDashboard,roseApp",
+    "start:rose": "nx serve shell --devRemotes=roseApp",
+    "start:rose:standalone": "nx serve roseApp",
+    "start:admin": "nx serve shell --devRemotes=adminDashboard",
+    "start:shell": "nx serve shell",
+    "start:all": "nx serve shell --devRemotes=adminDashboard,roseApp",
+    "build": "nx run-many --target=build --all",
+    "build:rose": "nx build roseApp",
+    "build:admin": "nx build adminDashboard",
+    "build:shell": "nx build shell",
+    "build:vercel": "node tools/build-vercel.mjs",
+    "test": "nx run-many --target=test --all",
+    "lint": "nx run-many --target=lint --all",
+    "graph": "nx graph"
   },
   "private": true,
   "dependencies": {
@@ -20,6 +33,7 @@
     "@angular/ssr": "21.2.25",
     "@fontsource/sarabun": "^5.3.0",
     "@fontsource/tajawal": "^5.3.0",
+    "@fontsource/zain": "^5.3.0",
     "@lucide/angular": "1.52.0",
     "@ngrx/signals": "^21.1.1",
     "@ngx-translate/core": "18.0.0",

@@ -7,8 +7,50 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
+@font-face {
+  font-family: 'Edwardian Script ITC';
+  src: url('/fonts/edwardian-script.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 @theme {
   --font-sans: 'Sarabun', sans-serif;
+  --font-arabic: 'Tajawal', sans-serif;
+  --font-zain: 'Zain', sans-serif;
+  --font-edwardian: 'Edwardian Script ITC', cursive;
+}
+
+@utility auth-title {
+  font-family: var(--font-edwardian, 'Edwardian Script ITC', cursive);
+  font-weight: 400;
+  font-style: normal;
+  font-size: clamp(2.25rem, 5vw, 3rem);
+  line-height: 1.15;
+  letter-spacing: 0;
+  vertical-align: middle;
+  color: var(--color-maroon-700, #741c21);
+}
+
+@utility text-zain {
+  font-family: var(--font-zain, 'Zain', sans-serif);
+  font-weight: 400;
+  font-style: normal;
+  font-size: clamp(0.875rem, 1.2vw + 0.5rem, 1rem);
+  line-height: 1.5;
+  letter-spacing: 0;
+  vertical-align: middle;
+}
+
+@utility auth-text-zain {
+  font-family: var(--font-zain, 'Zain', sans-serif);
+  font-weight: 400;
+  font-style: normal;
+  font-size: clamp(0.875rem, 1.2vw + 0.5rem, 1rem);
+  line-height: 1.5;
+  letter-spacing: 0;
+  vertical-align: middle;
 }
 
 @theme inline {
@@ -28,6 +70,7 @@
 html,
 body {
   margin: 0;
+  height: 100%;
   min-height: 100%;
   font-family: var(--font-sans);
   background: var(--bg-page);
