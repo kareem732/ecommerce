@@ -1,21 +1,34 @@
-<div class="flex flex-col gap-6">
-  <div class="flex items-center gap-3">
-    @if (store.step() === Step.Email) {
-      <app-back-button [link]="Route.Login" [relativeTo]="parent" />
-    } @else {
-      <app-back-button (clicked)="back()" />
-    }
-    <app-stepper class="flex-1" [current]="store.step()" [total]="4" />
+<div class="flex flex-col gap-3 sm:gap-4">
+  <!-- Family Title in Edwardian Script font -->
+  <div class="text-center">
+    <h1 class="auth-title">
+      {{ 'AUTH.REGISTER.FAMILY_TITLE' | translate }}
+    </h1>
   </div>
 
-  <div class="text-center">
-    <h1 class="text-xl font-semibold">
-      {{ 'AUTH.REGISTER.TITLE' | translate }}
-    </h1>
-    <p class="text-sm text-zinc-500">
-      {{ 'AUTH.REGISTER.SUBTITLE.' + store.step() | translate }}
-    </p>
-  </div>
+  <div class="h-px w-full bg-zinc-200 dark:bg-zinc-800"></div>
+
+  <!-- Stepper and subheader visible on subsequent steps (Otp, Profile, Password) -->
+  @if (store.step() !== Step.Email) {
+    <div class="flex items-center gap-3">
+      <app-back-button (clicked)="back()" />
+      <app-stepper class="flex-1" [current]="store.step()" [total]="4" />
+    </div>
+
+    <div class="flex flex-col gap-1 text-start">
+      <h2 class="text-2xl font-bold text-zinc-900 dark:text-zinc-100">
+        {{ 'AUTH.REGISTER.TITLE' | translate }}
+      </h2>
+      <p class="text-base font-semibold text-[#741C21] dark:text-[#ea9fa2]">
+        {{ 'AUTH.REGISTER.SUBTITLE.' + store.step() | translate }}
+      </p>
+      <p class="text-sm text-zinc-500 dark:text-zinc-400">
+        {{ 'AUTH.REGISTER.DESCRIPTION.' + store.step() | translate }}
+      </p>
+    </div>
+
+    <div class="h-px w-full bg-zinc-200 dark:bg-zinc-800"></div>
+  }
 
   @switch (store.step()) {
     @case (Step.Email) {
@@ -40,6 +53,15 @@
           [fullWidth]="true"
         />
       </form>
+
+      <div class="h-px w-full bg-zinc-200 dark:bg-zinc-800"></div>
+
+      <p class="text-center text-sm text-zain text-zinc-600 dark:text-zinc-400">
+        {{ 'AUTH.REGISTER.ALREADY_HAVE_ACCOUNT' | translate }}
+        <a [routerLink]="Route.Login" [relativeTo]="parent" class="font-semibold text-[#741C21] dark:text-[#ea9fa2] underline">
+          {{ 'COMMON.LOGIN' | translate }}
+        </a>
+      </p>
     }
 
     @case (Step.Otp) {
@@ -83,6 +105,15 @@
           (clicked)="submitOtp(otpCode())"
         />
       </div>
+
+      <div class="h-px w-full bg-zinc-200 dark:bg-zinc-800"></div>
+
+      <p class="text-center text-sm text-zain text-zinc-600 dark:text-zinc-400">
+        {{ 'AUTH.REGISTER.NEED_HELP' | translate }}
+        <a href="#" class="font-semibold text-[#741C21] dark:text-[#ea9fa2] underline">
+          {{ 'AUTH.REGISTER.CONTACT_US' | translate }}
+        </a>
+      </p>
     }
 
     @case (Step.Profile) {
@@ -136,6 +167,15 @@
           [fullWidth]="true"
         />
       </form>
+
+      <div class="h-px w-full bg-zinc-200 dark:bg-zinc-800"></div>
+
+      <p class="text-center text-sm text-zain text-zinc-600 dark:text-zinc-400">
+        {{ 'AUTH.REGISTER.NEED_HELP' | translate }}
+        <a href="#" class="font-semibold text-[#741C21] dark:text-[#ea9fa2] underline">
+          {{ 'AUTH.REGISTER.CONTACT_US' | translate }}
+        </a>
+      </p>
     }
 
     @case (Step.Password) {
@@ -168,6 +208,15 @@
           [loading]="loading()"
         />
       </form>
+
+      <div class="h-px w-full bg-zinc-200 dark:bg-zinc-800"></div>
+
+      <p class="text-center text-sm text-zain text-zinc-600 dark:text-zinc-400">
+        {{ 'AUTH.REGISTER.NEED_HELP' | translate }}
+        <a href="#" class="font-semibold text-[#741C21] dark:text-[#ea9fa2] underline">
+          {{ 'AUTH.REGISTER.CONTACT_US' | translate }}
+        </a>
+      </p>
     }
   }
 </div>

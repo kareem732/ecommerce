@@ -1,45 +1,28 @@
-<div class="flex flex-col gap-8">
+<div class="flex flex-col gap-4 sm:gap-5">
   <div class="text-center">
     <h1 class="auth-title">{{ 'AUTH.LOGIN.TITLE' | translate }}</h1>
   </div>
 
   <form [formGroup]="form" (ngSubmit)="submit()" class="flex flex-col gap-4" novalidate>
-    <app-input
-      formControlName="username"
-      [label]="'AUTH.LOGIN.USERNAME' | translate"
-      [placeholder]="'AUTH.LOGIN.USERNAME_PLACEHOLDER' | translate"
-      [error]="errorOf(form.controls.username)"
-    />
+    <app-input formControlName="username" [label]="'AUTH.LOGIN.USERNAME' | translate"
+      [placeholder]="'AUTH.LOGIN.USERNAME_PLACEHOLDER' | translate" [error]="errorOf(form.controls.username)" />
 
-    <app-input
-      formControlName="password"
-      type="password"
-      [label]="'AUTH.LOGIN.PASSWORD' | translate"
-      [placeholder]="'AUTH.LOGIN.PASSWORD_PLACEHOLDER' | translate"
-      [error]="errorOf(form.controls.password)"
-    />
+    <app-input formControlName="password" type="password" [label]="'AUTH.LOGIN.PASSWORD' | translate"
+      [placeholder]="'AUTH.LOGIN.PASSWORD_PLACEHOLDER' | translate" [error]="errorOf(form.controls.password)" />
 
     <div class="flex items-center justify-between">
-      <app-checkbox
-        [label]="'AUTH.LOGIN.REMEMBER_ME' | translate"
-        [checked]="form.controls.remember.value"
-        (checkedChange)="form.controls.remember.setValue($event)"
-      />
+      <app-checkbox [label]="'AUTH.LOGIN.REMEMBER_ME' | translate" [checked]="form.controls.remember.value"
+        (checkedChange)="form.controls.remember.setValue($event)" />
 
       <a [routerLink]="Route.ForgotPassword" [relativeTo]="parent" class="text-sm underline">
         {{ 'AUTH.LOGIN.FORGOT_PASSWORD' | translate }}
       </a>
     </div>
 
-    <app-button
-      type="submit"
-      [label]="'AUTH.LOGIN.SUBMIT' | translate"
-      [loading]="loading()"
-      [fullWidth]="true"
-    />
+    <app-button type="submit" [label]="'AUTH.LOGIN.SUBMIT' | translate" [loading]="loading()" [fullWidth]="true" />
   </form>
 
-  <p class="text-center text-sm text-zinc-500">
+  <p class="text-center text-sm text-zain">
     {{ 'AUTH.LOGIN.NO_ACCOUNT' | translate }}
     <a [routerLink]="Route.Register" [relativeTo]="parent" class="font-medium underline">
       {{ 'AUTH.LOGIN.CREATE_ACCOUNT' | translate }}

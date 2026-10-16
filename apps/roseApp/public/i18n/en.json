@@ -33,12 +33,22 @@
       }
     },
     "REGISTER": {
-      "TITLE": "Create a new account",
+      "TITLE": "Create Account",
+      "FAMILY_TITLE": "Become part of our family!",
+      "ALREADY_HAVE_ACCOUNT": "Already have an account?",
+      "NEED_HELP": "Need help?",
+      "CONTACT_US": "Contact us",
       "SUBTITLE": {
+        "1": "Enter your email",
+        "2": "Verify your email",
+        "3": "Tell us about yourself",
+        "4": "Create a strong password"
+      },
+      "DESCRIPTION": {
         "1": "Enter your email and we'll send you a verification code",
         "2": "Enter the verification code we sent you",
-        "3": "Tell us about yourself",
-        "4": "Choose a strong password"
+        "3": "Tell us about yourself to complete your profile",
+        "4": "Choose a secure password to protect your account"
       },
       "STEPS_LABEL": "Registration steps",
       "EMAIL": "Email",

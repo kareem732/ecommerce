@@ -1,11 +1,14 @@
 :root {
   --font-sans: 'Sarabun', 'Tajawal', sans-serif;
   --font-arabic: 'Tajawal', 'Sarabun', sans-serif;
+  --font-zain: 'Zain', sans-serif;
+  --font-edwardian: 'Edwardian Script ITC', cursive;
 }
 
 html,
 body {
   margin: 0;
+  height: 100%;
   min-height: 100%;
   font-family: var(--font-sans);
   background: var(--bg-page);
@@ -16,3 +19,12 @@ body {
 [dir='rtl'] {
   font-family: var(--font-arabic);
 }
+
+@font-face {
+  font-family: 'Edwardian Script ITC';
+  src: url('/fonts/edwardian-script.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+

@@ -11,7 +11,7 @@ import {
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { Gender } from '@org/auth-service';
 import { LanguageService } from '@org/shared-i18n';
@@ -34,6 +34,7 @@ const OTP_LENGTH = 6;
   selector: 'app-register',
   imports: [
     ReactiveFormsModule,
+    RouterLink,
     TranslatePipe,
     BackButton,
     Button,
