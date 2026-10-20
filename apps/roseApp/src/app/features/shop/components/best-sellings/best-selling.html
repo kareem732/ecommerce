@@ -1,0 +1,33 @@
+<div class="p-10">
+  <section class="best-selling">
+  <div class="best-selling__intro ">
+    <span class="best-selling__eyebrow">Best Selling</span>
+
+    <h2 class="best-selling__title">
+      <span class="accent">Check Out</span> What Everyone’s
+      <span class="accent">Buying</span> Right Now
+    </h2>
+
+    <p class="best-selling__text">
+      Not sure what to choose?<br />
+      Start with our best sellers, these are the gifts our customers keep coming back for.
+      Whether you're celebrating a birthday, anniversary or wedding, our top picks are
+      guaranteed to leave a lasting impression.
+    </p>
+
+    <a class="best-selling__cta" routerLink="/shop/products">
+      <span>Explore gifts</span>
+      <lucide-angular [img]="ArrowRight" [size]="16" />
+    </a>
+  </div>
+
+  <div class="best-selling__slider">
+    <app-carousel [items]="products()" [numVisible]="3">
+      <ng-template #itemTemplate let-product>
+        <app-product-card [product]="product" (addToCart)="onAddToCart($event)" />
+      </ng-template>
+    </app-carousel>
+  </div>
+</section>
+
+</div>

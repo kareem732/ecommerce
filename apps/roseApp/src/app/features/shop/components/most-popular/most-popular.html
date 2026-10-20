@@ -1,0 +1,26 @@
+<section class="most-popular">
+ <header class="most-popular__header">
+  <app-section-title>Most Popular</app-section-title>
+
+  <app-occasion-filter
+    [occasions]="occasions()"
+    [selectedId]="selectedId()"
+    (selectedChange)="onSelectOccasion($event)"
+  />
+</header>
+
+  @if (!loading() && products().length === 0) {
+    <p class="most-popular__empty">No products found for this occasion.</p>
+  } @else {
+    <div class="most-popular__grid" [class.most-popular__grid--loading]="loading()">
+      @for (product of products(); track product.id) {
+        <app-product-card [product]="product" (addToCart)="onAddToCart($event)" />
+      }
+    </div>
+  }
+
+  <a class="most-popular__more" routerLink="/shop/products">
+    <span>View More</span>
+    <lucide-angular [img]="ArrowRight" [size]="16" />
+  </a>
+</section>

@@ -1,0 +1,23 @@
+<nav class="filter" aria-label="Filter by occasion">
+  <button
+    type="button"
+    class="filter__item"
+    [class.filter__item--active]="selectedId() === null"
+    [attr.aria-pressed]="selectedId() === null"
+    (click)="select(null)"
+  >
+    {{ allLabel }}
+  </button>
+
+  @for (occasion of occasions(); track occasion.id) {
+    <button
+      type="button"
+      class="filter__item"
+      [class.filter__item--active]="occasion.id === selectedId()"
+      [attr.aria-pressed]="occasion.id === selectedId()"
+      (click)="select(occasion.id)"
+    >
+      {{ occasion.title }}
+    </button>
+  }
+</nav>

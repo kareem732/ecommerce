@@ -47,10 +47,36 @@
     object-fit: cover;
   }
 
+  &__overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    background: var(--card-overlay-bg, transparent);
+    opacity: 0;
+    transition: opacity 0.2s;
+
+    &:empty {
+      display: none;
+    }
+  }
+
+  &__media:hover &__overlay {
+    opacity: 1;
+  }
+
+  &__media:has(:focus-visible) &__overlay {
+    opacity: 1;
+  }
+
   &__badge {
     position: absolute;
     top: 8px;
-    right: 8px;
+    inset-inline-end: 8px;
+    z-index: 2;
     display: flex;
     gap: 4px;
 
