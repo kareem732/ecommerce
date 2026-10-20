@@ -7,10 +7,10 @@ import { ShopService } from '../../services/shop.service';
 import { Carousel } from '../carousel/carousel';
 import { ProductCard } from '../product-card/product-card';
 import { SectionTitle } from '../../../../shared/ui/section-title/section-title';
-
+import { TranslatePipe } from '@ngx-translate/core';
 @Component({
   selector: 'app-related-products',
-  imports: [Carousel, ProductCard, SectionTitle],
+  imports: [Carousel, ProductCard, SectionTitle,TranslatePipe],
   templateUrl: './related-products.html',
   styleUrl: './related-products.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

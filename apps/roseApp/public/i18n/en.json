@@ -66,11 +66,6 @@
       "GENDER": "Gender",
       "GENDER_PLACEHOLDER": "Select gender",
       "MALE": "Male",
-      "TOAST": {
-  "CODE_SENT": "Verification code sent to your email",
-  "CODE_VERIFIED": "Email verified successfully",
-  "ACCOUNT_CREATED": "Your account has been created"
-},
       "FEMALE": "Female",
       "PASSWORD": "Password",
       "PASSWORD_PLACEHOLDER": "*******",
@@ -85,6 +80,11 @@
         "PHONE": "Enter a valid Egyptian phone number",
         "PASSWORD": "At least 8 characters, with letters and numbers",
         "MISMATCH": "Passwords do not match"
+      },
+      "TOAST": {
+        "CODE_SENT": "Verification code sent to your email",
+        "CODE_VERIFIED": "Email verified successfully",
+        "ACCOUNT_CREATED": "Your account has been created"
       }
     },
     "FORGOT": {
@@ -104,7 +104,6 @@
       "NEW_PASSWORD": "Password",
       "PASSWORD_PLACEHOLDER": "*******",
       "CONFIRM_PASSWORD": "Confirm password",
-      
       "CONFIRM_PASSWORD_PLACEHOLDER": "*******",
       "RESET_SUBMIT": "Reset password",
       "SUCCESS": "Your password has been reset successfully. Redirecting you to login...",
@@ -114,6 +113,9 @@
         "EMAIL": "Enter a valid email address",
         "PASSWORD": "At least 8 characters, with letters and numbers",
         "MISMATCH": "Passwords do not match"
+      },
+      "TOAST": {
+        "PASSWORD_CHANGED": "Password changed successfully"
       }
     },
     "RESET": {
@@ -136,5 +138,55 @@
   "HOME": {
     "HELLO": "Hello there,",
     "GREETING": "Welcome {{name}} 👋"
+  },
+  "SHOP": {
+    "BEST_SELLING": {
+      "EYEBROW": "Best Selling",
+      "TITLE": {
+        "ACCENT_1": "Check Out",
+        "MIDDLE": "What Everyone’s",
+        "ACCENT_2": "Buying",
+        "END": "Right Now"
+      },
+      "TEXT": {
+        "LINE_1": "Not sure what to choose?",
+        "LINE_2": "Start with our best sellers, these are the gifts our customers keep coming back for. Whether you're celebrating a birthday, anniversary or wedding, our top picks are guaranteed to leave a lasting impression."
+      },
+      "CTA": "Explore gifts"
+    },
+    "MOST_POPULAR": {
+      "TITLE": "Most Popular",
+      "VIEW_MORE": "View More",
+      "EMPTY": "No products found for this occasion."
+    },
+    "RELATED": {
+      "TITLE": {
+        "ACCENT": "Related",
+        "REST": "Products"
+      }
+    },
+    "FILTER": {
+      "LABEL": "Filter by occasion",
+      "ALL": "All"
+    },
+    "OCCASIONS": {
+      "Eid al-Fitr Gifts4": "Eid al-Fitr Gifts",
+      "Hajj Congratulations": "Hajj Congratulations",
+      "Wedding": "Wedding",
+      "Engagement": "Engagement",
+      "Molestias adipisicin": "Molestias adipisicin"
+    },
+    "PRODUCT": {
+      "BADGE": {
+        "NEW": "NEW",
+        "HOT": "HOT",
+        "OUT_OF_STOCK": "OUT OF STOCK"
+      },
+      "ADD_TO_WISHLIST": "Add to wishlist",
+      "QUICK_VIEW": "Quick view",
+      "ADD_TO_CART": "Add to cart",
+      "RATING": "Rating {{rating}} out of 5",
+      "PRICE": "{{value}} EGP"
+    }
   }
 }

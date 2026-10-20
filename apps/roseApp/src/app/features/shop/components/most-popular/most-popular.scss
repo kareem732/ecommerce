@@ -55,3 +55,6 @@
     }
   }
 }
+:host-context([dir='rtl']) .most-popular__more lucide-angular {
+  transform: scaleX(-1);
+}

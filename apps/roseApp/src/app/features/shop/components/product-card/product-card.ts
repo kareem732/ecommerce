@@ -5,10 +5,12 @@ import { Eye, Heart, LucideAngularModule, ShoppingCart, Star } from 'lucide-angu
 import { finalPrice, hasDiscount, isNew, isOutOfStock } from '../../../../shared/utils/product-price';
 import { Product } from '../../interfaces/home.model/home-model-response';
 import { HOT_MIN_RATING, MAX_STARS } from '../../../../shared/utils/product.constants';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-product-card',
-  imports: [Card, DecimalPipe, LucideAngularModule],
+    imports: [Card, DecimalPipe, TranslatePipe, LucideAngularModule],
+
   templateUrl: './product-card.html',
   styleUrl: './product-card.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

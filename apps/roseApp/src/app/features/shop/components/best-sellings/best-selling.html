@@ -1,33 +1,32 @@
 <div class="p-10">
   <section class="best-selling">
-  <div class="best-selling__intro ">
-    <span class="best-selling__eyebrow">Best Selling</span>
+    <div class="best-selling__intro">
+      <span class="best-selling__eyebrow">{{ 'SHOP.BEST_SELLING.EYEBROW' | translate }}</span>
 
-    <h2 class="best-selling__title">
-      <span class="accent">Check Out</span> What Everyone’s
-      <span class="accent">Buying</span> Right Now
-    </h2>
+      <h2 class="best-selling__title">
+        <span class="accent">{{ 'SHOP.BEST_SELLING.TITLE.ACCENT_1' | translate }}</span>
+        {{ 'SHOP.BEST_SELLING.TITLE.MIDDLE' | translate }}
+        <span class="accent">{{ 'SHOP.BEST_SELLING.TITLE.ACCENT_2' | translate }}</span>
+        {{ 'SHOP.BEST_SELLING.TITLE.END' | translate }}
+      </h2>
 
-    <p class="best-selling__text">
-      Not sure what to choose?<br />
-      Start with our best sellers, these are the gifts our customers keep coming back for.
-      Whether you're celebrating a birthday, anniversary or wedding, our top picks are
-      guaranteed to leave a lasting impression.
-    </p>
+      <p class="best-selling__text">
+        {{ 'SHOP.BEST_SELLING.TEXT.LINE_1' | translate }}<br />
+        {{ 'SHOP.BEST_SELLING.TEXT.LINE_2' | translate }}
+      </p>
 
-    <a class="best-selling__cta" routerLink="/shop/products">
-      <span>Explore gifts</span>
-      <lucide-angular [img]="ArrowRight" [size]="16" />
-    </a>
-  </div>
+      <a class="best-selling__cta" routerLink="/shop/products">
+        <span>{{ 'SHOP.BEST_SELLING.CTA' | translate }}</span>
+        <lucide-angular [img]="ArrowRight" [size]="16" />
+      </a>
+    </div>
 
-  <div class="best-selling__slider">
-    <app-carousel [items]="products()" [numVisible]="3">
-      <ng-template #itemTemplate let-product>
-        <app-product-card [product]="product" (addToCart)="onAddToCart($event)" />
-      </ng-template>
-    </app-carousel>
-  </div>
-</section>
-
+    <div class="best-selling__slider">
+  <app-carousel [items]="products()" [numVisible]="3">
+    <ng-template #itemTemplate let-product>
+      <app-product-card [product]="product" (addToCart)="onAddToCart($event)" />
+    </ng-template>
+  </app-carousel>
+</div>
+  </section>
 </div>

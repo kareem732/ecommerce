@@ -10,10 +10,10 @@ import { OccasionFilter } from '../occasion-filter/occasion-filter';
 import { ProductCard } from '../product-card/product-card';
 import { MOST_POPULAR_LIMIT } from './most-popular.constants';
 import { SectionTitle } from '../../../../shared/ui/section-title/section-title';
-
+import { TranslatePipe } from '@ngx-translate/core';
 @Component({
   selector: 'app-most-popular',
-  imports: [OccasionFilter, ProductCard, RouterLink, SectionTitle, LucideAngularModule],
+  imports: [OccasionFilter, ProductCard, RouterLink, SectionTitle, LucideAngularModule,TranslatePipe],
   templateUrl: './most-popular.html',
   styleUrl: './most-popular.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
