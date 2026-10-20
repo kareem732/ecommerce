@@ -14,7 +14,7 @@ import { finalize } from 'rxjs';
 import { AuthRoute } from '../../enums/auth-route.enum';
 import { LoginForm } from '../../interfaces/login-form.interface';
 
-const DEFAULT_REDIRECT = '/';
+const DEFAULT_REDIRECT = '/shop/home';
 
 @Component({
   selector: 'app-login',
@@ -60,7 +60,9 @@ export class Login {
         takeUntilDestroyed(this.destroyRef),
       )
       .subscribe({
-        next: () => void this.router.navigateByUrl(this.returnUrl()),
+        next: () => {
+  void this.router.navigateByUrl(this.returnUrl());
+},
         error: () => undefined,
       });
   }

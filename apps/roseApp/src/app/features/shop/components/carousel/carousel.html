@@ -1,0 +1,19 @@
+<div class="carousel" [style.--visible]="numVisible()">
+  <p-carousel
+    [value]="items()"
+    [numVisible]="numVisible()"
+    [numScroll]="numScroll()"
+    [circular]="circular()"
+    [autoplayInterval]="autoplayInterval()"
+    [responsiveOptions]="breakpoints()"
+    [showIndicators]="showIndicators()"
+  >
+    <ng-template #item let-item>
+      <div class="carousel__item">
+        <ng-container
+          *ngTemplateOutlet="itemTemplate(); context: { $implicit: item }"
+        />
+      </div>
+    </ng-template>
+  </p-carousel>
+</div>
