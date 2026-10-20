@@ -61,34 +61,55 @@ export class Navbar {
   private readonly router = inject(Router);
   private readonly elementRef = inject(ElementRef<HTMLElement>);
 
-  // Inputs
   readonly cartCount = input<number>(0);
   readonly notificationCount = input<number>(0);
   readonly deliveryLocation = input<string | null>(null);
 
-  // Outputs
   readonly searchSubmit = output<string>();
 
-  // State signals
   readonly isAccountMenuOpen = signal(false);
   readonly isMobileMenuOpen = signal(false);
   readonly searchQuery = signal('');
 
-  // Authentication & User state derived from SessionService
   readonly isLoggedIn = computed(() => this.sessionService.isLoggedIn());
   readonly user = computed<AuthUser | null>(() => this.sessionService.user());
 
-  readonly displayName = computed<string>(() => {
+  readonly firstName = computed<string>(() => {
     const u = this.user();
-    if (!u) return '';
-    return u.firstName || u.username || 'User';
+    if (u?.firstName) return u.firstName;
+    try {
+      if (typeof localStorage !== 'undefined') {
+        const stored = localStorage.getItem('firstName');
+        if (stored) return stored;
+      }
+    } catch {
+      // Ignore
+    }
+    return u?.username || '';
+  });
+
+  readonly displayName = computed<string>(() => {
+    return this.firstName() || this.user()?.username || 'User';
   });
 
   readonly fullName = computed<string>(() => {
     const u = this.user();
-    if (!u) return '';
-    const parts = [u.firstName, u.lastName].filter(Boolean);
-    return parts.length ? parts.join(' ') : u.username || 'User';
+    if (u) {
+      const parts = [u.firstName, u.lastName].filter(Boolean);
+      if (parts.length) return parts.join(' ');
+      if (u.username) return u.username;
+    }
+    try {
+      if (typeof localStorage !== 'undefined') {
+        const first = localStorage.getItem('firstName');
+        const last = localStorage.getItem('lastName');
+        const parts = [first, last].filter(Boolean);
+        if (parts.length) return parts.join(' ');
+      }
+    } catch {
+      // Ignore
+    }
+    return 'User';
   });
 
   readonly userLocation = computed<string | null>(() => {
@@ -105,12 +126,10 @@ export class Navbar {
 
   readonly isAdmin = computed<boolean>(() => this.user()?.role === 'ADMIN');
 
-  // I18n and Theme state
   readonly currentLang = computed(() => this.languageService.currentLang());
   readonly isRTL = computed(() => this.languageService.isRTL());
   readonly isDarkMode = computed(() => this.themeService.theme() === 'dark');
 
-  // Lucide Icons exposed to template
   readonly Search = Search;
   readonly MapPin = MapPin;
   readonly MapPinHouse = MapPinHouse;
@@ -133,7 +152,6 @@ export class Navbar {
   readonly Sun = Sun;
   readonly Moon = Moon;
 
-  // Primary navigation items
   readonly navItems: NavItem[] = [
     { id: 'home', labelKey: 'NAV.HOME', route: '/shop/home', icon: House },
     { id: 'products', labelKey: 'NAV.PRODUCTS', route: '/shop/home', icon: Gift },

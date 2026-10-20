@@ -12,6 +12,7 @@ describe('LoginService', () => {
   let session: SessionService;
 
   beforeEach(() => {
+    localStorage.clear();
     api.login.mockReset();
     TestBed.configureTestingModule({
       providers: [provideAuthConfigForTests(), { provide: AuthApiService, useValue: api }],
@@ -24,6 +25,7 @@ describe('LoginService', () => {
   afterEach(() => {
     jest.restoreAllMocks();
     TestBed.inject(TokenService).clear();
+    localStorage.clear();
   });
 
   it('starts the session on success', (done) => {
@@ -85,5 +87,29 @@ describe('LoginService', () => {
     session.start({ user: TEST_USER, token: makeJwt() });
     service.logout();
     expect(session.isLoggedIn()).toBe(false);
+  });
+
+  it('saves user data, firstName, and lastName to localStorage on login', (done) => {
+    const payload = { user: TEST_USER, token: makeJwt() };
+    api.login.mockReturnValue(of(payload));
+
+    service.login({ username: 'u', password: 'p' }).subscribe(() => {
+      expect(localStorage.getItem('user')).toBe(JSON.stringify(TEST_USER));
+      expect(localStorage.getItem('firstName')).toBe(TEST_USER.firstName);
+      expect(localStorage.getItem('lastName')).toBe(TEST_USER.lastName);
+      done();
+    });
+  });
+
+  it('clears localStorage on logout', () => {
+    localStorage.setItem('user', JSON.stringify(TEST_USER));
+    localStorage.setItem('firstName', TEST_USER.firstName);
+    localStorage.setItem('lastName', TEST_USER.lastName);
+
+    service.logout();
+
+    expect(localStorage.getItem('user')).toBeNull();
+    expect(localStorage.getItem('firstName')).toBeNull();
+    expect(localStorage.getItem('lastName')).toBeNull();
   });
 });
