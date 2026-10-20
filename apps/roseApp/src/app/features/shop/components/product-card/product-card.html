@@ -1,0 +1,74 @@
+<app-card
+  [image]="product().cover"
+  [imageAlt]="product().title"
+  [aspectRatio]="'1 / 1'"
+  [interactive]="false"
+>
+  <button
+    card-overlay
+    type="button"
+    class="icon-btn"
+    aria-label="Add to wishlist"
+    (click)="onAddToWishlist($event)"
+  >
+    <lucide-angular [img]="Heart" [size]="18" />
+  </button>
+
+  <button
+    card-overlay
+    type="button"
+    class="icon-btn"
+    aria-label="Quick view"
+    (click)="onQuickView($event)"
+  >
+    <lucide-angular [img]="Eye" [size]="18" />
+  </button>
+
+    <span card-badge class="badges">
+    @if (isNew()) {
+      <span class="badge badge--new">NEW</span>
+    }
+    @if (isHot()) {
+      <span class="badge badge--hot">HOT</span>
+    }
+    @if (outOfStock()) {
+      <span class="badge badge--out">OUT OF STOCK</span>
+    }
+  </span>
+
+  <h3 class="product__title">{{ product().title }}</h3>
+
+  <div
+    class="product__stars"
+    role="img"
+    [attr.aria-label]="'Rating ' + product().rating + ' out of 5'"
+  >
+    @for (star of stars; track star) {
+      <lucide-angular
+        class="star"
+        [class.star--filled]="star <= product().rating"
+        [img]="Star"
+        [size]="15"
+      />
+    }
+  </div>
+
+  <div card-footer class="product__footer">
+    <div class="product__price">
+      <span class="product__current">{{ price() | number: '1.2-2' }} EGP</span>
+      @if (discounted()) {
+        <span class="product__old">{{ product().price | number: '1.2-2' }} EGP</span>
+      }
+    </div>
+
+    <button
+      type="button"
+      class="product__cart"
+      aria-label="Add to cart"
+      [disabled]="outOfStock()"
+      (click)="onAddToCart($event)"
+    >
+      <lucide-angular [img]="ShoppingCart" [size]="20" />
+    </button>
+  </div>
+</app-card>

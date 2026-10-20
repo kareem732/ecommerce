@@ -1,0 +1,111 @@
+:host {
+  display: block;
+  --arrow-color: var(--color-maroon-600, #a6252a);
+  --arrow-size: 40px;
+  --item-gutter: 8px;
+
+  --arrow-shift: 50px;
+
+  --arrow-offset: calc(var(--item-gutter) - var(--arrow-size) / 2);
+}
+
+.carousel {
+  container-type: inline-size;
+  --arrow-top: calc((100cqw / var(--visible) - 16px) / 2);
+}
+
+.carousel__item {
+  padding: 0 var(--item-gutter);
+}
+
+:host ::ng-deep {
+  .p-carousel,
+  .p-carousel-content,
+  .p-carousel-content-container {
+    overflow: visible;
+  }
+
+  .p-carousel-content-container {
+    position: relative;
+  }
+
+  .p-carousel-prev-button,
+  .p-carousel-next-button,
+  .p-carousel-prev,
+  .p-carousel-next {
+    --p-button-text-secondary-hover-background: var(--arrow-color);
+    --p-button-text-secondary-active-background: var(--arrow-color);
+    --p-button-text-secondary-color: #fff;
+    --p-button-text-secondary-hover-color: #fff;
+    --p-button-text-secondary-active-color: #fff;
+
+    position: absolute;
+    top: calc(var(--arrow-top) + var(--arrow-shift));
+    transform: translateY(-50%);
+    z-index: 2;
+    width: var(--arrow-size);
+    height: var(--arrow-size);
+    margin: 0;
+    border: 0 !important;
+    border-radius: 50%;
+    background: var(--arrow-color) !important;
+    color: #fff !important;
+    box-shadow: none !important;
+    outline: none;
+    cursor: pointer;
+    transition: opacity 0.15s;
+
+    &:hover,
+    &:active,
+    &:focus,
+    &:focus-visible,
+    &:enabled:hover {
+      background: var(--arrow-color) !important;
+      color: #fff !important;
+      box-shadow: none !important;
+    }
+
+    &:hover:not(:disabled) {
+      opacity: 0.88;
+    }
+
+    &:disabled {
+      opacity: 0.35;
+      pointer-events: auto !important;
+      cursor: pointer !important;
+    }
+  }
+
+  .p-carousel-prev-button,
+  .p-carousel-prev {
+    inset-inline-start: var(--arrow-offset);
+  }
+
+  .p-carousel-next-button,
+  .p-carousel-next {
+    inset-inline-end: var(--arrow-offset);
+  }
+
+  .p-carousel-prev-button svg,
+  .p-carousel-next-button svg,
+  .p-carousel-prev svg,
+  .p-carousel-next svg,
+  .p-carousel-prev-icon,
+  .p-carousel-next-icon {
+    color: #fff !important;
+    fill: #fff !important;
+    stroke: none;
+  }
+}
+
+@media (max-width: 1024px) {
+  .carousel {
+    --visible: 2 !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .carousel {
+    --visible: 1 !important;
+  }
+}
