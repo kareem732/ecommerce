@@ -1,0 +1,357 @@
+<header
+  class="header sticky top-0 z-50 w-full shadow-sm transition-colors duration-200"
+>
+  <!-- Row A — Main Header -->
+  <div class="header__main-row border-b transition-colors duration-200 bg-white dark:bg-zinc-900 border-zinc-200 dark:border-zinc-800 text-zinc-900 dark:text-zinc-100">
+    <div class="mx-auto flex h-16 sm:h-18 max-w-7xl items-center justify-between gap-3 px-4 sm:gap-4 sm:px-6 lg:px-8">
+      
+      <!-- Brand Logo -->
+      <a
+        routerLink="/shop/home"
+        class="header__logo-link shrink-0 flex items-center select-none cursor-pointer"
+        aria-label="Rose Storefront Home"
+        (click)="closeAllMenus()"
+      >
+        <img
+          src="/bb70dbdbb3472a27ffcc4d3baeb8eaceb3873b18.png"
+          alt="Rose"
+          class="h-10 sm:h-12 w-auto object-contain"
+        />
+      </a>
+
+      <!-- Deliver To (Authenticated Users Only) -->
+      @if (isLoggedIn()) {
+      <div class="header__delivery hidden md:flex items-center gap-1.5 shrink-0 select-none">
+        <lucide-icon
+          [img]="MapPin"
+          [size]="18"
+          class="header__delivery-icon shrink-0 text-zinc-900 dark:text-zinc-100"
+          aria-hidden="true"
+        ></lucide-icon>
+        <div class="flex flex-col text-left rtl:text-right leading-tight">
+          <span class="header__delivery-label text-[11px] font-normal text-zinc-500 dark:text-zinc-400">
+            {{ 'HEADER.DELIVER_TO' | translate }}
+          </span>
+          <span class="header__delivery-value text-xs font-bold max-w-[130px] truncate text-zinc-900 dark:text-zinc-100">
+            {{ userLocation() || ('HEADER.SELECT_LOCATION' | translate) }}
+          </span>
+        </div>
+      </div>
+      }
+
+      <!-- Search Input -->
+      <form
+        role="search"
+        class="header__search flex-1 max-w-2xl min-w-0"
+        (submit)="onSearchSubmit($event)"
+      >
+        <div class="relative w-full">
+          <lucide-icon
+            [img]="Search"
+            [size]="18"
+            class="header__search-icon absolute top-1/2 -translate-y-1/2 ltr:left-3.5 rtl:right-3.5 pointer-events-none text-zinc-400 dark:text-zinc-400"
+            aria-hidden="true"
+          ></lucide-icon>
+          <input
+            type="search"
+            [placeholder]="'HEADER.SEARCH_PLACEHOLDER' | translate"
+            [attr.aria-label]="'HEADER.SEARCH_ARIA' | translate"
+            [value]="searchQuery()"
+            (input)="onSearchInput($any($event.target).value)"
+            class="header__search-input w-full rounded-xl py-2 pl-10 pr-4 rtl:pr-10 rtl:pl-4 text-xs sm:text-sm transition-all focus:outline-none bg-zinc-100 dark:bg-zinc-800/80 border border-zinc-200 dark:border-zinc-700 text-zinc-900 dark:text-zinc-100 placeholder:text-zinc-400 dark:placeholder:text-zinc-400 focus:bg-white dark:focus:bg-zinc-900 focus:border-[#741c21] dark:focus:border-[#ea9fa2] focus:ring-2 focus:ring-[#741c21]/20 dark:focus:ring-[#ea9fa2]/20"
+          />
+        </div>
+      </form>
+
+      <!-- Right Header Actions -->
+      <div class="header__actions flex items-center gap-1.5 sm:gap-2.5 shrink-0">
+        
+        <!-- Account Trigger or Login -->
+        @if (isLoggedIn()) {
+        <div class="header__account-container relative">
+          <button
+            type="button"
+            class="header__account-trigger flex items-center gap-1.5 p-1 sm:px-2 sm:py-1 rounded-lg cursor-pointer transition-colors text-zinc-900 dark:text-zinc-100 hover:text-[#741c21] dark:hover:text-[#ea9fa2] hover:bg-zinc-100 dark:hover:bg-zinc-800/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#741c21] dark:focus-visible:ring-[#ea9fa2]"
+            [attr.aria-expanded]="isAccountMenuOpen()"
+            aria-haspopup="menu"
+            aria-label="User account menu"
+            (click)="toggleAccountMenu()"
+          >
+            <div class="flex flex-col text-left rtl:text-right leading-tight">
+              <span class="header__account-greeting text-[11px] font-normal text-zinc-500 dark:text-zinc-400">
+                {{ 'HEADER.HELLO' | translate }}
+              </span>
+              <div class="flex items-center gap-1">
+                <span class="header__account-name text-xs font-bold max-w-[100px] sm:max-w-[120px] truncate text-zinc-900 dark:text-zinc-100">
+                  {{ displayName() }}
+                </span>
+                <lucide-icon
+                  [img]="ChevronDown"
+                  [size]="14"
+                  class="transition-transform duration-200 text-zinc-500 dark:text-zinc-400"
+                  [class.rotate-180]="isAccountMenuOpen()"
+                  aria-hidden="true"
+                ></lucide-icon>
+              </div>
+            </div>
+          </button>
+
+          <!-- Account Dropdown Panel -->
+          @if (isAccountMenuOpen()) {
+          <div
+            class="header__account-dropdown absolute top-full mt-2 ltr:right-0 rtl:left-0 z-50 w-56 sm:w-64 rounded-2xl p-1.5 shadow-2xl transition-all border bg-white dark:bg-zinc-900 border-zinc-200 dark:border-zinc-700 text-zinc-800 dark:text-zinc-100"
+            role="menu"
+          >
+            <!-- User Full Name Header -->
+            <div class="header__dropdown-title px-3.5 py-3 font-bold text-base border-b border-zinc-100 dark:border-zinc-800 text-[#741c21] dark:text-[#ea9fa2]">
+              {{ fullName() }}
+            </div>
+
+            <!-- Profile / Account Link -->
+            <button
+              type="button"
+              role="menuitem"
+              class="header__dropdown-item group flex w-full items-center gap-3 px-3.5 py-2.5 text-sm font-medium rounded-xl transition-colors cursor-pointer text-left rtl:text-right text-zinc-700 dark:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-800 hover:text-[#741c21] dark:hover:text-[#ea9fa2] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#741c21] dark:focus-visible:ring-[#ea9fa2]"
+              (click)="onAccountMenuNavigate('/shop/home')"
+            >
+              <lucide-icon [img]="User" [size]="18" class="shrink-0 text-zinc-400 group-hover:text-[#741c21] dark:text-zinc-400 dark:group-hover:text-[#ea9fa2] transition-colors" aria-hidden="true"></lucide-icon>
+              <span>{{ 'HEADER.MY_PROFILE' | translate }}</span>
+            </button>
+
+            <!-- Addresses Link -->
+            <button
+              type="button"
+              role="menuitem"
+              class="header__dropdown-item group flex w-full items-center gap-3 px-3.5 py-2.5 text-sm font-medium rounded-xl transition-colors cursor-pointer text-left rtl:text-right text-zinc-700 dark:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-800 hover:text-[#741c21] dark:hover:text-[#ea9fa2] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#741c21] dark:focus-visible:ring-[#ea9fa2]"
+              (click)="onAccountMenuNavigate('/shop/home')"
+            >
+              <lucide-icon [img]="MapPinHouse" [size]="18" class="shrink-0 text-zinc-400 group-hover:text-[#741c21] dark:text-zinc-400 dark:group-hover:text-[#ea9fa2] transition-colors" aria-hidden="true"></lucide-icon>
+              <span>{{ 'HEADER.MY_ADDRESSES' | translate }}</span>
+            </button>
+
+            <!-- Orders Link -->
+            <button
+              type="button"
+              role="menuitem"
+              class="header__dropdown-item group flex w-full items-center gap-3 px-3.5 py-2.5 text-sm font-medium rounded-xl transition-colors cursor-pointer text-left rtl:text-right text-zinc-700 dark:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-800 hover:text-[#741c21] dark:hover:text-[#ea9fa2] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#741c21] dark:focus-visible:ring-[#ea9fa2]"
+              (click)="onAccountMenuNavigate('/shop/home')"
+            >
+              <lucide-icon [img]="ScrollText" [size]="18" class="shrink-0 text-zinc-400 group-hover:text-[#741c21] dark:text-zinc-400 dark:group-hover:text-[#ea9fa2] transition-colors" aria-hidden="true"></lucide-icon>
+              <span>{{ 'HEADER.MY_ORDERS' | translate }}</span>
+            </button>
+
+            <!-- Dashboard Link (Admin Only) -->
+            @if (isAdmin()) {
+            <div class="header__dropdown-separator my-1 border-t border-zinc-100 dark:border-zinc-800"></div>
+            <button
+              type="button"
+              role="menuitem"
+              class="header__dropdown-item group flex w-full items-center gap-3 px-3.5 py-2.5 text-sm font-medium rounded-xl transition-colors cursor-pointer text-left rtl:text-right text-zinc-700 dark:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-800 hover:text-[#741c21] dark:hover:text-[#ea9fa2] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#741c21] dark:focus-visible:ring-[#ea9fa2]"
+              (click)="onAccountMenuNavigate('/adminDashboard')"
+            >
+              <lucide-icon [img]="Settings" [size]="18" class="shrink-0 text-zinc-400 group-hover:text-[#741c21] dark:text-zinc-400 dark:group-hover:text-[#ea9fa2] transition-colors" aria-hidden="true"></lucide-icon>
+              <span>{{ 'HEADER.DASHBOARD' | translate }}</span>
+            </button>
+            }
+
+            <div class="header__dropdown-separator my-1 border-t border-zinc-100 dark:border-zinc-800"></div>
+
+            <!-- Logout Action -->
+            <button
+              type="button"
+              role="menuitem"
+              class="header__dropdown-item group flex w-full items-center gap-3 px-3.5 py-2.5 text-sm font-medium rounded-xl transition-colors cursor-pointer text-left rtl:text-right text-zinc-700 dark:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-800 hover:text-[#741c21] dark:hover:text-[#ea9fa2] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#741c21] dark:focus-visible:ring-[#ea9fa2]"
+              (click)="logout()"
+            >
+              <lucide-icon [img]="LogOut" [size]="18" class="shrink-0 text-zinc-400 group-hover:text-[#741c21] dark:text-zinc-400 dark:group-hover:text-[#ea9fa2] transition-colors" aria-hidden="true"></lucide-icon>
+              <span>{{ 'COMMON.LOGOUT' | translate }}</span>
+            </button>
+          </div>
+          }
+        </div>
+        } @else {
+        <!-- Unauthenticated Login Action -->
+        <a
+          routerLink="/auth/login"
+          class="header__login-link flex items-center gap-1.5 text-xs sm:text-sm font-semibold py-1.5 px-2.5 rounded-lg transition-colors cursor-pointer text-zinc-900 dark:text-zinc-100 hover:text-[#741c21] dark:hover:text-[#ea9fa2] hover:bg-zinc-100 dark:hover:bg-zinc-800/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#741c21] dark:focus-visible:ring-[#ea9fa2]"
+          aria-label="Login"
+          (click)="closeAllMenus()"
+        >
+          <lucide-icon [img]="User" [size]="18" aria-hidden="true"></lucide-icon>
+          <span>{{ 'COMMON.LOGIN' | translate }}</span>
+        </a>
+        }
+
+        <!-- Separator -->
+        <div class="header__vertical-divider hidden sm:block h-6 w-px bg-zinc-200 dark:bg-zinc-800"></div>
+
+        <!-- Wishlist Icon -->
+        <button
+          type="button"
+          class="header__icon-btn relative p-1.5 rounded-lg transition-colors cursor-pointer text-zinc-900 dark:text-zinc-100 hover:text-[#741c21] dark:hover:text-[#ea9fa2] hover:bg-zinc-100 dark:hover:bg-zinc-800/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#741c21] dark:focus-visible:ring-[#ea9fa2]"
+          [attr.aria-label]="'HEADER.WISHLIST' | translate"
+          (click)="onWishlistClick()"
+        >
+          <lucide-icon [img]="Heart" [size]="20" aria-hidden="true"></lucide-icon>
+        </button>
+
+        <!-- Shopping Cart Icon -->
+        <button
+          type="button"
+          class="header__icon-btn relative p-1.5 rounded-lg transition-colors cursor-pointer text-zinc-900 dark:text-zinc-100 hover:text-[#741c21] dark:hover:text-[#ea9fa2] hover:bg-zinc-100 dark:hover:bg-zinc-800/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#741c21] dark:focus-visible:ring-[#ea9fa2]"
+          [attr.aria-label]="'HEADER.CART' | translate"
+          (click)="onCartClick()"
+        >
+          <lucide-icon [img]="ShoppingCart" [size]="20" aria-hidden="true"></lucide-icon>
+          @if (cartCount() > 0) {
+          <span
+            class="header__badge absolute -top-1 ltr:-right-1 rtl:-left-1 min-w-4 h-4 px-1 rounded-full bg-red-600 text-white text-[10px] font-bold flex items-center justify-center leading-none shadow-sm pointer-events-none"
+          >
+            {{ cartCount() }}
+          </span>
+          }
+        </button>
+
+        <!-- Notification Bell (Authenticated Users Only) -->
+        @if (isLoggedIn()) {
+        <button
+          type="button"
+          class="header__icon-btn relative p-1.5 rounded-lg transition-colors cursor-pointer text-zinc-900 dark:text-zinc-100 hover:text-[#741c21] dark:hover:text-[#ea9fa2] hover:bg-zinc-100 dark:hover:bg-zinc-800/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#741c21] dark:focus-visible:ring-[#ea9fa2]"
+          [attr.aria-label]="'HEADER.NOTIFICATIONS' | translate"
+          (click)="onNotificationClick()"
+        >
+          <lucide-icon [img]="Bell" [size]="20" aria-hidden="true"></lucide-icon>
+          @if (notificationCount() > 0) {
+          <span
+            class="header__badge absolute -top-1 ltr:-right-1 rtl:-left-1 min-w-4 h-4 px-1 rounded-full bg-red-600 text-white text-[10px] font-bold flex items-center justify-center leading-none shadow-sm pointer-events-none"
+          >
+            {{ notificationCount() }}
+          </span>
+          }
+        </button>
+        }
+
+        <!-- Separator -->
+        <div class="header__vertical-divider hidden sm:block h-6 w-px bg-zinc-200 dark:bg-zinc-800"></div>
+
+        <!-- Theme Toggle Control -->
+        <button
+          type="button"
+          class="header__theme-btn p-1.5 rounded-lg transition-colors cursor-pointer text-zinc-900 dark:text-zinc-100 hover:text-[#741c21] dark:hover:text-[#ea9fa2] hover:bg-zinc-100 dark:hover:bg-zinc-800/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#741c21] dark:focus-visible:ring-[#ea9fa2]"
+          [attr.aria-label]="'HEADER.THEME_TOGGLE' | translate"
+          [attr.aria-pressed]="isDarkMode()"
+          (click)="toggleTheme()"
+        >
+          <lucide-icon [img]="isDarkMode() ? Sun : Moon" [size]="19" aria-hidden="true"></lucide-icon>
+        </button>
+
+        <!-- Language Control -->
+        <button
+          type="button"
+          class="header__lang-btn text-xs sm:text-sm font-semibold py-1 px-2 rounded-lg transition-colors cursor-pointer text-zinc-900 dark:text-zinc-100 hover:text-[#741c21] dark:hover:text-[#ea9fa2] hover:bg-zinc-100 dark:hover:bg-zinc-800/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#741c21] dark:focus-visible:ring-[#ea9fa2]"
+          [attr.aria-label]="'COMMON.SWITCH_LANGUAGE' | translate"
+          (click)="toggleLanguage()"
+        >
+          {{ 'COMMON.SWITCH_LANGUAGE' | translate }}
+        </button>
+
+        <!-- Mobile Menu Hamburger Button -->
+        <button
+          type="button"
+          class="header__mobile-menu-btn md:hidden p-1.5 rounded-lg transition-colors cursor-pointer text-zinc-900 dark:text-zinc-100 hover:text-[#741c21] dark:hover:text-[#ea9fa2] hover:bg-zinc-100 dark:hover:bg-zinc-800/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#741c21] dark:focus-visible:ring-[#ea9fa2]"
+          [attr.aria-expanded]="isMobileMenuOpen()"
+          [attr.aria-label]="(isMobileMenuOpen() ? 'HEADER.CLOSE_MENU' : 'HEADER.MENU') | translate"
+          (click)="toggleMobileMenu()"
+        >
+          <lucide-icon
+            [img]="isMobileMenuOpen() ? X : Menu"
+            [size]="22"
+            aria-hidden="true"
+          ></lucide-icon>
+        </button>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Row B — Primary Navigation (Desktop & Tablet) -->
+  <nav
+    class="header__nav-row hidden md:block w-full transition-colors duration-200 bg-[#741c21] dark:bg-[#20090c] dark:border-y dark:border-zinc-800/70 text-white dark:text-zinc-100 shadow-inner"
+    aria-label="Primary Navigation"
+  >
+    <div class="mx-auto flex h-11 max-w-7xl items-center justify-center gap-6 lg:gap-10 px-4 sm:px-6 lg:px-8">
+      @for (item of navItems; track item.id) {
+      <a
+        [routerLink]="item.route"
+        [routerLinkActive]="'font-bold shadow-[inset_0_-2px_0_0_#ffffff] text-white dark:shadow-[inset_0_-2px_0_0_#ea9fa2] dark:text-[#ea9fa2] rounded-none'"
+        [routerLinkActiveOptions]="{ exact: true }"
+        class="header__nav-link flex items-center gap-1.5 text-xs sm:text-sm font-medium transition-all py-1 px-2.5 rounded-md cursor-pointer hover:opacity-90 hover:text-white dark:hover:text-[#ea9fa2]"
+        (click)="closeAllMenus()"
+      >
+        <lucide-icon [img]="item.icon" [size]="16" aria-hidden="true"></lucide-icon>
+        <span>{{ item.labelKey | translate }}</span>
+      </a>
+      }
+    </div>
+  </nav>
+
+  <!-- Mobile Collapsible Navigation Menu -->
+  @if (isMobileMenuOpen()) {
+  <div
+    class="header__mobile-drawer md:hidden border-b px-4 py-4 transition-all duration-200 bg-white dark:bg-zinc-900 border-zinc-200 dark:border-zinc-800 text-zinc-900 dark:text-zinc-100 shadow-xl"
+    role="dialog"
+    aria-label="Mobile Navigation"
+  >
+    <!-- Mobile Deliver To (if logged in) -->
+    @if (isLoggedIn()) {
+    <div class="flex items-center gap-2 pb-3 mb-3 border-b border-zinc-200/60 dark:border-zinc-800/60">
+      <lucide-icon [img]="MapPin" [size]="18" class="header__delivery-icon shrink-0 text-zinc-900 dark:text-zinc-100"></lucide-icon>
+      <div class="flex flex-col text-left rtl:text-right leading-tight">
+        <span class="header__delivery-label text-[11px] font-normal text-zinc-500 dark:text-zinc-400">
+          {{ 'HEADER.DELIVER_TO' | translate }}
+        </span>
+        <span class="header__delivery-value text-xs font-bold text-zinc-900 dark:text-zinc-100">
+          {{ userLocation() || ('HEADER.SELECT_LOCATION' | translate) }}
+        </span>
+      </div>
+    </div>
+    }
+
+    <!-- Mobile Navigation Links List -->
+    <div class="flex flex-col gap-1">
+      @for (item of navItems; track item.id) {
+      <a
+        [routerLink]="item.route"
+        [routerLinkActive]="'bg-zinc-100 text-[#741c21] font-bold dark:bg-zinc-800 dark:text-[#ea9fa2]'"
+        [routerLinkActiveOptions]="{ exact: true }"
+        class="header__mobile-link flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-colors cursor-pointer text-zinc-800 dark:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-800 hover:text-[#741c21] dark:hover:text-[#ea9fa2]"
+        (click)="closeAllMenus()"
+      >
+        <lucide-icon [img]="item.icon" [size]="18" aria-hidden="true"></lucide-icon>
+        <span>{{ item.labelKey | translate }}</span>
+      </a>
+      }
+    </div>
+
+    <!-- Mobile Theme Toggle & Language -->
+    <div class="flex items-center justify-between pt-3 mt-3 border-t border-zinc-200/60 dark:border-zinc-800/60">
+      <button
+        type="button"
+        class="flex items-center gap-2 px-3 py-2 text-sm font-medium rounded-xl transition-colors cursor-pointer text-zinc-700 dark:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-800 hover:text-[#741c21] dark:hover:text-[#ea9fa2]"
+        (click)="toggleTheme()"
+      >
+        <lucide-icon [img]="isDarkMode() ? Sun : Moon" [size]="18" aria-hidden="true"></lucide-icon>
+        <span>{{ (isDarkMode() ? 'Light Mode' : 'Dark Mode') }}</span>
+      </button>
+
+      <button
+        type="button"
+        class="text-xs sm:text-sm font-semibold py-1.5 px-3 rounded-lg transition-colors cursor-pointer text-zinc-900 dark:text-zinc-100 hover:text-[#741c21] dark:hover:text-[#ea9fa2] hover:bg-zinc-100 dark:hover:bg-zinc-800"
+        (click)="toggleLanguage()"
+      >
+        {{ 'COMMON.SWITCH_LANGUAGE' | translate }}
+      </button>
+    </div>
+  </div>
+  }
+</header>

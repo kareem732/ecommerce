@@ -1,9 +1,4 @@
 ---
-trigger: always_on
----
-
----
-
 trigger: model_decision
 description: Apply to Angular tasks involving components, services, routing, state management, forms, architecture, or refactoring.
 ---

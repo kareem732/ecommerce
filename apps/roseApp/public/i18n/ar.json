@@ -13,6 +13,35 @@
     "DASHBOARD": "لوحة التحكم",
     "SETTINGS": "الإعدادات"
   },
+  "HEADER": {
+    "DELIVER_TO": "التوصيل إلى:",
+    "SELECT_LOCATION": "اختر موقعك",
+    "SEARCH_PLACEHOLDER": "ما هي الهدية الرائعة التي تبحث عنها؟",
+    "SEARCH_ARIA": "البحث عن الهدايا والمنتجات",
+    "HELLO": "مرحبًا",
+    "LOGIN": "تسجيل الدخول",
+    "ACCOUNT": "الحساب",
+    "MY_PROFILE": "ملفي الشخصي",
+    "ADDRESSES": "العناوين",
+    "MY_ADDRESSES": "عناويني",
+    "ORDERS": "الطلبات",
+    "MY_ORDERS": "طلباتي",
+    "DASHBOARD": "لوحة التحكم",
+    "WISHLIST": "قائمة الرغبات",
+    "CART": "سلة التسوق",
+    "NOTIFICATIONS": "الإشعارات",
+    "THEME_TOGGLE": "تبديل المظهر",
+    "MENU": "القائمة",
+    "CLOSE_MENU": "إغلاق القائمة"
+  },
+  "NAV": {
+    "HOME": "الرئيسية",
+    "PRODUCTS": "المنتجات",
+    "CATEGORIES": "الفئات",
+    "OCCASIONS": "المناسبات",
+    "CONTACT": "تواصل معنا",
+    "ABOUT": "من نحن"
+  },
   "AUTH": {
     "LOGIN_TITLE": "مرحبًا بعودتك",
     "GREETING": "أهلًا {{name}}",

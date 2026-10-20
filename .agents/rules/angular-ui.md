@@ -1,9 +1,4 @@
 ---
-trigger: always_on
----
-
----
-
 trigger: model_decision
 description: Apply whenever creating or modifying Angular templates, HTML, styling, layouts, forms, tables, dialogs, or other UI elements.
 ---

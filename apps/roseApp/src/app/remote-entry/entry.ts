@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
 import { LanguageService, LanguageEnum } from '@org/shared-i18n';
+import { ThemeService } from '@org/theme';
 
 @Component({
   imports: [RouterOutlet, TranslatePipe],
@@ -17,6 +18,7 @@ import { LanguageService, LanguageEnum } from '@org/shared-i18n';
 })
 export class RemoteEntry {
   readonly language = inject(LanguageService);
+  private readonly themeService = inject(ThemeService);
 
   readonly titleObj = { text: 'NAVIGATION.DASHBOARD' };
 

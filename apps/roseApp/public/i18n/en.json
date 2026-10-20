@@ -13,6 +13,35 @@
     "DASHBOARD": "Dashboard",
     "SETTINGS": "Settings"
   },
+  "HEADER": {
+    "DELIVER_TO": "Deliver to:",
+    "SELECT_LOCATION": "Select location",
+    "SEARCH_PLACEHOLDER": "What awesome gift are you looking for?",
+    "SEARCH_ARIA": "Search gifts and products",
+    "HELLO": "Hello",
+    "LOGIN": "Login",
+    "ACCOUNT": "Account",
+    "MY_PROFILE": "My Profile",
+    "ADDRESSES": "Addresses",
+    "MY_ADDRESSES": "My Addresses",
+    "ORDERS": "Orders",
+    "MY_ORDERS": "My Orders",
+    "DASHBOARD": "Dashboard",
+    "WISHLIST": "Wishlist",
+    "CART": "Cart",
+    "NOTIFICATIONS": "Notifications",
+    "THEME_TOGGLE": "Toggle theme",
+    "MENU": "Menu",
+    "CLOSE_MENU": "Close menu"
+  },
+  "NAV": {
+    "HOME": "Home",
+    "PRODUCTS": "Products",
+    "CATEGORIES": "Categories",
+    "OCCASIONS": "Occasions",
+    "CONTACT": "Contact",
+    "ABOUT": "About"
+  },
   "AUTH": {
     "LOGIN_TITLE": "Welcome Back",
     "GREETING": "Hello {{name}}",

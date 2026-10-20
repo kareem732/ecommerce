@@ -1,150 +1,98 @@
-# Global Software Engineering Rules
+# Global Coding-Agent Instructions
 
-## 1. Understand Before Implementing
+These instructions apply across repositories and tools. Repository instructions define the actual stack and local conventions.
 
-- Inspect the repository before changing code.
-- Identify the framework, package manager, architecture, conventions, and relevant dependencies.
-- Read the project's AGENTS.md, README.md, and relevant configuration files.
-- Inspect similar features and existing reusable components before implementing anything.
-- Never assume a file, component, service, API endpoint, or dependency exists without verifying it.
+## Work with the repository, not against it
 
-## 2. Preserve Existing Architecture
+- Follow the user's requested outcome and the repository's existing architecture; do not invent extra scope.
+- Inspect only the source files, configuration, tests, and documentation relevant to the task. Expand discovery when dependencies or contracts require it.
+- Treat checked-in code and configuration as the source of truth when this file or a report may be stale.
+- Search for existing implementations and reusable abstractions before adding new ones.
+- Prefer the smallest complete, maintainable change. Avoid unrelated refactoring, speculative abstractions, and new dependencies without a concrete need.
 
-- Follow the existing project structure and naming conventions.
-- Reuse existing components, services, utilities, hooks, directives, pipes, types, and design tokens.
-- Extend existing abstractions when appropriate instead of duplicating functionality.
-- Do not introduce a new architecture, library, dependency, or design pattern without a concrete reason.
-- Do not perform unrelated refactoring while implementing a task.
+## Execution
 
-## 3. Implementation Quality
+- If the task is clear and safe, implement it directly without pausing for approval or producing a lengthy plan first.
+- Ask one focused question only when a missing decision blocks correctness or a material architectural, security, data-loss, or scope decision cannot be inferred safely.
+- Preserve pre-existing user changes. Inspect `git status --short` before work that could overlap with them.
+- Do not deploy, push, rewrite Git history, discard changes, expose secrets, or run destructive operations unless explicitly authorized.
 
-- Write readable, maintainable, modular, and type-safe code appropriate to the project's language.
-- Follow SOLID principles where applicable without overengineering.
-- Keep business logic separate from presentation when the existing architecture supports it.
-- Avoid duplicated code, unnecessary abstractions, dead code, and unexplained magic values.
-- Handle loading, success, empty, error, and relevant edge states.
+## Verification and reporting
 
-## 4. Task Execution
+- Verify proportionately to the change. Run the relevant existing tests, lint, type-check, and/or build commands when available and practical.
+- Review the final diff for accidental or unrelated changes.
+- Never invent files, API contracts, command results, or test outcomes. Clearly distinguish passed, failed, skipped, and not-run checks.
+- Finish with a concise report of the change, key files, checks actually run, and unresolved limitations.
 
-- Translate the task into concrete acceptance criteria.
-- Inspect the relevant implementation before deciding how to change it.
-- Identify dependencies and potential regressions.
-- Implement the smallest complete solution that satisfies the requirements.
-- Verify the result using available lint, type-check, build, and test commands.
-- Fix issues introduced by your changes.
-
-## 5. Safety and Scope
-
-- Never overwrite existing work without inspecting it.
-- Never discard user changes or reset unrelated files.
-- Never expose secrets, tokens, credentials, or sensitive environment variables.
-- Never claim a test, build, or command succeeded unless it was actually executed and verified.
-- Do not deploy, push, or perform destructive operations unless explicitly authorized.
-
-## 6. Completion Report
-
-- Summarize what was implemented.
-- List the important files changed and explain why.
-- Report the checks actually executed and their results.
-- Disclose remaining issues, assumptions, and unverified behavior.
-
-# Mandatory Task Execution Protocol
-
-For every implementation task, follow this process.
-
-## Phase 1: Understand
-
-1. Read the task and identify its expected behavior.
-2. Extract functional requirements and acceptance criteria.
-3. Inspect the relevant source files, existing implementation, and related tests.
-4. Identify reusable components, services, utilities, API clients, and design-system elements.
-5. Identify dependencies, architectural constraints, and potential regressions.
-
-## Phase 2: Plan
-
-1. Decide which existing files should be modified.
-2. Identify any new files that are genuinely necessary.
-3. Prefer extending existing abstractions over creating duplicates.
-4. If requirements conflict with existing architecture, identify the conflict before proceeding.
-5. Ask a focused question only if a missing decision blocks a safe, correct implementation.
-
-## Phase 3: Implement
-
-1. Implement the requested behavior using project-specific rules.
-2. Reuse existing components and established patterns.
-3. Preserve unrelated behavior and avoid scope creep.
-4. Follow existing accessibility, responsive design, security, and error-handling standards.
-5. Do not leave placeholder implementations or unfinished code unless explicitly requested.
-
-## Phase 4: Verify
-
-1. Inspect the final diff.
-2. Run relevant tests and available lint, type-check, and build commands.
-3. Fix failures caused by the implementation.
-4. Distinguish pre-existing failures from newly introduced failures.
-5. If a check cannot run, explain why. Never claim unexecuted checks passed.
-
-## Phase 5: Report
-
-Provide:
-
-- Implemented functionality.
-- Files changed and reasons.
-- Reusable components or services leveraged.
-- Commands executed and actual results.
-- Remaining limitations or blockers.
+---
 
 # Angular + Nx Workspace Instructions
 
-This repository uses Angular within an Nx workspace. These instructions describe how to work here; inspect the actual repository to discover its concrete architecture and versions.
+These instructions are shared by Antigravity and Codex. Keep them concise; consult the linked focused rules only when relevant to the task.
 
-## Required approach for every task
+## How to execute tasks
 
-1. Translate the request into observable acceptance criteria.
-2. Inspect `git status --short`, the root `package.json`, `nx.json`, `project.json` files, relevant `tsconfig` files, and the affected feature's code.
-3. Identify the owning Nx project and its library boundaries. Use Nx project/dependency information and existing import conventions.
-4. Search for reusable components, services, directives, pipes, form controls, models, API clients, design tokens, and similar features.
-5. Implement the smallest coherent change that satisfies the task and acceptance criteria.
-6. Verify the diff and run appropriate existing checks.
-7. Report what changed, what was tested, and any limitations.
+1. Identify the task's observable behavior and acceptance criteria.
+2. Check `git status --short` and inspect the relevant feature, nearby implementations, tests, and configuration. Do not read the entire repository by default.
+3. Identify the owning Nx project and applicable library boundaries before adding imports or moving code.
+4. Search for reusable UI, services, models, validators, form controls, state stores, API clients, translations, and design tokens.
+5. Implement the smallest complete change using existing conventions. Proceed directly when the task is clear and safe; ask only if a missing decision materially blocks correct implementation.
+6. Run relevant available verification and inspect the final diff. Report exact commands and real outcomes.
 
-## Workspace architecture
+## Focused rule files
 
-- Follow the repository's actual folder structure, project names, library boundaries, and public APIs.
-- Use existing Nx generators and repository scripts when they are the established approach.
-- Respect tags, dependency constraints, and module boundaries configured in Nx.
-- Do not import another library's private/internal files when its public entry point is intended.
-- Do not move files or reorganize libraries unless the task requires it.
-- Do not create a new shared library or generic abstraction for a one-off use case without a clear reuse requirement.
+- Nx ownership, Module Federation, project tags, public entry points, dependency boundaries: `.agents/rules/nx-workspace.md`.
+- Angular components, Signals, RxJS, forms, routing, lifecycle, and architecture: `.agents/rules/angular-architecture.md`.
+- Templates, Tailwind, PrimeNG, accessibility, responsive design, design tokens, RTL/LTR: `.agents/rules/angular-ui.md` and `.agents/rules/angular-html-template.md`.
+- API, authentication, state stores, notifications, translations, and theme: `.agents/rules/api-state-i18n.md`.
+- Test runners, Nx targets, and verification: `.agents/rules/testing-verification.md`.
 
-## Angular conventions
+For Codex: these files are focused project references, not a claim that Codex supports Antigravity's YAML trigger system. Read a focused file when the task falls within its scope. For Antigravity, `.agents/rules/*.md` uses native rule triggers.
 
-- Check the installed Angular version and existing patterns before using framework APIs.
-- Prefer standalone components and modern Angular APIs only when compatible with the installed version and repository conventions.
-- Use Signals for suitable local synchronous state and RxJS for asynchronous streams and stream composition; follow the project's established state-management approach.
-- Use typed forms and API contracts where supported by the current project.
-- Avoid memory leaks, unnecessary subscriptions, duplicate requests, and needless change-detection work.
-- Reuse existing interceptors, guards, resolvers, validators, error handlers, and API services.
-- Do not introduce a new state-management library or UI framework unless explicitly requested or clearly justified.
+## Workspace facts — verify before relying on them
 
-## UI policy
+This repository was inspected with Angular 21.2.25, Nx 23.2.0, TypeScript 5.9.3, PrimeNG 21.1.10, Tailwind CSS 4.3.3, `@ngrx/signals` 21.1.1-range, `@ngx-translate` 18.0.0, and npm. These versions and facts can change; check `package.json`, lockfiles, and actual code if relevant.
 
-- For Angular template and UI tasks, use Tailwind CSS for layout and styling utilities and PrimeNG for suitable interactive UI components.
-- Reuse existing shared UI components and the project's theme/design tokens before creating new UI.
-- Do not add Bootstrap, Angular Material, or another UI framework unless explicitly required.
-- Component CSS/SCSS is allowed when Tailwind and existing design-system capabilities are insufficient; keep it scoped and avoid duplicating global styles.
-- Follow existing RTL/LTR, localization, accessibility, and responsive design conventions.
+### Projects
 
-## API and security
+- `apps/shell`: Module Federation host.
+- `apps/adminDashboard`: remote application.
+- `apps/roseApp`: remote/customer storefront application.
+- `packages/ui`: shared UI components (`@org/ui`).
+- `packages/auth-service`: authentication and data-access abstractions (`@org/auth-service`).
+- `packages/theme`: theme utilities (`@org/theme`).
+- `packages/shared/i18n`: shared language/i18n (`@org/shared-i18n`).
+- `packages/shared`: shared library (`@org/shared`).
 
-- Inspect the existing API contract, DTOs, auth flow, and error handling before integration.
-- Never invent endpoint paths, payload properties, or response types.
-- Follow existing authentication and authorization patterns; do not treat client-side role checks as the security boundary.
-- Do not hardcode credentials or expose secrets.
+### Workspace conventions
 
-## Verification
+- npm is the package manager. The repository README says dependency installation requires `--legacy-peer-deps`; do not install dependencies unless needed and justified.
+- Use the repository's scripts or `npm exec nx <command>` for Nx operations. Discover the affected project's actual targets instead of assuming every project has the same targets.
+- Nx `@nx/enforce-module-boundaries` constraints are active. Current tags include `scope:shell`, `scope:admin-dashboard`, `scope:rose-app`, and `scope:shared`; verify `eslint.config.mjs` and the affected `project.json` before crossing boundaries.
+- `shell` resolves remotes through Module Federation runtime/configuration. Do not replace remote loading with direct cross-application source imports.
+- Share cross-app code through approved libraries and their public entry points (for example `@org/ui`, `@org/auth-service`, `@org/theme`, `@org/shared-i18n`) rather than importing private files from another app.
 
-- Discover valid project targets with the installed Nx CLI and repository scripts rather than guessing.
-- Run focused tests/lint/type checks/build for the affected project where available.
-- Use the repository's existing package manager and lockfile.
-- Do not fix unrelated pre-existing failures unless requested.
+### Product and UI direction
+
+- Customer-facing storefront features such as navbar, footer, catalog, and cart generally belong in `apps/roseApp` feature/layout areas. Put presentation-only components in `packages/ui` when they genuinely need to be reused across applications and library boundaries permit it.
+- `packages/ui` already provides buttons, inputs, selects, textarea, phone and upload controls, checkbox, OTP, pagination, tabs, alerts, badges, breadcrumbs, cards, error messages, labels, spinner, account menu, and `ToastHost`. Inspect `packages/ui/src/index.ts` and the implementation before creating a substitute.
+- Existing custom form controls implement ControlValueAccessor where applicable. Prefer these when compatible with the task.
+- `packages/theme` contains `ThemeService`/`ThemeToggle`; `packages/shared/i18n` contains `LanguageService` for Arabic/English and RTL/LTR behavior.
+- The workspace uses Tailwind CSS v4 with PrimeNG integration. Preserve the established layer order `@layer theme, base, primeng, components, utilities;`, PrimeNG's matching `cssLayer` configuration, theme presets, and design tokens. Prefer semantic CSS variables such as `--color-primary`, `--bg-surface`, and `--text-primary` over hardcoded colors.
+- Use Tailwind for layout/spacing/responsive utilities and PrimeNG for suitable interactive widgets. Reuse `@org/ui` wrappers first when they provide the required behavior. No global assumption that a shared table or dialog wrapper exists: the inspection found no current `p-table`/`p-dialog` abstraction. Verify current code before introducing or selecting one.
+- Support Arabic/English, RTL/LTR, and dark mode where relevant to the affected feature.
+
+### State, API, and authentication
+
+- For local synchronous component state, use Angular Signals when consistent with surrounding code. The workspace uses `@ngrx/signals` `signalStore`, `withRequestState()`, and `rxMethod` for complex auth feature state; follow this pattern when applicable rather than creating a parallel state framework.
+- Reuse the existing `packages/auth-service` services, `provideAuth()` interceptors, guards, session/token abstractions, and auth error mapping for authentication tasks. Inspect contracts before changing authentication behavior.
+- The storefront has `ShopService` implementing `ShopApi`, with endpoint definitions in its existing `EndPoints.ts`; inspect those files before modifying product API requests.
+- Reuse `NotificationService`/`ToastHost`, `FormErrorService`, validators, and existing form patterns where applicable.
+- Do not invent API endpoints, payloads, response types, auth semantics, or token lifecycle behavior.
+
+## Non-negotiable quality constraints
+
+- Follow the installed Angular/Nx versions and the actual repository's conventions; do not perform framework migrations as part of an unrelated task.
+- Reuse existing components, services, validators, stores, translation keys, and tokens before creating equivalents.
+- Do not add a UI framework, state-management package, or runtime dependency unless the task requires it or a concrete gap justifies it.
+- Never bypass module boundaries, weaken tests/lint rules, remove unrelated changes, or claim unexecuted checks passed.
