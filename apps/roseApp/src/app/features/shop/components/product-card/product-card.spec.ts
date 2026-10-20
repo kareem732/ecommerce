@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ProductCard } from './product-card';
 import { Product } from '../../interfaces/home.model/home-model-response';
-import { makeProduct } from '../../../../shared/utils/testing/product.fixtures';
+import { daysAgo, makeProduct } from '../../../../shared/utils/testing/product.fixtures';
 
 describe('ProductCard', () => {
   let fixture: ComponentFixture<ProductCard>;

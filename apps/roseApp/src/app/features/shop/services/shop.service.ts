@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import ShopEndPoint from '../enums/EndPoints';
 import ShopApi from '../base/shopApi';
 import { ProductsQuery } from '../interfaces/home.model/home-model-request';
-import { ProductsResponse } from '../interfaces/home.model/home-model-response';
+import { OccasionsResponse,ProductsResponse} from '../interfaces/home.model/home-model-response';
 
 @Injectable({
   providedIn: 'root',
@@ -18,6 +18,10 @@ export class ShopService implements ShopApi {
     });
   }
 
+  getOccasions(): Observable<OccasionsResponse> {
+    return this._httpClient.get<OccasionsResponse>(ShopEndPoint.OCCASIONS);
+  }
+
   private buildParams(query: ProductsQuery): HttpParams {
     let params = new HttpParams();
     Object.entries(query).forEach(([key, value]) => {
@@ -27,5 +31,4 @@ export class ShopService implements ShopApi {
     });
     return params;
   }
-
 }
