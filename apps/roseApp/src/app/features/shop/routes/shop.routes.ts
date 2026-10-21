@@ -14,6 +14,10 @@ export const SHOP_ROUTES: Routes = [
         path: 'about',
         loadComponent: () => import('../pages/about/about').then((m) => m.About),
       },
+      {
+        path: 'gallery',
+        loadComponent: () => import('../pages/gallery/gallery').then((m) => m.Gallery),
+      },
     ],
   },
 ];
