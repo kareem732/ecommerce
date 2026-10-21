@@ -1,16 +1,16 @@
 <section class="most-popular">
- <header class="most-popular__header">
-  <app-section-title>Most Popular</app-section-title>
+  <header class="most-popular__header">
+    <app-section-title>{{ 'SHOP.MOST_POPULAR.TITLE' | translate }}</app-section-title>
 
-  <app-occasion-filter
-    [occasions]="occasions()"
-    [selectedId]="selectedId()"
-    (selectedChange)="onSelectOccasion($event)"
-  />
-</header>
+    <app-occasion-filter
+      [occasions]="occasions()"
+      [selectedId]="selectedId()"
+      (selectedChange)="onSelectOccasion($event)"
+    />
+  </header>
 
   @if (!loading() && products().length === 0) {
-    <p class="most-popular__empty">No products found for this occasion.</p>
+    <p class="most-popular__empty">{{ 'SHOP.MOST_POPULAR.EMPTY' | translate }}</p>
   } @else {
     <div class="most-popular__grid" [class.most-popular__grid--loading]="loading()">
       @for (product of products(); track product.id) {
@@ -20,7 +20,7 @@
   }
 
   <a class="most-popular__more" routerLink="/shop/products">
-    <span>View More</span>
+    <span>{{ 'SHOP.MOST_POPULAR.VIEW_MORE' | translate }}</span>
     <lucide-angular [img]="ArrowRight" [size]="16" />
   </a>
 </section>

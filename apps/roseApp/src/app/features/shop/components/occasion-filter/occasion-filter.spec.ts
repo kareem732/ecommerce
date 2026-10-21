@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { makeOccasion } from '../../../../shared/utils/testing/product.fixtures';
 import { OccasionFilter } from './occasion-filter';
-
+import { provideTranslateService, TranslateService } from '@ngx-translate/core';
 describe('OccasionFilter', () => {
   const occasions = [
     makeOccasion({ id: 'w', title: 'Wedding' }),
@@ -22,16 +22,45 @@ describe('OccasionFilter', () => {
   };
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({ imports: [OccasionFilter] }).compileComponents();
+  await TestBed.configureTestingModule({
+    imports: [OccasionFilter],
+    providers: [provideTranslateService()],
+  }).compileComponents();
 
-    fixture = TestBed.createComponent(OccasionFilter);
-    element = fixture.nativeElement;
-    fixture.componentRef.setInput('occasions', occasions);
-    fixture.detectChanges();
+  const translate = TestBed.inject(TranslateService);
+  translate.setTranslation('en', {
+    SHOP: {
+      FILTER: { ALL: 'All', LABEL: 'Filter by occasion' },
+      OCCASIONS: { Wedding: 'Wedding' },
+    },
   });
+  translate.use('en');
 
+  fixture = TestBed.createComponent(OccasionFilter);
+  element = fixture.nativeElement;
+  fixture.componentRef.setInput('occasions', occasions);
+  fixture.detectChanges();
+});
   it('renders All first, then a button for every occasion', () => {
     expect(labels()).toEqual(['All', 'Wedding', 'Anniversary']);
+  });
+
+  it('falls back to the API title when there is no translation', () => {
+    expect(labels()[2]).toBe('Anniversary');
+  });
+
+  it('translates the title when a translation exists', () => {
+    const translate = TestBed.inject(TranslateService);
+    translate.setTranslation('ar', {
+      SHOP: {
+        FILTER: { ALL: 'الكل' },
+        OCCASIONS: { Wedding: 'زفاف' },
+      },
+    });
+    translate.use('ar');
+    fixture.detectChanges();
+
+    expect(labels()).toEqual(['الكل', 'زفاف', 'Anniversary']);
   });
 
   it('marks All as active when nothing is selected', () => {

@@ -11,6 +11,10 @@ import {
   makeProduct,
   makeProductsResponse,
 } from '../../../../shared/utils/testing/product.fixtures';
+import {
+  provideTranslateTesting,
+  useEnglish,
+} from '../../../../shared/utils/testing/translate.testing';
 import { RelatedProducts } from './related-products';
 
 @Component({
@@ -51,13 +55,17 @@ describe('RelatedProducts', () => {
 
     await TestBed.configureTestingModule({
       imports: [RelatedProducts],
-      providers: [{ provide: ShopService, useValue: shopServiceStub }],
+      providers: [
+        { provide: ShopService, useValue: shopServiceStub },
+        provideTranslateTesting(),
+      ],
     })
       .overrideComponent(RelatedProducts, {
         remove: { imports: [Carousel] },
         add: { imports: [CarouselStub] },
       })
       .compileComponents();
+    useEnglish();
 
     fixture = TestBed.createComponent(RelatedProducts);
     fixture.detectChanges();
@@ -84,8 +92,8 @@ describe('RelatedProducts', () => {
   });
 
   it('renders the section title', () => {
-    expect(element.querySelector('app-section-title')?.textContent?.replace(/\s+/g, ' ').trim()).toBe(
-      'Related Products',
-    );
+    expect(
+      element.querySelector('app-section-title')?.textContent?.replace(/\s+/g, ' ').trim(),
+    ).toBe('Related Products');
   });
 });

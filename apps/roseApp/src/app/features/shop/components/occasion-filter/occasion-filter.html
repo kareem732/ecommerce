@@ -1,4 +1,4 @@
-<nav class="filter" aria-label="Filter by occasion">
+<nav class="filter" [attr.aria-label]="'SHOP.FILTER.LABEL' | translate">
   <button
     type="button"
     class="filter__item"
@@ -6,7 +6,7 @@
     [attr.aria-pressed]="selectedId() === null"
     (click)="select(null)"
   >
-    {{ allLabel }}
+    {{ 'SHOP.FILTER.ALL' | translate }}
   </button>
 
   @for (occasion of occasions(); track occasion.id) {
@@ -17,7 +17,7 @@
       [attr.aria-pressed]="occasion.id === selectedId()"
       (click)="select(occasion.id)"
     >
-      {{ occasion.title }}
+      {{ occasion.title | occasionTitle }}
     </button>
   }
 </nav>

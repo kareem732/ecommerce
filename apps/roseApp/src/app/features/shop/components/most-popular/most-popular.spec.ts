@@ -5,12 +5,8 @@ import { ProductSortBy, SortOrder } from '../../enums/product-sort';
 import { ProductsQuery } from '../../interfaces/home.model/home-model-request';
 import { Product } from '../../interfaces/home.model/home-model-response';
 import { ShopService } from '../../services/shop.service';
-import {
-  makeOccasion,
-  makeOccasionsResponse,
-  makeProduct,
-  makeProductsResponse,
-} from '../../../../shared/utils/testing/product.fixtures';
+import { makeOccasion,makeOccasionsResponse,makeProduct,makeProductsResponse,} from '../../../../shared/utils/testing/product.fixtures';
+import {provideTranslateTesting,useEnglish,} from '../../../../shared/utils/testing/translate.testing';
 import { MostPopular } from './most-popular';
 
 describe('MostPopular', () => {
@@ -48,8 +44,10 @@ describe('MostPopular', () => {
           },
         },
         provideRouter([]),
+        provideTranslateTesting(),
       ],
     }).compileComponents();
+    useEnglish();
 
     fixture = TestBed.createComponent(MostPopular);
     element = fixture.nativeElement;
