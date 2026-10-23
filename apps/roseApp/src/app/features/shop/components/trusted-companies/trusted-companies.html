@@ -1,0 +1,23 @@
+<section class="mx-auto max-w-[1280px] px-4">
+  <div class="flex flex-col gap-10 rounded-[20px] bg-zinc-700 px-6 py-10">
+    <h2
+      class="font-sarabun text-center text-2xl font-bold leading-none md:text-[36px] text-(--color-soft-pink-200)"
+    >
+      Trusted by over <span class="text-(--color-maroon-400)">4.5k+</span> companies
+    </h2>
+
+    <ul
+      class="flex flex-wrap items-center justify-center gap-6 md:justify-between"
+    >
+      @for (logo of logos; track logo.src) {
+      <li>
+        <img
+          [src]="logo.src"
+          [alt]="logo.name"
+          class="h-[51px] w-[146px] object-contain"
+        />
+      </li>
+      }
+    </ul>
+  </div>
+</section>
