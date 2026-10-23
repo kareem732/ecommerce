@@ -1,0 +1,23 @@
+<p-carousel
+  class="hero-slider"
+  dir="ltr"
+  [value]="slides()"
+  [numVisible]="1"
+  [numScroll]="1"
+  [circular]="true"
+  [autoplayInterval]="interval()"
+>
+  <ng-template #item let-slide>
+    <div class="hero-slider__slide" [attr.dir]="slideDir()">
+      <app-promo-card [banner]="slide" variant="hero" [priority]="slide === slides()[0]" />
+    </div>
+  </ng-template>
+
+  <ng-template #previousicon>
+    <lucide-angular [img]="ChevronLeft" [size]="20" />
+  </ng-template>
+
+  <ng-template #nexticon>
+    <lucide-angular [img]="ChevronRight" [size]="20" />
+  </ng-template>
+</p-carousel>
