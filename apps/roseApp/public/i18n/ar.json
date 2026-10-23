@@ -187,6 +187,11 @@
       "ADD_TO_CART": "إضافة إلى السلة",
       "RATING": "التقييم {{rating}} من 5",
       "PRICE": "{{value}} جنيه"
+    },
+    "trustedCompanies": {
+      "before": "موثوق بنا من أكثر من",
+      "count": "4.5 ألف",
+      "after": "شركة"
     }
   }
 }
