@@ -161,7 +161,69 @@
           "RATING_REQUIRED": "Please choose a rating.",
           "HEADLINE_REQUIRED": "Please enter a title.",
           "MAX_LENGTH": "Must be {{max}} characters or fewer."
+        }}},
+    "PROMO": {
+      "SPECIAL_GIFTS": {
+        "BADGE": "Starting from 10.99 EGP",
+        "TITLE": "Special Gifts For The People You Love",
+        "CTA": "Shop Now"
+      },
+      "SLIDES": {
+        "FLOWERS": {
+          "TITLE": "Say It with Flowers",
+          "SUBTITLE": "Elegant gifts for every special moment."
+        },
+        "ROSES": {
+          "TITLE": "Love in Full Bloom",
+          "SUBTITLE": "Fresh roses paired with handcrafted chocolates."
+        },
+        "SWEETS": {
+          "TITLE": "Sweet Little Surprises",
+          "SUBTITLE": "Curated boxes that make every day feel special."
+        },
+        "GIFTS": {
+          "TITLE": "Wrapped with Love",
+          "SUBTITLE": "Thoughtful gifts for the moments that matter."
+        },
+        "CTA": "I'm buying!"
+      },
+      "OCCASIONS": {
+        "WEDDING": {
+          "BADGE": "Wedding",
+          "TITLE": "Celebrate Her Forever with a Gift She’ll Always Remember"
+        },
+        "ENGAGEMENT": {
+          "BADGE": "Engagement",
+          "TITLE": "Honor the Beginning of a Beautiful Journey Together"
+        },
+        "ANNIVERSARY": {
+          "BADGE": "Anniversary",
+          "TITLE": "Mark Every Year of Love with a Meaningful Surprise"
         }
+      },
+      "SLIDER": {
+        "LABEL": "Featured offers",
+        "PREV": "Previous slide",
+        "NEXT": "Next slide",
+                "GO_TO": "Go to slide {{index}}"
+      }
+    },
+    "FEATURES": {
+      "DELIVERY": {
+        "TITLE": "Free Delivery",
+        "TEXT": "For orders above 120 EGP"
+      },
+      "REFUND": {
+        "TITLE": "Get Refund",
+        "TEXT": "Refunds within 30 days"
+      },
+      "PAYMENT": {
+        "TITLE": "Safe Payment",
+        "TEXT": "100% Secure Payment"
+      },
+      "SUPPORT": {
+        "TITLE": "24/7 Support",
+        "TEXT": "Contact us at any time"
       }
     },
     "BEST_SELLING": {
@@ -211,6 +273,12 @@
       "ADD_TO_CART": "Add to cart",
       "RATING": "Rating {{rating}} out of 5",
       "PRICE": "{{value}} EGP"
+    },
+    "testimonials": {
+      "label": "Testimonials",
+      "title": "Real Words from Happy Customers",
+      "empty": "No testimonials yet.",
+      "rating": "{{rating}} out of 5"
     }
   }
 }

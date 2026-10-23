@@ -7,6 +7,7 @@ import { ProductsQuery } from '../interfaces/home.model/home-model-request';
 import { OccasionsResponse,ProductResponse,ProductsResponse} from '../interfaces/home.model/home-model-response';
 import { CreateReviewRequest, ReviewsQuery } from '../interfaces/review.model/review-request';
 import { CreateReviewResponse, ReviewsResponse } from '../interfaces/review.model/review-response';
+import { TestimonialsResponse } from '../interfaces/home.Testimonial/Testimonial';
 
 @Injectable({
   providedIn: 'root',
@@ -46,5 +47,9 @@ export class ShopService implements ShopApi {
       }
     });
     return params;
+  }
+
+  getTestimonials():Observable<TestimonialsResponse>{
+    return this._httpClient.get<TestimonialsResponse>(ShopEndPoint.Testimonials)
   }
 }
