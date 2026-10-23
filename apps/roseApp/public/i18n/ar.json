@@ -140,6 +140,31 @@
     "GREETING": "أهلًا بك {{name}} 👋"
   },
   "SHOP": {
+    "REVIEWS": {
+      "TITLE": "تقييمات المنتج",
+      "GENERAL_RATING": "التقييم العام:",
+      "RATINGS_COUNT": "({{count}} تقييمات)",
+      "LOADING": "جارٍ تحميل التقييمات",
+      "EMPTY": "لا توجد تقييمات بعد. كن أول من يشارك رأيه!",
+      "LOAD_ERROR": "تعذّر تحميل التقييمات.",
+      "RETRY": "حاول مرة أخرى",
+      "LOAD_MORE": "عرض المزيد من التقييمات",
+      "FORM": {
+        "YOUR_RATING": "تقييمك:",
+        "HEADLINE": "العنوان",
+        "HEADLINE_PLACEHOLDER": "أدخل عنوان التقييم",
+        "CONTENT": "التقييم",
+        "CONTENT_PLACEHOLDER": "ما رأيك في هذا المنتج؟",
+        "SUBMIT": "أضف تقييمك",
+        "SUCCESS": "شكرًا لك! تمت إضافة تقييمك.",
+        "ERROR": "تعذّرت إضافة تقييمك. حاول مرة أخرى.",
+        "ERRORS": {
+          "RATING_REQUIRED": "من فضلك اختر تقييمًا.",
+          "HEADLINE_REQUIRED": "من فضلك أدخل عنوانًا.",
+          "MAX_LENGTH": "يجب ألا يزيد عن {{max}} حرف."
+        }
+      }
+    },
     "BEST_SELLING": {
       "EYEBROW": "الأكثر مبيعًا",
       "TITLE": {

@@ -1,0 +1,4 @@
+export const REVIEWS_PAGE_SIZE = 5;
+
+export const REVIEW_HEADLINE_MAX_LENGTH = 100;
+export const REVIEW_CONTENT_MAX_LENGTH = 1000;
