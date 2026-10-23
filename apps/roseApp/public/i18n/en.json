@@ -187,6 +187,12 @@
       "ADD_TO_CART": "Add to cart",
       "RATING": "Rating {{rating}} out of 5",
       "PRICE": "{{value}} EGP"
+    },
+    "testimonials": {
+      "label": "Testimonials",
+      "title": "Real Words from Happy Customers",
+      "empty": "No testimonials yet.",
+      "rating": "{{rating}} out of 5"
     }
   }
 }
