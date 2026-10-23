@@ -140,6 +140,24 @@
     "GREETING": "Welcome {{name}} 👋"
   },
   "SHOP": {
+    "FEATURES": {
+      "DELIVERY": {
+        "TITLE": "Free Delivery",
+        "TEXT": "For orders above 120 EGP"
+      },
+      "REFUND": {
+        "TITLE": "Get Refund",
+        "TEXT": "Refunds within 30 days"
+      },
+      "PAYMENT": {
+        "TITLE": "Safe Payment",
+        "TEXT": "100% Secure Payment"
+      },
+      "SUPPORT": {
+        "TITLE": "24/7 Support",
+        "TEXT": "Contact us at any time"
+      }
+    },
     "BEST_SELLING": {
       "EYEBROW": "Best Selling",
       "TITLE": {
