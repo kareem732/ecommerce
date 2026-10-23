@@ -140,6 +140,24 @@
     "GREETING": "أهلًا بك {{name}} 👋"
   },
   "SHOP": {
+    "FEATURES": {
+      "DELIVERY": {
+        "TITLE": "توصيل مجاني",
+        "TEXT": "للطلبات فوق 120 جنيه"
+      },
+      "REFUND": {
+        "TITLE": "استرداد الأموال",
+        "TEXT": "استرداد خلال 30 يومًا"
+      },
+      "PAYMENT": {
+        "TITLE": "دفع آمن",
+        "TEXT": "دفع آمن 100%"
+      },
+      "SUPPORT": {
+        "TITLE": "دعم 24/7",
+        "TEXT": "تواصل معنا في أي وقت"
+      }
+    },
     "BEST_SELLING": {
       "EYEBROW": "الأكثر مبيعًا",
       "TITLE": {

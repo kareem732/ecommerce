@@ -22,7 +22,7 @@ import { Button, Input } from '@org/ui';
 import { ArrowLeft, ArrowRight } from 'lucide-angular';
 import { Observable, finalize, timer } from 'rxjs';
 import { BackButton } from '../../components/back-button/back-button';
-import { Stepper } from '../../components/stepper/stepper';
+// import { Stepper } from '../../components/stepper/stepper';
 import { AuthRoute } from '../../enums/auth-route.enum';
 import {
   ForgotPasswordForm,
@@ -39,7 +39,7 @@ import { STRONG_PASSWORD, fieldsMatch } from '../../utils/auth-validators';
     BackButton,
     Button,
     Input,
-    Stepper,
+    // Stepper,
   ],
   templateUrl: './forgot-password.html',
   styleUrl: './forgot-password.scss',
