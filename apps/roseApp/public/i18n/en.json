@@ -183,7 +183,25 @@
         "LABEL": "Featured offers",
         "PREV": "Previous slide",
         "NEXT": "Next slide",
-        "GO_TO": "Go to slide {{index}}"
+                "GO_TO": "Go to slide {{index}}"
+      }
+    },
+    "FEATURES": {
+      "DELIVERY": {
+        "TITLE": "Free Delivery",
+        "TEXT": "For orders above 120 EGP"
+      },
+      "REFUND": {
+        "TITLE": "Get Refund",
+        "TEXT": "Refunds within 30 days"
+      },
+      "PAYMENT": {
+        "TITLE": "Safe Payment",
+        "TEXT": "100% Secure Payment"
+      },
+      "SUPPORT": {
+        "TITLE": "24/7 Support",
+        "TEXT": "Contact us at any time"
       }
     },
     "BEST_SELLING": {
@@ -233,6 +251,12 @@
       "ADD_TO_CART": "Add to cart",
       "RATING": "Rating {{rating}} out of 5",
       "PRICE": "{{value}} EGP"
+    },
+    "testimonials": {
+      "label": "Testimonials",
+      "title": "Real Words from Happy Customers",
+      "empty": "No testimonials yet.",
+      "rating": "{{rating}} out of 5"
     }
   }
 }
