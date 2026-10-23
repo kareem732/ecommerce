@@ -3,10 +3,11 @@ import { BestSelling } from '../../components/best-sellings/best-selling';
 import { FeatureSection } from '../../components/feature-section/feature-section';
 import { MostPopular } from '../../components/most-popular/most-popular';
 import { RelatedProducts } from '../../components/related-products/related-products';
+import { Testimonials } from '../../components/testimonials/testimonials';
 
 @Component({
   selector: 'app-home',
-  imports: [BestSelling,FeatureSection,MostPopular,RelatedProducts],
+  imports: [BestSelling, FeatureSection, MostPopular, RelatedProducts, Testimonials],
   templateUrl: './home.html',
   styleUrl: './home.scss',
 })

@@ -14,7 +14,7 @@
   font-size: 32px;
   font-weight: 700;
   line-height: 1.2;
-  color: var(--section-title-color);
+  color: var(--color-soft-pink-200);
 
   &::before {
     content: '';
@@ -36,6 +36,6 @@
     width: 40%;
     height: 3px;
     border-radius: 2px;
-    background: var(--section-title-accent);
+    background: var(--color-soft-pink-500);
   }
 }
