@@ -140,6 +140,52 @@
     "GREETING": "Welcome {{name}} 👋"
   },
   "SHOP": {
+    "PROMO": {
+      "SPECIAL_GIFTS": {
+        "BADGE": "Starting from 10.99 EGP",
+        "TITLE": "Special Gifts For The People You Love",
+        "CTA": "Shop Now"
+      },
+      "SLIDES": {
+        "FLOWERS": {
+          "TITLE": "Say It with Flowers",
+          "SUBTITLE": "Elegant gifts for every special moment."
+        },
+        "ROSES": {
+          "TITLE": "Love in Full Bloom",
+          "SUBTITLE": "Fresh roses paired with handcrafted chocolates."
+        },
+        "SWEETS": {
+          "TITLE": "Sweet Little Surprises",
+          "SUBTITLE": "Curated boxes that make every day feel special."
+        },
+        "GIFTS": {
+          "TITLE": "Wrapped with Love",
+          "SUBTITLE": "Thoughtful gifts for the moments that matter."
+        },
+        "CTA": "I'm buying!"
+      },
+      "OCCASIONS": {
+        "WEDDING": {
+          "BADGE": "Wedding",
+          "TITLE": "Celebrate Her Forever with a Gift She’ll Always Remember"
+        },
+        "ENGAGEMENT": {
+          "BADGE": "Engagement",
+          "TITLE": "Honor the Beginning of a Beautiful Journey Together"
+        },
+        "ANNIVERSARY": {
+          "BADGE": "Anniversary",
+          "TITLE": "Mark Every Year of Love with a Meaningful Surprise"
+        }
+      },
+      "SLIDER": {
+        "LABEL": "Featured offers",
+        "PREV": "Previous slide",
+        "NEXT": "Next slide",
+                "GO_TO": "Go to slide {{index}}"
+      }
+    },
     "FEATURES": {
       "DELIVERY": {
         "TITLE": "Free Delivery",
