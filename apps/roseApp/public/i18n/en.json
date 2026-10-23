@@ -157,7 +157,6 @@
         "CONTENT_PLACEHOLDER": "What do you think of this product?",
         "SUBMIT": "Add Review",
         "SUCCESS": "Thanks! Your review has been added.",
-        "ERROR": "We couldn't add your review. Please try again.",
         "ERRORS": {
           "RATING_REQUIRED": "Please choose a rating.",
           "HEADLINE_REQUIRED": "Please enter a title.",

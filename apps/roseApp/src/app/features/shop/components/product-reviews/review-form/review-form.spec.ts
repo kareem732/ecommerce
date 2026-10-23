@@ -95,7 +95,7 @@ describe('ReviewForm', () => {
     expect(query<HTMLInputElement>('app-input input').value).toBe('');
   });
 
-  it('should show the API error and keep what the user typed', async () => {
+  it('should keep what the user typed when the request fails', async () => {
     addReviewResult = () => throwError(() => ({ message: 'You already reviewed this product.' }));
     await setup();
 
@@ -104,7 +104,7 @@ describe('ReviewForm', () => {
     await submit();
 
     expect(submittedCount).toBe(0);
-    expect(element.textContent).toContain('You already reviewed this product.');
+    expect(element.textContent).not.toContain('Thanks! Your review has been added.');
     expect(query<HTMLInputElement>('app-input input').value).toBe('Great');
   });
 });

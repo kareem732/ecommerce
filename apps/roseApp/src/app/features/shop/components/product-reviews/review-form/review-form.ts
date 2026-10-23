@@ -26,7 +26,6 @@ export class ReviewForm {
 
   protected readonly loading = signal(false);
   protected readonly success = signal(false);
-  protected readonly error = signal('');
 
   protected readonly form = this.fb.group({
     rating: this.fb.control(0, [Validators.min(1)]),
@@ -39,7 +38,6 @@ export class ReviewForm {
 
   protected submit(): void {
     this.success.set(false);
-    this.error.set('');
     if (this.form.invalid) return this.form.markAllAsTouched();
 
     const { rating, headline, content } = this.form.getRawValue();
@@ -56,20 +54,11 @@ export class ReviewForm {
         finalize(() => this.loading.set(false)),
         takeUntilDestroyed(this.destroyRef),
       )
-      .subscribe({
-        next: () => {
-          this.form.reset();
-          this.success.set(true);
-          this.submitted.emit();
-        },
-        error: (err: { message?: unknown }) => {
-          // The error interceptor maps API errors to { message }; fall back for anything else.
-          this.error.set(
-            typeof err?.message === 'string' && err.message
-              ? err.message
-              : this.translate.instant('SHOP.REVIEWS.FORM.ERROR'),
-          );
-        },
+      // Failures are reported by the shared error interceptor; the form keeps its values for a retry.
+      .subscribe(() => {
+        this.form.reset();
+        this.success.set(true);
+        this.submitted.emit();
       });
   }
 

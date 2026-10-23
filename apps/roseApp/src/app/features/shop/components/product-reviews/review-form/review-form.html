@@ -26,9 +26,6 @@
     [error]="errorOf(form.controls.content, 'CONTENT')"
   />
 
-  @if (error()) {
-    <p class="review-form__error" role="alert">{{ error() }}</p>
-  }
   @if (success()) {
     <p class="review-form__success" role="status">{{ 'SHOP.REVIEWS.FORM.SUCCESS' | translate }}</p>
   }
