@@ -262,7 +262,7 @@
       "Engagement": "Engagement",
       "Molestias adipisicin": "Molestias adipisicin"
     },
-    "PRODUCT": {
+       "PRODUCT": {
       "BADGE": {
         "NEW": "NEW",
         "HOT": "HOT",
@@ -273,6 +273,11 @@
       "ADD_TO_CART": "Add to cart",
       "RATING": "Rating {{rating}} out of 5",
       "PRICE": "{{value}} EGP"
+    },
+    "trustedCompanies": {
+      "before": "Trusted by over",
+      "count": "4.5k+",
+      "after": "companies"
     },
     "testimonials": {
       "label": "Testimonials",
