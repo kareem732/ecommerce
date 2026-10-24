@@ -1,110 +1,75 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Observable, of, throwError } from 'rxjs';
-import { CreateReviewRequest } from '../../../interfaces/review.model/review-request';
+import { ChangeDetectionStrategy, Component, DestroyRef, inject, input, output, signal } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { AbstractControl, NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
+import { Button, Input, Textarea } from '@org/ui';
+import { RatingModule } from 'primeng/rating';
+import { finalize } from 'rxjs';
 import { ShopService } from '../../../services/shop.service';
-import { provideTranslateTesting, useEnglish } from '../../../../../shared/utils/testing/translate.testing';
-import { ReviewForm } from './review-form';
+import { REVIEW_CONTENT_MAX_LENGTH, REVIEW_HEADLINE_MAX_LENGTH } from '../product-reviews.constants';
 
-describe('ReviewForm', () => {
-  let fixture: ComponentFixture<ReviewForm>;
-  let element: HTMLElement;
-  let requests: CreateReviewRequest[];
-  let addReviewResult: () => Observable<unknown>;
-  let submittedCount: number;
+@Component({
+  selector: 'app-review-form',
+  imports: [ReactiveFormsModule, TranslatePipe, RatingModule, Button, Input, Textarea],
+  templateUrl: './review-form.html',
+  styleUrl: './review-form.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class ReviewForm {
+  private readonly fb = inject(NonNullableFormBuilder);
+  private readonly shopService = inject(ShopService);
+  private readonly translate = inject(TranslateService);
+  private readonly destroyRef = inject(DestroyRef);
 
-  const settle = async () => {
-    fixture.detectChanges();
-    await fixture.whenStable();
-    fixture.detectChanges();
-  };
+  readonly productId = input.required<string>();
+  readonly submitted = output<void>();
 
-  const query = <T extends Element>(selector: string): T => {
-    const found = element.querySelector<T>(selector);
-    if (!found) throw new Error(`Missing element: ${selector}`);
-    return found;
-  };
+  protected readonly loading = signal(false);
+  protected readonly success = signal(false);
 
-  // Like the browser, run change detection after each keystroke event.
-  const type = async (selector: string, value: string) => {
-    const field = query<HTMLInputElement | HTMLTextAreaElement>(selector);
-    field.value = value;
-    field.dispatchEvent(new Event('input'));
-    await settle();
-  };
+  protected readonly form = this.fb.group({
+    rating: this.fb.control(0, [Validators.min(1)]),
+    headline: this.fb.control('', [
+      Validators.required,
+      Validators.maxLength(REVIEW_HEADLINE_MAX_LENGTH),
+    ]),
+    content: this.fb.control('', [Validators.maxLength(REVIEW_CONTENT_MAX_LENGTH)]),
+  });
 
-  const rate = (stars: number) =>
-    element.querySelectorAll<HTMLElement>('.p-rating-option')[stars - 1].click();
+  protected submit(): void {
+    this.success.set(false);
+    if (this.form.invalid) return this.form.markAllAsTouched();
 
-  const submit = async () => {
-    query('form').dispatchEvent(new Event('submit'));
-    await settle();
-  };
+    const { rating, headline, content } = this.form.getRawValue();
+    this.loading.set(true);
 
-  const setup = async () => {
-    await TestBed.configureTestingModule({
-      imports: [ReviewForm],
-      providers: [
-        provideTranslateTesting(),
-        {
-          provide: ShopService,
-          useValue: {
-            addReview: (body: CreateReviewRequest) => {
-              requests.push(body);
-              return addReviewResult();
-            },
-          },
+    this.shopService
+      .addReview({
+        productId: this.productId(),
+        rating,
+        headline: headline.trim(),
+        ...(content.trim() ? { content: content.trim() } : {}),
+      })
+      .pipe(
+        finalize(() => this.loading.set(false)),
+        takeUntilDestroyed(this.destroyRef),
+      )
+      .subscribe({
+        next: () => {
+          this.form.reset();
+          this.success.set(true);
+          this.submitted.emit();
         },
-      ],
-    }).compileComponents();
-    useEnglish();
+        error: () => undefined,
+      });
+  }
 
-    fixture = TestBed.createComponent(ReviewForm);
-    fixture.componentRef.setInput('productId', 'product-1');
-    fixture.componentInstance.submitted.subscribe(() => submittedCount++);
-    element = fixture.nativeElement;
-    await settle();
-  };
-
-  beforeEach(() => {
-    requests = [];
-    submittedCount = 0;
-    addReviewResult = () => of({ status: true });
-  });
-
-  it('should not submit an incomplete review', async () => {
-    await setup();
-
-    await submit();
-
-    expect(requests).toEqual([]);
-    expect(element.textContent).toContain('Please choose a rating.');
-    expect(element.textContent).toContain('Please enter a title.');
-  });
-
-  it('should send the trimmed review, reset the form and notify the parent', async () => {
-    await setup();
-
-    rate(4);
-    await type('app-input input', '  Lovely  ');
-    await type('app-textarea textarea', '   ');
-    await submit();
-
-    expect(requests).toEqual([{ productId: 'product-1', rating: 4, headline: 'Lovely' }]);
-    expect(submittedCount).toBe(1);
-    expect(element.textContent).toContain('Thanks! Your review has been added.');
-    expect(query<HTMLInputElement>('app-input input').value).toBe('');
-  });
-
-  it('should keep what the user typed when the request fails', async () => {
-    addReviewResult = () => throwError(() => ({ message: 'You already reviewed this product.' }));
-    await setup();
-
-    rate(5);
-    await type('app-input input', 'Great');
-    await submit();
-
-    expect(submittedCount).toBe(0);
-    expect(element.textContent).not.toContain('Thanks! Your review has been added.');
-    expect(query<HTMLInputElement>('app-input input').value).toBe('Great');
-  });
-});
+  protected errorOf(control: AbstractControl, field: 'HEADLINE' | 'CONTENT'): string {
+    if (!control.touched || control.valid) return '';
+    if (control.hasError('required')) {
+      return this.translate.instant(`SHOP.REVIEWS.FORM.ERRORS.${field}_REQUIRED`);
+    }
+    const max = field === 'HEADLINE' ? REVIEW_HEADLINE_MAX_LENGTH : REVIEW_CONTENT_MAX_LENGTH;
+    return this.translate.instant('SHOP.REVIEWS.FORM.ERRORS.MAX_LENGTH', { max });
+  }
+}

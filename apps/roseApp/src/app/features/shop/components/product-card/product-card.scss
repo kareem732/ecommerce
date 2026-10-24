@@ -1,11 +1,15 @@
 :host {
   display: block;
+  min-width: 0;
+
+  container-type: inline-size;
+
   --bg-surface: transparent;
   --ring-focus: transparent;
   --card-overlay-bg: #e6507380;
   --icon-btn-size: 32px;
 
-  --footer-lift: 16px;
+  --footer-lift: 12px;
 
   -webkit-tap-highlight-color: transparent;
 }
@@ -90,6 +94,7 @@
     align-items: flex-end;
     gap: 8px;
     flex-wrap: wrap;
+    min-width: 0;
   }
 
   &__current {
@@ -148,5 +153,11 @@
 
   &--filled ::ng-deep svg {
     fill: #fba707;
+  }
+}
+
+@container (max-width: 260px) {
+  .product__footer {
+    margin-top: 0;
   }
 }

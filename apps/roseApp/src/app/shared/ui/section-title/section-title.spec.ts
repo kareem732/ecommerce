@@ -1,13 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SectionTitle } from './section-title';
 
 @Component({
   imports: [SectionTitle],
-  template: `<app-section-title [level]="level">Most Popular</app-section-title>`,
+  template: `<app-section-title [level]="level()">Most Popular</app-section-title>`,
 })
 class HostComponent {
-  level: 1 | 2 | 3 = 2;
+  level = signal<1 | 2 | 3>(2);
 }
 
 describe('SectionTitle', () => {
@@ -32,7 +32,7 @@ describe('SectionTitle', () => {
   });
 
   it('uses the given heading level', () => {
-    fixture.componentInstance.level = 3;
+    fixture.componentInstance.level.set(3);
     fixture.detectChanges();
 
     expect(heading.getAttribute('aria-level')).toBe('3');

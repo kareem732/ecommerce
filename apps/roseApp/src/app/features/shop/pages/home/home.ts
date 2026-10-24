@@ -7,11 +7,13 @@ import { RelatedProducts } from '../../components/related-products/related-produ
 import { Testimonials } from '../../components/testimonials/testimonials';
 import { TrustedCompanies } from '../../components/trusted-companies/trusted-companies';
 import { ProductReviews } from '../../components/product-reviews/product-reviews';
+import { HomeStore } from '../../stores/home/home.store';
 
 @Component({
   selector: 'app-home',
-  imports: [BestSelling,FeatureSection,MostPopular,PromoBanners,RelatedProducts,Testimonials,TrustedCompanies,ProductReviews],
+  imports: [BestSelling, FeatureSection, MostPopular, PromoBanners, RelatedProducts, Testimonials, TrustedCompanies, ProductReviews],
   templateUrl: './home.html',
   styleUrl: './home.scss',
+  providers: [HomeStore],
 })
 export class Home {}
