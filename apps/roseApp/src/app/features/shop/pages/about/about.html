@@ -1,4 +1,5 @@
-<section lang="en" dir="ltr" class="container mx-auto px-4 sm:px-6 lg:px-8">
+<section [attr.lang]="currentLanguage" [attr.dir]="currentLanguage === 'ar' ? 'rtl' : 'ltr'"
+    class="container mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex flex-col lg:flex-row items-center gap-8 lg:gap-12 xl:gap-20 py-8 lg:py-12">
 
         <!-- Images Collage -->
@@ -29,7 +30,7 @@
             <!-- About Label -->
             <span class="font-['Sarabun'] text-sm sm:text-base font-bold
                tracking-[0.25em] uppercase text-[#D75458]">
-                About
+                {{'ABOUT.LABEL' | translate}}
             </span>
 
             <!-- Title and Paragraph -->
@@ -37,22 +38,17 @@
 
                 <h2 class="font-primary text-2xl sm:text-3xl lg:text-[30px]
                  font-bold leading-tight text-[#FFC2D0]">
-                    Delivering the
-                    <span class="text-[#D75458]">Finest</span>
-                    Gift Boxes for Your
-                    <span class="text-[#D75458]">Special</span>
-                    Moments
+                    {{'ABOUT.TITLE_START' | translate}}
+                    <span class="text-[#D75458]">{{'ABOUT.TITLE_HIGHLIGHT_1' | translate}}</span>
+                    {{'ABOUT.TITLE_MIDDLE' | translate}}
+                    <span class="text-[#D75458]">{{'ABOUT.TITLE_HIGHLIGHT_2' | translate}}</span>
+                    {{'ABOUT.TITLE_END' | translate}}
                 </h2>
 
                 <p class="font-primary text-sm sm:text-base
                  font-normal leading-6 sm:leading-7
                  text-[#A1A1AA]">
-                    Make every moment memorable with our premium gift boxes.
-                    Carefully curated and beautifully packaged, each box is filled
-                    with handpicked items designed to impress. Whether it's for a
-                    birthday, wedding, or a simple “thank you,” our gift boxes are
-                    crafted to leave a lasting impression — because thoughtful
-                    gifting starts here.
+                 {{'ABOUT.DESCRIPTION' | translate}}
                 </p>
 
             </div>
@@ -63,7 +59,7 @@
                  min-h-11 rounded-[10px] px-5 py-3
                  bg-[#FFC2D0] text-[#27272A]
                  font-primary text-base font-medium">
-                    Discover
+                    {{'ABOUT.DISCOVER' | translate}}
                     <lucide-icon [img]="arrowRight" class="w-4 h-4 shrink-0" />
                 </button>
             </div>
@@ -75,22 +71,22 @@
 
                 <li class="flex items-start gap-2">
                     <lucide-icon [img]="check" [size]="20" [strokeWidth]="2" color="#FF85A2" class="shrink-0 mt-0.5" />
-                    <span>Competitive Prices & Easy Shopping</span>
+                    <span>{{'ABOUT.FEATURE_1' | translate}}</span>
                 </li>
 
                 <li class="flex items-start gap-2">
                     <lucide-icon [img]="check" [size]="20" [strokeWidth]="2" color="#FF85A2" class="shrink-0 mt-0.5" />
-                    <span>Premium Quality & Elegant Packaging</span>
+                    <span>{{'ABOUT.FEATURE_2' | translate}}</span>
                 </li>
 
                 <li class="flex items-start gap-2">
                     <lucide-icon [img]="check" [size]="20" [strokeWidth]="2" color="#FF85A2" class="shrink-0 mt-0.5" />
-                    <span>Perfect for Every Occasion</span>
+                    <span>{{'ABOUT.FEATURE_3' | translate}}</span>
                 </li>
 
                 <li class="flex items-start gap-2">
                     <lucide-icon [img]="check" [size]="20" [strokeWidth]="2" color="#FF85A2" class="shrink-0 mt-0.5" />
-                    <span>Fast & Reliable Delivery</span>
+                    <span>{{'ABOUT.FEATURE_4' | translate}}</span>
                 </li>
             </ul>
         </div>
