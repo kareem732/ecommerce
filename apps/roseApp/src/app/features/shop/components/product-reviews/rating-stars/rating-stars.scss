@@ -1,0 +1,31 @@
+:host {
+  display: inline-flex;
+  --star-color: #fba707;
+}
+
+.stars {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.star {
+  position: relative;
+  display: inline-flex;
+  color: var(--star-color);
+
+  &--full ::ng-deep svg,
+  &__half ::ng-deep svg {
+    fill: var(--star-color);
+  }
+
+  &__half {
+    position: absolute;
+    inset: 0;
+  }
+}
+
+// The half star is drawn as the left half, so mirror it in Arabic.
+:host-context([dir='rtl']) .star__half {
+  transform: scaleX(-1);
+}
