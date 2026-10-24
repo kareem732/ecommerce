@@ -140,6 +140,28 @@
     "GREETING": "Welcome {{name}} 👋"
   },
   "SHOP": {
+    "REVIEWS": {
+      "TITLE": "Product Reviews",
+      "GENERAL_RATING": "General rating:",
+      "RATINGS_COUNT": "({{count}} ratings)",
+      "LOADING": "Loading reviews",
+      "EMPTY": "No reviews yet. Be the first to share your thoughts!",
+      "LOAD_ERROR": "We couldn't load the reviews.",
+      "RETRY": "Try again",
+      "LOAD_MORE": "Show more reviews",
+      "FORM": {
+        "YOUR_RATING": "Your rating:",
+        "HEADLINE": "Title",
+        "HEADLINE_PLACEHOLDER": "Enter review title",
+        "CONTENT": "Review",
+        "CONTENT_PLACEHOLDER": "What do you think of this product?",
+        "SUBMIT": "Add Review",
+        "SUCCESS": "Thanks! Your review has been added.",
+        "ERRORS": {
+          "RATING_REQUIRED": "Please choose a rating.",
+          "HEADLINE_REQUIRED": "Please enter a title.",
+          "MAX_LENGTH": "Must be {{max}} characters or fewer."
+        }}},
     "PROMO": {
       "SPECIAL_GIFTS": {
         "BADGE": "Starting from 10.99 EGP",
