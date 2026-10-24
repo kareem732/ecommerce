@@ -11,12 +11,15 @@
   --bg-surface:  var(--color-white);
   --bg-muted:    var(--color-zinc-100);
   --bg-disabled: var(--color-zinc-100);
+  --bg-footer:   var(--color-zinc-800);
+  --bg-footer-input: var(--color-zinc-700);
 
   /* borders */
   --border-default: var(--color-zinc-200);
   --border-strong:  var(--color-zinc-300);
   --border-focus:   var(--color-maroon-500);
   --border-error:   var(--color-danger);
+  --border-footer:  var(--color-zinc-700);
 
   /* focus ring */
   --ring-focus: var(--color-maroon-100);
@@ -26,6 +29,7 @@
   --text-secondary: var(--color-zinc-500);
   --text-disabled:  var(--color-zinc-400);
   --text-error:     var(--color-danger);
+  --color-rose-accent: var(--color-soft-pink-300);
 
   /* status */
   --color-success: var(--color-emerald-600);
@@ -47,12 +51,15 @@
   --bg-surface:  var(--color-zinc-900);
   --bg-muted:    var(--color-zinc-800);
   --bg-disabled: var(--color-zinc-800);
+  --bg-footer:   var(--color-zinc-900);
+  --bg-footer-input: #242428;
 
   /* borders */
   --border-default: var(--color-zinc-700);
   --border-strong:  var(--color-zinc-600);
   --border-focus:   var(--color-maroon-400);
   --border-error:   var(--color-danger);
+  --border-footer:  var(--color-zinc-800);
 
   /* focus ring */
   --ring-focus: var(--color-maroon-900);
@@ -62,6 +69,7 @@
   --text-secondary: var(--color-zinc-400);
   --text-disabled:  var(--color-zinc-600);
   --text-error:     var(--color-danger);
+  --color-rose-accent: var(--color-soft-pink-300);
 
   /* status */
   --color-success: var(--color-emerald-400);

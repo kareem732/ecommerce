@@ -1,0 +1,113 @@
+<footer
+  class="w-full transition-colors duration-200 border-t border-[var(--border-footer)] bg-[var(--bg-footer)] text-zinc-100"
+  role="contentinfo"
+>
+  <div class="mx-auto max-w-8xl px-6 py-8 sm:py-10">
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-10">
+      <div
+        class="md:col-span-4 lg:col-span-3 flex flex-col items-center text-center"
+      >
+        <a
+          routerLink="/shop/home"
+          class="inline-block transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-rose-accent)] rounded-lg"
+          aria-label="Rose Home"
+        >
+          <img
+            src="/bb70dbdbb3472a27ffcc4d3baeb8eaceb3873b18.png"
+            alt="Rose"
+            class="w-75 h-auto object-contain select-none"
+            loading="lazy"
+          />
+        </a>
+        <h3
+          class="mt-3 text-xs sm:text-sm font-bold tracking-wide text-[var(--color-rose-accent)]"
+        >
+          {{ 'FOOTER.APP_TITLE' | translate }}
+        </h3>
+        <p class="mt-0.5 text-[11px] sm:text-xs text-zinc-400">
+          {{ 'FOOTER.RIGHTS' | translate }} | {{ currentYear }}
+        </p>
+      </div>
+      <div class="md:col-span-8 lg:col-span-9 flex flex-1 justify-between pe-5">
+        <div
+          class="md:col-span-3 lg:col-span-4 flex flex-col items-center md:items-start text-center md:text-left rtl:md:text-right md:pl-2 lg:pl-6 rtl:md:pl-0 rtl:md:pr-2 rtl:lg:pr-6"
+        >
+          <h4
+            class="text-xs sm:text-sm font-bold text-[var(--color-rose-accent)] mb-2.5 sm:mb-3"
+          >
+            {{ 'FOOTER.DISCOVER_TITLE' | translate }}
+          </h4>
+          <nav aria-label="Footer Navigation">
+            <ul class="flex flex-col space-y-1 sm:space-y-0.5">
+              @for (link of navLinks; track link.id) {
+              <li>
+                <a
+                  [routerLink]="link.route"
+                  class="text-xs sm:text-[13px] font-normal transition-colors text-zinc-300 hover:text-[var(--color-rose-accent)] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[var(--color-rose-accent)] rounded py-0.5 leading-tight block"
+                >
+                  {{ link.labelKey | translate }}
+                </a>
+              </li>
+              }
+            </ul>
+          </nav>
+        </div>
+
+        <div
+          class="md:col-span-5 lg:col-span-5 flex flex-col items-center md:items-start text-center md:text-left rtl:md:text-right w-full max-w-[400px] mx-auto md:mx-0"
+        >
+          <h4
+            class="text-xs sm:text-sm font-bold text-[var(--color-rose-accent)] mb-0.5"
+          >
+            {{ 'FOOTER.DISCOUNT_TITLE' | translate }}
+          </h4>
+          <p class="text-[11px] sm:text-xs text-zinc-400 mb-3 sm:mb-3.5">
+            {{ 'FOOTER.DISCOUNT_SUBTITLE' | translate }}
+          </p>
+
+          <form (submit)="onSubscribe($event)" class="w-full" novalidate>
+            <div
+              class="flex items-center w-full p-1 rounded-full transition-all border border-[var(--border-footer)] bg-[var(--bg-footer-input)] focus-within:ring-2 focus-within:ring-[var(--color-rose-accent)]/40 focus-within:border-[var(--color-rose-accent)]"
+            >
+              <input
+                type="email"
+                [value]="email()"
+                (input)="onEmailInput($any($event.target).value)"
+                [placeholder]="'FOOTER.EMAIL_PLACEHOLDER' | translate"
+                [attr.aria-label]="'FOOTER.EMAIL_PLACEHOLDER' | translate"
+                class="flex-1 min-w-0 bg-transparent px-3.5 sm:px-4 py-1 text-xs sm:text-sm focus:outline-none text-zinc-100 placeholder:text-zinc-400"
+              />
+              <button
+                type="submit"
+                [disabled]="isLoading()"
+                class="rounded-full px-4 sm:px-5 py-1.5 sm:py-2 text-xs sm:text-sm font-semibold flex items-center gap-1.5 shrink-0 transition-all cursor-pointer shadow-sm bg-[var(--color-rose-accent)] hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed text-[#20090c] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-rose-accent)]"
+              >
+                <span>{{ 'FOOTER.SUBSCRIBE' | translate }}</span>
+                <lucide-icon
+                  [img]="ArrowRight"
+                  [size]="15"
+                  class="rtl:rotate-180 shrink-0 transition-transform"
+                  aria-hidden="true"
+                ></lucide-icon>
+              </button>
+            </div>
+
+            @if (emailError()) {
+            <p
+              class="mt-2 text-xs font-medium text-red-400 text-left rtl:text-right px-2"
+            >
+              {{ emailError()! | translate }}
+            </p>
+            } @else if (isSubscribed()) {
+            <p
+              class="mt-2 text-xs font-medium text-emerald-400 text-left rtl:text-right px-2"
+            >
+              {{ 'FOOTER.SUCCESS' | translate }}
+            </p>
+            }
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
