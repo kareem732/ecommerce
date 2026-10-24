@@ -1,11 +1,10 @@
 import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { TranslatePipe } from '@ngx-translate/core';
 import { LanguageService, LanguageEnum } from '@org/shared-i18n';
 import { ThemeService } from '@org/theme';
 
 @Component({
-  imports: [RouterOutlet, TranslatePipe],
+  imports: [RouterOutlet, ],
   selector: 'app-rose-app-entry',
   host: {
     class: 'block h-full w-full',

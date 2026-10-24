@@ -38,13 +38,8 @@ import {
 import { AuthUser, LoginService, SessionService } from '@org/auth-service';
 import { LanguageEnum, LanguageService } from '@org/shared-i18n';
 import { ThemeService } from '@org/theme';
-
-export interface NavItem {
-  id: string;
-  labelKey: string;
-  route: string;
-  icon: typeof House;
-}
+import { NavItem } from './navbar.model';
+import { NAVBAR_NAVIGATION_LINKS } from './navbar.control';
 
 @Component({
   selector: 'app-navbar',
@@ -152,14 +147,7 @@ export class Navbar {
   readonly Sun = Sun;
   readonly Moon = Moon;
 
-  readonly navItems: NavItem[] = [
-    { id: 'home', labelKey: 'NAV.HOME', route: '/shop/home', icon: House },
-    { id: 'products', labelKey: 'NAV.PRODUCTS', route: '/shop/home', icon: Gift },
-    { id: 'categories', labelKey: 'NAV.CATEGORIES', route: '/shop/home', icon: ClipboardList },
-    { id: 'occasions', labelKey: 'NAV.OCCASIONS', route: '/shop/home', icon: PartyPopper },
-    { id: 'contact', labelKey: 'NAV.CONTACT', route: '/shop/home', icon: Headphones },
-    { id: 'about', labelKey: 'NAV.ABOUT', route: '/shop/home', icon: Info },
-  ];
+  readonly navItems: NavItem[] = NAVBAR_NAVIGATION_LINKS;
 
   toggleAccountMenu(): void {
     this.isAccountMenuOpen.update((open) => !open);

@@ -61,6 +61,9 @@
   --color-content: var(--text-primary);
   --color-content-muted: var(--text-secondary);
   --color-line: var(--border-default);
+  --color-footer: var(--bg-footer);
+  --color-footer-input: var(--bg-footer-input);
+  --color-rose-accent: var(--color-rose-accent);
 }
 
 :root {

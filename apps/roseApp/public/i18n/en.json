@@ -165,5 +165,25 @@
   "HOME": {
     "HELLO": "Hello there,",
     "GREETING": "Welcome {{name}} 👋"
+  },
+  "FOOTER": {
+    "APP_TITLE": "Rose E-Commerce App",
+    "RIGHTS": "All rights reserved",
+    "DISCOVER_TITLE": "Discover our website",
+    "HOME": "Home",
+    "PRODUCTS": "Products",
+    "CATEGORIES": "Categories",
+    "OCCASIONS": "Occasions",
+    "CONTACT": "Contact",
+    "ABOUT": "About",
+    "TERMS": "Terms & Conditions",
+    "PRIVACY": "Privacy Policy",
+    "FAQS": "FAQs",
+    "DISCOUNT_TITLE": "Get 20% Off Discount Coupon",
+    "DISCOUNT_SUBTITLE": "By subscribing to our newsletter",
+    "EMAIL_PLACEHOLDER": "Enter Your Email",
+    "SUBSCRIBE": "Subscribe",
+    "SUCCESS": "Thank you for subscribing to our newsletter!",
+    "INVALID_EMAIL": "Please enter a valid email address"
   }
 }
