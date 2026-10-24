@@ -72,4 +72,5 @@ export interface Product {
 }
 
 export type ProductsResponse = ApiResponse<PaginatedPayload<Product>>;
+export type ProductResponse = ApiResponse<{ product: Product }>;
 export type OccasionsResponse = ApiResponse<PaginatedPayload<Occasion>>;

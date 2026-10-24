@@ -1,0 +1,39 @@
+<form class="review-form" [formGroup]="form" (ngSubmit)="submit()" novalidate>
+  <div class="review-form__rating">
+    <span id="review-rating-label" class="review-form__label">
+      {{ 'SHOP.REVIEWS.FORM.YOUR_RATING' | translate }}
+    </span>
+    <p-rating formControlName="rating" aria-labelledby="review-rating-label" />
+  </div>
+  @if (form.controls.rating.touched && form.controls.rating.invalid) {
+    <p class="review-form__error" role="alert">
+      {{ 'SHOP.REVIEWS.FORM.ERRORS.RATING_REQUIRED' | translate }}
+    </p>
+  }
+
+  <app-input
+    formControlName="headline"
+    [label]="'SHOP.REVIEWS.FORM.HEADLINE' | translate"
+    [placeholder]="'SHOP.REVIEWS.FORM.HEADLINE_PLACEHOLDER' | translate"
+    [error]="errorOf(form.controls.headline, 'HEADLINE')"
+  />
+
+  <app-textarea
+    formControlName="content"
+    [rows]="5"
+    [label]="'SHOP.REVIEWS.FORM.CONTENT' | translate"
+    [placeholder]="'SHOP.REVIEWS.FORM.CONTENT_PLACEHOLDER' | translate"
+    [error]="errorOf(form.controls.content, 'CONTENT')"
+  />
+
+  @if (success()) {
+    <p class="review-form__success" role="status">{{ 'SHOP.REVIEWS.FORM.SUCCESS' | translate }}</p>
+  }
+
+  <app-button
+    type="submit"
+    [label]="'SHOP.REVIEWS.FORM.SUBMIT' | translate"
+    [loading]="loading()"
+    [fullWidth]="true"
+  />
+</form>
