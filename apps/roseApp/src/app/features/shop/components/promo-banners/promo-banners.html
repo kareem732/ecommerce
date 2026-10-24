@@ -1,0 +1,12 @@
+<section class="promo container mx-auto px-10">
+  <div class="promo__top">
+    <app-promo-card class="promo__special" [banner]="specialGifts" [priority]="true" />
+    <app-hero-slider class="promo__hero" [slides]="heroSlides" [interval]="autoplayInterval" />
+  </div>
+
+  <div class="promo__occasions">
+    @for (banner of occasions; track banner.id) {
+      <app-promo-card class="promo__occasion" [banner]="banner" />
+    }
+  </div>
+</section>

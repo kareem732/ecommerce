@@ -1,7 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ProductCard } from './product-card';
 import { Product } from '../../interfaces/home.model/home-model-response';
-import { makeProduct } from '../../../../shared/utils/testing/product.fixtures';
+import { daysAgo, makeProduct } from '../../../../shared/utils/testing/product.fixtures';
+import { provideTranslateTesting,useEnglish,} from '../../../../shared/utils/testing/translate.testing';
 
 describe('ProductCard', () => {
   let fixture: ComponentFixture<ProductCard>;
@@ -18,7 +19,11 @@ describe('ProductCard', () => {
     element.querySelector(selector)?.textContent?.trim();
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({ imports: [ProductCard] }).compileComponents();
+    await TestBed.configureTestingModule({
+      imports: [ProductCard],
+      providers: [provideTranslateTesting()],
+    }).compileComponents();
+    useEnglish();
 
     fixture = TestBed.createComponent(ProductCard);
     element = fixture.nativeElement;
@@ -54,13 +59,23 @@ describe('ProductCard', () => {
       expect(element.querySelectorAll('.star')).toHaveLength(5);
       expect(element.querySelectorAll('.star--filled')).toHaveLength(3);
     });
+
+    it('labels the rating and the buttons for screen readers', () => {
+      render({ rating: 3 });
+
+      const label = (selector: string) =>
+        element.querySelector(selector)?.getAttribute('aria-label');
+      expect(label('.product__stars')).toBe('Rating 3 out of 5');
+      expect(label('.product__cart')).toBe('Add to cart');
+      expect(label('.icon-btn')).toBe('Add to wishlist');
+    });
   });
 
   describe('badges', () => {
     it('shows NEW for a recently added product', () => {
       render({ createdAt: daysAgo(3) });
 
-      expect(element.querySelector('.badge--new')).toBeTruthy();
+      expect(text('.badge--new')).toBe('NEW');
     });
 
     it('hides NEW for an old product', () => {
@@ -72,7 +87,7 @@ describe('ProductCard', () => {
     it('shows HOT when the rating is 4 or more', () => {
       render({ rating: 4 });
 
-      expect(element.querySelector('.badge--hot')).toBeTruthy();
+      expect(text('.badge--hot')).toBe('HOT');
     });
 
     it('hides HOT when the rating is below 4', () => {
@@ -85,7 +100,7 @@ describe('ProductCard', () => {
       render({ stock: 0 });
 
       const cart = element.querySelector('.product__cart') as HTMLButtonElement;
-      expect(element.querySelector('.badge--out')).toBeTruthy();
+      expect(text('.badge--out')).toBe('OUT OF STOCK');
       expect(cart.disabled).toBe(true);
     });
 

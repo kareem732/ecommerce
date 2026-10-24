@@ -1,0 +1,139 @@
+:host {
+  display: block;
+  height: 100%;
+  --card-padding: 20px;
+  --title-size: 20px;
+  --overlay: linear-gradient(to top, rgb(0 0 0 / 0.65) 0%, rgb(0 0 0 / 0.15) 55%, transparent 100%);
+}
+
+:host(.promo-card--hero) {
+  --card-padding: 32px;
+  --title-size: 32px;
+  --overlay: linear-gradient(to top, rgb(44 12 16 / 0.6) 0%, rgb(44 12 16 / 0.35) 100%);
+}
+
+.promo-card {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 16px;
+  isolation: isolate;
+  background: var(--color-maroon-800, #501419);
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: var(--overlay);
+  }
+
+  &__image {
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+  }
+
+  &:hover &__image {
+    transform: scale(1.04);
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+    width: 100%;
+    padding: var(--card-padding);
+    color: var(--color-white, #fff);
+  }
+
+  &__badge {
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: var(--color-white, #fff);
+    color: var(--color-maroon-600, #a6252a);
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 1.4;
+  }
+
+  &__title {
+    max-width: 22ch;
+    margin: 0;
+    font-size: var(--title-size);
+    font-weight: 600;
+    line-height: 1.15;
+  }
+
+  &__subtitle {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.4;
+    opacity: 0.9;
+  }
+
+  &__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 20px;
+    padding: 8px 18px;
+    border-radius: 8px;
+    background: var(--color-maroon-50, #fbeaea);
+    color: var(--color-maroon-700, #741c21);
+    font-size: 15px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: background-color 0.15s;
+
+    &:hover {
+      background: var(--color-white, #fff);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--color-white, #fff);
+      outline-offset: 2px;
+    }
+  }
+
+  /* Stretches over the whole card so it is clickable as one target. */
+  &__link {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+
+    &:focus-visible {
+      outline: 3px solid var(--color-maroon-300, #e07a7d);
+      outline-offset: -3px;
+    }
+  }
+}
+
+:host-context([dir='rtl']) .promo-card__cta-icon {
+  transform: scaleX(-1);
+}
+
+@media (max-width: 640px) {
+  :host {
+    --card-padding: 16px;
+    --title-size: 18px;
+  }
+
+  :host(.promo-card--hero) {
+    --card-padding: 20px;
+    --title-size: 24px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .promo-card__image {
+    transition: none;
+  }
+}

@@ -1,0 +1,14 @@
+<section class="related">
+  <app-section-title>
+    <span class="accent">{{ 'SHOP.RELATED.TITLE.ACCENT' | translate }}</span>
+    {{ 'SHOP.RELATED.TITLE.REST' | translate }}
+  </app-section-title>
+
+  <div class="related__slider">
+    <app-carousel [items]="products()" [numVisible]="4">
+      <ng-template #itemTemplate let-product>
+        <app-product-card [product]="product" (addToCart)="onAddToCart($event)" />
+      </ng-template>
+    </app-carousel>
+  </div>
+</section>

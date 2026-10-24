@@ -1,6 +1,5 @@
-import { Product, ProductsResponse } from "../../../features/shop/interfaces/home.model/home-model-response";
-import { MS_PER_DAY } from "../product.constants";
-
+import { Occasion,OccasionsResponse,Product,ProductsResponse} from '../../../features/shop/interfaces/home.model/home-model-response';
+import { MS_PER_DAY } from '../product.constants';
 
 export const daysAgo = (days: number): string =>
   new Date(Date.now() - days * MS_PER_DAY).toISOString();
@@ -36,5 +35,25 @@ export const makeProductsResponse = (products: Product[] = []): ProductsResponse
   payload: {
     data: products,
     metadata: { page: 1, limit: 10, total: products.length, totalPages: 1 },
+  },
+});
+
+export const makeOccasion = (overrides: Partial<Occasion> = {}): Occasion => ({
+  id: 'occasion-1',
+  title: 'Wedding',
+  description: 'Wedding bouquets and arrangements',
+  image: null,
+  immutable: false,
+  createdAt: daysAgo(365),
+  updatedAt: daysAgo(365),
+  ...overrides,
+});
+
+export const makeOccasionsResponse = (occasions: Occasion[] = []): OccasionsResponse => ({
+  status: true,
+  code: 200,
+  payload: {
+    data: occasions,
+    metadata: { page: 1, limit: 20, total: occasions.length, totalPages: 1 },
   },
 });

@@ -1,0 +1,38 @@
+@let item = banner();
+
+<article class="promo-card">
+  <img
+    class="promo-card__image"
+    [src]="item.image"
+    alt=""
+    [attr.loading]="priority() ? 'eager' : 'lazy'"
+    [attr.fetchpriority]="priority() ? 'high' : 'auto'"
+  />
+
+  <div class="promo-card__content">
+    @if (item.badgeKey) {
+      <span class="promo-card__badge">{{ item.badgeKey | translate }}</span>
+    }
+
+    <h3 class="promo-card__title">{{ item.titleKey | translate }}</h3>
+
+    @if (item.subtitleKey) {
+      <p class="promo-card__subtitle">{{ item.subtitleKey | translate }}</p>
+    }
+
+    @if (item.cta; as cta) {
+      <a class="promo-card__cta" [routerLink]="cta.link">
+        <span>{{ cta.labelKey | translate }}</span>
+        @if (cta.withArrow) {
+          <lucide-angular class="promo-card__cta-icon" [img]="ArrowRight" [size]="16" />
+        }
+      </a>
+    } @else if (item.link) {
+      <a
+        class="promo-card__link"
+        [routerLink]="item.link"
+        [attr.aria-label]="item.titleKey | translate"
+      ></a>
+    }
+  </div>
+</article>

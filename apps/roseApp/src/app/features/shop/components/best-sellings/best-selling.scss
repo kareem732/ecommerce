@@ -1,6 +1,5 @@
 :host {
   display: block;
-
   --intro-width: 300px;
 }
 
@@ -61,7 +60,7 @@
     gap: 10px;
     min-width: 155px;
     height: 36px;
-    margin-top: 40px;
+    margin-top: 24px;
     padding: 10px 16px;
     border-radius: 10px;
     background: var(--color-maroon-600, #a6252a);
@@ -83,6 +82,10 @@
   &__slider {
     min-width: 0;
   }
+}
+
+:host-context([dir='rtl']) .best-selling__cta lucide-angular {
+  transform: scaleX(-1);
 }
 
 @media (max-width: 900px) {
