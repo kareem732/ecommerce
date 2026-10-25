@@ -85,6 +85,11 @@
         "PHONE": "Enter a valid Egyptian phone number",
         "PASSWORD": "At least 8 characters, with letters and numbers",
         "MISMATCH": "Passwords do not match"
+      },
+      "TOAST": {
+        "CODE_SENT": "Verification code sent to your email",
+        "CODE_VERIFIED": "Email verified successfully",
+        "ACCOUNT_CREATED": "Your account has been created"
       }
     },
     "FORGOT": {
@@ -113,6 +118,9 @@
         "EMAIL": "Enter a valid email address",
         "PASSWORD": "At least 8 characters, with letters and numbers",
         "MISMATCH": "Passwords do not match"
+      },
+      "TOAST": {
+        "PASSWORD_CHANGED": "Password changed successfully"
       }
     },
     "RESET": {
@@ -162,5 +170,152 @@
     "IMAGE_4_ALT": "Flowers and chocolates gift arrangement",
     "IMAGE_5_ALT": "Wedding and graduation gifts",
     "IMAGE_6_ALT": "Luxury gift packaging ideas"
+  },
+    "SHOP": {
+    "REVIEWS": {
+      "TITLE": "Product Reviews",
+      "GENERAL_RATING": "General rating:",
+      "RATINGS_COUNT": "({{count}} ratings)",
+      "LOADING": "Loading reviews",
+      "EMPTY": "No reviews yet. Be the first to share your thoughts!",
+      "LOAD_ERROR": "We couldn't load the reviews.",
+      "RETRY": "Try again",
+      "LOAD_MORE": "Show more reviews",
+      "FORM": {
+        "YOUR_RATING": "Your rating:",
+        "HEADLINE": "Title",
+        "HEADLINE_PLACEHOLDER": "Enter review title",
+        "CONTENT": "Review",
+        "CONTENT_PLACEHOLDER": "What do you think of this product?",
+        "SUBMIT": "Add Review",
+        "SUCCESS": "Thanks! Your review has been added.",
+        "ERRORS": {
+          "RATING_REQUIRED": "Please choose a rating.",
+          "HEADLINE_REQUIRED": "Please enter a title.",
+          "MAX_LENGTH": "Must be {{max}} characters or fewer."
+        }}},
+    "PROMO": {
+      "SPECIAL_GIFTS": {
+        "BADGE": "Starting from 10.99 EGP",
+        "TITLE": "Special Gifts For The People You Love",
+        "CTA": "Shop Now"
+      },
+      "SLIDES": {
+        "FLOWERS": {
+          "TITLE": "Say It with Flowers",
+          "SUBTITLE": "Elegant gifts for every special moment."
+        },
+        "ROSES": {
+          "TITLE": "Love in Full Bloom",
+          "SUBTITLE": "Fresh roses paired with handcrafted chocolates."
+        },
+        "SWEETS": {
+          "TITLE": "Sweet Little Surprises",
+          "SUBTITLE": "Curated boxes that make every day feel special."
+        },
+        "GIFTS": {
+          "TITLE": "Wrapped with Love",
+          "SUBTITLE": "Thoughtful gifts for the moments that matter."
+        },
+        "CTA": "I'm buying!"
+      },
+      "OCCASIONS": {
+        "WEDDING": {
+          "BADGE": "Wedding",
+          "TITLE": "Celebrate Her Forever with a Gift She’ll Always Remember"
+        },
+        "ENGAGEMENT": {
+          "BADGE": "Engagement",
+          "TITLE": "Honor the Beginning of a Beautiful Journey Together"
+        },
+        "ANNIVERSARY": {
+          "BADGE": "Anniversary",
+          "TITLE": "Mark Every Year of Love with a Meaningful Surprise"
+        }
+      },
+      "SLIDER": {
+        "LABEL": "Featured offers",
+        "PREV": "Previous slide",
+        "NEXT": "Next slide",
+                "GO_TO": "Go to slide {{index}}"
+      }
+    },
+    "FEATURES": {
+      "DELIVERY": {
+        "TITLE": "Free Delivery",
+        "TEXT": "For orders above 120 EGP"
+      },
+      "REFUND": {
+        "TITLE": "Get Refund",
+        "TEXT": "Refunds within 30 days"
+      },
+      "PAYMENT": {
+        "TITLE": "Safe Payment",
+        "TEXT": "100% Secure Payment"
+      },
+      "SUPPORT": {
+        "TITLE": "24/7 Support",
+        "TEXT": "Contact us at any time"
+      }
+    },
+    "BEST_SELLING": {
+      "EYEBROW": "Best Selling",
+      "TITLE": {
+        "ACCENT_1": "Check Out",
+        "MIDDLE": "What Everyone’s",
+        "ACCENT_2": "Buying",
+        "END": "Right Now"
+      },
+      "TEXT": {
+        "LINE_1": "Not sure what to choose?",
+        "LINE_2": "Start with our best sellers, these are the gifts our customers keep coming back for. Whether you're celebrating a birthday, anniversary or wedding, our top picks are guaranteed to leave a lasting impression."
+      },
+      "CTA": "Explore gifts"
+    },
+    "MOST_POPULAR": {
+      "TITLE": "Most Popular",
+      "VIEW_MORE": "View More",
+      "EMPTY": "No products found for this occasion."
+    },
+    "RELATED": {
+      "TITLE": {
+        "ACCENT": "Related",
+        "REST": "Products"
+      }
+    },
+    "FILTER": {
+      "LABEL": "Filter by occasion",
+      "ALL": "All"
+    },
+    "OCCASIONS": {
+      "Eid al-Fitr Gifts4": "Eid al-Fitr Gifts",
+      "Hajj Congratulations": "Hajj Congratulations",
+      "Wedding": "Wedding",
+      "Engagement": "Engagement",
+      "Molestias adipisicin": "Molestias adipisicin"
+    },
+       "PRODUCT": {
+      "BADGE": {
+        "NEW": "NEW",
+        "HOT": "HOT",
+        "OUT_OF_STOCK": "OUT OF STOCK"
+      },
+      "ADD_TO_WISHLIST": "Add to wishlist",
+      "QUICK_VIEW": "Quick view",
+      "ADD_TO_CART": "Add to cart",
+      "RATING": "Rating {{rating}} out of 5",
+      "PRICE": "{{value}} EGP"
+    },
+    "trustedCompanies": {
+      "before": "Trusted by over",
+      "count": "4.5k+",
+      "after": "companies"
+    },
+    "testimonials": {
+      "label": "Testimonials",
+      "title": "Real Words from Happy Customers",
+      "empty": "No testimonials yet.",
+      "rating": "{{rating}} out of 5"
+    }
   }
 }

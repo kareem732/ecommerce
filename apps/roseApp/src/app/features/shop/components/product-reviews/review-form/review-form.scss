@@ -1,0 +1,52 @@
+:host {
+  display: block;
+  --star-color: #fba707;
+}
+
+.review-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  &__rating {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  &__label {
+    font-size: 15px;
+    color: var(--text-primary);
+  }
+
+  &__error,
+  &__success {
+    margin: -8px 0 0;
+    font-size: 13px;
+  }
+
+  &__error {
+    color: var(--text-error);
+  }
+
+  &__success {
+    color: var(--color-success);
+  }
+}
+
+// PrimeNG's rating uses its theme color; switch it to the design's yellow stars.
+:host ::ng-deep {
+  .p-rating {
+    gap: 6px;
+  }
+
+  .p-rating-icon {
+    width: 22px;
+    height: 22px;
+    color: var(--star-color);
+  }
+
+  .p-rating-on-icon {
+    fill: var(--star-color);
+  }
+}

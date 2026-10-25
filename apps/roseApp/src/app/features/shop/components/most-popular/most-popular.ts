@@ -1,65 +1,30 @@
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
-import { toObservable, toSignal } from '@angular/core/rxjs-interop';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { TranslatePipe } from '@ngx-translate/core';
 import { ArrowRight, LucideAngularModule } from 'lucide-angular';
-import { catchError, map, of, switchMap, tap } from 'rxjs';
-import { ProductSortBy, SortOrder } from '../../enums/product-sort';
-import { Occasion, Product } from '../../interfaces/home.model/home-model-response';
-import { ShopService } from '../../services/shop.service';
+import { Product } from '../../interfaces/home.model/home-model-response';
+import { HomeStore } from '../../stores/home/home.store';
+import { SectionTitle } from '../../../../shared/ui/section-title/section-title';
 import { OccasionFilter } from '../occasion-filter/occasion-filter';
 import { ProductCard } from '../product-card/product-card';
-import { MOST_POPULAR_LIMIT } from './most-popular.constants';
-import { SectionTitle } from '../../../../shared/ui/section-title/section-title';
 
 @Component({
   selector: 'app-most-popular',
-  imports: [OccasionFilter, ProductCard, RouterLink, SectionTitle, LucideAngularModule],
+  imports: [OccasionFilter, ProductCard, RouterLink, SectionTitle, LucideAngularModule, TranslatePipe],
   templateUrl: './most-popular.html',
   styleUrl: './most-popular.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MostPopular {
-  private readonly shopService = inject(ShopService);
-
+  private readonly store = inject(HomeStore);
   protected readonly ArrowRight = ArrowRight;
-  protected readonly loading = signal(true);
-
-  protected readonly selectedId = signal<string | null>(null);
-
-  protected readonly occasions = toSignal(
-    this.shopService.getOccasions().pipe(
-      map((res) => res.payload.data),
-      catchError(() => of([] as Occasion[])),
-    ),
-    { initialValue: [] as Occasion[] },
-  );
-
-  protected readonly products = toSignal(
-    toObservable(this.selectedId).pipe(
-      tap(() => this.loading.set(true)),
-      switchMap((occasionId) =>
-        this.shopService
-          .getProducts({
-            page: 1,
-            limit: MOST_POPULAR_LIMIT,
-            sortBy: ProductSortBy.MOST_POPULAR,
-            sortOrder: SortOrder.DESC,
-            ...(occasionId ? { occasionId } : {}),
-          })
-          .pipe(
-            map((res) => res.payload.data),
-            catchError(() => of([] as Product[])),
-            tap(() => this.loading.set(false)),
-          ),
-      ),
-    ),
-    { initialValue: [] as Product[] },
-  );
-
+  protected readonly loading = this.store.popularLoading;
+  protected readonly selectedId = this.store.selectedOccasionId;
+  protected readonly occasions = this.store.occasions;
+  protected readonly products = this.store.popular;
   protected onSelectOccasion(id: string | null): void {
-    this.selectedId.set(id);
+    this.store.selectOccasion(id);
   }
-
   protected onAddToCart(product: Product): void {
     console.log('add to cart', product.id);
   }

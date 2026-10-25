@@ -1,11 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideTranslateTesting, useEnglish} from '../../../../shared/utils/testing/translate.testing';
 import { Carousel } from './carousel';
 
 @Component({
   imports: [Carousel],
   template: `
-    <app-carousel [items]="items" [numVisible]="3" [showIndicators]="showIndicators">
+    <app-carousel [items]="items" [numVisible]="3" [showIndicators]="showIndicators()">
       <ng-template #itemTemplate let-item>
         <span class="test-item">{{ item }}</span>
       </ng-template>
@@ -14,7 +15,7 @@ import { Carousel } from './carousel';
 })
 class HostComponent {
   items = ['one', 'two', 'three', 'four'];
-  showIndicators = false;
+  showIndicators = signal(false);
 }
 
 describe('Carousel', () => {
@@ -25,7 +26,11 @@ describe('Carousel', () => {
     element.querySelector('.p-carousel-indicator-list, .p-carousel-indicators');
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({ imports: [HostComponent] }).compileComponents();
+    await TestBed.configureTestingModule({
+      imports: [HostComponent],
+      providers: [provideTranslateTesting()],
+    }).compileComponents();
+    useEnglish();
 
     fixture = TestBed.createComponent(HostComponent);
     fixture.detectChanges();
@@ -49,7 +54,7 @@ describe('Carousel', () => {
   });
 
   it('shows the indicators when enabled', () => {
-    fixture.componentInstance.showIndicators = true;
+    fixture.componentInstance.showIndicators.set(true);
     fixture.detectChanges();
 
     expect(indicators()).toBeTruthy();

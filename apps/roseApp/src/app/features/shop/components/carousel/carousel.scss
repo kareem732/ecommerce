@@ -1,28 +1,45 @@
 :host {
   display: block;
+  min-width: 0;
   --arrow-color: var(--color-maroon-600, #a6252a);
   --arrow-size: 40px;
   --item-gutter: 8px;
 
-  --arrow-shift: 50px;
+  --arrow-shift: 16px;
 
   --arrow-offset: calc(var(--item-gutter) - var(--arrow-size) / 2);
 }
 
 .carousel {
   container-type: inline-size;
+
+  direction: ltr;
+
   --arrow-top: calc((100cqw / var(--visible) - 16px) / 2);
 }
 
 .carousel__item {
+  min-width: 0;
   padding: 0 var(--item-gutter);
 }
 
 :host ::ng-deep {
   .p-carousel,
   .p-carousel-content,
+  .p-carousel-content-container,
+  .p-carousel-viewport,
+  .p-carousel-item-list {
+    direction: ltr !important;
+  }
+
+  .p-carousel,
+  .p-carousel-content,
   .p-carousel-content-container {
     overflow: visible;
+  }
+
+  .p-carousel-item {
+    min-width: 0;
   }
 
   .p-carousel-content-container {
@@ -78,12 +95,12 @@
 
   .p-carousel-prev-button,
   .p-carousel-prev {
-    inset-inline-start: var(--arrow-offset);
+    left: var(--arrow-offset);
   }
 
   .p-carousel-next-button,
   .p-carousel-next {
-    inset-inline-end: var(--arrow-offset);
+    right: var(--arrow-offset);
   }
 
   .p-carousel-prev-button svg,

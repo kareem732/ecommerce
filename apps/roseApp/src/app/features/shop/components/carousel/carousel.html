@@ -1,5 +1,6 @@
-<div class="carousel" [style.--visible]="numVisible()">
+<div class="carousel" dir="ltr" [style.--visible]="numVisible()">
   <p-carousel
+    dir="ltr"
     [value]="items()"
     [numVisible]="numVisible()"
     [numScroll]="numScroll()"
@@ -9,7 +10,7 @@
     [showIndicators]="showIndicators()"
   >
     <ng-template #item let-item>
-      <div class="carousel__item">
+      <div class="carousel__item" [attr.dir]="itemDir()">
         <ng-container
           *ngTemplateOutlet="itemTemplate(); context: { $implicit: item }"
         />

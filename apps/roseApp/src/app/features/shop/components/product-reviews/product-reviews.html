@@ -1,0 +1,59 @@
+<section class="reviews">
+ <div class="container px-10">
+   <app-section-title>{{ 'SHOP.REVIEWS.TITLE' | translate }}</app-section-title>
+
+  @if (summary(); as summary) {
+    <div class="reviews__summary">
+      <p class="reviews__summary-label">{{ 'SHOP.REVIEWS.GENERAL_RATING' | translate }}</p>
+      <p class="reviews__summary-value">
+        <strong>{{ summary.rating | number: '1.0-1' }}</strong>
+        <span>{{ 'SHOP.REVIEWS.RATINGS_COUNT' | translate: { count: summary.count } }}</span>
+      </p>
+      <app-rating-stars [rating]="summary.rating" [size]="18" />
+    </div>
+  }
+
+  <div class="reviews__body" [class.reviews__body--with-form]="isLoggedIn()">
+    <div class="reviews__list" aria-live="polite">
+      @if (firstLoad()) {
+        <div class="reviews__state">
+          <app-spinner [size]="24" [label]="'SHOP.REVIEWS.LOADING' | translate" />
+        </div>
+      } @else if (status() === 'error' && !reviews().length) {
+        <div class="reviews__state">
+          <p>{{ 'SHOP.REVIEWS.LOAD_ERROR' | translate }}</p>
+          <app-button variant="outline" [label]="'SHOP.REVIEWS.RETRY' | translate" (clicked)="retry()" />
+        </div>
+      } @else if (!reviews().length) {
+        <p class="reviews__state">{{ 'SHOP.REVIEWS.EMPTY' | translate }}</p>
+      } @else {
+        @for (review of reviews(); track review.id) {
+          <app-review-card class="reviews__item" [review]="review" />
+        }
+
+        @if (status() === 'error') {
+          <div class="reviews__more">
+            <p class="reviews__error">{{ 'SHOP.REVIEWS.LOAD_ERROR' | translate }}</p>
+            <app-button variant="outline" [label]="'SHOP.REVIEWS.RETRY' | translate" (clicked)="retry()" />
+          </div>
+        } @else if (hasMore()) {
+          <div class="reviews__more">
+            <app-button
+              variant="outline"
+              [label]="'SHOP.REVIEWS.LOAD_MORE' | translate"
+              [loading]="status() === 'loading'"
+              (clicked)="loadMore()"
+            />
+          </div>
+        }
+      }
+    </div>
+
+    @if (isLoggedIn()) {
+      <aside class="reviews__form">
+        <app-review-form [productId]="productId()" (submitted)="onReviewAdded()" />
+      </aside>
+    }
+  </div>
+ </div>
+</section>

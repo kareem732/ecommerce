@@ -1,0 +1,19 @@
+<article class="review">
+  <header class="review__author">
+    <span class="review__avatar" aria-hidden="true">{{ initial() }}</span>
+    <div>
+      <p class="review__name">{{ authorName() }}</p>
+      <time class="review__date" [attr.datetime]="review().createdAt">{{ date() }}</time>
+    </div>
+  </header>
+
+  <div class="review__rating">
+    <app-rating-stars [rating]="review().rating" />
+    <span class="review__rating-value" aria-hidden="true">({{ review().rating }})</span>
+  </div>
+
+  <h3 class="review__headline">{{ review().headline }}</h3>
+  @if (review().content) {
+    <p class="review__content">{{ review().content }}</p>
+  }
+</article>

@@ -1,0 +1,14 @@
+<span
+  class="stars"
+  role="img"
+  [attr.aria-label]="'SHOP.PRODUCT.RATING' | translate: { rating: rating() }"
+>
+  @for (fill of stars(); track $index) {
+    <span class="star" [class.star--full]="fill === 'full'">
+      <lucide-angular [img]="Star" [size]="size()" />
+      @if (fill === 'half') {
+        <lucide-angular class="star__half" [img]="StarHalf" [size]="size()" />
+      }
+    </span>
+  }
+</span>
