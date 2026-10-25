@@ -3,11 +3,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterOutlet, provideRouter } from '@angular/router';
 import { Shop } from './shop';
 
-@Component({ selector: 'app-navbar', template: '' })
-class NavbarStub {}
-
-@Component({ selector: 'app-footer', template: '' })
-class FooterStub {}
+@Component({ selector: 'app-toast-host', template: '' })
+class ToastHostStub {}
 
 describe('Shop', () => {
   let fixture: ComponentFixture<Shop>;
@@ -19,7 +16,7 @@ describe('Shop', () => {
       providers: [provideRouter([])],
     })
       .overrideComponent(Shop, {
-        set: { imports: [RouterOutlet, NavbarStub, FooterStub] },
+        set: { imports: [RouterOutlet, ToastHostStub] },
       })
       .compileComponents();
 
@@ -28,13 +25,13 @@ describe('Shop', () => {
     element = fixture.nativeElement;
   });
 
-  it('renders the navbar, the content area and the footer in order', () => {
+  it('renders the router outlet and the toast host in order', () => {
     const tags = Array.from(element.children).map((child) => child.tagName.toLowerCase());
 
-    expect(tags).toEqual(['app-navbar', 'main', 'app-footer']);
+    expect(tags).toEqual(['router-outlet', 'app-toast-host']);
   });
 
-  it('renders the router outlet inside the main area', () => {
-    expect(element.querySelector('main router-outlet')).toBeTruthy();
+  it('renders the router outlet for the child pages', () => {
+    expect(element.querySelector('router-outlet')).toBeTruthy();
   });
 });

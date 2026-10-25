@@ -1,3 +1,4 @@
+import { makeTestimonialsResponse } from './../../../../shared/utils/testing/testimonial.fixtures';
 import { NgTemplateOutlet } from '@angular/common';
 import { Component, TemplateRef, contentChild, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
@@ -5,10 +6,11 @@ import { provideRouter } from '@angular/router';
 import { of } from 'rxjs';
 import { BestSelling } from './best-selling';
 import { Product } from '../../interfaces/home.model/home-model-response';
-import { makeProduct, makeProductsResponse } from '../../../../shared/utils/testing/product.fixtures';
-import { provideTranslateTesting,useEnglish} from '../../../../shared/utils/testing/translate.testing';
+import { makeOccasionsResponse,makeProduct,makeProductsResponse} from '../../../../shared/utils/testing/product.fixtures';
+import { provideTranslateTesting, useEnglish } from '../../../../shared/utils/testing/translate.testing';
 import { ProductsQuery } from '../../interfaces/home.model/home-model-request';
 import { ShopService } from '../../services/shop.service';
+import { HomeStore } from '../../stores/home/home.store';
 import { Carousel } from '../carousel/carousel';
 import { ProductSortBy, SortOrder } from '../../enums/product-sort';
 
@@ -36,21 +38,24 @@ describe('BestSelling', () => {
 
   let fixture: ComponentFixture<BestSelling>;
   let element: HTMLElement;
-  let lastQuery: ProductsQuery | undefined;
+  let queries: ProductsQuery[];
 
   beforeEach(async () => {
-    lastQuery = undefined;
+    queries = [];
 
     const shopServiceStub = {
       getProducts: (query?: ProductsQuery) => {
-        lastQuery = query;
+        queries.push(query ?? {});
         return of(makeProductsResponse(products));
       },
+      getOccasions: () => of(makeOccasionsResponse([])),
+      getTestimonials: () => of(makeTestimonialsResponse([])),
     };
 
     await TestBed.configureTestingModule({
       imports: [BestSelling],
       providers: [
+        HomeStore,
         { provide: ShopService, useValue: shopServiceStub },
         provideRouter([]),
         provideTranslateTesting(),
@@ -69,12 +74,11 @@ describe('BestSelling', () => {
   });
 
   it('requests the 10 best selling products', () => {
-    expect(lastQuery).toEqual({
-      page: 1,
-      limit: 10,
-      sortBy: ProductSortBy.BEST_SELLING,
-      sortOrder: SortOrder.DESC,
-    });
+    const bestSelling = queries.filter((query) => query.sortBy === ProductSortBy.BEST_SELLING);
+
+    expect(bestSelling).toEqual([
+      { page: 1, limit: 10, sortBy: ProductSortBy.BEST_SELLING, sortOrder: SortOrder.DESC },
+    ]);
   });
 
   it('renders a product card for every product', () => {
