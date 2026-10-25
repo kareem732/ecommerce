@@ -16,6 +16,13 @@ export const localRoutes: Route[] = [
     loadChildren: () =>
       import('../features/shop/routes/shop.routes').then((m) => m.SHOP_ROUTES),
   },
+  {
+    path: 'products',
+    loadChildren: () =>
+      import('../features/products/routes/products.routes').then(
+        (m) => m.productsRoutes,
+      ),
+  },
   { path: '', pathMatch: 'full', redirectTo: 'auth' },
 ];
 export const remoteRoutes: Route[] = [

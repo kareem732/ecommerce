@@ -301,6 +301,20 @@
       "RATING": "التقييم {{rating}} من 5",
       "PRICE": "{{value}} جنيه"
     },
+    "PRODUCT_DETAILS": {
+      "LEFT_IN_STOCK": "{{count}} متبقي في المخزون",
+      "OUT_OF_STOCK": "نفد من المخزون",
+      "RATING_LABEL": "التقييم: {{rating}}/5",
+      "RATINGS_COUNT": "({{count}} تقييم)",
+      "NO_RATINGS": "(لا توجد تقييمات بعد)",
+      "LOADING": "جاري تحميل تفاصيل المنتج...",
+      "ERROR": "تعذر تحميل تفاصيل المنتج.",
+      "NOT_FOUND": "المنتج غير موجود.",
+      "RETRY": "إعادة المحاولة",
+      "VIEW_IMAGE": "عرض الصورة",
+      "MAIN_IMAGE_ALT": "{{title}} العرض الرئيسي للمنتج",
+      "THUMBNAIL_ALT": "{{title}} صورة مصغرة {{index}}"
+    },
         "trustedCompanies": {
       "before": "موثوق بنا من أكثر من",
       "count": "4.5 ألف",
@@ -311,6 +325,13 @@
       "title": "كلمات حقيقية من عملاء سعداء",
       "empty": "لا توجد آراء بعد.",
       "rating": "{{rating}} من 5"
+    }
+  },
+  "PRODUCTS": {
+    "DETAILS": {
+      "PRODUCT_NOT_FOUND": "المنتج غير موجود",
+      "CURRENCY": "جنيه",
+      "NO_IMAGE": "لا تتوفر صورة"
     }
   }
 }

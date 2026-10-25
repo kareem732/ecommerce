@@ -311,7 +311,7 @@
       "Engagement": "Engagement",
       "Molestias adipisicin": "Molestias adipisicin"
     },
-       "PRODUCT": {
+    "PRODUCT": {
       "BADGE": {
         "NEW": "NEW",
         "HOT": "HOT",
@@ -323,6 +323,20 @@
       "RATING": "Rating {{rating}} out of 5",
       "PRICE": "{{value}} EGP"
     },
+    "PRODUCT_DETAILS": {
+      "LEFT_IN_STOCK": "{{count}} left in stock",
+      "OUT_OF_STOCK": "Out of stock",
+      "RATING_LABEL": "Rating: {{rating}}/5",
+      "RATINGS_COUNT": "({{count}} ratings)",
+      "NO_RATINGS": "(No ratings yet)",
+      "LOADING": "Loading product details...",
+      "ERROR": "Failed to load product details.",
+      "NOT_FOUND": "Product not found.",
+      "RETRY": "Retry",
+      "VIEW_IMAGE": "View image",
+      "MAIN_IMAGE_ALT": "{{title}} main product image",
+      "THUMBNAIL_ALT": "{{title}} thumbnail image {{index}}"
+    },
     "trustedCompanies": {
       "before": "Trusted by over",
       "count": "4.5k+",
@@ -333,6 +347,13 @@
       "title": "Real Words from Happy Customers",
       "empty": "No testimonials yet.",
       "rating": "{{rating}} out of 5"
+    }
+  },
+  "PRODUCTS": {
+    "DETAILS": {
+      "PRODUCT_NOT_FOUND": "Product not found",
+      "CURRENCY": "EGP",
+      "NO_IMAGE": "No image available"
     }
   }
 }

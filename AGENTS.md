@@ -71,8 +71,11 @@ This repository was inspected with Angular 21.2.25, Nx 23.2.0, TypeScript 5.9.3,
 - `packages/ui` already provides buttons, inputs, selects, textarea, phone and upload controls, checkbox, OTP, pagination, tabs, alerts, badges, breadcrumbs, cards, error messages, labels, spinner, account menu, and `ToastHost`. Inspect `packages/ui/src/index.ts` and the implementation before creating a substitute.
 - Existing custom form controls implement ControlValueAccessor where applicable. Prefer these when compatible with the task.
 - `packages/theme` contains `ThemeService`/`ThemeToggle`; `packages/shared/i18n` contains `LanguageService` for Arabic/English and RTL/LTR behavior.
+- **Tailwind CSS and PrimeNG are the default and preferred styling tools for Rose App**: Use Tailwind utility classes for layout, spacing, sizing, typography, and visual presentation; use PrimeNG components and their supported styling APIs for interactive widgets.
+- **SCSS is strictly exceptional, not the default**: SCSS must NOT be used for ordinary component styling. It is permitted only when a verified technical limitation prevents Tailwind or PrimeNG from implementing the requirement. Before adding SCSS, verify and document why Tailwind and PrimeNG are insufficient. Do not create an SCSS file merely because a component needs styling.
+- **Styling priority order**: (1) design tokens and theme configuration, (2) PrimeNG component APIs, (3) Tailwind utilities, (4) shared styles in `apps/roseApp/src/styles`, (5) minimal component SCSS only when technically necessary.
 - The workspace uses Tailwind CSS v4 with PrimeNG integration. Preserve the established layer order `@layer theme, base, primeng, components, utilities;`, PrimeNG's matching `cssLayer` configuration, theme presets, and design tokens. Prefer semantic CSS variables such as `--color-primary`, `--bg-surface`, and `--text-primary` over hardcoded colors.
-- Use Tailwind for layout/spacing/responsive utilities and PrimeNG for suitable interactive widgets. Reuse `@org/ui` wrappers first when they provide the required behavior. No global assumption that a shared table or dialog wrapper exists: the inspection found no current `p-table`/`p-dialog` abstraction. Verify current code before introducing or selecting one.
+- Centralize reusable patterns in `apps/roseApp/src/styles` (`_primitives.scss`, `_semantic.scss`). See detailed rules and workflow enforcement in `.agents/rules/angular-ui.md`.
 - Support Arabic/English, RTL/LTR, and dark mode where relevant to the affected feature.
 
 ### State, API, and authentication
