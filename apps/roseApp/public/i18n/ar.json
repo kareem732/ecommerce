@@ -13,6 +13,35 @@
     "DASHBOARD": "لوحة التحكم",
     "SETTINGS": "الإعدادات"
   },
+  "HEADER": {
+    "DELIVER_TO": "التوصيل إلى:",
+    "SELECT_LOCATION": "اختر موقعك",
+    "SEARCH_PLACEHOLDER": "ما هي الهدية الرائعة التي تبحث عنها؟",
+    "SEARCH_ARIA": "البحث عن الهدايا والمنتجات",
+    "HELLO": "مرحبًا",
+    "LOGIN": "تسجيل الدخول",
+    "ACCOUNT": "الحساب",
+    "MY_PROFILE": "ملفي الشخصي",
+    "ADDRESSES": "العناوين",
+    "MY_ADDRESSES": "عناويني",
+    "ORDERS": "الطلبات",
+    "MY_ORDERS": "طلباتي",
+    "DASHBOARD": "لوحة التحكم",
+    "WISHLIST": "قائمة الرغبات",
+    "CART": "سلة التسوق",
+    "NOTIFICATIONS": "الإشعارات",
+    "THEME_TOGGLE": "تبديل المظهر",
+    "MENU": "القائمة",
+    "CLOSE_MENU": "إغلاق القائمة"
+  },
+  "NAV": {
+    "HOME": "الرئيسية",
+    "PRODUCTS": "المنتجات",
+    "CATEGORIES": "الفئات",
+    "OCCASIONS": "المناسبات",
+    "CONTACT": "تواصل معنا",
+    "ABOUT": "من نحن"
+  },
   "AUTH": {
     "LOGIN_TITLE": "مرحبًا بعودتك",
     "GREETING": "أهلًا {{name}}",
@@ -139,6 +168,26 @@
     "HELLO": "مرحبًا،",
     "GREETING": "أهلًا بك {{name}} 👋"
   },
+  "FOOTER": {
+    "APP_TITLE": "تطبيق روز للتجارة الإلكترونية",
+    "RIGHTS": "جميع الحقوق محفوظة",
+    "DISCOVER_TITLE": "اكتشف موقعنا",
+    "HOME": "الرئيسية",
+    "PRODUCTS": "المنتجات",
+    "CATEGORIES": "الفئات",
+    "OCCASIONS": "المناسبات",
+    "CONTACT": "تواصل معنا",
+    "ABOUT": "من نحن",
+    "TERMS": "الشروط والأحكام",
+    "PRIVACY": "سياسة الخصوصية",
+    "FAQS": "الأسئلة الشائعة",
+    "DISCOUNT_TITLE": "احصل على كوبون خصم 20%",
+    "DISCOUNT_SUBTITLE": "من خلال الاشتراك في نشرتنا البريدية",
+    "EMAIL_PLACEHOLDER": "أدخل بريدك الإلكتروني",
+    "SUBSCRIBE": "اشتراك",
+    "SUCCESS": "شكراً لاشتراكك في نشرتنا البريدية!",
+    "INVALID_EMAIL": "يرجى إدخال بريد إلكتروني صحيح"
+  },
   "ABOUT": {
     "LABEL": "من نحن",
     "TITLE_START": "نقدم",
@@ -167,6 +216,30 @@
     "IMAGE_6_ALT": "أفكار لتغليف الهدايا الفاخرة"
   },
   "SHOP": {
+    "REVIEWS": {
+      "TITLE": "تقييمات المنتج",
+      "GENERAL_RATING": "التقييم العام:",
+      "RATINGS_COUNT": "({{count}} تقييم)",
+      "LOADING": "جاري تحميل التقييمات...",
+      "EMPTY": "لا توجد تقييمات بعد. كن أول من يشاركنا رأيه!",
+      "LOAD_ERROR": "تعذر تحميل التقييمات.",
+      "RETRY": "إعادة المحاولة",
+      "LOAD_MORE": "عرض المزيد من التقييمات",
+      "FORM": {
+        "YOUR_RATING": "تقييمك:",
+        "HEADLINE": "العنوان",
+        "HEADLINE_PLACEHOLDER": "أدخل عنوان التقييم",
+        "CONTENT": "التقييم",
+        "CONTENT_PLACEHOLDER": "ما رأيك في هذا المنتج؟",
+        "SUBMIT": "إضافة تقييم",
+        "SUCCESS": "شكرًا لك! تمت إضافة تقييمك.",
+        "ERRORS": {
+          "RATING_REQUIRED": "من فضلك اختر تقييمًا.",
+          "HEADLINE_REQUIRED": "من فضلك أدخل عنوانًا.",
+          "MAX_LENGTH": "يجب ألا يزيد عن {{max}} حرفًا."
+        }
+      }
+    },
     "PROMO": {
       "SPECIAL_GIFTS": {
         "BADGE": "تبدأ من 10.99 جنيه",
@@ -206,7 +279,7 @@
           "TITLE": "احتفل بكل عام من الحب بمفاجأة مميزة"
         }
       },
-        "SLIDER": {
+      "SLIDER": {
         "LABEL": "عروض مميزة",
         "PREV": "الشريحة السابقة",
         "NEXT": "الشريحة التالية",
@@ -279,7 +352,21 @@
       "RATING": "التقييم {{rating}} من 5",
       "PRICE": "{{value}} جنيه"
     },
-        "trustedCompanies": {
+    "PRODUCT_DETAILS": {
+      "LEFT_IN_STOCK": "{{count}} متبقي في المخزون",
+      "OUT_OF_STOCK": "نفد من المخزون",
+      "RATING_LABEL": "التقييم: {{rating}}/5",
+      "RATINGS_COUNT": "({{count}} تقييم)",
+      "NO_RATINGS": "(لا توجد تقييمات بعد)",
+      "LOADING": "جاري تحميل تفاصيل المنتج...",
+      "ERROR": "تعذر تحميل تفاصيل المنتج.",
+      "NOT_FOUND": "المنتج غير موجود.",
+      "RETRY": "إعادة المحاولة",
+      "VIEW_IMAGE": "عرض الصورة",
+      "MAIN_IMAGE_ALT": "{{title}} العرض الرئيسي للمنتج",
+      "THUMBNAIL_ALT": "{{title}} صورة مصغرة {{index}}"
+    },
+    "trustedCompanies": {
       "before": "موثوق بنا من أكثر من",
       "count": "4.5 ألف",
       "after": "شركة"
@@ -289,6 +376,13 @@
       "title": "كلمات حقيقية من عملاء سعداء",
       "empty": "لا توجد آراء بعد.",
       "rating": "{{rating}} من 5"
+    }
+  },
+  "PRODUCTS": {
+    "DETAILS": {
+      "PRODUCT_NOT_FOUND": "المنتج غير موجود",
+      "CURRENCY": "جنيه",
+      "NO_IMAGE": "لا تتوفر صورة"
     }
   }
 }

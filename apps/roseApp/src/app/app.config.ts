@@ -8,6 +8,7 @@ import {
   provideBrowserGlobalErrorListeners,
 } from '@angular/core';
 import { provideAuth } from '@org/auth-service';
+import { ThemeService } from '@org/theme';
 import { provideRouter } from '@angular/router';
 import { definePreset } from '@primeuix/themes';
 import Aura from '@primeuix/themes/aura';
@@ -53,7 +54,10 @@ export const appConfig: ApplicationConfig = {
     provideBrowserGlobalErrorListeners(),
     provideHttpClient(),
     provideI18n(i18nConfig),
-    provideAppInitializer(() => inject(LanguageService).initialize()),
+    provideAppInitializer(() => {
+      inject(ThemeService);
+      return inject(LanguageService).initialize();
+    }),
     provideAuth({ apiUrl: environment.apiUrl }),
     provideRouter(appRoutes),
     providePrimeNG({

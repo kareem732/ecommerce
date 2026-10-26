@@ -7,6 +7,7 @@ describe('SessionService', () => {
   let tokens: TokenService;
 
   beforeEach(() => {
+    localStorage.clear();
     TestBed.configureTestingModule({ providers: [provideAuthConfigForTests()] });
     tokens = TestBed.inject(TokenService);
     tokens.clear();
@@ -15,6 +16,7 @@ describe('SessionService', () => {
   afterEach(() => {
     jest.restoreAllMocks();
     tokens.clear();
+    localStorage.clear();
   });
 
   it('starts logged out', () => {
@@ -80,6 +82,18 @@ describe('SessionService', () => {
   it('setUser() hydrates the user', () => {
     const session = TestBed.inject(SessionService);
     session.setUser(TEST_USER);
+    expect(session.user()).toEqual(TEST_USER);
+    expect(localStorage.getItem('firstName')).toBe(TEST_USER.firstName);
+  });
+
+  it('restores the user from localStorage when a valid token exists', () => {
+    tokens.setToken(makeJwt());
+    localStorage.setItem('user', JSON.stringify(TEST_USER));
+    localStorage.setItem('firstName', TEST_USER.firstName);
+    localStorage.setItem('lastName', TEST_USER.lastName);
+
+    const session = TestBed.inject(SessionService);
+    expect(session.isLoggedIn()).toBe(true);
     expect(session.user()).toEqual(TEST_USER);
   });
 });

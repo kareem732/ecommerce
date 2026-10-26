@@ -13,6 +13,35 @@
     "DASHBOARD": "Dashboard",
     "SETTINGS": "Settings"
   },
+  "HEADER": {
+    "DELIVER_TO": "Deliver to:",
+    "SELECT_LOCATION": "Select location",
+    "SEARCH_PLACEHOLDER": "What awesome gift are you looking for?",
+    "SEARCH_ARIA": "Search gifts and products",
+    "HELLO": "Hello",
+    "LOGIN": "Login",
+    "ACCOUNT": "Account",
+    "MY_PROFILE": "My Profile",
+    "ADDRESSES": "Addresses",
+    "MY_ADDRESSES": "My Addresses",
+    "ORDERS": "Orders",
+    "MY_ORDERS": "My Orders",
+    "DASHBOARD": "Dashboard",
+    "WISHLIST": "Wishlist",
+    "CART": "Cart",
+    "NOTIFICATIONS": "Notifications",
+    "THEME_TOGGLE": "Toggle theme",
+    "MENU": "Menu",
+    "CLOSE_MENU": "Close menu"
+  },
+  "NAV": {
+    "HOME": "Home",
+    "PRODUCTS": "Products",
+    "CATEGORIES": "Categories",
+    "OCCASIONS": "Occasions",
+    "CONTACT": "Contact",
+    "ABOUT": "About"
+  },
   "AUTH": {
     "LOGIN_TITLE": "Welcome Back",
     "GREETING": "Hello {{name}}",
@@ -66,11 +95,6 @@
       "GENDER": "Gender",
       "GENDER_PLACEHOLDER": "Select gender",
       "MALE": "Male",
-      "TOAST": {
-        "CODE_SENT": "Verification code sent to your email",
-        "CODE_VERIFIED": "Email verified successfully",
-        "ACCOUNT_CREATED": "Your account has been created"
-      },
       "FEMALE": "Female",
       "PASSWORD": "Password",
       "PASSWORD_PLACEHOLDER": "*******",
@@ -144,6 +168,26 @@
     "HELLO": "Hello there,",
     "GREETING": "Welcome {{name}} 👋"
   },
+  "FOOTER": {
+    "APP_TITLE": "Rose E-Commerce App",
+    "RIGHTS": "All rights reserved",
+    "DISCOVER_TITLE": "Discover our website",
+    "HOME": "Home",
+    "PRODUCTS": "Products",
+    "CATEGORIES": "Categories",
+    "OCCASIONS": "Occasions",
+    "CONTACT": "Contact",
+    "ABOUT": "About",
+    "TERMS": "Terms & Conditions",
+    "PRIVACY": "Privacy Policy",
+    "FAQS": "FAQs",
+    "DISCOUNT_TITLE": "Get 20% Off Discount Coupon",
+    "DISCOUNT_SUBTITLE": "By subscribing to our newsletter",
+    "EMAIL_PLACEHOLDER": "Enter Your Email",
+    "SUBSCRIBE": "Subscribe",
+    "SUCCESS": "Thank you for subscribing to our newsletter!",
+    "INVALID_EMAIL": "Please enter a valid email address"
+  },
   "ABOUT": {
     "LABEL": "About",
     "TITLE_START": "Delivering the",
@@ -171,7 +215,7 @@
     "IMAGE_5_ALT": "Wedding and graduation gifts",
     "IMAGE_6_ALT": "Luxury gift packaging ideas"
   },
-    "SHOP": {
+  "SHOP": {
     "REVIEWS": {
       "TITLE": "Product Reviews",
       "GENERAL_RATING": "General rating:",
@@ -193,7 +237,9 @@
           "RATING_REQUIRED": "Please choose a rating.",
           "HEADLINE_REQUIRED": "Please enter a title.",
           "MAX_LENGTH": "Must be {{max}} characters or fewer."
-        }}},
+        }
+      }
+    },
     "PROMO": {
       "SPECIAL_GIFTS": {
         "BADGE": "Starting from 10.99 EGP",
@@ -237,7 +283,7 @@
         "LABEL": "Featured offers",
         "PREV": "Previous slide",
         "NEXT": "Next slide",
-                "GO_TO": "Go to slide {{index}}"
+        "GO_TO": "Go to slide {{index}}"
       }
     },
     "FEATURES": {
@@ -294,7 +340,7 @@
       "Engagement": "Engagement",
       "Molestias adipisicin": "Molestias adipisicin"
     },
-       "PRODUCT": {
+    "PRODUCT": {
       "BADGE": {
         "NEW": "NEW",
         "HOT": "HOT",
@@ -306,6 +352,20 @@
       "RATING": "Rating {{rating}} out of 5",
       "PRICE": "{{value}} EGP"
     },
+    "PRODUCT_DETAILS": {
+      "LEFT_IN_STOCK": "{{count}} left in stock",
+      "OUT_OF_STOCK": "Out of stock",
+      "RATING_LABEL": "Rating: {{rating}}/5",
+      "RATINGS_COUNT": "({{count}} ratings)",
+      "NO_RATINGS": "(No ratings yet)",
+      "LOADING": "Loading product details...",
+      "ERROR": "Failed to load product details.",
+      "NOT_FOUND": "Product not found.",
+      "RETRY": "Retry",
+      "VIEW_IMAGE": "View image",
+      "MAIN_IMAGE_ALT": "{{title}} main product image",
+      "THUMBNAIL_ALT": "{{title}} thumbnail image {{index}}"
+    },
     "trustedCompanies": {
       "before": "Trusted by over",
       "count": "4.5k+",
@@ -316,6 +376,13 @@
       "title": "Real Words from Happy Customers",
       "empty": "No testimonials yet.",
       "rating": "{{rating}} out of 5"
+    }
+  },
+  "PRODUCTS": {
+    "DETAILS": {
+      "PRODUCT_NOT_FOUND": "Product not found",
+      "CURRENCY": "EGP",
+      "NO_IMAGE": "No image available"
     }
   }
 }
