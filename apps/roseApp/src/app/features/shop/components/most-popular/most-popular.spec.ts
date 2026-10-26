@@ -5,9 +5,19 @@ import { ProductSortBy, SortOrder } from '../../enums/product-sort';
 import { ProductsQuery } from '../../interfaces/home.model/home-model-request';
 import { Product } from '../../interfaces/home.model/home-model-response';
 import { ShopService } from '../../services/shop.service';
-import { makeOccasion,makeOccasionsResponse,makeProduct,makeProductsResponse,} from '../../../../shared/utils/testing/product.fixtures';
-import {provideTranslateTesting,useEnglish,} from '../../../../shared/utils/testing/translate.testing';
+import { HomeStore } from '../../stores/home/home.store';
+import {
+  makeOccasion,
+  makeOccasionsResponse,
+  makeProduct,
+  makeProductsResponse,
+} from '../../../../shared/utils/testing/product.fixtures';
+import {
+  provideTranslateTesting,
+  useEnglish,
+} from '../../../../shared/utils/testing/translate.testing';
 import { MostPopular } from './most-popular';
+import { makeTestimonialsResponse } from '../../../../shared/utils/testing/testimonial.fixtures';
 
 describe('MostPopular', () => {
   const occasions = [
@@ -23,6 +33,9 @@ describe('MostPopular', () => {
   const filterButtons = () =>
     element.querySelectorAll<HTMLButtonElement>('.filter__item');
 
+  const popularQueries = () =>
+    queries.filter((query) => query.sortBy === ProductSortBy.MOST_POPULAR);
+
   const settle = async () => {
     fixture.detectChanges();
     await fixture.whenStable();
@@ -33,10 +46,12 @@ describe('MostPopular', () => {
     await TestBed.configureTestingModule({
       imports: [MostPopular],
       providers: [
+        HomeStore,
         {
           provide: ShopService,
           useValue: {
             getOccasions: () => of(makeOccasionsResponse(occasions)),
+            getTestimonials: () => of(makeTestimonialsResponse([])),
             getProducts: (query?: ProductsQuery) => {
               queries.push(query ?? {});
               return of(makeProductsResponse(productsResult));
@@ -65,23 +80,16 @@ describe('MostPopular', () => {
   it('renders the section title', async () => {
     await setup();
 
-    expect(element.querySelector('app-section-title')?.textContent?.trim()).toBe(
-      'Most Popular',
-    );
+    expect(element.querySelector('app-section-title')?.textContent?.trim()).toBe('Most Popular');
   });
 
   it('requests all the most popular products by default', async () => {
     await setup();
 
-    expect(queries).toEqual([
-      {
-        page: 1,
-        limit: 12,
-        sortBy: ProductSortBy.MOST_POPULAR,
-        sortOrder: SortOrder.DESC,
-      },
+    expect(popularQueries()).toEqual([
+      { page: 1, limit: 12, sortBy: ProductSortBy.MOST_POPULAR, sortOrder: SortOrder.DESC },
     ]);
-    expect(queries[0].occasionId).toBeUndefined();
+    expect(popularQueries()[0].occasionId).toBeUndefined();
   });
 
   it('renders All followed by the occasions, with All active', async () => {
@@ -104,8 +112,8 @@ describe('MostPopular', () => {
     filterButtons()[2].click();
     await settle();
 
-    expect(queries).toHaveLength(2);
-    expect(queries[1].occasionId).toBe('a');
+    expect(popularQueries()).toHaveLength(2);
+    expect(popularQueries()[1].occasionId).toBe('a');
   });
 
   it('marks the clicked occasion as active', async () => {
@@ -114,9 +122,7 @@ describe('MostPopular', () => {
     filterButtons()[1].click();
     await settle();
 
-    expect(element.querySelector('.filter__item--active')?.textContent?.trim()).toBe(
-      'Wedding',
-    );
+    expect(element.querySelector('.filter__item--active')?.textContent?.trim()).toBe('Wedding');
   });
 
   it('drops the occasion filter when All is selected again', async () => {
@@ -127,8 +133,8 @@ describe('MostPopular', () => {
     filterButtons()[0].click();
     await settle();
 
-    expect(queries).toHaveLength(3);
-    expect(queries[2].occasionId).toBeUndefined();
+    expect(popularQueries()).toHaveLength(3);
+    expect(popularQueries()[2].occasionId).toBeUndefined();
   });
 
   it('shows an empty message when there are no products', async () => {
