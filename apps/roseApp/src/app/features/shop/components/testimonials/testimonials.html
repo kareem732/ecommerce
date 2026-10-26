@@ -9,10 +9,9 @@
   </div>
   <div class="bg-zinc-700 p-2.5 w-full !min-h-[550px] flex items-center">
     <div class="mx-auto grid w-full max-w-7xl grid-cols-1 justify-items-center gap-3 md:grid-cols-2 xl:grid-cols-3">
-        @for(t of testimonials ;track t.id){
+        @for (t of testimonials(); track t.id) {
         <app-testimonial-card [testimonial]="t"></app-testimonial-card>
         }
     </div>
   </div>
 </div>
-    

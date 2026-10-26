@@ -1,5 +1,6 @@
 :host {
   display: block;
+  min-width: 0;
   --arrow-color: var(--color-maroon-600, #a6252a);
   --arrow-size: 40px;
   --item-gutter: 8px;
@@ -18,6 +19,7 @@
 }
 
 .carousel__item {
+  min-width: 0;
   padding: 0 var(--item-gutter);
 }
 
@@ -34,6 +36,10 @@
   .p-carousel-content,
   .p-carousel-content-container {
     overflow: visible;
+  }
+
+  .p-carousel-item {
+    min-width: 0;
   }
 
   .p-carousel-content-container {
