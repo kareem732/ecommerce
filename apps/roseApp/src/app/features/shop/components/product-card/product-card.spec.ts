@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ProductCard } from './product-card';
 import { Product } from '../../interfaces/home.model/home-model-response';
 import { daysAgo, makeProduct } from '../../../../shared/utils/testing/product.fixtures';
-import { provideTranslateTesting,useEnglish,} from '../../../../shared/utils/testing/translate.testing';
+import { provideTranslateTesting, useEnglish } from '../../../../shared/utils/testing/translate.testing';
 
 describe('ProductCard', () => {
   let fixture: ComponentFixture<ProductCard>;
@@ -56,8 +56,8 @@ describe('ProductCard', () => {
     it('fills as many stars as the rating', () => {
       render({ rating: 3 });
 
-      expect(element.querySelectorAll('.star')).toHaveLength(5);
-      expect(element.querySelectorAll('.star--filled')).toHaveLength(3);
+      expect(element.querySelectorAll('lucide-angular.star')).toHaveLength(5);
+      expect(element.querySelectorAll('lucide-angular.star--filled')).toHaveLength(3);
     });
 
     it('labels the rating and the buttons for screen readers', () => {

@@ -188,6 +188,33 @@
     "SUCCESS": "Thank you for subscribing to our newsletter!",
     "INVALID_EMAIL": "Please enter a valid email address"
   },
+  "ABOUT": {
+    "LABEL": "About",
+    "TITLE_START": "Delivering the",
+    "TITLE_HIGHLIGHT_1": "Finest",
+    "TITLE_MIDDLE": "Gift Boxes for Your",
+    "TITLE_HIGHLIGHT_2": "Special",
+    "TITLE_END": "Moments",
+    "DESCRIPTION": "Make every moment memorable with our premium gift boxes. Carefully curated and beautifully packaged, each box is filled with handpicked items designed to impress. Whether it's for a birthday, wedding, or a simple “thank you,” our gift boxes are crafted to leave a lasting impression — because thoughtful gifting starts here.",
+    "DISCOVER": "Discover",
+    "FEATURE_1": "Competitive Prices & Easy Shopping",
+    "FEATURE_2": "Premium Quality & Elegant Packaging",
+    "FEATURE_3": "Perfect for Every Occasion",
+    "FEATURE_4": "Fast & Reliable Delivery",
+    "MAIN_IMAGE_ALT": "Gift box with ribbon",
+    "SECOND_IMAGE_ALT": "Elegant gift box",
+    "THIRD_IMAGE_ALT": "Gift box with balloons"
+  },
+  "GALLERY": {
+    "LABEL": "Gallery",
+    "TITLE_REST": "Check Out our Wonderful Gallery",
+    "IMAGE_1_ALT": "Gift box collection",
+    "IMAGE_2_ALT": "Elegant gifts for special occasions",
+    "IMAGE_3_ALT": "Beautifully packaged gift box",
+    "IMAGE_4_ALT": "Flowers and chocolates gift arrangement",
+    "IMAGE_5_ALT": "Wedding and graduation gifts",
+    "IMAGE_6_ALT": "Luxury gift packaging ideas"
+  },
   "SHOP": {
     "REVIEWS": {
       "TITLE": "Product Reviews",
@@ -210,7 +237,9 @@
           "RATING_REQUIRED": "Please choose a rating.",
           "HEADLINE_REQUIRED": "Please enter a title.",
           "MAX_LENGTH": "Must be {{max}} characters or fewer."
-        }}},
+        }
+      }
+    },
     "PROMO": {
       "SPECIAL_GIFTS": {
         "BADGE": "Starting from 10.99 EGP",
@@ -254,7 +283,7 @@
         "LABEL": "Featured offers",
         "PREV": "Previous slide",
         "NEXT": "Next slide",
-                "GO_TO": "Go to slide {{index}}"
+        "GO_TO": "Go to slide {{index}}"
       }
     },
     "FEATURES": {
@@ -311,7 +340,7 @@
       "Engagement": "Engagement",
       "Molestias adipisicin": "Molestias adipisicin"
     },
-       "PRODUCT": {
+    "PRODUCT": {
       "BADGE": {
         "NEW": "NEW",
         "HOT": "HOT",
@@ -323,6 +352,20 @@
       "RATING": "Rating {{rating}} out of 5",
       "PRICE": "{{value}} EGP"
     },
+    "PRODUCT_DETAILS": {
+      "LEFT_IN_STOCK": "{{count}} left in stock",
+      "OUT_OF_STOCK": "Out of stock",
+      "RATING_LABEL": "Rating: {{rating}}/5",
+      "RATINGS_COUNT": "({{count}} ratings)",
+      "NO_RATINGS": "(No ratings yet)",
+      "LOADING": "Loading product details...",
+      "ERROR": "Failed to load product details.",
+      "NOT_FOUND": "Product not found.",
+      "RETRY": "Retry",
+      "VIEW_IMAGE": "View image",
+      "MAIN_IMAGE_ALT": "{{title}} main product image",
+      "THUMBNAIL_ALT": "{{title}} thumbnail image {{index}}"
+    },
     "trustedCompanies": {
       "before": "Trusted by over",
       "count": "4.5k+",
@@ -333,6 +376,13 @@
       "title": "Real Words from Happy Customers",
       "empty": "No testimonials yet.",
       "rating": "{{rating}} out of 5"
+    }
+  },
+  "PRODUCTS": {
+    "DETAILS": {
+      "PRODUCT_NOT_FOUND": "Product not found",
+      "CURRENCY": "EGP",
+      "NO_IMAGE": "No image available"
     }
   }
 }

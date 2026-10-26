@@ -1,0 +1,49 @@
+<section [attr.lang]="currentLanguage" [attr.dir]="currentLanguage === 'ar' ? 'rtl' : 'ltr'"
+  class="container mx-auto mt-16 md:mt-24 lg:mt-33.25 px-4 sm:px-6 lg:px-8">
+
+  <div class="w-full max-w-320.25 min-h-286.75 mx-auto flex flex-col">
+
+    <!-- Section Heading -->
+    <div class="flex flex-col items-center justify-center text-center">
+      <span class="font-['Sarabun'] text-base font-bold leading-none tracking-[0.25em] uppercase text-[#D75458]">
+        {{'GALLERY.LABEL' | translate}}
+      </span>
+
+      <h2 class="font-primary mt-2 text-2xl sm:text-3xl lg:text-4xl font-bold leading-tight text-[#FFC2D0]">
+        {{'GALLERY.TITLE_REST' | translate}}
+      </h2>
+    </div>
+
+    <!-- Gallery Grid -->
+    <div class="mt-8 md:mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 lg:gap-6">
+
+      <!-- Column 1 -->
+      <div class="flex flex-col gap-3.5">
+        <img class="block w-full h-auto object-cover rounded-lg" src="http://localhost:4202/Frame%2074.png"
+          alt="Gallery image 1" loading="lazy" />
+
+        <img class="block w-full h-auto object-cover rounded-lg" src="http://localhost:4202/Frame%2079.png"
+          alt="Gallery image 2" loading="lazy" />
+      </div>
+
+      <!-- Column 2 -->
+      <div class="flex flex-col gap-3.5">
+        <img class="block w-full h-auto object-cover rounded-lg" src="http://localhost:4202/Frame%2075.png"
+          alt="Gallery image 3" loading="lazy" />
+
+        <img class="block w-full h-auto object-cover rounded-lg" src="http://localhost:4202/Frame%2078.png"
+          alt="Gallery image 4" loading="lazy" />
+      </div>
+
+      <!-- Column 3 -->
+      <div class="flex flex-col gap-3.5 sm:col-span-2 lg:col-span-1">
+        <img class="block w-full h-auto object-cover rounded-lg" src="http://localhost:4202/Frame%2076.png"
+          alt="Gallery image 5" loading="lazy" />
+
+        <img class="block w-full h-auto object-cover rounded-lg" src="http://localhost:4202/Frame%2080.png"
+          alt="Gallery image 6" loading="lazy" />
+      </div>
+
+    </div>
+  </div>
+</section>
