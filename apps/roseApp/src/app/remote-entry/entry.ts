@@ -2,9 +2,10 @@ import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { LanguageService, LanguageEnum } from '@org/shared-i18n';
 import { ThemeService } from '@org/theme';
+import { Loading } from '../core/components/loading/loading';
 
 @Component({
-  imports: [RouterOutlet, ],
+  imports: [RouterOutlet, Loading],
   selector: 'app-rose-app-entry',
   host: {
     class: 'block h-full w-full',
@@ -12,6 +13,7 @@ import { ThemeService } from '@org/theme';
   template: `
     <div [dir]="language.direction()" class="h-full w-full">
       <router-outlet></router-outlet>
+      <app-loading />
     </div>
     `,
 })

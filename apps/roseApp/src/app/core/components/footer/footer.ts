@@ -7,8 +7,6 @@ import { FooterService } from './footer.service';
 import { FooterLink } from './footer.model';
 import { FOOTER_NAVIGATION_LINKS } from './footer.control';
 
-
-
 @Component({
   selector: 'app-footer',
   standalone: true,
@@ -25,7 +23,6 @@ export class Footer {
   readonly email = signal('');
   readonly emailError = signal<string | null>(null);
   readonly isSubscribed = signal(false);
-  readonly isLoading = signal(false);
 
   readonly navLinks: FooterLink[] = FOOTER_NAVIGATION_LINKS;
 
@@ -39,7 +36,6 @@ export class Footer {
   onSubscribe(event: Event): void {
     event.preventDefault();
     this.emailError.set(null);
-    this.isLoading.set(true);
 
     this.footerService
       .subscriptionEmail({ email: this.email() })
@@ -47,15 +43,8 @@ export class Footer {
       .subscribe({
         next: () => {
           this.isSubscribed.set(true);
-          this.isLoading.set(false);
           this.email.set('');
-        },
-        error: () => {
-          this.isSubscribed.set(false);
-          this.isLoading.set(false);
-          this.emailError.set('FOOTER.INVALID_EMAIL');
         },
       });
   }
 }
-

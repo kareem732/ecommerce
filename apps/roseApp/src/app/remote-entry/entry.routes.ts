@@ -1,10 +1,13 @@
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { LanguageService, provideI18n } from '@org/shared-i18n';
 import { i18nConfig } from '../i18n.config';
 import { Route } from '@angular/router';
-import { provideAuth } from '@org/auth-service';
+import { authInterceptor, errorInterceptor, provideAuth } from '@org/auth-service';
 import { environment } from '../../environments/environment';
+import { loadingInterceptor } from '../core/interceptors/loading.interceptor';
+import { RemoteEntry } from './entry';
+
 export const localRoutes: Route[] = [
   {
     path: 'auth',
@@ -25,13 +28,25 @@ export const localRoutes: Route[] = [
   },
   { path: '', pathMatch: 'full', redirectTo: 'auth' },
 ];
+
 export const remoteRoutes: Route[] = [
   {
     path: '',
+    component: RemoteEntry,
     providers: [
-      provideHttpClient(),
+      provideHttpClient(
+        withInterceptors([
+          loadingInterceptor,
+          authInterceptor,
+          errorInterceptor,
+        ]),
+      ),
       provideI18n(i18nConfig),
-      provideAuth({ apiUrl: environment.apiUrl, homeRoute: '/shop' }),
+      provideAuth({
+        apiUrl: environment.apiUrl,
+        homeRoute: '/shop',
+        includeHttpClient: false,
+      }),
     ],
     resolve: { language: () => inject(LanguageService).initialize() },
     children: localRoutes,

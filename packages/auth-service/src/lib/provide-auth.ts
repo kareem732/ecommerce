@@ -12,9 +12,10 @@ import { OtpService } from './services/otp.service';
 import { PasswordResetService } from './services/password-reset.service';
 
 export function provideAuth(config: AuthConfigInput): EnvironmentProviders {
-  return makeEnvironmentProviders([
-    { provide: AUTH_CONFIG, useValue: { ...DEFAULT_AUTH_CONFIG, ...config } },
-    provideHttpClient(withInterceptors([authInterceptor, errorInterceptor])),
+  const { includeHttpClient = true, ...authConfig } = config;
+
+  const providers: unknown[] = [
+    { provide: AUTH_CONFIG, useValue: { ...DEFAULT_AUTH_CONFIG, ...authConfig } },
     TokenService,
     SessionService,
     AuthApiService,
@@ -22,5 +23,11 @@ export function provideAuth(config: AuthConfigInput): EnvironmentProviders {
     LoginService,
     OtpService,
     PasswordResetService,
-  ]);
+  ];
+
+  if (includeHttpClient) {
+    providers.push(provideHttpClient(withInterceptors([authInterceptor, errorInterceptor])));
+  }
+
+  return makeEnvironmentProviders(providers as Parameters<typeof makeEnvironmentProviders>[0]);
 }

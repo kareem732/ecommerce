@@ -3,3 +3,12 @@ export interface FooterLink {
   labelKey: string;
   route: string;
 }
+
+export interface SubscriptionRequest {
+  email: string;
+}
+
+export interface SubscriptionResponse {
+  message?: string;
+  [key: string]: unknown;
+}

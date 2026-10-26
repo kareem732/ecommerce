@@ -25,14 +25,12 @@ import {
 } from 'primeng/types/carousel';
 import { Product } from '../../../shop/interfaces/home.model/home-model-response';
 import { Spinner } from '@org/ui';
-import { ProductDetailsState } from '../../modules/prodect-deatils.model';
+import {
+  GalleryItem,
+  ProductDetailsState,
+} from '../../modules/prodect-deatils.model';
 import { ProductsService } from '../../services/products.service';
 import { ProductReviews } from '../../../shop/components/product-reviews/product-reviews';
-
-export interface GalleryItem {
-  url: string;
-  index: number;
-}
 
 @Component({
   selector: 'app-product-details',

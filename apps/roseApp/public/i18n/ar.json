@@ -7,7 +7,8 @@
     "CANCEL": "إلغاء",
     "NEXT": "التالي",
     "BACK": "رجوع",
-    "SWITCH_LANGUAGE": "English"
+    "SWITCH_LANGUAGE": "English",
+    "LOADING": "جاري التحميل..."
   },
   "NAVIGATION": {
     "DASHBOARD": "لوحة التحكم",
@@ -189,6 +190,30 @@
     "INVALID_EMAIL": "يرجى إدخال بريد إلكتروني صحيح"
   },
   "SHOP": {
+    "REVIEWS": {
+      "TITLE": "تقييمات المنتج",
+      "GENERAL_RATING": "التقييم العام:",
+      "RATINGS_COUNT": "({{count}} تقييم)",
+      "LOADING": "جاري تحميل التقييمات",
+      "EMPTY": "لا توجد تقييمات حتى الآن. كن أول من يشارك أفكارك!",
+      "LOAD_ERROR": " لم نتمكن من تحميل المراجعات.",
+      "RETRY": "حاول مرة أخرى",
+      "LOAD_MORE": "عرض المزيد من التقييمات",
+      "FORM": {
+        "YOUR_RATING": "التقييم الخاص بك:",
+        "HEADLINE": "العنوان",
+        "HEADLINE_PLACEHOLDER": "أدخل عنوان التقييم",
+        "CONTENT": "التقييم",
+        "CONTENT_PLACEHOLDER": "ما رأيك في هذا المنتج؟",
+        "SUBMIT": "إضافة تقييم",
+        "SUCCESS": "شكراً! تم إضافة التقييم بنجاح.",
+        "ERRORS": {
+          "RATING_REQUIRED": "يرجى اختيار تقييم.",
+          "HEADLINE_REQUIRED": "يرجى إدخال عنوان.",
+          "MAX_LENGTH": "يجب أن يكون {{max}} حرفًا أو أقل."
+        }
+      }
+    },
     "PROMO": {
       "SPECIAL_GIFTS": {
         "BADGE": "تبدأ من 10.99 جنيه",
@@ -228,7 +253,7 @@
           "TITLE": "احتفل بكل عام من الحب بمفاجأة مميزة"
         }
       },
-            "SLIDER": {
+      "SLIDER": {
         "LABEL": "عروض مميزة",
         "PREV": "الشريحة السابقة",
         "NEXT": "الشريحة التالية",
@@ -315,7 +340,7 @@
       "MAIN_IMAGE_ALT": "{{title}} العرض الرئيسي للمنتج",
       "THUMBNAIL_ALT": "{{title}} صورة مصغرة {{index}}"
     },
-        "trustedCompanies": {
+    "trustedCompanies": {
       "before": "موثوق بنا من أكثر من",
       "count": "4.5 ألف",
       "after": "شركة"

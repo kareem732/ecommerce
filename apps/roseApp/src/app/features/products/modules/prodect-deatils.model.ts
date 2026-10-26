@@ -51,3 +51,8 @@ export interface IProductResponse {
 
 export type ProductDetailsState =
   'loading' | 'success' | 'error' | 'not-found' | 'missing-id';
+
+export interface GalleryItem {
+  url: string;
+  index: number;
+}

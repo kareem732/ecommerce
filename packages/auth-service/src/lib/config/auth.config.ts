@@ -8,7 +8,10 @@ export interface AuthConfig {
   homeRoute: string;
 }
 
-export type AuthConfigInput = Pick<AuthConfig, 'apiUrl'> & Partial<AuthConfig>;
+export type AuthConfigInput = Pick<AuthConfig, 'apiUrl'> &
+  Partial<AuthConfig> & {
+    includeHttpClient?: boolean;
+  };
 
 export const DEFAULT_AUTH_CONFIG: Omit<AuthConfig, 'apiUrl'> = {
   tokenCookieName: 'rose_token',
