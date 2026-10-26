@@ -1,4 +1,5 @@
-import { Injectable, computed, signal } from '@angular/core';
+import { Injectable, computed, inject, signal } from '@angular/core';
+import { CookieService } from 'ngx-cookie-service';
 
 export interface AuthUser {
   id: string;
@@ -17,6 +18,7 @@ export const AUTH_STORAGE_KEY = 'auth_session';
 
 @Injectable({ providedIn: 'root' })
 export class AuthStore {
+  private readonly cookies = inject(CookieService);
   private readonly _token = signal<string | null>(null);
   private readonly _user = signal<AuthUser | null>(null);
 
@@ -52,7 +54,7 @@ export class AuthStore {
     this._token.set(null);
     this._user.set(null);
     try {
-      localStorage.removeItem(AUTH_STORAGE_KEY);
+      this.cookies.delete(AUTH_STORAGE_KEY, '/', undefined, undefined, 'Strict');
     } catch {
       /* storage unavailable */
     }
@@ -60,7 +62,10 @@ export class AuthStore {
 
   private persist(session: AuthSession): void {
     try {
-      localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(session));
+      this.cookies.set(AUTH_STORAGE_KEY, JSON.stringify(session), {
+        path: '/',
+        sameSite: 'Strict',
+      });
     } catch {
       /* storage unavailable */
     }
@@ -68,7 +73,7 @@ export class AuthStore {
 
   private hydrate(): void {
     try {
-      const raw = localStorage.getItem(AUTH_STORAGE_KEY);
+      const raw = this.cookies.get(AUTH_STORAGE_KEY);
       if (!raw) return;
 
       const session = JSON.parse(raw) as Partial<AuthSession>;
@@ -76,10 +81,10 @@ export class AuthStore {
         this._token.set(session.token);
         this._user.set(session.user);
       } else {
-        localStorage.removeItem(AUTH_STORAGE_KEY);
+        this.cookies.delete(AUTH_STORAGE_KEY, '/', undefined, undefined, 'Strict');
       }
     } catch {
-      localStorage.removeItem(AUTH_STORAGE_KEY);
+      this.cookies.delete(AUTH_STORAGE_KEY, '/', undefined, undefined, 'Strict');
     }
   }
 }

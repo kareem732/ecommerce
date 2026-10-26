@@ -1,4 +1,5 @@
 import { Injectable, computed, inject, signal } from '@angular/core';
+import { CookieService } from 'ngx-cookie-service';
 import { AuthPayload } from '../models/register.model';
 import { AuthUser } from '../models/user.model';
 import { TokenService } from './token.service';
@@ -6,6 +7,7 @@ import { TokenService } from './token.service';
 @Injectable({ providedIn: 'root' })
 export class SessionService {
   private readonly tokens = inject(TokenService);
+  private readonly cookieService = inject(CookieService);
   private readonly _user = signal<AuthUser | null>(this.getInitialUser());
   private readonly _token = signal<string | null>(this.tokens.getToken());
 
@@ -16,12 +18,12 @@ export class SessionService {
     this.tokens.setToken(payload.token, remember);
     this._token.set(payload.token);
     this._user.set(payload.user);
-    this.saveUserToStorage(payload.user);
+    this.saveUserToStorage(payload.user, remember);
   }
 
-  setUser(user: AuthUser): void {
+  setUser(user: AuthUser, remember = false): void {
     this._user.set(user);
-    this.saveUserToStorage(user);
+    this.saveUserToStorage(user, remember);
   }
 
   clear(): void {
@@ -36,27 +38,25 @@ export class SessionService {
       return null;
     }
     try {
-      if (typeof localStorage !== 'undefined') {
-        const stored = localStorage.getItem('user');
-        if (stored) {
-          return JSON.parse(stored) as AuthUser;
-        }
-        const firstName = localStorage.getItem('firstName');
-        const lastName = localStorage.getItem('lastName');
-        if (firstName || lastName) {
-          return {
-            id: '',
-            username: firstName || '',
-            email: '',
-            phone: null,
-            firstName: firstName || '',
-            lastName: lastName || '',
-            gender: 'MALE',
-            emailVerified: false,
-            phoneVerified: false,
-            role: 'USER',
-          };
-        }
+      const stored = this.cookieService.get('user');
+      if (stored) {
+        return JSON.parse(stored) as AuthUser;
+      }
+      const firstName = this.cookieService.get('firstName');
+      const lastName = this.cookieService.get('lastName');
+      if (firstName || lastName) {
+        return {
+          id: '',
+          username: firstName || '',
+          email: '',
+          phone: null,
+          firstName: firstName || '',
+          lastName: lastName || '',
+          gender: 'MALE',
+          emailVerified: false,
+          phoneVerified: false,
+          role: 'USER',
+        };
       }
     } catch {
       return null;
@@ -64,16 +64,21 @@ export class SessionService {
     return null;
   }
 
-  private saveUserToStorage(user: AuthUser): void {
+  private saveUserToStorage(user: AuthUser, remember = false): void {
     try {
-      if (typeof localStorage !== 'undefined') {
-        localStorage.setItem('user', JSON.stringify(user));
-        if (user.firstName) {
-          localStorage.setItem('firstName', user.firstName);
-        }
-        if (user.lastName) {
-          localStorage.setItem('lastName', user.lastName);
-        }
+      const isHttps = typeof location !== 'undefined' && location?.protocol === 'https:';
+      const options = {
+        path: '/',
+        sameSite: 'Strict' as const,
+        secure: isHttps,
+        expires: remember ? 30 : undefined,
+      };
+      this.cookieService.set('user', JSON.stringify(user), options);
+      if (user.firstName) {
+        this.cookieService.set('firstName', user.firstName, options);
+      }
+      if (user.lastName) {
+        this.cookieService.set('lastName', user.lastName, options);
       }
     } catch {
       // Ignore
@@ -82,11 +87,9 @@ export class SessionService {
 
   private clearUserFromStorage(): void {
     try {
-      if (typeof localStorage !== 'undefined') {
-        localStorage.removeItem('user');
-        localStorage.removeItem('firstName');
-        localStorage.removeItem('lastName');
-      }
+      this.cookieService.delete('user', '/', undefined, undefined, 'Strict');
+      this.cookieService.delete('firstName', '/', undefined, undefined, 'Strict');
+      this.cookieService.delete('lastName', '/', undefined, undefined, 'Strict');
     } catch {
       // Ignore
     }

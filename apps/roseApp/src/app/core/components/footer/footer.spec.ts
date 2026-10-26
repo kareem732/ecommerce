@@ -8,11 +8,11 @@ import { FooterService } from './footer.service';
 describe('Footer', () => {
   let fixture: ComponentFixture<Footer>;
   let component: Footer;
-  let mockFooterService: { subscribe: ReturnType<typeof vi.fn> };
+  let mockFooterService: { subscriptionEmail: ReturnType<typeof vi.fn>; subscribe?: ReturnType<typeof vi.fn> };
 
   beforeEach(async () => {
     mockFooterService = {
-      subscribe: vi.fn().mockReturnValue(of({ message: 'Success' })),
+      subscriptionEmail: vi.fn().mockReturnValue(of({ message: 'Success' })),
     };
 
     await TestBed.configureTestingModule({
@@ -50,26 +50,28 @@ describe('Footer', () => {
   });
 
   it('subscribes with customer@example.com on newsletter submission', () => {
+    component.email.set('customer@example.com');
     const compiled = fixture.nativeElement as HTMLElement;
     const form = compiled.querySelector('form') as HTMLFormElement;
 
     form.dispatchEvent(new Event('submit'));
     fixture.detectChanges();
 
-    expect(mockFooterService.subscribe).toHaveBeenCalledWith({ email: 'customer@example.com' });
+    expect(mockFooterService.subscriptionEmail).toHaveBeenCalledWith({ email: 'customer@example.com' });
     expect(component.isSubscribed()).toBe(true);
     expect(component.emailError()).toBeNull();
   });
 
   it('handles subscription error on failure', () => {
-    mockFooterService.subscribe.mockReturnValue(throwError(() => new Error('API Error')));
+    component.email.set('customer@example.com');
+    mockFooterService.subscriptionEmail.mockReturnValue(throwError(() => new Error('API Error')));
     const compiled = fixture.nativeElement as HTMLElement;
     const form = compiled.querySelector('form') as HTMLFormElement;
 
     form.dispatchEvent(new Event('submit'));
     fixture.detectChanges();
 
-    expect(mockFooterService.subscribe).toHaveBeenCalledWith({ email: 'customer@example.com' });
+    expect(mockFooterService.subscriptionEmail).toHaveBeenCalledWith({ email: 'customer@example.com' });
     expect(component.isSubscribed()).toBe(false);
     expect(component.emailError()).toBe('FOOTER.INVALID_EMAIL');
   });

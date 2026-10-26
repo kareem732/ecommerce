@@ -35,7 +35,7 @@ import {
   User,
   X,
 } from 'lucide-angular';
-import { AuthUser, LoginService, SessionService } from '@org/auth-service';
+import { AuthUser, CookieService, LoginService, SessionService } from '@org/auth-service';
 import { LanguageEnum, LanguageService } from '@org/shared-i18n';
 import { ThemeService } from '@org/theme';
 import { NavItem } from './navbar.model';
@@ -51,6 +51,7 @@ import { NAVBAR_NAVIGATION_LINKS } from './navbar.control';
 export class Navbar {
   private readonly sessionService = inject(SessionService);
   private readonly loginService = inject(LoginService);
+  private readonly cookieService = inject(CookieService);
   private readonly languageService = inject(LanguageService);
   private readonly themeService = inject(ThemeService);
   private readonly router = inject(Router);
@@ -73,10 +74,8 @@ export class Navbar {
     const u = this.user();
     if (u?.firstName) return u.firstName;
     try {
-      if (typeof localStorage !== 'undefined') {
-        const stored = localStorage.getItem('firstName');
-        if (stored) return stored;
-      }
+      const stored = this.cookieService.get('firstName');
+      if (stored) return stored;
     } catch {
       // Ignore
     }
@@ -95,12 +94,10 @@ export class Navbar {
       if (u.username) return u.username;
     }
     try {
-      if (typeof localStorage !== 'undefined') {
-        const first = localStorage.getItem('firstName');
-        const last = localStorage.getItem('lastName');
-        const parts = [first, last].filter(Boolean);
-        if (parts.length) return parts.join(' ');
-      }
+      const first = this.cookieService.get('firstName');
+      const last = this.cookieService.get('lastName');
+      const parts = [first, last].filter(Boolean);
+      if (parts.length) return parts.join(' ');
     } catch {
       // Ignore
     }

@@ -45,6 +45,10 @@ export class Footer {
           this.isSubscribed.set(true);
           this.email.set('');
         },
+        error: () => {
+          this.isSubscribed.set(false);
+          this.emailError.set('FOOTER.INVALID_EMAIL');
+        },
       });
   }
 }
