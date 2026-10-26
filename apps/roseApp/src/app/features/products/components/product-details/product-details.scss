@@ -1,0 +1,118 @@
+.product-details-section {
+  width: 100%;
+}
+
+.main-carousel-wrapper {
+  width: 100%;
+}
+
+.main-image-container {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  border-radius: 1.25rem;
+  overflow: hidden;
+  background-color: var(--bg-muted);
+
+  .main-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+    border-radius: 1.25rem;
+  }
+}
+
+.thumbnails-wrapper {
+  width: 100%;
+  margin-top: 0.5rem;
+}
+
+.gallery-thumb {
+  width: 100%;
+  max-width: 4.5rem;
+  margin: 0 auto;
+  aspect-ratio: 1 / 1;
+  border-radius: 0.625rem;
+  overflow: hidden;
+  border: 2px solid transparent;
+  padding: 0;
+  background-color: var(--bg-muted);
+  cursor: pointer;
+  transition: border-color 0.2s ease, transform 0.15s ease;
+  display: block;
+
+  &:hover {
+    border-color: var(--border-strong);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--border-focus);
+    outline-offset: 2px;
+  }
+
+  &--active {
+    border-color: var(--gallery-thumb-border, var(--color-primary));
+  }
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 0.5rem;
+    display: block;
+  }
+}
+
+.stock-pill {
+  background-color: var(--stock-pill-bg);
+  color: var(--stock-pill-text);
+  border-color: var(--stock-pill-border, var(--border-default));
+}
+
+.wishlist-btn {
+  border-color: var(--border-default);
+  background-color: var(--bg-surface);
+  color: var(--text-primary);
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+
+  &:hover {
+    background-color: var(--bg-muted);
+    border-color: var(--border-strong);
+  }
+}
+
+.btn-add-to-cart {
+  background-color: var(--btn-cart-bg, var(--color-primary));
+  color: var(--btn-cart-text, var(--text-on-primary));
+  transition: background-color 0.2s ease, opacity 0.2s ease;
+
+  &:hover:not(:disabled) {
+    background-color: var(--btn-cart-bg-hover, var(--color-primary-hover));
+  }
+}
+
+/* PrimeNG Carousel reset & layout adjustment for thumbnails */
+:host ::ng-deep {
+  .product-gallery-main {
+    .p-carousel-content-container {
+      padding: 0;
+    }
+    .p-carousel-viewport {
+      border-radius: 1.25rem;
+    }
+  }
+
+  .product-gallery-thumbs {
+    .p-carousel-content-container {
+      padding: 0;
+    }
+    .p-carousel-item-list {
+      margin: 0 -0.25rem;
+    }
+    .p-carousel-item {
+      padding: 0 0.25rem;
+    }
+  }
+}

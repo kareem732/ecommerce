@@ -1,14 +1,19 @@
 import { TestBed } from '@angular/core/testing';
+import { CookieService } from 'ngx-cookie-service';
 import { SessionService } from './session.service';
 import { TokenService } from './token.service';
 import { provideAuthConfigForTests, makeJwt, TEST_USER } from '../testing/auth-testing';
 
 describe('SessionService', () => {
   let tokens: TokenService;
+  let cookies: CookieService;
 
   beforeEach(() => {
-    localStorage.clear();
-    TestBed.configureTestingModule({ providers: [provideAuthConfigForTests()] });
+    TestBed.configureTestingModule({ providers: [provideAuthConfigForTests(), CookieService] });
+    cookies = TestBed.inject(CookieService);
+    cookies.delete('user', '/');
+    cookies.delete('firstName', '/');
+    cookies.delete('lastName', '/');
     tokens = TestBed.inject(TokenService);
     tokens.clear();
   });
@@ -16,7 +21,9 @@ describe('SessionService', () => {
   afterEach(() => {
     jest.restoreAllMocks();
     tokens.clear();
-    localStorage.clear();
+    cookies.delete('user', '/');
+    cookies.delete('firstName', '/');
+    cookies.delete('lastName', '/');
   });
 
   it('starts logged out', () => {
@@ -34,6 +41,9 @@ describe('SessionService', () => {
     expect(session.isLoggedIn()).toBe(true);
     expect(session.user()).toEqual(TEST_USER);
     expect(tokens.getToken()).toBe(token);
+    expect(cookies.get('user')).toBe(JSON.stringify(TEST_USER));
+    expect(cookies.get('firstName')).toBe(TEST_USER.firstName);
+    expect(cookies.get('lastName')).toBe(TEST_USER.lastName);
   });
 
   it('start() forwards remember = true to the token service', () => {
@@ -65,6 +75,9 @@ describe('SessionService', () => {
     expect(session.isLoggedIn()).toBe(false);
     expect(session.user()).toBeNull();
     expect(tokens.getToken()).toBeNull();
+    expect(cookies.get('user')).toBe('');
+    expect(cookies.get('firstName')).toBe('');
+    expect(cookies.get('lastName')).toBe('');
   });
 
   it('restores the logged-in state from an existing cookie', () => {
@@ -83,14 +96,15 @@ describe('SessionService', () => {
     const session = TestBed.inject(SessionService);
     session.setUser(TEST_USER);
     expect(session.user()).toEqual(TEST_USER);
-    expect(localStorage.getItem('firstName')).toBe(TEST_USER.firstName);
+    expect(cookies.get('firstName')).toBe(TEST_USER.firstName);
+    expect(cookies.get('lastName')).toBe(TEST_USER.lastName);
   });
 
-  it('restores the user from localStorage when a valid token exists', () => {
+  it('restores the user from cookies when a valid token exists', () => {
     tokens.setToken(makeJwt());
-    localStorage.setItem('user', JSON.stringify(TEST_USER));
-    localStorage.setItem('firstName', TEST_USER.firstName);
-    localStorage.setItem('lastName', TEST_USER.lastName);
+    cookies.set('user', JSON.stringify(TEST_USER), { path: '/' });
+    cookies.set('firstName', TEST_USER.firstName, { path: '/' });
+    cookies.set('lastName', TEST_USER.lastName, { path: '/' });
 
     const session = TestBed.inject(SessionService);
     expect(session.isLoggedIn()).toBe(true);

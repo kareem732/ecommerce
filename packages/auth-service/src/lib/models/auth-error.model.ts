@@ -5,6 +5,7 @@ export type AuthErrorCode =
   | 'FORBIDDEN'
   | 'NOT_FOUND'
   | 'CONFLICT'
+  | 'TOO_MANY_REQUESTS'
   | 'SERVER_ERROR'
   | 'NETWORK_ERROR'
   | 'UNKNOWN';

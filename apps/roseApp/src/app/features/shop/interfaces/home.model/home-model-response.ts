@@ -56,7 +56,7 @@ export interface Product {
   stock: number;
   price: string;
   discountType: 'PERCENT' | null;
-  discountValue: string | null;
+  discountValue: number | null;
   cover: string;
   gallery: string;
   categoryId: string;

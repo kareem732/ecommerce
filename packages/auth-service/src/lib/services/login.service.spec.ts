@@ -1,5 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { of, throwError } from 'rxjs';
+import { CookieService } from 'ngx-cookie-service';
 import { AuthApiService } from './auth-api.service';
 import { LoginService } from './login.service';
 import { SessionService } from './session.service';
@@ -10,13 +11,17 @@ describe('LoginService', () => {
   const api = { login: jest.fn() };
   let service: LoginService;
   let session: SessionService;
+  let cookies: CookieService;
 
   beforeEach(() => {
-    localStorage.clear();
     api.login.mockReset();
     TestBed.configureTestingModule({
-      providers: [provideAuthConfigForTests(), { provide: AuthApiService, useValue: api }],
+      providers: [provideAuthConfigForTests(), CookieService, { provide: AuthApiService, useValue: api }],
     });
+    cookies = TestBed.inject(CookieService);
+    cookies.delete('user', '/');
+    cookies.delete('firstName', '/');
+    cookies.delete('lastName', '/');
     TestBed.inject(TokenService).clear();
     service = TestBed.inject(LoginService);
     session = TestBed.inject(SessionService);
@@ -25,7 +30,9 @@ describe('LoginService', () => {
   afterEach(() => {
     jest.restoreAllMocks();
     TestBed.inject(TokenService).clear();
-    localStorage.clear();
+    cookies.delete('user', '/');
+    cookies.delete('firstName', '/');
+    cookies.delete('lastName', '/');
   });
 
   it('starts the session on success', (done) => {
@@ -89,27 +96,27 @@ describe('LoginService', () => {
     expect(session.isLoggedIn()).toBe(false);
   });
 
-  it('saves user data, firstName, and lastName to localStorage on login', (done) => {
+  it('saves user data, firstName, and lastName to cookies on login', (done) => {
     const payload = { user: TEST_USER, token: makeJwt() };
     api.login.mockReturnValue(of(payload));
 
     service.login({ username: 'u', password: 'p' }).subscribe(() => {
-      expect(localStorage.getItem('user')).toBe(JSON.stringify(TEST_USER));
-      expect(localStorage.getItem('firstName')).toBe(TEST_USER.firstName);
-      expect(localStorage.getItem('lastName')).toBe(TEST_USER.lastName);
+      expect(cookies.get('user')).toBe(JSON.stringify(TEST_USER));
+      expect(cookies.get('firstName')).toBe(TEST_USER.firstName);
+      expect(cookies.get('lastName')).toBe(TEST_USER.lastName);
       done();
     });
   });
 
-  it('clears localStorage on logout', () => {
-    localStorage.setItem('user', JSON.stringify(TEST_USER));
-    localStorage.setItem('firstName', TEST_USER.firstName);
-    localStorage.setItem('lastName', TEST_USER.lastName);
+  it('clears cookies on logout', () => {
+    cookies.set('user', JSON.stringify(TEST_USER), { path: '/' });
+    cookies.set('firstName', TEST_USER.firstName, { path: '/' });
+    cookies.set('lastName', TEST_USER.lastName, { path: '/' });
 
     service.logout();
 
-    expect(localStorage.getItem('user')).toBeNull();
-    expect(localStorage.getItem('firstName')).toBeNull();
-    expect(localStorage.getItem('lastName')).toBeNull();
+    expect(cookies.get('user')).toBe('');
+    expect(cookies.get('firstName')).toBe('');
+    expect(cookies.get('lastName')).toBe('');
   });
 });

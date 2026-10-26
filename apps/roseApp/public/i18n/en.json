@@ -7,7 +7,8 @@
     "CANCEL": "Cancel",
     "NEXT": "Next",
     "BACK": "Back",
-    "SWITCH_LANGUAGE": "العربية"
+    "SWITCH_LANGUAGE": "العربية",
+    "LOADING": "Loading..."
   },
   "NAVIGATION": {
     "DASHBOARD": "Dashboard",

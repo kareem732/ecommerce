@@ -36,6 +36,14 @@
   --color-warning: var(--color-yellow-500);
   --color-danger:  var(--color-red-600);
   --color-info:    var(--color-blue-600);
+
+  /* product details */
+  --stock-pill-bg:        var(--color-zinc-100);
+  --stock-pill-text:      var(--color-zinc-700);
+  --gallery-thumb-border: var(--color-primary);
+  --btn-cart-bg:          var(--color-primary);
+  --btn-cart-bg-hover:    var(--color-maroon-600);
+  --btn-cart-text:        var(--color-white);
 }
 
 @mixin dark-tokens {
@@ -76,6 +84,14 @@
   --color-warning: var(--color-yellow-400);
   --color-danger:  var(--color-red-400);
   --color-info:    var(--color-blue-400);
+
+  /* product details */
+  --stock-pill-bg:        var(--color-zinc-800);
+  --stock-pill-text:      var(--color-zinc-300);
+  --gallery-thumb-border: var(--color-maroon-400);
+  --btn-cart-bg:          var(--color-primary);
+  --btn-cart-bg-hover:    var(--color-maroon-300);
+  --btn-cart-text:        var(--text-on-primary);
 }
 
 :root {

@@ -7,7 +7,8 @@
     "CANCEL": "إلغاء",
     "NEXT": "التالي",
     "BACK": "رجوع",
-    "SWITCH_LANGUAGE": "English"
+    "SWITCH_LANGUAGE": "English",
+    "LOADING": "جاري التحميل..."
   },
   "NAVIGATION": {
     "DASHBOARD": "لوحة التحكم",

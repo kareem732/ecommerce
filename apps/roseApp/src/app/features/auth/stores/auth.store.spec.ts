@@ -1,4 +1,5 @@
 import { TestBed } from '@angular/core/testing';
+import { CookieService } from 'ngx-cookie-service';
 import { AUTH_STORAGE_KEY, AuthSession, AuthStore } from './auth.store';
 
 const session: AuthSession = {
@@ -13,12 +14,18 @@ const session: AuthSession = {
 };
 
 describe('AuthStore', () => {
+  let cookies: CookieService;
+
   beforeEach(() => {
-    localStorage.clear();
     TestBed.resetTestingModule();
+    TestBed.configureTestingModule({ providers: [CookieService] });
+    cookies = TestBed.inject(CookieService);
+    cookies.delete(AUTH_STORAGE_KEY, '/');
   });
 
-  afterEach(() => localStorage.clear());
+  afterEach(() => {
+    cookies.delete(AUTH_STORAGE_KEY, '/');
+  });
 
   const create = () => TestBed.inject(AuthStore);
 
@@ -41,15 +48,15 @@ describe('AuthStore', () => {
     expect(store.fullName()).toBe('Mazika Ali');
   });
 
-  it('setSession persists to localStorage', () => {
+  it('setSession persists to cookies', () => {
     const store = create();
     store.setSession(session);
 
-    expect(JSON.parse(localStorage.getItem(AUTH_STORAGE_KEY) as string)).toEqual(session);
+    expect(JSON.parse(cookies.get(AUTH_STORAGE_KEY))).toEqual(session);
   });
 
-  it('hydrates from localStorage on creation', () => {
-    localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(session));
+  it('hydrates from cookies on creation', () => {
+    cookies.set(AUTH_STORAGE_KEY, JSON.stringify(session), { path: '/' });
     const store = create();
 
     expect(store.isLoggedIn()).toBe(true);
@@ -57,19 +64,19 @@ describe('AuthStore', () => {
   });
 
   it('ignores and removes corrupted storage', () => {
-    localStorage.setItem(AUTH_STORAGE_KEY, '{not-json');
+    cookies.set(AUTH_STORAGE_KEY, '{not-json', { path: '/' });
     const store = create();
 
     expect(store.isLoggedIn()).toBe(false);
-    expect(localStorage.getItem(AUTH_STORAGE_KEY)).toBeNull();
+    expect(cookies.get(AUTH_STORAGE_KEY)).toBe('');
   });
 
   it('ignores and removes storage with missing fields', () => {
-    localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify({ token: 'x' }));
+    cookies.set(AUTH_STORAGE_KEY, JSON.stringify({ token: 'x' }), { path: '/' });
     const store = create();
 
     expect(store.isLoggedIn()).toBe(false);
-    expect(localStorage.getItem(AUTH_STORAGE_KEY)).toBeNull();
+    expect(cookies.get(AUTH_STORAGE_KEY)).toBe('');
   });
 
   it('updateUser merges fields and persists', () => {
@@ -79,7 +86,7 @@ describe('AuthStore', () => {
 
     expect(store.fullName()).toBe('Nour Ali');
     expect(store.token()).toBe('abc123');
-    expect(JSON.parse(localStorage.getItem(AUTH_STORAGE_KEY) as string).user.firstName).toBe('Nour');
+    expect(JSON.parse(cookies.get(AUTH_STORAGE_KEY)).user.firstName).toBe('Nour');
   });
 
   it('updateUser does nothing when logged out', () => {
@@ -87,7 +94,7 @@ describe('AuthStore', () => {
     store.updateUser({ firstName: 'Nour' });
 
     expect(store.user()).toBeNull();
-    expect(localStorage.getItem(AUTH_STORAGE_KEY)).toBeNull();
+    expect(cookies.get(AUTH_STORAGE_KEY)).toBe('');
   });
 
   it('clear resets state and removes storage', () => {
@@ -98,6 +105,6 @@ describe('AuthStore', () => {
     expect(store.token()).toBeNull();
     expect(store.user()).toBeNull();
     expect(store.isLoggedIn()).toBe(false);
-    expect(localStorage.getItem(AUTH_STORAGE_KEY)).toBeNull();
+    expect(cookies.get(AUTH_STORAGE_KEY)).toBe('');
   });
-});
+});
