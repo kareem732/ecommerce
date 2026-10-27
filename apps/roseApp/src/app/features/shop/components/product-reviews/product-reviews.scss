@@ -12,7 +12,6 @@
   flex-direction: column;
   gap: 8px;
 
-  // Keep the title as wide as its text so its underline sits under the words.
   app-section-title {
     align-self: flex-start;
   }
@@ -49,7 +48,6 @@
     }
   }
 
-  // Guests only see the list, which then takes the full width.
   &__body {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
@@ -109,6 +107,21 @@
     margin: 0;
     font-size: 13px;
     color: var(--text-error);
+  }
+}
+
+:host ::ng-deep app-review-form {
+  input,
+  textarea {
+    outline: none !important;
+    box-shadow: none !important;
+
+    &:focus,
+    &:focus-visible {
+      outline: none !important;
+      box-shadow: none !important;
+      border-color: var(--border-default) !important;
+    }
   }
 }
 

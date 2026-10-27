@@ -372,12 +372,12 @@
       "count": "4.5k+",
       "after": "companies"
     },
-    "testimonials": {
-      "label": "Testimonials",
-      "title": "Real Words from Happy Customers",
-      "empty": "No testimonials yet.",
-      "rating": "{{rating}} out of 5"
-    }
+    "TESTIMONIALS": {
+  "LABEL": "Testimonials",
+  "TITLE": "Real Words from Happy Customers",
+  "EMPTY": "No testimonials yet.",
+  "RATING": "{{rating}} out of 5"
+}
   },
   "PRODUCTS": {
     "DETAILS": {

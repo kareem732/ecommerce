@@ -5,13 +5,14 @@
   border-radius: 16px;
   --controls-offset: 24px;
   --arrow-size: 36px;
+  --dot-size: 8px;
+  --dot-active-width: 32px;
 }
 
 .hero-slider__slide {
   height: 100%;
 }
 
-// Lay PrimeNG's controls over the slide: dots top-end, arrows bottom-end.
 :host ::ng-deep {
   .p-carousel {
     position: relative;
@@ -37,8 +38,6 @@
     overflow: hidden;
     background: var(--color-maroon-50, #fbeaea);
 
-    // These classes land on the <p-button> host; the real <button> inside
-    // carries PrimeNG's own background and hover styles.
     .p-button {
       display: flex;
       align-items: center;
@@ -62,7 +61,6 @@
     }
   }
 
-  // The two buttons sit side by side and read as one pill.
   .p-carousel-prev-button {
     right: calc(var(--controls-offset) + var(--arrow-size));
     border-radius: 999px 0 0 999px;
@@ -78,27 +76,38 @@
     top: var(--controls-offset);
     right: var(--controls-offset);
     z-index: 1;
+    display: flex;
+    align-items: center;
     gap: 6px;
     margin: 0;
     padding: 0;
   }
 
+  .p-carousel-indicator {
+    display: flex;
+    align-items: center;
+  }
+
   .p-carousel-indicator-button {
-    border-radius: 0;
+    width: var(--dot-size) !important;
+    height: var(--dot-size) !important;
     padding: 0;
-    width: auto !important;
-    height: auto !important;
-    transition: width 0.3s ease;
+    border: 0;
+    border-radius: 999px;
+    background: rgb(255 255 255 / 0.75);
+    box-shadow: 0 1px 3px rgb(0 0 0 / 0.25);
+    outline: none;
+    transition:
+      width 0.3s ease,
+      background-color 0.3s ease;
   }
 
   .p-carousel-indicator-active .p-carousel-indicator-button {
-    width: 32px;
+    width: var(--dot-active-width) !important;
     background: var(--color-maroon-600, #a6252a);
   }
 }
 
-// The carousel itself is forced LTR, so mirror the controls by hand in Arabic
-// to keep them on the opposite side of the slide text.
 :host-context([dir='rtl']) ::ng-deep {
   .p-carousel-prev-button {
     right: auto;

@@ -1,43 +1,39 @@
-<section class="product-details-section py-8 lg:py-12" aria-labelledby="product-title">
-  <div class=" mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl">
-    @if (status() === 'loading') {
-    <div class="flex flex-col items-center justify-center min-h-[420px] gap-4" role="status" aria-live="polite">
-      <app-spinner [size]="36" />
-      <p class="text-sm text-[var(--text-secondary)] font-medium">
-        {{ 'SHOP.PRODUCT_DETAILS.LOADING' | translate }}
-      </p>
-    </div>
+<section class="product-details-section container mx-auto px-4 sm:px-6 lg:px-10 py-8 lg:py-12" aria-labelledby="product-title">
+  <div class="">
+
+    @if (store.status() === 'loading') {
+    <div class="min-h-[100vh]" aria-busy="true"></div>
     }
 
-    @else if (status() === 'error' || status() === 'not-found' || status() === 'missing-id') {
+    @else if (store.status() === 'error' || store.status() === 'not-found' || store.status() === 'missing-id') {
     <div
       class="flex flex-col items-center justify-center min-h-[360px] text-center p-8 rounded-2xl bg-[var(--bg-surface)] border border-[var(--border-default)]"
       role="alert">
       <lucide-angular [img]="AlertCircleIcon" [size]="48" class="text-[var(--color-danger)] mb-4" aria-hidden="true" />
-      <h2 class="text-xl font-bold text-[var(--text-primary)] mb-2">
-        @if (status() === 'not-found') {
-        {{ 'PRODUCTS.DETAILS.PRODUCT_NOT_FOUND' | translate }}
-        } @else if (status() === 'missing-id') {
-        {{ 'PRODUCTS.DETAILS.PRODUCT_NOT_FOUND' | translate }}
-        } @else {
+      <h2 class="text-xl font-bold text-[var(--text-primary)] mb-6">
+        @if (store.status() === 'error') {
         {{ 'SHOP.PRODUCT_DETAILS.ERROR' | translate }}
+        } @else {
+        {{ 'PRODUCTS.DETAILS.PRODUCT_NOT_FOUND' | translate }}
         }
       </h2>
-      @if (errorMessage()) {
-      <p class="text-sm text-[var(--text-secondary)] mb-6 max-w-md">
-        {{ errorMessage() }}
-      </p>
+      @if (store.status() === 'error') {
+      <button type="button"
+        class="h-10 px-6 rounded-xl font-medium bg-[var(--btn-cart-bg)] hover:bg-[var(--btn-cart-bg-hover)] text-[var(--btn-cart-text)] transition-colors"
+        (click)="store.retry()">
+        {{ 'SHOP.PRODUCT_DETAILS.RETRY' | translate }}
+      </button>
       }
     </div>
     }
 
-    @else if (status() === 'success' && product(); as prod) {
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start mb-3">
-      <div class="gallery-column lg:col-span-7 flex flex-col gap-4">
+    @else if (store.status() === 'success' && store.product(); as prod) {
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 items-start">
+      <div class="gallery-column lg:col-span-7 flex flex-col gap-4 min-w-0">
         <div class="main-carousel-wrapper">
-          @if (galleryItems().length > 0) {
-          <p-carousel class="product-gallery-main" [value]="galleryItems()" [page]="activePage()" [numVisible]="1"
-            [numScroll]="1" [circular]="false" [showIndicators]="false" [showNavigators]="false"
+          @if (store.galleryItems().length > 0) {
+          <p-carousel class="product-gallery-main" [value]="store.galleryItems()" [page]="store.activeIndex()"
+            [numVisible]="1" [numScroll]="1" [circular]="false" [showIndicators]="false" [showNavigators]="false"
             (onPage)="onMainPageChange($event)">
             <ng-template #item let-item>
               <div class="main-image-container">
@@ -54,39 +50,33 @@
           }
         </div>
 
-        @if (galleryItems().length > 0) {
+        @if (store.galleryItems().length > 0) {
         <div class="thumbnails-wrapper">
-          <p-carousel class="product-gallery-thumbs" [value]="galleryItems()" [page]="thumbPage()"
-            [numVisible]="thumbNumVisible()" [numScroll]="1" [circular]="false" [showIndicators]="false"
-            [showNavigators]="false" [responsiveOptions]="thumbBreakpoints" (onPage)="onThumbPageChange($event)">
-            <ng-template #item let-item>
-              <button type="button" class="gallery-thumb" [class.gallery-thumb--active]="item.index === activePage()"
-                [attr.aria-label]="('SHOP.PRODUCT_DETAILS.VIEW_IMAGE' | translate) + ' ' + (item.index + 1)"
-                [attr.aria-current]="item.index === activePage() ? 'true' : null" (click)="selectImage(item.index)">
-                <img [src]="item.url"
-                  [alt]="'SHOP.PRODUCT_DETAILS.THUMBNAIL_ALT' | translate: { title: prod.title, index: item.index + 1 }"
-                  loading="lazy" />
-              </button>
-            </ng-template>
-          </p-carousel>
+          <div class="thumbs" [class.thumbs--single]="store.galleryItems().length === 1" role="list">
+            @for (item of store.galleryItems(); track item.index) {
+            <button type="button" role="listitem" class="gallery-thumb"
+              [class.gallery-thumb--active]="item.index === store.activeIndex()"
+              [attr.aria-label]="('SHOP.PRODUCT_DETAILS.VIEW_IMAGE' | translate) + ' ' + (item.index + 1)"
+              [attr.aria-current]="item.index === store.activeIndex() ? 'true' : null"
+              (click)="store.selectImage(item.index)">
+              <img [src]="item.url"
+                [alt]="'SHOP.PRODUCT_DETAILS.THUMBNAIL_ALT' | translate: { title: prod.title, index: item.index + 1 }"
+                loading="lazy" />
+            </button>
+            }
+          </div>
         </div>
         }
       </div>
 
-      <div class="info-column lg:col-span-5 flex flex-col justify-between">
+      <div class="info-column lg:col-span-5 flex flex-col justify-between min-w-0">
         <div>
           <h1 id="product-title"
-            class="text-2xl sm:text-3xl lg:text-[4rem] font-bold text-[var(--text-primary)] leading-tight tracking-tight">
+            class="text-2xl sm:text-3xl lg:text-4xl font-bold text-[var(--text-primary)] leading-tight tracking-tight break-words">
             {{ prod.title }}
           </h1>
 
           <div class="mt-4 flex flex-wrap items-center gap-3">
-            @if (prod.discountValue === 0) {
-            <span class="text-3xl lg:text-4xl font-bold text-[var(--text-secondary)] line-through"
-              aria-label="discountValue">
-              {{ prod.discountValue | number: '1.2-2' }}
-            </span>
-            }
             <span class="text-3xl lg:text-4xl font-bold text-[var(--text-primary)]" aria-label="Price">
               {{ prod.price | number: '1.2-2' }}
             </span>
@@ -97,18 +87,10 @@
             <div class="stock-pill inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium border"
               [class.text-red-500]="prod.stock <= 0" role="status">
               <lucide-angular [img]="PackageIcon" [size]="14" class="opacity-80" aria-hidden="true" />
-              @if (prod.stock === 0) {
-              <span aria-label="{{
-                'SHOP.PRODUCT_DETAILS.OUT_OF_STOCK' | translate
-              }}">
-                {{ 'SHOP.PRODUCT_DETAILS.OUT_OF_STOCK' | translate }}
-              </span>
+              @if (prod.stock <= 0) {
+              <span>{{ 'SHOP.PRODUCT_DETAILS.OUT_OF_STOCK' | translate }}</span>
               } @else {
-              <span aria-label="{{
-                'SHOP.PRODUCT_DETAILS.LEFT_IN_STOCK' | translate: { count: prod.stock }
-              }}">
-                {{ 'SHOP.PRODUCT_DETAILS.LEFT_IN_STOCK' | translate: { count: prod.stock } }}
-              </span>
+              <span>{{ 'SHOP.PRODUCT_DETAILS.LEFT_IN_STOCK' | translate: { count: prod.stock } }}</span>
               }
             </div>
           </div>
@@ -133,7 +115,7 @@
 
           <hr class="my-6 border-0 border-b border-[var(--border-default)] opacity-60" />
 
-          <p class="mt-6 text-sm lg:text-base leading-relaxed text-[var(--text-secondary)] whitespace-pre-line">
+          <p dir="auto" class="mt-6 text-sm lg:text-base leading-relaxed text-[var(--text-secondary)] whitespace-pre-line">
             {{ prod.description }}
           </p>
         </div>
@@ -145,7 +127,7 @@
             <lucide-angular [img]="HeartIcon" [size]="20" aria-hidden="true" />
           </button>
 
-          <button type="button"
+          <button type="button" [disabled]="prod.stock <= 0"
             class="btn-add-to-cart h-12 flex-1 rounded-xl font-medium text-base flex items-center justify-center gap-2 bg-[var(--btn-cart-bg)] hover:bg-[var(--btn-cart-bg-hover)] text-[var(--btn-cart-text)] transition-colors disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--border-focus)]">
             <lucide-angular [img]="CartIcon" [size]="20" aria-hidden="true" />
             <span>{{ 'SHOP.PRODUCT.ADD_TO_CART' | translate }}</span>
@@ -153,11 +135,11 @@
         </div>
       </div>
     </div>
-    }
-    @if (product(); as prod) {
-    <app-product-reviews [productId]="prod.id" />
+
+    <div class="mt-12 lg:mt-16 flex flex-col gap-12 lg:gap-16">
+      <app-product-reviews [productId]="prod.id" />
+      <app-related-products />
+    </div>
     }
   </div>
-
-
 </section>

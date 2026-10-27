@@ -1,5 +1,40 @@
 .product-details-section {
   width: 100%;
+  min-height: 80vh;
+}
+
+.product-container {
+  width: 100%;
+  max-width: 72rem;
+  margin-inline: auto;
+  padding-inline: 1rem;
+
+  @media (min-width: 640px) {
+    padding-inline: 1.5rem;
+  }
+
+  @media (min-width: 1024px) {
+    padding-inline: 2rem;
+  }
+}
+
+.product-extras {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  margin-top: 3rem;
+
+  @media (min-width: 1024px) {
+    gap: 4rem;
+    margin-top: 4rem;
+  }
+
+  > * {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    margin-inline: 0;
+  }
 }
 
 .main-carousel-wrapper {
@@ -28,11 +63,23 @@
   margin-top: 0.5rem;
 }
 
+.thumbs {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.75rem;
+  overflow-x: auto;
+  padding: 2px;
+  scrollbar-width: thin;
+  &--single {
+    justify-content: flex-start;
+  }
+}
+
 .gallery-thumb {
-  width: 100%;
-  max-width: 4.5rem;
-  margin: 0 auto;
-  aspect-ratio: 1 / 1;
+  flex: 0 0 auto;
+  width: 4.5rem;
+  height: 4.5rem;
   border-radius: 0.625rem;
   overflow: hidden;
   border: 2px solid transparent;
@@ -41,6 +88,11 @@
   cursor: pointer;
   transition: border-color 0.2s ease, transform 0.15s ease;
   display: block;
+
+  @media (min-width: 640px) {
+    width: 5.5rem;
+    height: 5.5rem;
+  }
 
   &:hover {
     border-color: var(--border-strong);
@@ -93,26 +145,27 @@
   }
 }
 
-/* PrimeNG Carousel reset & layout adjustment for thumbnails */
 :host ::ng-deep {
   .product-gallery-main {
-    .p-carousel-content-container {
+    .p-carousel-content-container,
+    .p-carousel-content,
+    .p-carousel-viewport,
+    .p-carousel-item-list,
+    .p-carousel-item {
       padding: 0;
+      height: 100%;
     }
     .p-carousel-viewport {
       border-radius: 1.25rem;
     }
+    .main-image-container {
+      height: auto;
+    }
   }
+}
 
-  .product-gallery-thumbs {
-    .p-carousel-content-container {
-      padding: 0;
-    }
-    .p-carousel-item-list {
-      margin: 0 -0.25rem;
-    }
-    .p-carousel-item {
-      padding: 0 0.25rem;
-    }
+@media (max-width: 640px) {
+  .main-image-container {
+    aspect-ratio: 1 / 1;
   }
 }

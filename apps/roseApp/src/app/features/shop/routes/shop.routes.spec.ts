@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { Router, provideRouter } from '@angular/router';
 import { Home } from '../pages/home/home';
+import { ProductDetails } from '../pages/product-details/product-details';
 import { Shop } from '../shop';
 import { SHOP_ROUTES } from './shop.routes';
 
@@ -30,6 +31,12 @@ describe('SHOP_ROUTES', () => {
 
       expect(await home?.loadComponent?.()).toBe(Home);
     });
+
+    it('lazy loads ProductDetails on the products/:id path', async () => {
+      const details = children.find((route) => route.path === 'products/:id');
+
+      expect(await details?.loadComponent?.()).toBe(ProductDetails);
+    });
   });
 
   describe('navigation', () => {
@@ -50,6 +57,12 @@ describe('SHOP_ROUTES', () => {
       await router.navigateByUrl('/home');
 
       expect(router.url).toBe('/home');
+    });
+
+    it('navigates to /products/:id', async () => {
+      await router.navigateByUrl('/products/prod-123');
+
+      expect(router.url).toBe('/products/prod-123');
     });
 
     it('rejects an unknown path', async () => {

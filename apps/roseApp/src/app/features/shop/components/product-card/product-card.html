@@ -14,15 +14,14 @@
     <lucide-angular [img]="Heart" [size]="18" />
   </button>
 
-  <button
+     <a
     card-overlay
-    type="button"
     class="icon-btn"
+    [routerLink]="['/shop/products', product().id]"
     [attr.aria-label]="'SHOP.PRODUCT.QUICK_VIEW' | translate"
-    (click)="onQuickView($event)"
   >
     <lucide-angular [img]="Eye" [size]="18" />
-  </button>
+  </a>
 
   <span card-badge class="badges">
     @if (isNew()) {

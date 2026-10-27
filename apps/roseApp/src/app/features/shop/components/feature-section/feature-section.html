@@ -1,16 +1,14 @@
-<section class="container mx-auto px-10">
-  <div class="features">
-    @for (feature of features; track feature.key) {
-      <div class="features__item">
-        <span class="features__icon">
-          <lucide-angular [img]="feature.icon" [size]="28" [strokeWidth]="1.5" />
-        </span>
+<div class="features">
+  @for (feature of features; track feature.key) {
+    <div class="features__item">
+      <span class="features__icon">
+        <lucide-angular [img]="feature.icon" [size]="28" [strokeWidth]="1.5" />
+      </span>
 
-        <div class="features__content">
-          <h3 class="features__title">{{ feature.key + '.TITLE' | translate }}</h3>
-          <p class="features__text">{{ feature.key + '.TEXT' | translate }}</p>
-        </div>
+      <div class="features__content">
+        <h3 class="features__title">{{ feature.key + '.TITLE' | translate }}</h3>
+        <p class="features__text">{{ feature.key + '.TEXT' | translate }}</p>
       </div>
-    }
-  </div>
-</section>
+    </div>
+  }
+</div>

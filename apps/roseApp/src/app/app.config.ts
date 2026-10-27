@@ -1,22 +1,17 @@
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { LanguageService, provideI18n } from '@org/shared-i18n';
 import { i18nConfig } from './i18n.config';
-import {
-  ApplicationConfig,
-  inject,
-  provideAppInitializer,
-  provideBrowserGlobalErrorListeners,
-} from '@angular/core';
+import { ApplicationConfig,inject,provideAppInitializer,provideBrowserGlobalErrorListeners} from '@angular/core';
 import { authInterceptor, errorInterceptor, provideAuth } from '@org/auth-service';
 import { ThemeService } from '@org/theme';
-import { provideRouter } from '@angular/router';
+import { provideRouter, withInMemoryScrolling } from '@angular/router';
 import { definePreset } from '@primeuix/themes';
 import Aura from '@primeuix/themes/aura';
 import { providePrimeNG } from 'primeng/config';
 import { appRoutes } from './app.routes';
 import { environment } from '../environments/environment';
 import { loadingInterceptor } from './core/interceptors/loading.interceptor';
-  
+
 const RosePreset = definePreset(Aura, {
   semantic: {
     primary: {
@@ -62,7 +57,10 @@ export const appConfig: ApplicationConfig = {
       return inject(LanguageService).initialize();
     }),
     provideAuth({ apiUrl: environment.apiUrl, includeHttpClient: false }),
-    provideRouter(appRoutes),
+    provideRouter(
+      appRoutes,
+      withInMemoryScrolling({ scrollPositionRestoration: 'top' }),
+    ),
     providePrimeNG({
       theme: {
         preset: RosePreset,

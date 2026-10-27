@@ -372,12 +372,12 @@
       "count": "4.5 ألف",
       "after": "شركة"
     },
-    "testimonials": {
-      "label": "آراء العملاء",
-      "title": "كلمات حقيقية من عملاء سعداء",
-      "empty": "لا توجد آراء بعد.",
-      "rating": "{{rating}} من 5"
-    }
+    "TESTIMONIALS": {
+  "LABEL": "آراء العملاء",
+  "TITLE": "كلمات حقيقية من عملاء سعداء",
+  "EMPTY": "لا توجد آراء بعد.",
+  "RATING": "{{rating}} من 5"
+}
   },
   "PRODUCTS": {
     "DETAILS": {

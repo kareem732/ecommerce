@@ -1,17 +1,27 @@
-<div class="py-10">
-  <div class="text-center mb-10">
-    <h1
-      class="text-(--color-maroon-400) text-[16px] font-bold leading-none tracking-[0.25em] uppercase font-sarabun mb-3"
-    >
-      {{ 'SHOP.testimonials.label' | translate }}
-    </h1>
-    <app-section-title>{{ 'SHOP.testimonials.title' | translate }}</app-section-title>
-  </div>
-  <div class="bg-zinc-700 p-2.5 w-full !min-h-[550px] flex items-center">
-    <div class="mx-auto grid w-full max-w-7xl grid-cols-1 justify-items-center gap-3 md:grid-cols-2 xl:grid-cols-3">
-        @for (t of testimonials(); track t.id) {
-        <app-testimonial-card [testimonial]="t"></app-testimonial-card>
-        }
+
+<section class="w-full min-w-0 max-w-full overflow-x-clip">
+
+  <div class="container mx-auto w-full max-w-full min-w-0 px-4 sm:px-10">
+    <div class="flex flex-col items-center justify-center text-center">
+      <span class="font-['Sarabun'] text-base font-bold leading-none tracking-[0.25em] uppercase text-[#E65073] dark:text-[#D75458]">
+        {{ 'SHOP.TESTIMONIALS.LABEL' | translate }}
+      </span>
+
+      <app-section-title class="mt-2 max-w-full"></app-section-title>
     </div>
   </div>
-</div>
+
+  <div class="mt-8 w-full min-w-0 max-w-full overflow-x-clip bg-[#FBEAEA] py-12 dark:bg-zinc-700 md:mt-10 md:py-16">
+    <div class="container mx-auto w-full max-w-full min-w-0 px-4 sm:px-10">
+      <div class="grid w-full min-w-0 grid-cols-1 justify-items-center gap-x-6 gap-y-16 sm:grid-cols-2 lg:grid-cols-3">
+        @for (item of testimonials(); track item.id) {
+          <app-testimonial-card
+            class="block w-full min-w-0 max-w-sm"
+            [testimonial]="item"
+          />
+        }
+      </div>
+    </div>
+  </div>
+
+</section>
