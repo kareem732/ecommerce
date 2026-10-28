@@ -1,8 +1,12 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideRouter } from '@angular/router';
 import { ProductCard } from './product-card';
 import { Product } from '../../interfaces/home.model/home-model-response';
 import { daysAgo, makeProduct } from '../../../../shared/utils/testing/product.fixtures';
-import { provideTranslateTesting, useEnglish } from '../../../../shared/utils/testing/translate.testing';
+import {
+  provideTranslateTesting,
+  useEnglish,
+} from '../../../../shared/utils/testing/translate.testing';
 
 describe('ProductCard', () => {
   let fixture: ComponentFixture<ProductCard>;
@@ -15,13 +19,12 @@ describe('ProductCard', () => {
     return product;
   };
 
-  const text = (selector: string) =>
-    element.querySelector(selector)?.textContent?.trim();
+  const text = (selector: string) => element.querySelector(selector)?.textContent?.trim();
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [ProductCard],
-      providers: [provideTranslateTesting()],
+      providers: [provideTranslateTesting(), provideRouter([])],
     }).compileComponents();
     useEnglish();
 
@@ -39,8 +42,8 @@ describe('ProductCard', () => {
       expect(img.getAttribute('alt')).toBe('Fuchsia Brilliance Vase');
     });
 
-    it('renders the discounted price with the old price', () => {
-      render({ price: '1000', discountType: 'PERCENT', discountValue: '41' });
+        it('renders the discounted price with the old price', () => {
+      render({ price: '1000', discountType: 'PERCENT', discountValue: 41 });
 
       expect(text('.product__current')).toBe('590.00 EGP');
       expect(text('.product__old')).toBe('1,000.00 EGP');
@@ -67,7 +70,8 @@ describe('ProductCard', () => {
         element.querySelector(selector)?.getAttribute('aria-label');
       expect(label('.product__stars')).toBe('Rating 3 out of 5');
       expect(label('.product__cart')).toBe('Add to cart');
-      expect(label('.icon-btn')).toBe('Add to wishlist');
+      expect(label('button.icon-btn')).toBe('Add to wishlist');
+      expect(label('a.icon-btn')).toBe('Quick view');
     });
   });
 
@@ -138,19 +142,18 @@ describe('ProductCard', () => {
       let emitted: Product | undefined;
       fixture.componentInstance.addToWishlist.subscribe((p) => (emitted = p));
 
-      (element.querySelectorAll('.icon-btn')[0] as HTMLButtonElement).click();
+      (element.querySelector('button.icon-btn') as HTMLButtonElement).click();
 
       expect(emitted).toBe(product);
     });
+  });
 
-    it('emits quickView from the eye button', () => {
-      const product = render();
-      let emitted: Product | undefined;
-      fixture.componentInstance.quickView.subscribe((p) => (emitted = p));
+    describe('navigation', () => {
+    it('links the eye button to the product details page', () => {
+      const product = render({ id: 'prod-42' });
 
-      (element.querySelectorAll('.icon-btn')[1] as HTMLButtonElement).click();
-
-      expect(emitted).toBe(product);
+      const link = element.querySelector('a.icon-btn') as HTMLAnchorElement;
+      expect(link.getAttribute('href')).toBe(`/shop/products/${product.id}`);
     });
   });
 });

@@ -1,9 +1,13 @@
 :host {
   display: inline-block;
 
-  --section-title-color: var(--color-maroon-700, #741c21);
-  --section-title-accent: var(--color-pink-500, #e65073);
+  --section-title-color: #741c21;
+  --section-title-accent: var(--color-soft-pink-500, #e65073);
   --section-title-highlight: #e6507326;
+}
+
+:host-context(.dark) {
+  --section-title-color: var(--color-soft-pink-200, #ffc2d0);
 }
 
 .section-title {
@@ -14,12 +18,12 @@
   font-size: 32px;
   font-weight: 700;
   line-height: 1.2;
-  color: var(--color-soft-pink-200);
+  color: var(--section-title-color);
 
   &::before {
     content: '';
     position: absolute;
-    left: 0;
+    inset-inline-start: 0;
     bottom: 6px;
     z-index: -1;
     width: 70%;
@@ -31,11 +35,11 @@
   &::after {
     content: '';
     position: absolute;
-    left: 0;
-    bottom: 0;
+    inset-inline-start: 0;
+    bottom: 6px;
     width: 40%;
     height: 3px;
     border-radius: 2px;
-    background: var(--color-soft-pink-500);
+    background: var(--section-title-accent);
   }
 }

@@ -44,6 +44,11 @@
   --btn-cart-bg:          var(--color-primary);
   --btn-cart-bg-hover:    var(--color-maroon-600);
   --btn-cart-text:        var(--color-white);
+
+  /* scrollbar */
+  --scrollbar-thumb:       var(--color-primary);
+  --scrollbar-thumb-hover: var(--color-primary-hover);
+  --scrollbar-track:       var(--bg-page);
 }
 
 @mixin dark-tokens {
@@ -55,9 +60,9 @@
   --text-on-primary:      var(--color-white);
 
   /* backgrounds */
-  --bg-page:     var(--color-zinc-950);
+  --bg-page:     var(--color-zinc-800);
   --bg-surface:  var(--color-zinc-900);
-  --bg-muted:    var(--color-zinc-800);
+  --bg-muted:    var(--color-zinc-700);
   --bg-disabled: var(--color-zinc-800);
   --bg-footer:   var(--color-zinc-900);
   --bg-footer-input: #242428;
@@ -92,6 +97,11 @@
   --btn-cart-bg:          var(--color-primary);
   --btn-cart-bg-hover:    var(--color-maroon-300);
   --btn-cart-text:        var(--text-on-primary);
+
+  /* scrollbar */
+  --scrollbar-thumb:       var(--color-soft-pink-200);
+  --scrollbar-thumb-hover: var(--color-soft-pink-300);
+  --scrollbar-track:       var(--bg-page);
 }
 
 :root {

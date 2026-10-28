@@ -17,6 +17,7 @@ export class ThemeService {
       const root = this.document.documentElement;
       root.classList.toggle('dark', theme === 'dark');
       root.classList.toggle('light', theme === 'light');
+      this.repaintScrollbar(root);
       try {
         localStorage.setItem(THEME_STORAGE_KEY, theme);
       } catch {
@@ -31,6 +32,15 @@ export class ThemeService {
 
   set(theme: Theme): void {
     this.theme.set(theme);
+  }
+
+  /** Chrome keeps the old viewport scrollbar colors until the root scroller is re-laid out. */
+  private repaintScrollbar(root: HTMLElement): void {
+    const { scrollTop } = root;
+    root.style.overflow = 'hidden';
+    void root.offsetHeight;
+    root.style.overflow = '';
+    root.scrollTop = scrollTop;
   }
 
   private getInitialTheme(): Theme {

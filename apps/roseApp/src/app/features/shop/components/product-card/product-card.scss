@@ -52,6 +52,7 @@
   background: #fff;
   color: var(--color-maroon-700, #741c21);
   cursor: pointer;
+  text-decoration: none;
 
   &:focus-visible {
     outline: 2px solid #fff;
@@ -159,5 +160,18 @@
 @container (max-width: 260px) {
   .product__footer {
     margin-top: 0;
+  }
+}
+:host-context(.dark) {
+  .product__title {
+    color: var(--color-soft-pink-200, #ffc2d0);
+  }
+
+  .product__current {
+    color: var(--color-zinc-50, #fafafa);
+  }
+
+  .product__cart {
+    background: var(--color-maroon-500, #cd2e33);
   }
 }

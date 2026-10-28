@@ -1,16 +1,16 @@
 import { DecimalPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, input, output } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { Card } from '@org/ui';
+import { TranslatePipe } from '@ngx-translate/core';
 import { Eye, Heart, LucideAngularModule, ShoppingCart, Star } from 'lucide-angular';
 import { finalPrice, hasDiscount, isNew, isOutOfStock } from '../../../../shared/utils/product-price';
-import { Product } from '../../interfaces/home.model/home-model-response';
 import { HOT_MIN_RATING, MAX_STARS } from '../../../../shared/utils/product.constants';
-import { TranslatePipe } from '@ngx-translate/core';
+import { Product } from '../../interfaces/home.model/home-model-response';
 
 @Component({
   selector: 'app-product-card',
-    imports: [Card, DecimalPipe, TranslatePipe, LucideAngularModule],
-
+  imports: [Card, DecimalPipe, TranslatePipe, LucideAngularModule, RouterLink],
   templateUrl: './product-card.html',
   styleUrl: './product-card.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -20,7 +20,6 @@ export class ProductCard {
 
   readonly addToCart = output<Product>();
   readonly addToWishlist = output<Product>();
-  readonly quickView = output<Product>();
 
   protected readonly ShoppingCart = ShoppingCart;
   protected readonly Star = Star;
@@ -44,10 +43,5 @@ export class ProductCard {
   protected onAddToWishlist(event: Event): void {
     event.stopPropagation();
     this.addToWishlist.emit(this.product());
-  }
-
-  protected onQuickView(event: Event): void {
-    event.stopPropagation();
-    this.quickView.emit(this.product());
   }
 }

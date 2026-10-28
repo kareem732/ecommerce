@@ -2,70 +2,76 @@
   class="header sticky top-0 z-50 w-full shadow-sm transition-colors duration-200"
 >
   <!-- Row A — Main Header -->
-  <div class="header__main-row border-b transition-colors duration-200 bg-white dark:bg-zinc-900 border-zinc-200 dark:border-zinc-800 text-zinc-900 dark:text-zinc-100">
-    <div class="mx-auto flex h-16 sm:h-18 max-w-7xl items-center justify-between gap-3 px-4 sm:gap-4 sm:px-6 lg:px-8">
-      
-      <!-- Brand Logo -->
-      <a
-        routerLink="/shop/home"
-        class="header__logo-link shrink-0 flex items-center select-none cursor-pointer"
-        aria-label="Rose Storefront Home"
-        (click)="closeAllMenus()"
-      >
-        <img
-          src="/bb70dbdbb3472a27ffcc4d3baeb8eaceb3873b18.png"
-          alt="Rose"
-          class="h-10 sm:h-12 w-auto object-contain"
-        />
-      </a>
+  <div class="header__main-row border-b transition-colors duration-200 bg-white dark:bg-zinc-800 border-zinc-200 dark:border-zinc-800 text-zinc-900 dark:text-zinc-100">
+    <div class="mx-auto flex h-16 sm:h-18 max-w-screen-2xl items-center justify-between gap-3 px-3 sm:gap-4 sm:px-4 lg:px-6">
 
-      <!-- Deliver To (Authenticated Users Only) -->
-      @if (isLoggedIn()) {
+      <!-- Brand Logo + City -->
+      <div class="header__brand flex items-center gap-2 shrink-0">
+        <a
+          routerLink="/shop/home"
+          class="header__logo-link shrink-0 flex items-center select-none cursor-pointer"
+          aria-label="Rose Storefront Home"
+          (click)="closeAllMenus()"
+        >
+          <img
+            src="/bb70dbdbb3472a27ffcc4d3baeb8eaceb3873b18.png"
+            alt="Rose"
+            class="h-10 sm:h-12 w-auto object-contain"
+          />
+        </a>
+      </div>
+
+      <!-- Deliver To (static: Cairo) -->
       <div class="header__delivery hidden md:flex items-center gap-1.5 shrink-0 select-none">
-        <lucide-icon
-          [img]="MapPin"
-          [size]="18"
-          class="header__delivery-icon shrink-0 text-zinc-900 dark:text-zinc-100"
-          aria-hidden="true"
-        ></lucide-icon>
         <div class="flex flex-col text-left rtl:text-right leading-tight">
           <span class="header__delivery-label text-[11px] font-normal text-zinc-500 dark:text-zinc-400">
             {{ 'HEADER.DELIVER_TO' | translate }}
           </span>
-          <span class="header__delivery-value text-xs font-bold max-w-[130px] truncate text-zinc-900 dark:text-zinc-100">
-            {{ userLocation() || ('HEADER.SELECT_LOCATION' | translate) }}
+          <span class="header__delivery-value flex items-center gap-1 text-sm font-bold text-[#741c21] dark:text-[#ea9fa2]">
+            <lucide-icon
+              [img]="MapPin"
+              [size]="16"
+              class="header__delivery-icon block shrink-0"
+              aria-hidden="true"
+            ></lucide-icon>
+            <span>Cairo</span>
           </span>
         </div>
       </div>
-      }
 
       <!-- Search Input -->
       <form
         role="search"
-        class="header__search flex-1 max-w-2xl min-w-0"
+        class="header__search flex-1 min-w-0 max-w-5xl"
         (submit)="onSearchSubmit($event)"
       >
         <div class="relative w-full">
-          <lucide-icon
-            [img]="Search"
-            [size]="18"
-            class="header__search-icon absolute top-1/2 -translate-y-1/2 ltr:left-3.5 rtl:right-3.5 pointer-events-none text-zinc-400 dark:text-zinc-400"
-            aria-hidden="true"
-          ></lucide-icon>
+          <span
+            class="header__search-icon-wrap absolute inset-y-0 flex items-center pointer-events-none text-zinc-400 dark:text-zinc-400"
+            style="inset-inline-start: 14px"
+          >
+            <lucide-icon
+              [img]="Search"
+              [size]="18"
+              class="block"
+              aria-hidden="true"
+            ></lucide-icon>
+          </span>
           <input
             type="search"
             [placeholder]="'HEADER.SEARCH_PLACEHOLDER' | translate"
             [attr.aria-label]="'HEADER.SEARCH_ARIA' | translate"
             [value]="searchQuery()"
             (input)="onSearchInput($any($event.target).value)"
-            class="header__search-input w-full rounded-xl py-2 pl-10 pr-4 rtl:pr-10 rtl:pl-4 text-xs sm:text-sm transition-all focus:outline-none bg-zinc-100 dark:bg-zinc-800/80 border border-zinc-200 dark:border-zinc-700 text-zinc-900 dark:text-zinc-100 placeholder:text-zinc-400 dark:placeholder:text-zinc-400 focus:bg-white dark:focus:bg-zinc-900 focus:border-[#741c21] dark:focus:border-[#ea9fa2] focus:ring-2 focus:ring-[#741c21]/20 dark:focus:ring-[#ea9fa2]/20"
+            style="padding-inline-start: 44px; padding-inline-end: 16px; outline: none; box-shadow: none"
+            class="header__search-input w-full h-10 sm:h-11 rounded-xl text-sm transition-colors appearance-none [&::-webkit-search-cancel-button]:appearance-none bg-white dark:bg-zinc-700 border border-zinc-200 dark:border-zinc-600 hover:border-zinc-400 dark:hover:border-zinc-500 focus:border-zinc-400 dark:focus:border-zinc-500 text-zinc-900 dark:text-zinc-100 placeholder:text-zinc-400 dark:placeholder:text-zinc-400"
           />
         </div>
       </form>
 
       <!-- Right Header Actions -->
       <div class="header__actions flex items-center gap-1.5 sm:gap-2.5 shrink-0">
-        
+
         <!-- Account Trigger or Login -->
         @if (isLoggedIn()) {
         <div class="header__account-container relative">
@@ -82,13 +88,13 @@
                 {{ 'HEADER.HELLO' | translate }}
               </span>
               <div class="flex items-center gap-1">
-                <span class="header__account-name text-xs font-bold max-w-[100px] sm:max-w-[120px] truncate text-zinc-900 dark:text-zinc-100">
+                <span class="header__account-name text-xs font-bold max-w-[100px] sm:max-w-[120px] truncate text-[#741c21] dark:text-[#ea9fa2]">
                   {{ firstName() }}
                 </span>
                 <lucide-icon
                   [img]="ChevronDown"
                   [size]="14"
-                  class="transition-transform duration-200 text-zinc-500 dark:text-zinc-400"
+                  class="transition-transform duration-200 text-[#741c21] dark:text-[#ea9fa2]"
                   [class.rotate-180]="isAccountMenuOpen()"
                   aria-hidden="true"
                 ></lucide-icon>
@@ -276,16 +282,16 @@
 
   <!-- Row B — Primary Navigation (Desktop & Tablet) -->
   <nav
-    class="header__nav-row hidden md:block w-full transition-colors duration-200 bg-[#741c21] dark:bg-[#20090c] dark:border-y dark:border-zinc-800/70 text-white dark:text-zinc-100 shadow-inner"
+    class="header__nav-row hidden md:block w-full transition-colors duration-200 bg-[#741c21] dark:bg-[#FFC2D0] text-white dark:text-zinc-800 shadow-inner"
     aria-label="Primary Navigation"
   >
-    <div class="mx-auto flex h-11 max-w-7xl items-center justify-center gap-6 lg:gap-10 px-4 sm:px-6 lg:px-8">
+    <div class="mx-auto flex h-11 max-w-screen-2xl items-stretch justify-center gap-3 lg:gap-6 px-3 sm:px-4 lg:px-6">
       @for (item of navItems; track item.id) {
       <a
         [routerLink]="item.route"
-        [routerLinkActive]="'font-bold shadow-[inset_0_-2px_0_0_#ffffff] text-white dark:shadow-[inset_0_-2px_0_0_#ea9fa2] dark:text-[#ea9fa2] rounded-none'"
+        [routerLinkActive]="'font-bold shadow-[inset_0_-2px_0_0_#FFC2D0] text-[#FFC2D0] dark:shadow-[inset_0_-2px_0_0_#A6252A] dark:text-zinc-800 rounded-none'"
         [routerLinkActiveOptions]="{ exact: true }"
-        class="header__nav-link flex items-center gap-1.5 text-xs sm:text-sm font-medium transition-all py-1 px-2.5 rounded-md cursor-pointer hover:opacity-90 hover:text-white dark:hover:text-[#ea9fa2]"
+        class="header__nav-link flex items-center h-full gap-1.5 text-xs sm:text-sm font-medium transition-all px-2.5 rounded-none cursor-pointer hover:opacity-90 hover:text-white dark:hover:text-[#A6252A]"
         (click)="closeAllMenus()"
       >
         <lucide-icon [img]="item.icon" [size]="16" aria-hidden="true"></lucide-icon>
@@ -302,20 +308,18 @@
     role="dialog"
     aria-label="Mobile Navigation"
   >
-    <!-- Mobile Deliver To (if logged in) -->
-    @if (isLoggedIn()) {
+    <!-- Mobile Deliver To (static: Cairo) -->
     <div class="flex items-center gap-2 pb-3 mb-3 border-b border-zinc-200/60 dark:border-zinc-800/60">
-      <lucide-icon [img]="MapPin" [size]="18" class="header__delivery-icon shrink-0 text-zinc-900 dark:text-zinc-100"></lucide-icon>
       <div class="flex flex-col text-left rtl:text-right leading-tight">
         <span class="header__delivery-label text-[11px] font-normal text-zinc-500 dark:text-zinc-400">
           {{ 'HEADER.DELIVER_TO' | translate }}
         </span>
-        <span class="header__delivery-value text-xs font-bold text-zinc-900 dark:text-zinc-100">
-          {{ userLocation() || ('HEADER.SELECT_LOCATION' | translate) }}
+        <span class="header__delivery-value flex items-center gap-1 text-sm font-bold text-[#741c21] dark:text-[#ea9fa2]">
+          <lucide-icon [img]="MapPin" [size]="16" class="header__delivery-icon block shrink-0" aria-hidden="true"></lucide-icon>
+          <span>Cairo</span>
         </span>
       </div>
     </div>
-    }
 
     <!-- Mobile Navigation Links List -->
     <div class="flex flex-col gap-1">

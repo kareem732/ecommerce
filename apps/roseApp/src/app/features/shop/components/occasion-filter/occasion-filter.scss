@@ -32,3 +32,12 @@
     }
   }
 }
+
+:host-context(.dark) .filter__item {
+  color: var(--color-zinc-400, #a1a1aa);
+
+  &:hover,
+  &--active {
+    color: var(--color-soft-pink-200, #ffc2d0);
+  }
+}

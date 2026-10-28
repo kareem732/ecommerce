@@ -1,0 +1,96 @@
+<section [attr.lang]="currentLanguage()" [attr.dir]="currentLanguage() === 'ar' ? 'rtl' : 'ltr'">
+    <div class="flex flex-col md:flex-row items-center gap-8 md:gap-8 lg:gap-12 xl:gap-20 py-8 lg:py-12">
+
+        <!-- Images Collage -->
+        <div class="w-full max-w-md md:max-w-none md:w-1/2 min-w-0">
+            <div class="flex items-center gap-3 sm:gap-4">
+
+                <!-- Main Image -->
+                <div class="w-[62%] min-w-0">
+                    <img src="Group5.png" [alt]="'ABOUT.MAIN_IMAGE_ALT' | translate"
+                        class="block w-full h-auto object-contain" />
+                </div>
+
+                <!-- Thumbnail Images -->
+                <div class="w-[38%] min-w-0 flex flex-col gap-3">
+                    <img src="Rectangle4.png" [alt]="'ABOUT.SECOND_IMAGE_ALT' | translate"
+                        class="block w-full h-auto object-contain" />
+
+                    <img src="Rectangle5.png" [alt]="'ABOUT.THIRD_IMAGE_ALT' | translate"
+                        class="block w-full h-auto object-contain" />
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Description -->
+        <div class="w-full md:w-1/2 min-w-0 flex flex-col gap-5 sm:gap-6">
+
+            <!-- About Label -->
+            <span class="font-['Sarabun'] text-sm sm:text-base font-bold
+               tracking-[0.25em] uppercase text-[#E65073] dark:text-[#D75458]">
+                {{'ABOUT.LABEL' | translate}}
+            </span>
+
+            <!-- Title and Paragraph -->
+            <div class="flex flex-col gap-4">
+
+                <h2 class="font-primary text-2xl sm:text-3xl lg:text-[32px]
+                 font-bold leading-tight text-[#741C21] dark:text-[#FFC2D0]">
+                    {{'ABOUT.TITLE_START' | translate}}
+                    <span class="text-[#EE7A94] dark:text-[#D75458]">{{'ABOUT.TITLE_HIGHLIGHT_1' | translate}}</span>
+                    {{'ABOUT.TITLE_MIDDLE' | translate}}
+                    <br class="hidden lg:block" />
+                    <span class="text-[#EE7A94] dark:text-[#D75458]">{{'ABOUT.TITLE_HIGHLIGHT_2' | translate}}</span>
+                    {{'ABOUT.TITLE_END' | translate}}
+                </h2>
+
+                <p class="font-primary text-sm sm:text-base
+                 font-normal leading-6 sm:leading-7
+                 text-zinc-500 dark:text-[#A1A1AA]">
+                 {{'ABOUT.DESCRIPTION' | translate}}
+                </p>
+
+            </div>
+
+            <!-- Discover Button -->
+            <div>
+                <button type="button" class="inline-flex items-center justify-center gap-3
+                 min-h-11 rounded-[10px] px-5 py-2 cursor-pointer
+                 bg-[#A6252A] text-white
+                 dark:bg-[#FFC2D0] dark:text-[#27272A]
+                 font-primary text-base font-medium
+                 transition-opacity hover:opacity-90">
+                    {{'ABOUT.DISCOVER' | translate}}
+                    <lucide-icon [img]="arrowRight" class="w-4 h-4 shrink-0 rtl:-scale-x-100" />
+                </button>
+            </div>
+
+            <!-- Features Grid -->
+            <ul class="grid grid-cols-1 lg:grid-cols-2
+               gap-x-6 gap-y-4 sm:gap-y-5
+               text-sm sm:text-base text-zinc-800 dark:text-[#FAFAFA]">
+
+                <li class="flex items-start gap-2">
+                    <lucide-icon [img]="check" [size]="20" [strokeWidth]="2" class="shrink-0 mt-0.5 text-[#741C21] dark:text-[#FF85A2]" />
+                    <span>{{'ABOUT.FEATURE_1' | translate}}</span>
+                </li>
+
+                <li class="flex items-start gap-2">
+                    <lucide-icon [img]="check" [size]="20" [strokeWidth]="2" class="shrink-0 mt-0.5 text-[#741C21] dark:text-[#FF85A2]" />
+                    <span>{{'ABOUT.FEATURE_2' | translate}}</span>
+                </li>
+
+                <li class="flex items-start gap-2">
+                    <lucide-icon [img]="check" [size]="20" [strokeWidth]="2" class="shrink-0 mt-0.5 text-[#741C21] dark:text-[#FF85A2]" />
+                    <span>{{'ABOUT.FEATURE_3' | translate}}</span>
+                </li>
+
+                <li class="flex items-start gap-2">
+                    <lucide-icon [img]="check" [size]="20" [strokeWidth]="2" class="shrink-0 mt-0.5 text-[#741C21] dark:text-[#FF85A2]" />
+                    <span>{{'ABOUT.FEATURE_4' | translate}}</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+</section>

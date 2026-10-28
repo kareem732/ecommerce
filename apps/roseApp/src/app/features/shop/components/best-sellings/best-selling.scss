@@ -99,3 +99,22 @@
     max-width: none;
   }
 }
+:host-context(.dark) {
+  .best-selling__eyebrow,
+  .best-selling__title .accent {
+    color: var(--color-maroon-400, #d75458);
+  }
+
+  .best-selling__title {
+    color: var(--color-soft-pink-200, #ffc2d0);
+  }
+
+  .best-selling__text {
+    color: var(--color-zinc-400, #a1a1aa);
+  }
+
+  .best-selling__cta {
+    background: var(--color-soft-pink-200, #ffc2d0);
+    color: var(--color-zinc-800, #27272a);
+  }
+}

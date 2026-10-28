@@ -1,13 +1,13 @@
-import { inject, Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
+import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import ShopEndPoint from '../enums/EndPoints';
 import ShopApi from '../base/shopApi';
+import ShopEndPoint from '../enums/EndPoints';
 import { ProductsQuery } from '../interfaces/home.model/home-model-request';
 import { OccasionsResponse,ProductResponse,ProductsResponse} from '../interfaces/home.model/home-model-response';
+import { TestimonialsResponse } from '../interfaces/home.Testimonial/Testimonial';
 import { CreateReviewRequest, ReviewsQuery } from '../interfaces/review.model/review-request';
 import { CreateReviewResponse, ReviewsResponse } from '../interfaces/review.model/review-response';
-import { TestimonialsResponse } from '../interfaces/home.Testimonial/Testimonial';
 
 @Injectable({
   providedIn: 'root',
@@ -39,6 +39,10 @@ export class ShopService implements ShopApi {
     return this._httpClient.post<CreateReviewResponse>(ShopEndPoint.REVIEWS, body);
   }
 
+  getTestimonials(): Observable<TestimonialsResponse> {
+    return this._httpClient.get<TestimonialsResponse>(ShopEndPoint.TESTIMONIALS);
+  }
+
   private buildParams(query: ProductsQuery | ReviewsQuery): HttpParams {
     let params = new HttpParams();
     Object.entries(query).forEach(([key, value]) => {
@@ -47,9 +51,5 @@ export class ShopService implements ShopApi {
       }
     });
     return params;
-  }
-
-  getTestimonials():Observable<TestimonialsResponse>{
-    return this._httpClient.get<TestimonialsResponse>(ShopEndPoint.Testimonials)
   }
 }
