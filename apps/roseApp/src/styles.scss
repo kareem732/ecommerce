@@ -15,6 +15,28 @@ body {
   color: var(--text-primary);
 }
 
+html {
+  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--scrollbar-track);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+  border-radius: 999px;
+
+  &:hover {
+    background: var(--scrollbar-thumb-hover);
+  }
+}
+
 :lang(ar),
 [dir='rtl'] {
   font-family: var(--font-arabic);

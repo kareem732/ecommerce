@@ -2,7 +2,7 @@
   class="header sticky top-0 z-50 w-full shadow-sm transition-colors duration-200"
 >
   <!-- Row A — Main Header -->
-  <div class="header__main-row border-b transition-colors duration-200 bg-white dark:bg-zinc-900 border-zinc-200 dark:border-zinc-800 text-zinc-900 dark:text-zinc-100">
+  <div class="header__main-row border-b transition-colors duration-200 bg-white dark:bg-zinc-800 border-zinc-200 dark:border-zinc-800 text-zinc-900 dark:text-zinc-100">
     <div class="mx-auto flex h-16 sm:h-18 max-w-screen-2xl items-center justify-between gap-3 px-3 sm:gap-4 sm:px-4 lg:px-6">
 
       <!-- Brand Logo + City -->
@@ -64,7 +64,7 @@
             [value]="searchQuery()"
             (input)="onSearchInput($any($event.target).value)"
             style="padding-inline-start: 44px; padding-inline-end: 16px; outline: none; box-shadow: none"
-            class="header__search-input w-full h-10 sm:h-11 rounded-xl text-sm transition-colors appearance-none [&::-webkit-search-cancel-button]:appearance-none bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 hover:border-zinc-400 dark:hover:border-zinc-500 focus:border-zinc-400 dark:focus:border-zinc-500 text-zinc-900 dark:text-zinc-100 placeholder:text-zinc-400 dark:placeholder:text-zinc-400"
+            class="header__search-input w-full h-10 sm:h-11 rounded-xl text-sm transition-colors appearance-none [&::-webkit-search-cancel-button]:appearance-none bg-white dark:bg-zinc-700 border border-zinc-200 dark:border-zinc-600 hover:border-zinc-400 dark:hover:border-zinc-500 focus:border-zinc-400 dark:focus:border-zinc-500 text-zinc-900 dark:text-zinc-100 placeholder:text-zinc-400 dark:placeholder:text-zinc-400"
           />
         </div>
       </form>
@@ -282,16 +282,16 @@
 
   <!-- Row B — Primary Navigation (Desktop & Tablet) -->
   <nav
-    class="header__nav-row hidden md:block w-full transition-colors duration-200 bg-[#741c21] dark:bg-[#20090c] dark:border-y dark:border-zinc-800/70 text-white dark:text-zinc-100 shadow-inner"
+    class="header__nav-row hidden md:block w-full transition-colors duration-200 bg-[#741c21] dark:bg-[#FFC2D0] text-white dark:text-zinc-800 shadow-inner"
     aria-label="Primary Navigation"
   >
     <div class="mx-auto flex h-11 max-w-screen-2xl items-stretch justify-center gap-3 lg:gap-6 px-3 sm:px-4 lg:px-6">
       @for (item of navItems; track item.id) {
       <a
         [routerLink]="item.route"
-        [routerLinkActive]="'font-bold shadow-[inset_0_-2px_0_0_#FFC2D0] text-[#FFC2D0] rounded-none'"
+        [routerLinkActive]="'font-bold shadow-[inset_0_-2px_0_0_#FFC2D0] text-[#FFC2D0] dark:shadow-[inset_0_-2px_0_0_#A6252A] dark:text-zinc-800 rounded-none'"
         [routerLinkActiveOptions]="{ exact: true }"
-        class="header__nav-link flex items-center h-full gap-1.5 text-xs sm:text-sm font-medium transition-all px-2.5 rounded-none cursor-pointer hover:opacity-90 hover:text-white dark:hover:text-[#ea9fa2]"
+        class="header__nav-link flex items-center h-full gap-1.5 text-xs sm:text-sm font-medium transition-all px-2.5 rounded-none cursor-pointer hover:opacity-90 hover:text-white dark:hover:text-[#A6252A]"
         (click)="closeAllMenus()"
       >
         <lucide-icon [img]="item.icon" [size]="16" aria-hidden="true"></lucide-icon>

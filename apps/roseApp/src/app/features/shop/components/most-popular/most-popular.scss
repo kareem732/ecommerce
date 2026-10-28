@@ -59,3 +59,6 @@
 :host-context([dir='rtl']) .most-popular__more lucide-angular {
   transform: scaleX(-1);
 }
+:host-context(.dark) .most-popular__more {
+  color: var(--color-soft-pink-200, #ffc2d0);
+}
