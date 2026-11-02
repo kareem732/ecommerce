@@ -17,7 +17,10 @@ export class ShopService implements ShopApi {
 
   getProducts(query: ProductsQuery = {}): Observable<ProductsResponse> {
     return this._httpClient.get<ProductsResponse>(ShopEndPoint.PRODUCTS, {
-      params: this.buildParams(query),
+      params: this.buildParams({
+        ...query,
+        ...(query.search !== undefined ? { search: query.search.trim().slice(0, 200) } : {}),
+      }),
     });
   }
 

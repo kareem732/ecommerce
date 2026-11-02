@@ -69,6 +69,29 @@ describe('ShopService', () => {
       expect(params.get('sortOrder')).toBe('desc');
     });
 
+    it('serializes the supported product filters', () => {
+      service
+        .getProducts({
+          categoryId: 'category-1',
+          subCategoryId: 'subcategory-1',
+          occasionId: 'occasion-1',
+          minPrice: 0,
+          maxPrice: 500,
+          minRating: 0,
+          search: ' roses ',
+        })
+        .subscribe();
+
+      const { params } = expectProductsRequest().request;
+      expect(params.get('categoryId')).toBe('category-1');
+      expect(params.get('subCategoryId')).toBe('subcategory-1');
+      expect(params.get('occasionId')).toBe('occasion-1');
+      expect(params.get('minPrice')).toBe('0');
+      expect(params.get('maxPrice')).toBe('500');
+      expect(params.get('minRating')).toBe('0');
+      expect(params.get('search')).toBe('roses');
+    });
+
     it('skips undefined and empty values', () => {
       service.getProducts({ search: '', categoryId: undefined, page: 2 }).subscribe();
 
@@ -82,6 +105,12 @@ describe('ShopService', () => {
       service.getProducts({ minPrice: 0 }).subscribe();
 
       expect(expectProductsRequest().request.params.get('minPrice')).toBe('0');
+    });
+
+    it('trims and limits search to the backend maximum', () => {
+      service.getProducts({ search: `  ${'x'.repeat(205)}  ` }).subscribe();
+
+      expect(expectProductsRequest().request.params.get('search')).toBe('x'.repeat(200));
     });
 
     it('propagates http errors to the subscriber', () => {

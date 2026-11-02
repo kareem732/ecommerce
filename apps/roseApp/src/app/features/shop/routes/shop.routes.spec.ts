@@ -2,6 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { Router, provideRouter } from '@angular/router';
 import { Home } from '../pages/home/home';
 import { ProductDetails } from '../pages/product-details/product-details';
+import { Products } from '../pages/products/products';
 import { Shop } from '../shop';
 import { SHOP_ROUTES } from './shop.routes';
 
@@ -36,6 +37,12 @@ describe('SHOP_ROUTES', () => {
       const details = children.find((route) => route.path === 'products/:id');
 
       expect(await details?.loadComponent?.()).toBe(ProductDetails);
+    });
+
+    it('lazy loads Products on the products path', async () => {
+      const products = children.find((route) => route.path === 'products');
+
+      expect(await products?.loadComponent?.()).toBe(Products);
     });
   });
 
