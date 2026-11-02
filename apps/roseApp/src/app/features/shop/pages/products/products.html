@@ -12,8 +12,11 @@
   }
 
   @if (pagination().totalPages > 1 && pagination().total > pagination().limit) {
-  <p-paginator class="mt-8 " [first]="(pagination().page - 1) * pagination().limit" [rows]="pagination().limit"
-    [totalRecords]="pagination().total" [alwaysShow]="false" (onPageChange)="onPageChange($event)"
-    [pt]="{ root: { class: 'border-0 bg-transparent' } }" [showFirstLastIcon]="true" />
+  <app-shared-pagination
+    [currentPage]="pagination().page"
+    [pageSize]="pagination().limit"
+    [totalItems]="pagination().total"
+    (pageChange)="onPageChange($event)"
+  />
   }
 </section>

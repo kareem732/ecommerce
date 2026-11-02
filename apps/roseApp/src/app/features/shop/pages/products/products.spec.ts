@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
-import { PaginatorState } from 'primeng/types/paginator';
+import { PaginationChange } from '../../../../shared/ui/shared-pagination/shared-pagination';
 import { Observable, Subject, of, throwError } from 'rxjs';
 import { provideTranslateTesting, useEnglish } from '../../../../shared/utils/testing/translate.testing';
 import { makeProduct, makeProductsResponse } from '../../../../shared/utils/testing/product.fixtures';
@@ -62,7 +62,7 @@ describe('Products', () => {
   it('converts PrimeNG page indexes to one-based API pages', async () => {
     await setup();
 
-    (fixture.componentInstance as unknown as { onPageChange: (event: PaginatorState) => void })
+    (fixture.componentInstance as unknown as { onPageChange: (event: PaginationChange) => void })
       .onPageChange({ page: 1, rows: 12 });
     fixture.detectChanges();
 
@@ -72,7 +72,7 @@ describe('Products', () => {
   it('does not send duplicate page requests', async () => {
     await setup();
 
-    (fixture.componentInstance as unknown as { onPageChange: (event: PaginatorState) => void })
+    (fixture.componentInstance as unknown as { onPageChange: (event: PaginationChange) => void })
       .onPageChange({ page: 0, rows: 12 });
 
     expect(queries).toHaveLength(1);
@@ -92,7 +92,7 @@ describe('Products', () => {
     await setup();
 
     const change = (page: number) =>
-      (fixture.componentInstance as unknown as { onPageChange: (event: PaginatorState) => void })
+      (fixture.componentInstance as unknown as { onPageChange: (event: PaginationChange) => void })
         .onPageChange({ page, rows: 12 });
     change(1);
     change(2);
@@ -108,7 +108,7 @@ describe('Products', () => {
         : throwError(() => new Error('offline'));
     await setup();
 
-    (fixture.componentInstance as unknown as { onPageChange: (event: PaginatorState) => void })
+    (fixture.componentInstance as unknown as { onPageChange: (event: PaginationChange) => void })
       .onPageChange({ page: 1, rows: 12 });
     fixture.detectChanges();
 

@@ -1,6 +1,5 @@
 import { Component, inject, signal } from '@angular/core';
 import { TranslatePipe } from '@ngx-translate/core';
-import { PaginatorModule, PaginatorState } from 'primeng/paginator';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { catchError, EMPTY, switchMap, tap } from 'rxjs';
 import { ProductCard } from '../../components/product-card/product-card';
@@ -10,11 +9,15 @@ import {
 } from '../../interfaces/home.model/home-model-response';
 import { ShopService } from '../../services/shop.service';
 import { DEFAULT_PAGE_SIZE } from '../../interfaces/product-details.model/product-details.model';
+import {
+  PaginationChange,
+  SharedPagination,
+} from '../../../../shared/ui/shared-pagination/shared-pagination';
 
 @Component({
   selector: 'app-products',
   standalone: true,
-  imports: [ProductCard, PaginatorModule, TranslatePipe],
+  imports: [ProductCard, SharedPagination, TranslatePipe],
   templateUrl: './products.html',
 })
 export class Products {
@@ -45,10 +48,10 @@ export class Products {
     this.requestPage({ page: 1, limit: DEFAULT_PAGE_SIZE });
   }
 
-  protected onPageChange(event: PaginatorState): void {
+  protected onPageChange(event: PaginationChange): void {
     const current = this.pagination();
-    const page = (event.page ?? 0) + 1;
-    const limit = event.rows ?? current.limit;
+    const page = event.page + 1;
+    const limit = event.rows;
 
     if (page === current.page && limit === current.limit) return;
     this.requestPage({ page, limit });
