@@ -37,13 +37,21 @@ describe('SHOP_ROUTES', () => {
 
       expect(await details?.loadComponent?.()).toBe(ProductDetails);
     });
+
+    it('lazy loads Wishlist on the wishlist path', async () => {
+      const wishlist = children.find((route) => route.path === 'wishlist');
+
+      expect(await wishlist?.loadComponent?.()).toBe(wishlist);
+    });
   });
 
   describe('navigation', () => {
     let router: Router;
 
     beforeEach(() => {
-      TestBed.configureTestingModule({ providers: [provideRouter(SHOP_ROUTES)] });
+      TestBed.configureTestingModule({
+        providers: [provideRouter(SHOP_ROUTES)],
+      });
       router = TestBed.inject(Router);
     });
 
@@ -63,6 +71,12 @@ describe('SHOP_ROUTES', () => {
       await router.navigateByUrl('/products/prod-123');
 
       expect(router.url).toBe('/products/prod-123');
+    });
+
+    it('navigates to /wishlist', async () => {
+      await router.navigateByUrl('/wishlist');
+
+      expect(router.url).toBe('/wishlist');
     });
 
     it('rejects an unknown path', async () => {

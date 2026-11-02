@@ -8,13 +8,15 @@
     card-overlay
     type="button"
     class="icon-btn"
+    [class.icon-btn--active]="wishlisted()"
+    [attr.aria-pressed]="wishlisted()"
     [attr.aria-label]="'SHOP.PRODUCT.ADD_TO_WISHLIST' | translate"
     (click)="onAddToWishlist($event)"
   >
     <lucide-angular [img]="Heart" [size]="18" />
   </button>
 
-     <a
+  <a
     card-overlay
     class="icon-btn"
     [routerLink]="['/shop/products', product().id]"
@@ -25,13 +27,17 @@
 
   <span card-badge class="badges">
     @if (isNew()) {
-      <span class="badge badge--new">{{ 'SHOP.PRODUCT.BADGE.NEW' | translate }}</span>
-    }
-    @if (isHot()) {
-      <span class="badge badge--hot">{{ 'SHOP.PRODUCT.BADGE.HOT' | translate }}</span>
-    }
-    @if (outOfStock()) {
-      <span class="badge badge--out">{{ 'SHOP.PRODUCT.BADGE.OUT_OF_STOCK' | translate }}</span>
+    <span class="badge badge--new"
+      >{{ 'SHOP.PRODUCT.BADGE.NEW' | translate }}</span
+    >
+    } @if (isHot()) {
+    <span class="badge badge--hot"
+      >{{ 'SHOP.PRODUCT.BADGE.HOT' | translate }}</span
+    >
+    } @if (outOfStock()) {
+    <span class="badge badge--out"
+      >{{ 'SHOP.PRODUCT.BADGE.OUT_OF_STOCK' | translate }}</span
+    >
     }
   </span>
 
@@ -43,24 +49,26 @@
     [attr.aria-label]="'SHOP.PRODUCT.RATING' | translate: { rating: product().rating }"
   >
     @for (star of stars; track star) {
-      <lucide-angular
-        class="star"
-        [class.star--filled]="star <= product().rating"
-        [img]="Star"
-        [size]="15"
-      />
+    <lucide-angular
+      class="star"
+      [class.star--filled]="star <= product().rating"
+      [img]="Star"
+      [size]="15"
+    />
     }
   </div>
 
   <div card-footer class="product__footer">
     <div class="product__price">
-      <span class="product__current">{{
-        'SHOP.PRODUCT.PRICE' | translate: { value: (price() | number: '1.2-2') }
-      }}</span>
+      <span class="product__current"
+        >{{ 'SHOP.PRODUCT.PRICE' | translate: { value: (price() | number:
+        '1.2-2') } }}</span
+      >
       @if (discounted()) {
-        <span class="product__old">{{
-          'SHOP.PRODUCT.PRICE' | translate: { value: (product().price | number: '1.2-2') }
-        }}</span>
+      <span class="product__old"
+        >{{ 'SHOP.PRODUCT.PRICE' | translate: { value: (product().price |
+        number: '1.2-2') } }}</span
+      >
       }
     </div>
 

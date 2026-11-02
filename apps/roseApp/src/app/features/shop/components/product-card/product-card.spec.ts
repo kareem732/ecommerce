@@ -1,12 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
-import { ProductCard } from './product-card';
-import { Product } from '../../interfaces/home.model/home-model-response';
-import { daysAgo, makeProduct } from '../../../../shared/utils/testing/product.fixtures';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+import {
+  daysAgo,
+  makeProduct,
+} from '../../../../shared/utils/testing/product.fixtures';
 import {
   provideTranslateTesting,
   useEnglish,
 } from '../../../../shared/utils/testing/translate.testing';
+import { Product } from '../../interfaces/home.model/home-model-response';
+import { ProductCard } from './product-card';
 
 describe('ProductCard', () => {
   let fixture: ComponentFixture<ProductCard>;
@@ -19,7 +23,12 @@ describe('ProductCard', () => {
     return product;
   };
 
-  const text = (selector: string) => element.querySelector(selector)?.textContent?.trim();
+  const text = (selector: string) =>
+    element.querySelector(selector)?.textContent?.trim();
+  const attr = (selector: string, name: string) =>
+    element.querySelector(selector)?.getAttribute(name);
+  const click = (selector: string) =>
+    (element.querySelector(selector) as HTMLElement).click();
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -36,13 +45,12 @@ describe('ProductCard', () => {
     it('renders the title and the cover image', () => {
       render({ title: 'Fuchsia Brilliance Vase', cover: 'vase.webp' });
 
-      const img = element.querySelector('img') as HTMLImageElement;
       expect(text('.product__title')).toBe('Fuchsia Brilliance Vase');
-      expect(img.getAttribute('src')).toBe('vase.webp');
-      expect(img.getAttribute('alt')).toBe('Fuchsia Brilliance Vase');
+      expect(attr('img', 'src')).toBe('vase.webp');
+      expect(attr('img', 'alt')).toBe('Fuchsia Brilliance Vase');
     });
 
-        it('renders the discounted price with the old price', () => {
+    it('renders the discounted price with the old price', () => {
       render({ price: '1000', discountType: 'PERCENT', discountValue: 41 });
 
       expect(text('.product__current')).toBe('590.00 EGP');
@@ -60,18 +68,48 @@ describe('ProductCard', () => {
       render({ rating: 3 });
 
       expect(element.querySelectorAll('lucide-angular.star')).toHaveLength(5);
-      expect(element.querySelectorAll('lucide-angular.star--filled')).toHaveLength(3);
+      expect(
+        element.querySelectorAll('lucide-angular.star--filled'),
+      ).toHaveLength(3);
     });
 
     it('labels the rating and the buttons for screen readers', () => {
       render({ rating: 3 });
 
-      const label = (selector: string) =>
-        element.querySelector(selector)?.getAttribute('aria-label');
-      expect(label('.product__stars')).toBe('Rating 3 out of 5');
-      expect(label('.product__cart')).toBe('Add to cart');
-      expect(label('button.icon-btn')).toBe('Add to wishlist');
-      expect(label('a.icon-btn')).toBe('Quick view');
+      expect(attr('.product__stars', 'aria-label')).toBe('Rating 3 out of 5');
+      expect(attr('.product__cart', 'aria-label')).toBe('Add to cart');
+      expect(attr('button.icon-btn', 'aria-label')).toBe('Add to wishlist');
+      expect(attr('a.icon-btn', 'aria-label')).toBe('Quick view');
+    });
+  });
+
+  describe('wishlist state', () => {
+    it('is not pressed by default', () => {
+      render();
+
+      expect(attr('button.icon-btn', 'aria-pressed')).toBe('false');
+      expect(
+        element.querySelector('button.icon-btn')!.classList,
+      ).not.toContain('icon-btn--active');
+    });
+
+    it('is pressed and highlighted when wishlisted', () => {
+      fixture.componentRef.setInput('wishlisted', true);
+      render();
+
+      expect(attr('button.icon-btn', 'aria-pressed')).toBe('true');
+      expect(element.querySelector('button.icon-btn')!.classList).toContain(
+        'icon-btn--active',
+      );
+    });
+
+    it('updates when the input changes', () => {
+      render();
+
+      fixture.componentRef.setInput('wishlisted', true);
+      fixture.detectChanges();
+
+      expect(attr('button.icon-btn', 'aria-pressed')).toBe('true');
     });
   });
 
@@ -111,49 +149,60 @@ describe('ProductCard', () => {
     it('hides OUT OF STOCK when the product is available', () => {
       render({ stock: 5 });
 
+      const cart = element.querySelector('.product__cart') as HTMLButtonElement;
       expect(element.querySelector('.badge--out')).toBeNull();
-      expect((element.querySelector('.product__cart') as HTMLButtonElement).disabled).toBe(false);
+      expect(cart.disabled).toBe(false);
     });
   });
 
   describe('outputs', () => {
     it('emits addToCart with the product', () => {
       const product = render();
-      let emitted: Product | undefined;
-      fixture.componentInstance.addToCart.subscribe((p) => (emitted = p));
+      const spy = vi.fn();
+      fixture.componentInstance.addToCart.subscribe(spy);
 
-      (element.querySelector('.product__cart') as HTMLButtonElement).click();
+      click('.product__cart');
 
-      expect(emitted).toBe(product);
+      expect(spy).toHaveBeenCalledExactlyOnceWith(product);
     });
 
     it('does not emit addToCart when out of stock', () => {
       render({ stock: 0 });
-      let emitted: Product | undefined;
-      fixture.componentInstance.addToCart.subscribe((p) => (emitted = p));
+      const spy = vi.fn();
+      fixture.componentInstance.addToCart.subscribe(spy);
 
-      (element.querySelector('.product__cart') as HTMLButtonElement).click();
+      click('.product__cart');
 
-      expect(emitted).toBeUndefined();
+      expect(spy).not.toHaveBeenCalled();
     });
 
     it('emits addToWishlist from the heart button', () => {
       const product = render();
-      let emitted: Product | undefined;
-      fixture.componentInstance.addToWishlist.subscribe((p) => (emitted = p));
+      const spy = vi.fn();
+      fixture.componentInstance.addToWishlist.subscribe(spy);
 
-      (element.querySelector('button.icon-btn') as HTMLButtonElement).click();
+      click('button.icon-btn');
 
-      expect(emitted).toBe(product);
+      expect(spy).toHaveBeenCalledExactlyOnceWith(product);
+    });
+
+    it('does not let button clicks bubble to the parent', () => {
+      render();
+      const parentClick = vi.fn();
+      element.addEventListener('click', parentClick);
+
+      click('.product__cart');
+      click('button.icon-btn');
+
+      expect(parentClick).not.toHaveBeenCalled();
     });
   });
 
-    describe('navigation', () => {
+  describe('navigation', () => {
     it('links the eye button to the product details page', () => {
       const product = render({ id: 'prod-42' });
 
-      const link = element.querySelector('a.icon-btn') as HTMLAnchorElement;
-      expect(link.getAttribute('href')).toBe(`/shop/products/${product.id}`);
+      expect(attr('a.icon-btn', 'href')).toBe(`/shop/products/${product.id}`);
     });
   });
 });
