@@ -1,4 +1,4 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpContext, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import ShopApi from '../base/shopApi';
@@ -15,9 +15,10 @@ import { CreateReviewResponse, ReviewsResponse } from '../interfaces/review.mode
 export class ShopService implements ShopApi {
   private readonly _httpClient = inject(HttpClient);
 
-  getProducts(query: ProductsQuery = {}): Observable<ProductsResponse> {
+  getProducts(query: ProductsQuery = {}, context?: HttpContext): Observable<ProductsResponse> {
     return this._httpClient.get<ProductsResponse>(ShopEndPoint.PRODUCTS, {
       params: this.buildParams(query),
+      context,
     });
   }
 

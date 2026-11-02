@@ -42,10 +42,10 @@
       <!-- Search Input -->
       <form
         role="search"
-        class="header__search flex-1 min-w-0 max-w-5xl"
+        class="header__search hidden md:block flex-1 min-w-0 max-w-5xl"
         (submit)="onSearchSubmit($event)"
       >
-        <div class="relative w-full">
+        <div #searchBox class="relative w-full">
           <span
             class="header__search-icon-wrap absolute inset-y-0 flex items-center pointer-events-none text-zinc-400 dark:text-zinc-400"
             style="inset-inline-start: 14px"
@@ -62,10 +62,37 @@
             [placeholder]="'HEADER.SEARCH_PLACEHOLDER' | translate"
             [attr.aria-label]="'HEADER.SEARCH_ARIA' | translate"
             [value]="searchQuery()"
+            #searchInput
+            autocomplete="off"
+            aria-controls="navbar-search-results"
+            [attr.aria-expanded]="isSearchOpen()"
+            (focus)="openSearch()"
             (input)="onSearchInput($any($event.target).value)"
-            style="padding-inline-start: 44px; padding-inline-end: 16px; outline: none; box-shadow: none"
+            style="padding-inline-start: 44px; padding-inline-end: 40px; outline: none; box-shadow: none"
             class="header__search-input w-full h-10 sm:h-11 rounded-xl text-sm transition-colors appearance-none [&::-webkit-search-cancel-button]:appearance-none bg-white dark:bg-zinc-700 border border-zinc-200 dark:border-zinc-600 hover:border-zinc-400 dark:hover:border-zinc-500 focus:border-zinc-400 dark:focus:border-zinc-500 text-zinc-900 dark:text-zinc-100 placeholder:text-zinc-400 dark:placeholder:text-zinc-400"
           />
+          @if (searchQuery()) {
+          <button
+            type="button"
+            class="header__search-clear absolute inset-y-0 flex items-center px-1 cursor-pointer text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-200"
+            style="inset-inline-end: 10px"
+            [attr.aria-label]="'SEARCH.CLEAR' | translate"
+            (click)="clearSearch(searchInput)"
+          >
+            <lucide-icon [img]="X" [size]="16" aria-hidden="true"></lucide-icon>
+          </button>
+          }
+
+          @if (isSearchOpen()) {
+          <app-search-results
+            id="navbar-search-results"
+            class="absolute inset-x-0 top-full z-50 mt-2"
+            [products]="searchState().products"
+            [term]="searchState().term"
+            [loading]="searchState().loading"
+            (selected)="onSearchResultSelected()"
+          />
+          }
         </div>
       </form>
 
@@ -105,7 +132,7 @@
           <!-- Account Dropdown Panel -->
           @if (isAccountMenuOpen()) {
           <div
-            class="header__account-dropdown absolute top-full mt-2 ltr:right-0 rtl:left-0 z-50 w-56 sm:w-64 rounded-2xl p-1.5 shadow-2xl transition-all border bg-white dark:bg-zinc-900 border-zinc-200 dark:border-zinc-700 text-zinc-800 dark:text-zinc-100"
+            class="header__account-dropdown fixed inset-x-3 top-18 sm:top-20 md:absolute md:inset-x-auto md:top-full md:mt-2 md:ltr:right-0 md:rtl:left-0 z-50 md:w-64 rounded-2xl p-1.5 shadow-2xl transition-all border bg-white dark:bg-zinc-900 border-zinc-200 dark:border-zinc-700 text-zinc-800 dark:text-zinc-100"
             role="menu"
           >
             <!-- User Full Name Header -->
@@ -238,12 +265,12 @@
         }
 
         <!-- Separator -->
-        <div class="header__vertical-divider hidden sm:block h-6 w-px bg-zinc-200 dark:bg-zinc-800"></div>
+        <div class="header__vertical-divider hidden md:block h-6 w-px bg-zinc-200 dark:bg-zinc-800"></div>
 
         <!-- Theme Toggle Control -->
         <button
           type="button"
-          class="header__theme-btn p-1.5 rounded-lg transition-colors cursor-pointer text-zinc-900 dark:text-zinc-100 hover:text-[#741c21] dark:hover:text-[#ea9fa2] hover:bg-zinc-100 dark:hover:bg-zinc-800/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#741c21] dark:focus-visible:ring-[#ea9fa2]"
+          class="header__theme-btn hidden md:inline-flex p-1.5 rounded-lg transition-colors cursor-pointer text-zinc-900 dark:text-zinc-100 hover:text-[#741c21] dark:hover:text-[#ea9fa2] hover:bg-zinc-100 dark:hover:bg-zinc-800/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#741c21] dark:focus-visible:ring-[#ea9fa2]"
           [attr.aria-label]="'HEADER.THEME_TOGGLE' | translate"
           [attr.aria-pressed]="isDarkMode()"
           (click)="toggleTheme()"
@@ -254,11 +281,23 @@
         <!-- Language Control -->
         <button
           type="button"
-          class="header__lang-btn text-xs sm:text-sm font-semibold py-1 px-2 rounded-lg transition-colors cursor-pointer text-zinc-900 dark:text-zinc-100 hover:text-[#741c21] dark:hover:text-[#ea9fa2] hover:bg-zinc-100 dark:hover:bg-zinc-800/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#741c21] dark:focus-visible:ring-[#ea9fa2]"
+          class="header__lang-btn hidden md:inline-block text-xs sm:text-sm font-semibold py-1 px-2 rounded-lg transition-colors cursor-pointer text-zinc-900 dark:text-zinc-100 hover:text-[#741c21] dark:hover:text-[#ea9fa2] hover:bg-zinc-100 dark:hover:bg-zinc-800/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#741c21] dark:focus-visible:ring-[#ea9fa2]"
           [attr.aria-label]="'COMMON.SWITCH_LANGUAGE' | translate"
           (click)="toggleLanguage()"
         >
           {{ 'COMMON.SWITCH_LANGUAGE' | translate }}
+        </button>
+
+        <!-- Mobile Search Trigger -->
+        <button
+          type="button"
+          class="header__mobile-search-btn md:hidden p-1.5 rounded-lg transition-colors cursor-pointer text-zinc-900 dark:text-zinc-100 hover:text-[#741c21] dark:hover:text-[#ea9fa2] hover:bg-zinc-100 dark:hover:bg-zinc-800/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#741c21] dark:focus-visible:ring-[#ea9fa2]"
+          aria-controls="navbar-mobile-search"
+          [attr.aria-expanded]="isMobileSearchOpen()"
+          [attr.aria-label]="'HEADER.SEARCH_ARIA' | translate"
+          (click)="openMobileSearch(mobileSearchInput)"
+        >
+          <lucide-icon [img]="Search" [size]="20" aria-hidden="true"></lucide-icon>
         </button>
 
         <!-- Mobile Menu Hamburger Button -->
@@ -300,6 +339,83 @@
       }
     </div>
   </nav>
+
+  <!-- Mobile Search Drawer (slides in from the inline-start side) -->
+  <div class="header__search-drawer md:hidden">
+    <div
+      class="fixed inset-0 z-[60] bg-black/40 transition-opacity duration-300"
+      [class]="isMobileSearchOpen() ? 'opacity-100' : 'pointer-events-none opacity-0'"
+      aria-hidden="true"
+      (click)="closeMobileSearch()"
+    ></div>
+
+    <div
+      id="navbar-mobile-search"
+      role="dialog"
+      aria-modal="true"
+      [attr.aria-label]="'HEADER.SEARCH_ARIA' | translate"
+      class="fixed inset-y-0 start-0 z-[61] flex w-full max-w-sm flex-col shadow-2xl transition-[translate,visibility] duration-300 ease-out bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100"
+      [class]="isMobileSearchOpen() ? 'visible translate-x-0' : 'invisible ltr:-translate-x-full rtl:translate-x-full'"
+    >
+      <form
+        role="search"
+        class="flex items-center gap-2 p-3 border-b border-zinc-200 dark:border-zinc-800"
+        (submit)="onSearchSubmit($event)"
+      >
+        <div class="relative flex-1 min-w-0">
+          <span
+            class="absolute inset-y-0 flex items-center pointer-events-none text-zinc-400"
+            style="inset-inline-start: 12px"
+          >
+            <lucide-icon [img]="Search" [size]="18" class="block" aria-hidden="true"></lucide-icon>
+          </span>
+          <input
+            #mobileSearchInput
+            type="search"
+            autocomplete="off"
+            enterkeyhint="search"
+            [placeholder]="'HEADER.SEARCH_PLACEHOLDER' | translate"
+            [attr.aria-label]="'HEADER.SEARCH_ARIA' | translate"
+            [value]="searchQuery()"
+            (input)="onSearchInput($any($event.target).value)"
+            style="padding-inline-start: 40px; padding-inline-end: 36px; outline: none; box-shadow: none"
+            class="w-full h-11 rounded-xl text-sm transition-colors appearance-none [&::-webkit-search-cancel-button]:appearance-none bg-white dark:bg-zinc-700 border border-zinc-200 dark:border-zinc-600 focus:border-zinc-400 dark:focus:border-zinc-500 text-zinc-900 dark:text-zinc-100 placeholder:text-zinc-400"
+          />
+          @if (searchQuery()) {
+          <button
+            type="button"
+            class="absolute inset-y-0 flex items-center px-1 cursor-pointer text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-200"
+            style="inset-inline-end: 8px"
+            [attr.aria-label]="'SEARCH.CLEAR' | translate"
+            (click)="clearSearch(mobileSearchInput)"
+          >
+            <lucide-icon [img]="X" [size]="16" aria-hidden="true"></lucide-icon>
+          </button>
+          }
+        </div>
+
+        <button
+          type="button"
+          class="shrink-0 p-2 rounded-lg cursor-pointer transition-colors text-zinc-700 dark:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-800 hover:text-[#741c21] dark:hover:text-[#ea9fa2]"
+          [attr.aria-label]="'SEARCH.CLOSE' | translate"
+          (click)="closeMobileSearch()"
+        >
+          <lucide-icon [img]="X" [size]="22" aria-hidden="true"></lucide-icon>
+        </button>
+      </form>
+
+      @if (isMobileSearchOpen()) {
+      <app-search-results
+        class="min-h-0 flex-1"
+        [embedded]="true"
+        [products]="searchState().products"
+        [term]="searchState().term"
+        [loading]="searchState().loading"
+        (selected)="onSearchResultSelected()"
+      />
+      }
+    </div>
+  </div>
 
   <!-- Mobile Collapsible Navigation Menu -->
   @if (isMobileMenuOpen()) {

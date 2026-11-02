@@ -35,6 +35,15 @@
     "MENU": "Menu",
     "CLOSE_MENU": "Close menu"
   },
+  "SEARCH": {
+    "LOADING": "Loading products…",
+    "SUGGESTIONS": "Products you may like:",
+    "NO_RESULTS": "No products match \"{{query}}\"",
+    "CLEAR": "Clear search",
+    "CLOSE": "Close search",
+    "RATING": "Rating:",
+    "RATINGS_COUNT": "({{count}} ratings)"
+  },
   "NAV": {
     "HOME": "Home",
     "PRODUCTS": "Products",
@@ -373,11 +382,11 @@
       "after": "companies"
     },
     "TESTIMONIALS": {
-  "LABEL": "Testimonials",
-  "TITLE": "Real Words from Happy Customers",
-  "EMPTY": "No testimonials yet.",
-  "RATING": "{{rating}} out of 5"
-}
+      "LABEL": "Testimonials",
+      "TITLE": "Real Words from Happy Customers",
+      "EMPTY": "No testimonials yet.",
+      "RATING": "{{rating}} out of 5"
+    }
   },
   "PRODUCTS": {
     "DETAILS": {
