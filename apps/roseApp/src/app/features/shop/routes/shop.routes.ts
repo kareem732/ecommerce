@@ -13,7 +13,14 @@ export const SHOP_ROUTES: Routes = [
       {
         path: 'products/:id',
         loadComponent: () =>
-          import('../pages/product-details/product-details').then((m) => m.ProductDetails),
+          import('../pages/product-details/product-details').then(
+            (m) => m.ProductDetails,
+          ),
+      },
+      {
+        path: 'wishlist',
+        loadComponent: () =>
+          import('../pages/wishlist/wishlist').then((m) => m.Wishlist),
       },
     ],
   },

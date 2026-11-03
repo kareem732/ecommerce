@@ -8,7 +8,9 @@
     "NEXT": "Next",
     "BACK": "Back",
     "SWITCH_LANGUAGE": "العربية",
-    "LOADING": "Loading..."
+    "LOADING": "Loading...",
+    "CONFIRM": "Confirm",
+    "CLOSE": "Close"
   },
   "NAVIGATION": {
     "DASHBOARD": "Dashboard",
@@ -373,12 +375,28 @@
       "after": "companies"
     },
     "TESTIMONIALS": {
-  "LABEL": "Testimonials",
-  "TITLE": "Real Words from Happy Customers",
-  "EMPTY": "No testimonials yet.",
-  "RATING": "{{rating}} out of 5"
-}
+      "LABEL": "Testimonials",
+      "TITLE": "Real Words from Happy Customers",
+      "EMPTY": "No testimonials yet.",
+      "RATING": "{{rating}} out of 5"
+    }
   },
+  "WISHLIST": {
+  "TITLE": "Wishlist",
+  "ITEMS_COUNT": "{{count}} items",
+  "CLEAR": "Clear Wishlist",
+  "IN_STOCK": "In Stock",
+  "OUT_OF_STOCK": "Out of Stock",
+  "EXPLORE_SIMILAR": "Explore Similar Products",
+  "REMOVE": "Remove from wishlist",
+  "CONTINUE_SHOPPING": "Continue Shopping",
+  "EMPTY": "Your wishlist is empty.",
+  "LOAD_ERROR": "We couldn't load your wishlist.",
+  "CONFIRM_CLEAR": "Are you sure you want to clear your Wishlist?",
+  "ADDED": "Added to your wishlist",
+  "REMOVED": "Removed from your wishlist",
+  "CLEARED": "Wishlist cleared"
+},
   "PRODUCTS": {
     "DETAILS": {
       "PRODUCT_NOT_FOUND": "Product not found",

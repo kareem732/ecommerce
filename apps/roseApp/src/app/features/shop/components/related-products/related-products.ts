@@ -3,6 +3,7 @@ import { TranslatePipe } from '@ngx-translate/core';
 import { SectionTitle } from '../../../../shared/ui/section-title/section-title';
 import { Product } from '../../interfaces/home.model/home-model-response';
 import { HomeStore } from '../../stores/home/home.store';
+import { WishlistStore } from '../../stores/wishlist/wishlist.store';
 import { Carousel } from '../carousel/carousel';
 import { ProductCard } from '../product-card/product-card';
 
@@ -14,9 +15,14 @@ import { ProductCard } from '../product-card/product-card';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RelatedProducts {
+  protected readonly wishlist = inject(WishlistStore);
   protected readonly products = inject(HomeStore).bestSelling;
 
   protected onAddToCart(product: Product): void {
     console.log('add to cart', product.id);
+  }
+
+  protected onAddToWishlist(product: Product): void {
+    this.wishlist.toggle(product.id);
   }
 }

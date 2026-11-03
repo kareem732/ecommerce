@@ -1,0 +1,122 @@
+<section class="wishlist">
+  <header class="wishlist__header">
+    <div class="wishlist__title-wrap">
+      <lucide-angular
+        class="wishlist__title-icon"
+        [img]="FolderHeart"
+        [size]="50"
+        [strokeWidth]="1"
+      />
+      <h1 class="wishlist__title">{{ 'WISHLIST.TITLE' | translate }}</h1>
+      <span class="wishlist__count">
+        {{ 'WISHLIST.ITEMS_COUNT' | translate: { count: store.count() } }}
+      </span>
+    </div>
+
+    @if (store.count() > 0) {
+    <button type="button" class="wishlist__clear" (click)="onClear()">
+      <lucide-angular [img]="BrushCleaning" [size]="20" />
+      <span>{{ 'WISHLIST.CLEAR' | translate }}</span>
+    </button>
+    }
+  </header>
+
+  @if (store.status() === 'error') {
+  <div class="wishlist__state">
+    <p>{{ 'WISHLIST.LOAD_ERROR' | translate }}</p>
+    <button type="button" class="btn btn--dark" (click)="store.load()">
+      {{ 'SHOP.PRODUCT_DETAILS.RETRY' | translate }}
+    </button>
+  </div>
+  } @else if (store.count() === 0 && store.status() !== 'loading') {
+  <p class="wishlist__state">{{ 'WISHLIST.EMPTY' | translate }}</p>
+  } @else {
+  <ul class="wishlist__list">
+    @for (entry of store.items(); track entry.id) { @let product =
+    entry.product;
+    <li class="item" [class.item--out]="isOutOfStock(product)">
+      <a class="item__image-link" [routerLink]="['/shop/products', product.id]">
+        <img
+          class="item__image"
+          [src]="product.cover"
+          [alt]="product.title"
+          loading="lazy"
+        />
+      </a>
+
+      <div class="item__info">
+        <span
+          class="item__status"
+          [class.item__status--in]="!isOutOfStock(product)"
+          [class.item__status--out]="isOutOfStock(product)"
+        >
+          {{ (isOutOfStock(product) ? 'WISHLIST.OUT_OF_STOCK' :
+          'WISHLIST.IN_STOCK') | translate }}
+        </span>
+
+        <h2 class="item__title">{{ product.title }}</h2>
+
+        <div class="item__rating">
+          <span class="item__badge">
+            <lucide-angular class="item__badge-star" [img]="Star" [size]="12" />
+            {{ product.rating | number: '1.1-1' }}/5
+          </span>
+          <span class="item__ratings-count">
+            {{ 'SHOP.PRODUCT_DETAILS.RATINGS_COUNT' | translate: { count:
+            product.ratings } }}
+          </span>
+        </div>
+
+        <div class="item__price">
+          <span class="item__price-current"
+            >{{ finalPrice(product) | number: '1.2-2' }}</span
+          >
+          <span class="item__price-currency"
+            >{{ 'PRODUCTS.DETAILS.CURRENCY' | translate }}</span
+          >
+          @if (hasDiscount(product)) {
+          <span class="item__price-old">
+            {{ 'SHOP.PRODUCT.PRICE' | translate: { value: (product.price |
+            number: '1.2-2') } }}
+          </span>
+          }
+        </div>
+      </div>
+
+      <div class="item__actions">
+        <button
+          type="button"
+          class="item__delete"
+          [attr.aria-label]="'WISHLIST.REMOVE' | translate"
+          (click)="store.remove(product.id)"
+        >
+          <lucide-angular [img]="Trash2" [size]="20" />
+        </button>
+
+        @if (!isOutOfStock(product)) {
+        <button
+          type="button"
+          class="btn btn--dark"
+          (click)="addToCart(product)"
+        >
+          <lucide-angular [img]="ShoppingCart" [size]="18" />
+          <span>{{ 'SHOP.PRODUCT.ADD_TO_CART' | translate }}</span>
+        </button>
+        } @else {
+        <a class="btn btn--soft" routerLink="/shop/products">
+          {{ 'WISHLIST.EXPLORE_SIMILAR' | translate }}
+        </a>
+        }
+      </div>
+    </li>
+    }
+  </ul>
+  }
+
+  <footer class="wishlist__footer">
+    <a class="btn btn--dark" routerLink="/shop/home">
+      <lucide-angular class="wishlist__arrow" [img]="ArrowLeft" [size]="18" />
+      <span>{{ 'WISHLIST.CONTINUE_SHOPPING' | translate }}</span>
+    </a>
+  </footer>
+</section>

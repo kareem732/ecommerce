@@ -5,5 +5,5 @@ export default class ShopEndPoint {
   static readonly OCCASIONS = `${environment.apiUrl}/api/occasions`;
   static readonly REVIEWS = `${environment.apiUrl}/api/reviews`;
   static readonly TESTIMONIALS = `${environment.apiUrl}/api/testimonials`;
+  static readonly WISHLIST = `${environment.apiUrl}/api/wishlist`;
 }
-

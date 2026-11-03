@@ -1,0 +1,109 @@
+.dialog {
+  position: relative;
+  width: min(520px, 92vw);
+  padding: 28px 28px 28px;
+  background: #fff;
+  border-radius: 20px;
+  text-align: center;
+
+  &__close {
+    position: absolute;
+    inset-block-start: 18px;
+    inset-inline-end: 18px;
+    display: grid;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    background: transparent;
+    border: 0;
+    border-radius: 8px;
+    color: #6b6b6b;
+    cursor: pointer;
+    transition:
+      background-color 0.15s ease,
+      color 0.15s ease;
+
+    &:hover {
+      background: #f0f0f0;
+      color: #222;
+    }
+  }
+
+  &__icon {
+    display: grid;
+    place-items: center;
+    width: 64px;
+    height: 64px;
+    margin: 24px auto 40px;
+    border-radius: 50%;
+    background: #e4e4e4;
+    box-shadow: 0 0 0 16px #f3f3f3;
+    color: #1a1a1a;
+  }
+
+  &__message {
+    margin: 0 0 36px;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1.5;
+    color: #1a1a1a;
+    unicode-bidi: plaintext;
+  }
+
+  &__actions {
+    display: flex;
+    gap: 12px;
+
+    .btn {
+      flex: 1;
+    }
+  }
+}
+
+.btn {
+  height: 48px;
+  padding: 0 16px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease;
+
+  &--secondary {
+    background: #f3f3f3;
+    border-color: #d6d6d6;
+    color: #1a1a1a;
+
+    &:hover {
+      background: #e8e8e8;
+      border-color: #c4c4c4;
+    }
+  }
+
+  &--danger {
+    background: #e53935;
+    color: #fff;
+
+    &:hover {
+      background: #d32f2f;
+    }
+  }
+
+  &--primary {
+    background: #1565c0;
+    color: #fff;
+
+    &:hover {
+      background: #0d47a1;
+    }
+  }
+
+  &:focus-visible {
+    outline: 2px solid #1565c0;
+    outline-offset: 2px;
+  }
+}
