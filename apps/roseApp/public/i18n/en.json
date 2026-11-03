@@ -326,6 +326,10 @@
       "VIEW_MORE": "View More",
       "EMPTY": "No products found for this occasion."
     },
+    "PRODUCTS": {
+      "TITLE": "Products",
+      "EMPTY": "No products found."
+    },
     "RELATED": {
       "TITLE": {
         "ACCENT": "Related",

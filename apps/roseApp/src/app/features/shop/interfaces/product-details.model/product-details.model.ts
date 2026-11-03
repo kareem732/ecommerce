@@ -56,3 +56,5 @@ export interface GalleryItem {
   url: string;
   index: number;
 }
+
+export const DEFAULT_PAGE_SIZE = 12;

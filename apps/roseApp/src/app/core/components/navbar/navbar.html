@@ -226,7 +226,7 @@
           }
         </div>
         } @else {
-        <!-- Unauthenticated Login Action -->
+             <!-- Unauthenticated Login Action -->
         <a
           routerLink="/auth/login"
           class="header__login-link flex items-center gap-1.5 text-xs sm:text-sm font-semibold py-1.5 px-2.5 rounded-lg transition-colors cursor-pointer text-zinc-900 dark:text-zinc-100 hover:text-[#741c21] dark:hover:text-[#ea9fa2] hover:bg-zinc-100 dark:hover:bg-zinc-800/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#741c21] dark:focus-visible:ring-[#ea9fa2]"
@@ -238,7 +238,7 @@
             [size]="18"
             aria-hidden="true"
           ></lucide-icon>
-          <span>{{ 'COMMON.LOGIN' | translate }}</span>
+          <span class="hidden md:inline">{{ 'COMMON.LOGIN' | translate }}</span>
         </a>
         }
 
@@ -334,7 +334,7 @@
         <!-- Language Control -->
         <button
           type="button"
-          class="header__lang-btn text-xs sm:text-sm font-semibold py-1 px-2 rounded-lg transition-colors cursor-pointer text-zinc-900 dark:text-zinc-100 hover:text-[#741c21] dark:hover:text-[#ea9fa2] hover:bg-zinc-100 dark:hover:bg-zinc-800/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#741c21] dark:focus-visible:ring-[#ea9fa2]"
+          class="header__lang-btn hidden md:block text-xs sm:text-sm font-semibold py-1 px-2 rounded-lg transition-colors cursor-pointer text-zinc-900 dark:text-zinc-100 hover:text-[#741c21] dark:hover:text-[#ea9fa2] hover:bg-zinc-100 dark:hover:bg-zinc-800/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#741c21] dark:focus-visible:ring-[#ea9fa2]"
           [attr.aria-label]="'COMMON.SWITCH_LANGUAGE' | translate"
           (click)="toggleLanguage()"
         >
