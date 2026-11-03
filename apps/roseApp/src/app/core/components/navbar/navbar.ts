@@ -4,10 +4,12 @@ import {
   ElementRef,
   HostListener,
   computed,
+  effect,
   inject,
   input,
   output,
   signal,
+  untracked,
 } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
@@ -35,9 +37,15 @@ import {
   User,
   X,
 } from 'lucide-angular';
-import { AuthUser, CookieService, LoginService, SessionService } from '@org/auth-service';
+import {
+  AuthUser,
+  CookieService,
+  LoginService,
+  SessionService,
+} from '@org/auth-service';
 import { LanguageEnum, LanguageService } from '@org/shared-i18n';
 import { ThemeService } from '@org/theme';
+import { WishlistStore } from '../../../features/shop/stores/wishlist/wishlist.store';
 import { NavItem } from './navbar.model';
 import { NAVBAR_NAVIGATION_LINKS } from './navbar.control';
 
@@ -56,6 +64,7 @@ export class Navbar {
   private readonly themeService = inject(ThemeService);
   private readonly router = inject(Router);
   private readonly elementRef = inject(ElementRef<HTMLElement>);
+  private readonly wishlist = inject(WishlistStore);
 
   readonly cartCount = input<number>(0);
   readonly notificationCount = input<number>(0);
@@ -118,6 +127,8 @@ export class Navbar {
 
   readonly isAdmin = computed<boolean>(() => this.user()?.role === 'ADMIN');
 
+  readonly wishlistCount = computed(() => this.wishlist.count());
+
   readonly currentLang = computed(() => this.languageService.currentLang());
   readonly isRTL = computed(() => this.languageService.isRTL());
   readonly isDarkMode = computed(() => this.themeService.theme() === 'dark');
@@ -145,6 +156,14 @@ export class Navbar {
   readonly Moon = Moon;
 
   readonly navItems: NavItem[] = NAVBAR_NAVIGATION_LINKS;
+
+  constructor() {
+    effect(() => {
+      if (this.isLoggedIn()) {
+        untracked(() => this.wishlist.load());
+      }
+    });
+  }
 
   toggleAccountMenu(): void {
     this.isAccountMenuOpen.update((open) => !open);
@@ -188,10 +207,10 @@ export class Navbar {
   onWishlistClick(): void {
     this.closeAllMenus();
     if (this.isLoggedIn()) {
-      this.router.navigate(['/shop/home']);
+      this.router.navigate(['/shop/wishlist']);
     } else {
       this.router.navigate(['/auth/login'], {
-        queryParams: { returnUrl: '/shop/home' },
+        queryParams: { returnUrl: '/shop/wishlist' },
       });
     }
   }

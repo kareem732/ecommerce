@@ -1,10 +1,17 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  inject,
+} from '@angular/core';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { NotificationService, ToastSeverity } from '@org/auth-service';
 
 interface ToastStyle {
   container: string;
   icon: string;
 }
+
 const STYLES: Record<ToastSeverity, ToastStyle> = {
   success: {
     container:
@@ -23,9 +30,16 @@ const STYLES: Record<ToastSeverity, ToastStyle> = {
   },
 };
 
+const BACKEND_MESSAGE_KEYS: Record<string, string> = {
+  'Item removed from wishlist.': 'WISHLIST.REMOVED',
+  'Item added to wishlist.': 'WISHLIST.ADDED',
+  'Wishlist cleared.': 'WISHLIST.CLEARED',
+};
+
 @Component({
   selector: 'app-toast-host',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [TranslatePipe],
   template: `
     <div
       dir="ltr"
@@ -68,13 +82,13 @@ const STYLES: Record<ToastSeverity, ToastStyle> = {
           </span>
 
           <p dir="auto" class="min-w-0 flex-1 text-sm font-medium wrap-break-word">
-            {{ toast.message }}
+            {{ resolveMessage(toast.message) | translate: toast.params }}
           </p>
 
           <button
             type="button"
             class="shrink-0 cursor-pointer rounded p-0.5 opacity-60 transition-opacity hover:opacity-100"
-            aria-label="Close"
+            [attr.aria-label]="'COMMON.CLOSE' | translate"
             (click)="notifications.dismiss(toast.id)"
           >
             <svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -89,8 +103,19 @@ const STYLES: Record<ToastSeverity, ToastStyle> = {
 })
 export class ToastHost {
   protected readonly notifications = inject(NotificationService);
+  private readonly translate = inject(TranslateService);
+
+  private readonly isArabic = computed(() =>
+    (this.translate.currentLang() ?? '').startsWith('ar'),
+  );
 
   protected styleOf(severity: ToastSeverity): ToastStyle {
     return STYLES[severity];
+  }
+
+  protected resolveMessage(message: string): string {
+    return this.isArabic()
+      ? (BACKEND_MESSAGE_KEYS[message] ?? message)
+      : message;
   }
 }

@@ -1,25 +1,16 @@
 import { DecimalPipe } from '@angular/common';
-import { Component, computed, inject } from '@angular/core';
+import { ChangeDetectionStrategy,Component,computed,inject} from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
-import {
-  AlertCircle,
-  HeartPlus,
-  LucideAngularModule,
-  Package,
-  ShoppingCart,
-  Star,
-} from 'lucide-angular';
+import { AlertCircle,HeartPlus,LucideAngularModule,Package,ShoppingCart,Star} from 'lucide-angular';
 import { CarouselModule } from 'primeng/carousel';
-import {
-  CarouselPageEvent,
-  CarouselResponsiveOptions,
-} from 'primeng/types/carousel';
+import { CarouselPageEvent,CarouselResponsiveOptions} from 'primeng/types/carousel';
 import { map } from 'rxjs';
 import { ProductReviews } from '../../components/product-reviews/product-reviews';
 import { ProductDetailsStore } from '../../stores/product-details/product-details.store';
 import { RelatedProducts } from '../../components/related-products/related-products';
+import { WishlistStore } from '../../stores/wishlist/wishlist.store';
 
 @Component({
   selector: 'app-product-details',
@@ -28,6 +19,7 @@ import { RelatedProducts } from '../../components/related-products/related-produ
     CarouselModule,
     DecimalPipe,
     LucideAngularModule,
+    Spinner,
     TranslatePipe,
     ProductReviews,
     RelatedProducts,
@@ -39,6 +31,7 @@ import { RelatedProducts } from '../../components/related-products/related-produ
 export class ProductDetails {
   protected readonly store = inject(ProductDetailsStore);
   private readonly route = inject(ActivatedRoute);
+  protected readonly wishlist = inject(WishlistStore);
 
   protected readonly PackageIcon = Package;
   protected readonly StarIcon = Star;
@@ -74,5 +67,9 @@ export class ProductDetails {
 
   protected onThumbPageChange(event: CarouselPageEvent): void {
     if (event.page !== undefined) this.store.setThumbPage(event.page);
+  }
+
+  protected onToggleWishlist(productId: string): void {
+    this.wishlist.toggle(productId);
   }
 }
