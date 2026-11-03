@@ -1,4 +1,4 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpContext, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import ShopApi from '../base/shopApi';
@@ -30,11 +30,17 @@ import {
 export class ShopService implements ShopApi {
   private readonly _httpClient = inject(HttpClient);
 
-  getProducts(query: ProductsQuery = {}): Observable<ProductsResponse> {
+  getProducts(
+    query: ProductsQuery = {},
+    context?: HttpContext,
+  ): Observable<ProductsResponse> {
     return this._httpClient.get<ProductsResponse>(ShopEndPoint.PRODUCTS, {
+      context,
       params: this.buildParams({
         ...query,
-        ...(query.search !== undefined ? { search: query.search.trim().slice(0, 200) } : {}),
+        ...(query.search !== undefined
+          ? { search: query.search.trim().slice(0, 200) }
+          : {}),
       }),
     });
   }

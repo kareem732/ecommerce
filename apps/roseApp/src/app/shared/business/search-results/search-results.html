@@ -1,0 +1,67 @@
+<div
+  class="search-results bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100"
+  [class]="embedded() ? 'flex h-full flex-col' : 'overflow-hidden rounded-2xl border shadow-2xl border-zinc-200 dark:border-zinc-700'"
+>
+  @if (loading()) {
+  <div class="flex justify-center py-8 text-[#741c21] dark:text-[#ea9fa2]">
+    <app-spinner [size]="24" [label]="'SEARCH.LOADING' | translate" />
+  </div>
+  } @else if (!products().length) {
+  <p class="px-4 py-8 text-center text-sm text-zinc-500 dark:text-zinc-400" role="status">
+    {{ 'SEARCH.NO_RESULTS' | translate: { query: term() } }}
+  </p>
+  } @else {
+  @if (!term()) {
+  <p class="px-4 pt-3 pb-2 text-sm font-semibold text-[#741c21] dark:text-[#ea9fa2]">
+    {{ 'SEARCH.SUGGESTIONS' | translate }}
+  </p>
+  }
+  <ul
+    class="overflow-y-auto overscroll-contain divide-y divide-zinc-100 dark:divide-zinc-800"
+    [class]="embedded() ? 'min-h-0 flex-1' : 'max-h-[min(70vh,28rem)]'"
+  >
+    @for (product of products(); track product.id) {
+    <li class="even:bg-zinc-50 dark:even:bg-zinc-800/40">
+      <a
+        [routerLink]="['/shop/products', product.id]"
+        (click)="selected.emit(product)"
+        class="flex items-center gap-3 px-4 py-2.5 transition-colors hover:bg-zinc-100 focus-visible:bg-zinc-100 focus-visible:outline-none dark:hover:bg-zinc-800 dark:focus-visible:bg-zinc-800"
+      >
+        <img
+          [src]="product.cover"
+          [alt]="product.title"
+          width="56"
+          height="56"
+          loading="lazy"
+          decoding="async"
+          class="size-14 shrink-0 rounded-lg object-cover bg-zinc-100 dark:bg-zinc-800"
+        />
+
+        <div class="min-w-0 flex-1">
+          <p class="truncate text-sm font-medium">@for (part of product.title | highlight: term(); track $index) {@if (part.match) {<mark class="search-results__match">{{ part.text }}</mark>} @else {{{ part.text }}}}</p>
+          <p class="mt-1 text-base font-bold">
+            {{ finalPrice(product) | number: '1.0-2' }}
+            <span class="text-[10px] font-normal text-zinc-500 dark:text-zinc-400">{{ 'PRODUCTS.DETAILS.CURRENCY' | translate }}</span>
+          </p>
+          @if (embedded()) {
+          <p class="mt-0.5 flex items-center gap-1 text-xs">
+            <lucide-angular class="search-results__star" [img]="Star" [size]="14" aria-hidden="true" />
+            <b>{{ product.rating | number: '1.0-1' }}/5</b>
+            <span class="text-blue-500 dark:text-blue-400">{{ 'SEARCH.RATINGS_COUNT' | translate: { count: product.ratings } }}</span>
+          </p>
+          }
+        </div>
+
+        @if (!embedded()) {
+        <div class="hidden shrink-0 items-center gap-1 self-start pt-1 text-xs sm:flex">
+          <lucide-angular class="search-results__star" [img]="Star" [size]="16" aria-hidden="true" />
+          <span>{{ 'SEARCH.RATING' | translate }} <b>{{ product.rating | number: '1.0-1' }}/5</b></span>
+          <span class="text-blue-500 dark:text-blue-400">{{ 'SEARCH.RATINGS_COUNT' | translate: { count: product.ratings } }}</span>
+        </div>
+        }
+      </a>
+    </li>
+    }
+  </ul>
+  }
+</div>

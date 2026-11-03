@@ -1,3 +1,4 @@
+import { HttpContext } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ProductsQuery } from '../interfaces/home.model/home-model-request';
 import {
@@ -21,7 +22,7 @@ import {
 } from '../interfaces/wishlist.model/wishlist-response';
 
 export default abstract class ShopApi {
-  abstract getProducts(query?: ProductsQuery): Observable<ProductsResponse>;
+  abstract getProducts(query?: ProductsQuery, context?: HttpContext): Observable<ProductsResponse>;
   abstract getProduct(id: string): Observable<ProductResponse>;
   abstract getOccasions(): Observable<OccasionsResponse>;
   abstract getReviews(query?: ReviewsQuery): Observable<ReviewsResponse>;

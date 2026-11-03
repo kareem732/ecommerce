@@ -1,58 +1,31 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  HostListener,
-  computed,
-  effect,
-  inject,
-  input,
-  output,
-  signal,
-  untracked,
-} from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { afterNextRender,ChangeDetectionStrategy,Component,ElementRef,HostListener,Injector,computed,effect,inject,input,output,signal,viewChild,untracked} from '@angular/core';
+import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
-import {
-  Bell,
-  ChevronDown,
-  ClipboardList,
-  Gift,
-  Headphones,
-  Heart,
-  House,
-  Info,
-  LogOut,
-  LucideAngularModule,
-  MapPin,
-  MapPinHouse,
-  Menu,
-  Moon,
-  PartyPopper,
-  ScrollText,
-  Search,
-  Settings,
-  ShoppingCart,
-  Sun,
-  User,
-  X,
-} from 'lucide-angular';
-import {
-  AuthUser,
-  CookieService,
-  LoginService,
-  SessionService,
-} from '@org/auth-service';
+import { first, switchMap } from 'rxjs';
+import { Bell,ChevronDown,ClipboardList,Gift,Headphones,Heart,House,Info,LogOut,LucideAngularModule,MapPin,MapPinHouse,Menu,Moon,PartyPopper,ScrollText,Search,Settings,ShoppingCart,Sun,User,X} from 'lucide-angular';
+import { AuthUser,CookieService,LoginService,SessionService} from '@org/auth-service';
 import { LanguageEnum, LanguageService } from '@org/shared-i18n';
 import { ThemeService } from '@org/theme';
 import { WishlistStore } from '../../../features/shop/stores/wishlist/wishlist.store';
 import { NavItem } from './navbar.model';
 import { NAVBAR_NAVIGATION_LINKS } from './navbar.control';
+import {
+  INITIAL_PRODUCT_SEARCH_STATE,
+  ProductSearchService,
+} from '../../../features/shop/services/product-search.service';
+import { SearchResults } from '../../../shared/business/search-results/search-results';
 
 @Component({
   selector: 'app-navbar',
-  standalone: true,
-  imports: [RouterLink, RouterLinkActive, TranslatePipe, LucideAngularModule],
+  imports: [
+    RouterLink,
+    RouterLinkActive,
+    TranslatePipe,
+    LucideAngularModule,
+    SearchResults,
+  ],
   templateUrl: './navbar.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -64,6 +37,10 @@ export class Navbar {
   private readonly themeService = inject(ThemeService);
   private readonly router = inject(Router);
   private readonly elementRef = inject(ElementRef<HTMLElement>);
+  private readonly document = inject(DOCUMENT);
+  private readonly injector = inject(Injector);
+  private readonly productSearch = inject(ProductSearchService);
+  private readonly searchBox = viewChild<ElementRef<HTMLElement>>('searchBox');
   private readonly wishlist = inject(WishlistStore);
 
   readonly cartCount = input<number>(0);
@@ -75,6 +52,22 @@ export class Navbar {
   readonly isAccountMenuOpen = signal(false);
   readonly isMobileMenuOpen = signal(false);
   readonly searchQuery = signal('');
+  readonly isSearchOpen = signal(false);
+  readonly isMobileSearchOpen = signal(false);
+
+  private readonly searchQuery$ = toObservable(this.searchQuery);
+  private readonly isSearchActive = computed(
+    () => this.isSearchOpen() || this.isMobileSearchOpen(),
+  );
+
+  // The catalog is only requested the first time either search (desktop box or mobile drawer) is opened.
+  readonly searchState = toSignal(
+    toObservable(this.isSearchActive).pipe(
+      first((open) => open),
+      switchMap(() => this.productSearch.search(this.searchQuery$)),
+    ),
+    { initialValue: INITIAL_PRODUCT_SEARCH_STATE },
+  );
 
   readonly isLoggedIn = computed(() => this.sessionService.isLoggedIn());
   readonly user = computed<AuthUser | null>(() => this.sessionService.user());
@@ -158,6 +151,14 @@ export class Navbar {
   readonly navItems: NavItem[] = NAVBAR_NAVIGATION_LINKS;
 
   constructor() {
+    // Keep the page behind the mobile search drawer from scrolling.
+    effect(() => {
+      this.document.body.classList.toggle(
+        'overflow-hidden',
+        this.isMobileSearchOpen(),
+      );
+    });
+
     effect(() => {
       if (this.isLoggedIn()) {
         untracked(() => this.wishlist.load());
@@ -180,6 +181,7 @@ export class Navbar {
     this.isMobileMenuOpen.update((open) => !open);
     if (this.isMobileMenuOpen()) {
       this.isAccountMenuOpen.set(false);
+      this.isMobileSearchOpen.set(false);
     }
   }
 
@@ -190,10 +192,35 @@ export class Navbar {
   closeAllMenus(): void {
     this.isAccountMenuOpen.set(false);
     this.isMobileMenuOpen.set(false);
+    this.isSearchOpen.set(false);
+    this.isMobileSearchOpen.set(false);
+  }
+
+  openSearch(): void {
+    this.isAccountMenuOpen.set(false);
+    this.isMobileMenuOpen.set(false);
+    this.isSearchOpen.set(true);
+  }
+
+  openMobileSearch(input: HTMLInputElement): void {
+    this.closeAllMenus();
+    this.isMobileSearchOpen.set(true);
+    // The drawer is invisible until this change is rendered, so focus after it.
+    afterNextRender(() => input.focus(), { injector: this.injector });
+  }
+
+  closeMobileSearch(): void {
+    this.isMobileSearchOpen.set(false);
   }
 
   onSearchInput(value: string): void {
     this.searchQuery.set(value);
+    this.isSearchOpen.set(true);
+  }
+
+  clearSearch(input: HTMLInputElement): void {
+    this.searchQuery.set('');
+    input.focus();
   }
 
   onSearchSubmit(event?: Event): void {
@@ -202,6 +229,19 @@ export class Navbar {
     }
     const query = this.searchQuery().trim();
     this.searchSubmit.emit(query);
+
+    // Enter opens the top match, once the results reflect what was typed.
+    const { term, products } = this.searchState();
+    if (query && term && products.length) {
+      this.router.navigate(['/shop/products', products[0].id]);
+      this.onSearchResultSelected();
+    }
+  }
+
+  onSearchResultSelected(): void {
+    this.isSearchOpen.set(false);
+    this.isMobileSearchOpen.set(false);
+    this.searchQuery.set('');
   }
 
   onWishlistClick(): void {
@@ -259,6 +299,8 @@ export class Navbar {
     const target = event.target as Node;
     if (!this.elementRef.nativeElement.contains(target)) {
       this.closeAllMenus();
+    } else if (!this.searchBox()?.nativeElement.contains(target)) {
+      this.isSearchOpen.set(false);
     }
   }
 

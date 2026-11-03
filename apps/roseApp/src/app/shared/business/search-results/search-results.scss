@@ -1,0 +1,21 @@
+:host {
+  display: block;
+}
+
+.search-results__match {
+  background: transparent;
+  color: #a6252a;
+}
+
+:host-context(.dark) .search-results__match {
+  color: #ea9fa2;
+}
+
+.search-results__star {
+  display: inline-flex;
+  color: #fba707;
+
+  ::ng-deep svg {
+    fill: currentColor;
+  }
+}
