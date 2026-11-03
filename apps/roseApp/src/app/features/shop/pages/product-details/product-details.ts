@@ -1,12 +1,28 @@
 import { DecimalPipe } from '@angular/common';
-import { ChangeDetectionStrategy,Component,computed,inject} from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  inject,
+} from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
-import { AlertCircle,HeartPlus,LucideAngularModule,Package,ShoppingCart,Star} from 'lucide-angular';
+import {
+  AlertCircle,
+  HeartPlus,
+  LucideAngularModule,
+  Package,
+  ShoppingCart,
+  Star,
+} from 'lucide-angular';
 import { CarouselModule } from 'primeng/carousel';
-import { CarouselPageEvent,CarouselResponsiveOptions} from 'primeng/types/carousel';
+import {
+  CarouselPageEvent,
+  CarouselResponsiveOptions,
+} from 'primeng/types/carousel';
 import { map } from 'rxjs';
+import { Spinner } from '@org/ui';
 import { ProductReviews } from '../../components/product-reviews/product-reviews';
 import { ProductDetailsStore } from '../../stores/product-details/product-details.store';
 import { RelatedProducts } from '../../components/related-products/related-products';
@@ -14,7 +30,6 @@ import { WishlistStore } from '../../stores/wishlist/wishlist.store';
 
 @Component({
   selector: 'app-product-details',
-  standalone: true,
   imports: [
     CarouselModule,
     DecimalPipe,
@@ -27,6 +42,7 @@ import { WishlistStore } from '../../stores/wishlist/wishlist.store';
   templateUrl: './product-details.html',
   styleUrl: './product-details.scss',
   providers: [ProductDetailsStore],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductDetails {
   protected readonly store = inject(ProductDetailsStore);
