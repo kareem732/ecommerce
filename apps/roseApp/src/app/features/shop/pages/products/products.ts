@@ -1,4 +1,9 @@
-import { Component, inject, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  signal,
+} from '@angular/core';
 import { TranslatePipe } from '@ngx-translate/core';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { catchError, EMPTY, switchMap, tap } from 'rxjs';
@@ -13,15 +18,17 @@ import {
   PaginationChange,
   SharedPagination,
 } from '../../../../shared/ui/shared-pagination/shared-pagination';
+import { WishlistStore } from '../../stores/wishlist/wishlist.store';
 
 @Component({
   selector: 'app-products',
-  standalone: true,
   imports: [ProductCard, SharedPagination, TranslatePipe],
   templateUrl: './products.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Products {
   private readonly shop = inject(ShopService);
+  protected readonly wishlist = inject(WishlistStore);
   protected readonly products = signal<Product[]>([]);
   protected readonly pagination = signal<Pagination>({
     page: 1,
@@ -37,9 +44,7 @@ export class Products {
           this.products.set(payload.data);
           this.pagination.set(payload.metadata);
         }),
-        catchError(() => {
-          return EMPTY;
-        }),
+        catchError(() => EMPTY),
       ),
     ),
   );
@@ -55,5 +60,13 @@ export class Products {
 
     if (page === current.page && limit === current.limit) return;
     this.requestPage({ page, limit });
+  }
+
+  protected onAddToCart(product: Product): void {
+    console.log('add to cart', product.id);
+  }
+
+  protected onAddToWishlist(product: Product): void {
+    this.wishlist.toggle(product.id);
   }
 }
