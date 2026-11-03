@@ -41,7 +41,9 @@ html {
 [dir='rtl'] {
   font-family: var(--font-arabic);
 }
-
+.cdk-overlay-backdrop.app-dialog-backdrop {
+  background: #00000040;
+}
 @font-face {
   font-family: 'Edwardian Script ITC';
   src: url('/fonts/edwardian-script.woff2') format('woff2');

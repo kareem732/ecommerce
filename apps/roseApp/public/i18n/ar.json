@@ -8,7 +8,9 @@
     "NEXT": "التالي",
     "BACK": "رجوع",
     "SWITCH_LANGUAGE": "English",
-    "LOADING": "جاري التحميل..."
+    "LOADING": "جاري التحميل...",
+    "CONFIRM": "تأكيد",
+    "CLOSE": "إغلاق"
   },
   "NAVIGATION": {
     "DASHBOARD": "لوحة التحكم",
@@ -333,11 +335,25 @@
       "VIEW_MORE": "عرض المزيد",
       "EMPTY": "لا توجد منتجات لهذه المناسبة."
     },
+    "PRODUCTS": {
+      "TITLE": "المنتجات",
+      "EMPTY": "لم يتم العثور على منتجات."
+    },
     "RELATED": {
       "TITLE": {
         "ACCENT": "منتجات",
         "REST": "ذات صلة"
       }
+    },
+    "YOU_MAY_LIKE": {
+      "TITLE": {
+        "ACCENT": "منتجات",
+        "REST": "قد تعجبك"
+      }
+    },
+    "CART": {
+      "ADDED": "تمت الإضافة إلى سلتك.",
+      "ADD_ERROR": "تعذّرت الإضافة إلى السلة. حاول مرة أخرى."
     },
     "FILTER": {
       "LABEL": "تصفية حسب المناسبة",
@@ -388,11 +404,30 @@
       "RATING": "{{rating}} من 5"
     }
   },
+  "WISHLIST": {
+    "TITLE": "قائمة الرغبات",
+    "ITEMS_COUNT": "{{count}} منتجات",
+    "CLEAR": "مسح القائمة",
+    "IN_STOCK": "متوفر",
+    "OUT_OF_STOCK": "نفد من المخزون",
+    "EXPLORE_SIMILAR": "استكشف منتجات مشابهة",
+    "REMOVE": "إزالة من قائمة الرغبات",
+    "CONTINUE_SHOPPING": "متابعة التسوق",
+    "EMPTY": "قائمة رغباتك فارغة.",
+    "LOAD_ERROR": "تعذر تحميل قائمة الرغبات.",
+    "CONFIRM_CLEAR": "هل أنت متأكد أنك تريد مسح قائمة الرغبات؟",
+    "ADDED": "تمت الإضافة إلى قائمة الرغبات",
+    "REMOVED": "تمت الإزالة من قائمة الرغبات",
+    "CLEARED": "تم مسح قائمة الرغبات"
+  },
   "PRODUCTS": {
     "DETAILS": {
       "PRODUCT_NOT_FOUND": "المنتج غير موجود",
       "CURRENCY": "جنيه",
       "NO_IMAGE": "لا تتوفر صورة"
     }
+  },
+  "productsMayLike":{
+    "Products You May Like":"منتجات قد تعجبك"
   }
 }

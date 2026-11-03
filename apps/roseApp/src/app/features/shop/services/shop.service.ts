@@ -4,10 +4,25 @@ import { Observable } from 'rxjs';
 import ShopApi from '../base/shopApi';
 import ShopEndPoint from '../enums/EndPoints';
 import { ProductsQuery } from '../interfaces/home.model/home-model-request';
-import { OccasionsResponse,ProductResponse,ProductsResponse} from '../interfaces/home.model/home-model-response';
+import {
+  OccasionsResponse,
+  ProductResponse,
+  ProductsResponse,
+} from '../interfaces/home.model/home-model-response';
 import { TestimonialsResponse } from '../interfaces/home.Testimonial/Testimonial';
-import { CreateReviewRequest, ReviewsQuery } from '../interfaces/review.model/review-request';
-import { CreateReviewResponse, ReviewsResponse } from '../interfaces/review.model/review-response';
+import {
+  CreateReviewRequest,
+  ReviewsQuery,
+} from '../interfaces/review.model/review-request';
+import {
+  CreateReviewResponse,
+  ReviewsResponse,
+} from '../interfaces/review.model/review-response';
+import { AddToWishlistRequest } from '../interfaces/wishlist.model/wishlist-request';
+import {
+  WishlistMessageResponse,
+  WishlistResponse,
+} from '../interfaces/wishlist.model/wishlist-response';
 
 @Injectable({
   providedIn: 'root',
@@ -15,15 +30,25 @@ import { CreateReviewResponse, ReviewsResponse } from '../interfaces/review.mode
 export class ShopService implements ShopApi {
   private readonly _httpClient = inject(HttpClient);
 
-  getProducts(query: ProductsQuery = {}, context?: HttpContext): Observable<ProductsResponse> {
+  getProducts(
+    query: ProductsQuery = {},
+    context?: HttpContext,
+  ): Observable<ProductsResponse> {
     return this._httpClient.get<ProductsResponse>(ShopEndPoint.PRODUCTS, {
-      params: this.buildParams(query),
       context,
+      params: this.buildParams({
+        ...query,
+        ...(query.search !== undefined
+          ? { search: query.search.trim().slice(0, 200) }
+          : {}),
+      }),
     });
   }
 
   getProduct(id: string): Observable<ProductResponse> {
-    return this._httpClient.get<ProductResponse>(`${ShopEndPoint.PRODUCTS}/${id}`);
+    return this._httpClient.get<ProductResponse>(
+      `${ShopEndPoint.PRODUCTS}/${id}`,
+    );
   }
 
   getOccasions(): Observable<OccasionsResponse> {
@@ -37,11 +62,43 @@ export class ShopService implements ShopApi {
   }
 
   addReview(body: CreateReviewRequest): Observable<CreateReviewResponse> {
-    return this._httpClient.post<CreateReviewResponse>(ShopEndPoint.REVIEWS, body);
+    return this._httpClient.post<CreateReviewResponse>(
+      ShopEndPoint.REVIEWS,
+      body,
+    );
   }
 
   getTestimonials(): Observable<TestimonialsResponse> {
-    return this._httpClient.get<TestimonialsResponse>(ShopEndPoint.TESTIMONIALS);
+    return this._httpClient.get<TestimonialsResponse>(
+      ShopEndPoint.TESTIMONIALS,
+    );
+  }
+
+  getWishlist(): Observable<WishlistResponse> {
+    return this._httpClient.get<WishlistResponse>(ShopEndPoint.WISHLIST);
+  }
+
+  addToWishlist(
+    body: AddToWishlistRequest,
+  ): Observable<WishlistMessageResponse> {
+    return this._httpClient.post<WishlistMessageResponse>(
+      ShopEndPoint.WISHLIST,
+      body,
+    );
+  }
+
+  removeFromWishlist(
+    wishlistItemId: string,
+  ): Observable<WishlistMessageResponse> {
+    return this._httpClient.delete<WishlistMessageResponse>(
+      `${ShopEndPoint.WISHLIST}/${wishlistItemId}`,
+    );
+  }
+
+  clearWishlist(): Observable<WishlistMessageResponse> {
+    return this._httpClient.delete<WishlistMessageResponse>(
+      ShopEndPoint.WISHLIST,
+    );
   }
 
   private buildParams(query: ProductsQuery | ReviewsQuery): HttpParams {

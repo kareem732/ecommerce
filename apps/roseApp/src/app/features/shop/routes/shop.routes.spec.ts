@@ -2,6 +2,8 @@ import { TestBed } from '@angular/core/testing';
 import { Router, provideRouter } from '@angular/router';
 import { Home } from '../pages/home/home';
 import { ProductDetails } from '../pages/product-details/product-details';
+import { Products } from '../pages/products/products';
+import { Wishlist } from '../pages/wishlist/wishlist';
 import { Shop } from '../shop';
 import { SHOP_ROUTES } from './shop.routes';
 
@@ -37,13 +39,27 @@ describe('SHOP_ROUTES', () => {
 
       expect(await details?.loadComponent?.()).toBe(ProductDetails);
     });
+
+    it('lazy loads Products on the products path', async () => {
+      const products = children.find((route) => route.path === 'products');
+
+      expect(await products?.loadComponent?.()).toBe(Products);
+    });
+
+    it('lazy loads Wishlist on the wishlist path', async () => {
+      const wishlist = children.find((route) => route.path === 'wishlist');
+
+      expect(await wishlist?.loadComponent?.()).toBe(Wishlist);
+    });
   });
 
   describe('navigation', () => {
     let router: Router;
 
     beforeEach(() => {
-      TestBed.configureTestingModule({ providers: [provideRouter(SHOP_ROUTES)] });
+      TestBed.configureTestingModule({
+        providers: [provideRouter(SHOP_ROUTES)],
+      });
       router = TestBed.inject(Router);
     });
 
@@ -63,6 +79,12 @@ describe('SHOP_ROUTES', () => {
       await router.navigateByUrl('/products/prod-123');
 
       expect(router.url).toBe('/products/prod-123');
+    });
+
+    it('navigates to /wishlist', async () => {
+      await router.navigateByUrl('/wishlist');
+
+      expect(router.url).toBe('/wishlist');
     });
 
     it('rejects an unknown path', async () => {

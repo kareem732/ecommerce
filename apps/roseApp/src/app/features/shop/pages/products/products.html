@@ -1,0 +1,22 @@
+<section class="mx-auto w-full max-w-screen-2xl px-4 py-8 sm:px-6 lg:px-8"
+  aria-label="{{ 'SHOP.PRODUCTS.TITLE' | translate }}">
+  @if ( products().length === 0) {
+  <p class="py-16 text-center text-[var(--text-secondary)]">{{ 'SHOP.PRODUCTS.EMPTY' | translate }}</p>
+  } @else {
+  <div
+    class="mx-auto grid w-full grid-cols-1 gap-x-5 gap-y-8 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
+    @for (product of products(); track product.id) {
+    <app-product-card [product]="product" />
+    }
+  </div>
+  }
+
+  @if (pagination().totalPages > 1 && pagination().total > pagination().limit) {
+  <app-shared-pagination
+    [currentPage]="pagination().page"
+    [pageSize]="pagination().limit"
+    [totalItems]="pagination().total"
+    (pageChange)="onPageChange($event)"
+  />
+  }
+</section>

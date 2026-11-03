@@ -1,50 +1,14 @@
 import { DOCUMENT } from '@angular/common';
-import {
-  afterNextRender,
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  HostListener,
-  Injector,
-  computed,
-  effect,
-  inject,
-  input,
-  output,
-  signal,
-  viewChild,
-} from '@angular/core';
+import { afterNextRender,ChangeDetectionStrategy,Component,ElementRef,HostListener,Injector,computed,effect,inject,input,output,signal,viewChild,untracked} from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
 import { first, switchMap } from 'rxjs';
-import {
-  Bell,
-  ChevronDown,
-  ClipboardList,
-  Gift,
-  Headphones,
-  Heart,
-  House,
-  Info,
-  LogOut,
-  LucideAngularModule,
-  MapPin,
-  MapPinHouse,
-  Menu,
-  Moon,
-  PartyPopper,
-  ScrollText,
-  Search,
-  Settings,
-  ShoppingCart,
-  Sun,
-  User,
-  X,
-} from 'lucide-angular';
-import { AuthUser, CookieService, LoginService, SessionService } from '@org/auth-service';
+import { Bell,ChevronDown,ClipboardList,Gift,Headphones,Heart,House,Info,LogOut,LucideAngularModule,MapPin,MapPinHouse,Menu,Moon,PartyPopper,ScrollText,Search,Settings,ShoppingCart,Sun,User,X} from 'lucide-angular';
+import { AuthUser,CookieService,LoginService,SessionService} from '@org/auth-service';
 import { LanguageEnum, LanguageService } from '@org/shared-i18n';
 import { ThemeService } from '@org/theme';
+import { WishlistStore } from '../../../features/shop/stores/wishlist/wishlist.store';
 import { NavItem } from './navbar.model';
 import { NAVBAR_NAVIGATION_LINKS } from './navbar.control';
 import {
@@ -55,8 +19,13 @@ import { SearchResults } from '../../../shared/business/search-results/search-re
 
 @Component({
   selector: 'app-navbar',
-  standalone: true,
-  imports: [RouterLink, RouterLinkActive, TranslatePipe, LucideAngularModule, SearchResults],
+  imports: [
+    RouterLink,
+    RouterLinkActive,
+    TranslatePipe,
+    LucideAngularModule,
+    SearchResults,
+  ],
   templateUrl: './navbar.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -72,6 +41,7 @@ export class Navbar {
   private readonly injector = inject(Injector);
   private readonly productSearch = inject(ProductSearchService);
   private readonly searchBox = viewChild<ElementRef<HTMLElement>>('searchBox');
+  private readonly wishlist = inject(WishlistStore);
 
   readonly cartCount = input<number>(0);
   readonly notificationCount = input<number>(0);
@@ -86,7 +56,9 @@ export class Navbar {
   readonly isMobileSearchOpen = signal(false);
 
   private readonly searchQuery$ = toObservable(this.searchQuery);
-  private readonly isSearchActive = computed(() => this.isSearchOpen() || this.isMobileSearchOpen());
+  private readonly isSearchActive = computed(
+    () => this.isSearchOpen() || this.isMobileSearchOpen(),
+  );
 
   // The catalog is only requested the first time either search (desktop box or mobile drawer) is opened.
   readonly searchState = toSignal(
@@ -96,13 +68,6 @@ export class Navbar {
     ),
     { initialValue: INITIAL_PRODUCT_SEARCH_STATE },
   );
-
-  constructor() {
-    // Keep the page behind the mobile search drawer from scrolling.
-    effect(() => {
-      this.document.body.classList.toggle('overflow-hidden', this.isMobileSearchOpen());
-    });
-  }
 
   readonly isLoggedIn = computed(() => this.sessionService.isLoggedIn());
   readonly user = computed<AuthUser | null>(() => this.sessionService.user());
@@ -155,6 +120,8 @@ export class Navbar {
 
   readonly isAdmin = computed<boolean>(() => this.user()?.role === 'ADMIN');
 
+  readonly wishlistCount = computed(() => this.wishlist.count());
+
   readonly currentLang = computed(() => this.languageService.currentLang());
   readonly isRTL = computed(() => this.languageService.isRTL());
   readonly isDarkMode = computed(() => this.themeService.theme() === 'dark');
@@ -182,6 +149,22 @@ export class Navbar {
   readonly Moon = Moon;
 
   readonly navItems: NavItem[] = NAVBAR_NAVIGATION_LINKS;
+
+  constructor() {
+    // Keep the page behind the mobile search drawer from scrolling.
+    effect(() => {
+      this.document.body.classList.toggle(
+        'overflow-hidden',
+        this.isMobileSearchOpen(),
+      );
+    });
+
+    effect(() => {
+      if (this.isLoggedIn()) {
+        untracked(() => this.wishlist.load());
+      }
+    });
+  }
 
   toggleAccountMenu(): void {
     this.isAccountMenuOpen.update((open) => !open);
@@ -264,10 +247,10 @@ export class Navbar {
   onWishlistClick(): void {
     this.closeAllMenus();
     if (this.isLoggedIn()) {
-      this.router.navigate(['/shop/home']);
+      this.router.navigate(['/shop/wishlist']);
     } else {
       this.router.navigate(['/auth/login'], {
-        queryParams: { returnUrl: '/shop/home' },
+        queryParams: { returnUrl: '/shop/wishlist' },
       });
     }
   }

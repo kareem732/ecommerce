@@ -8,7 +8,9 @@
     "NEXT": "Next",
     "BACK": "Back",
     "SWITCH_LANGUAGE": "العربية",
-    "LOADING": "Loading..."
+    "LOADING": "Loading...",
+    "CONFIRM": "Confirm",
+    "CLOSE": "Close"
   },
   "NAVIGATION": {
     "DASHBOARD": "Dashboard",
@@ -333,11 +335,25 @@
       "VIEW_MORE": "View More",
       "EMPTY": "No products found for this occasion."
     },
+    "PRODUCTS": {
+      "TITLE": "Products",
+      "EMPTY": "No products found."
+    },
     "RELATED": {
       "TITLE": {
         "ACCENT": "Related",
         "REST": "Products"
       }
+    },
+    "YOU_MAY_LIKE": {
+      "TITLE": {
+        "ACCENT": "Products",
+        "REST": "You May Like"
+      }
+    },
+    "CART": {
+      "ADDED": "Added to your cart.",
+      "ADD_ERROR": "Couldn't add to cart. Please try again."
     },
     "FILTER": {
       "LABEL": "Filter by occasion",
@@ -388,11 +404,30 @@
       "RATING": "{{rating}} out of 5"
     }
   },
+  "WISHLIST": {
+  "TITLE": "Wishlist",
+  "ITEMS_COUNT": "{{count}} items",
+  "CLEAR": "Clear Wishlist",
+  "IN_STOCK": "In Stock",
+  "OUT_OF_STOCK": "Out of Stock",
+  "EXPLORE_SIMILAR": "Explore Similar Products",
+  "REMOVE": "Remove from wishlist",
+  "CONTINUE_SHOPPING": "Continue Shopping",
+  "EMPTY": "Your wishlist is empty.",
+  "LOAD_ERROR": "We couldn't load your wishlist.",
+  "CONFIRM_CLEAR": "Are you sure you want to clear your Wishlist?",
+  "ADDED": "Added to your wishlist",
+  "REMOVED": "Removed from your wishlist",
+  "CLEARED": "Wishlist cleared"
+},
   "PRODUCTS": {
     "DETAILS": {
       "PRODUCT_NOT_FOUND": "Product not found",
       "CURRENCY": "EGP",
       "NO_IMAGE": "No image available"
     }
+  },
+    "productsMayLike":{
+    "Products You May Like":"Products You May Like"
   }
 }

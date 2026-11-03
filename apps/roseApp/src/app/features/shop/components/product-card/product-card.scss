@@ -58,6 +58,14 @@
     outline: 2px solid #fff;
     outline-offset: 2px;
   }
+
+  &--active {
+    color: var(--color-red-600, #dc2626);
+
+    ::ng-deep svg {
+      fill: currentColor;
+    }
+  }
 }
 
 .product {
@@ -162,6 +170,7 @@
     margin-top: 0;
   }
 }
+
 :host-context(.dark) {
   .product__title {
     color: var(--color-soft-pink-200, #ffc2d0);
