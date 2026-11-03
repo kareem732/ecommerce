@@ -15,9 +15,11 @@ import { SessionService } from '../services/session.service';
 import { mapToAuthError } from '../utils/auth-error.mapper';
 
 const MUTATING_METHODS = ['POST', 'PUT', 'PATCH', 'DELETE'];
+
 export const SKIP_ERROR_NOTIFICATION = new HttpContextToken<boolean>(
   () => false,
 );
+
 export function skipErrorNotification(
   context = new HttpContext(),
 ): HttpContext {

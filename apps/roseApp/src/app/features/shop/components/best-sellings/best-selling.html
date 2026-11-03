@@ -1,11 +1,17 @@
 <section class="best-selling">
   <div class="best-selling__intro">
-    <span class="best-selling__eyebrow">{{ 'SHOP.BEST_SELLING.EYEBROW' | translate }}</span>
+    <span class="best-selling__eyebrow"
+      >{{ 'SHOP.BEST_SELLING.EYEBROW' | translate }}</span
+    >
 
     <h2 class="best-selling__title">
-      <span class="accent">{{ 'SHOP.BEST_SELLING.TITLE.ACCENT_1' | translate }}</span>
+      <span class="accent"
+        >{{ 'SHOP.BEST_SELLING.TITLE.ACCENT_1' | translate }}</span
+      >
       {{ 'SHOP.BEST_SELLING.TITLE.MIDDLE' | translate }}
-      <span class="accent">{{ 'SHOP.BEST_SELLING.TITLE.ACCENT_2' | translate }}</span>
+      <span class="accent"
+        >{{ 'SHOP.BEST_SELLING.TITLE.ACCENT_2' | translate }}</span
+      >
       {{ 'SHOP.BEST_SELLING.TITLE.END' | translate }}
     </h2>
 
@@ -23,7 +29,12 @@
   <div class="best-selling__slider">
     <app-carousel [items]="products()" [numVisible]="3">
       <ng-template #itemTemplate let-product>
-        <app-product-card [product]="product" (addToCart)="onAddToCart($event)" />
+        <app-product-card
+          [product]="product"
+          [wishlisted]="wishlist.ids().has(product.id)"
+          (addToCart)="onAddToCart($event)"
+          (addToWishlist)="onAddToWishlist($event)"
+        />
       </ng-template>
     </app-carousel>
   </div>

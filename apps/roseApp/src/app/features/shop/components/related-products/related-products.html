@@ -7,9 +7,13 @@
   <div class="related__slider">
     <app-carousel [items]="products()" [numVisible]="4">
       <ng-template #itemTemplate let-product>
-        <app-product-card [product]="product" (addToCart)="onAddToCart($event)" />
+        <app-product-card
+          [product]="product"
+          [wishlisted]="wishlist.ids().has(product.id)"
+          (addToCart)="onAddToCart($event)"
+          (addToWishlist)="onAddToWishlist($event)"
+        />
       </ng-template>
     </app-carousel>
   </div>
 </section>
-

@@ -1,11 +1,31 @@
 import { DecimalPipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, computed, input, output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  input,
+  output,
+} from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Card } from '@org/ui';
 import { TranslatePipe } from '@ngx-translate/core';
-import { Eye, Heart, LucideAngularModule, ShoppingCart, Star } from 'lucide-angular';
-import { finalPrice, hasDiscount, isNew, isOutOfStock } from '../../../../shared/utils/product-price';
-import { HOT_MIN_RATING, MAX_STARS } from '../../../../shared/utils/product.constants';
+import {
+  Eye,
+  Heart,
+  LucideAngularModule,
+  ShoppingCart,
+  Star,
+} from 'lucide-angular';
+import {
+  finalPrice,
+  hasDiscount,
+  isNew,
+  isOutOfStock,
+} from '../../../../shared/utils/product-price';
+import {
+  HOT_MIN_RATING,
+  MAX_STARS,
+} from '../../../../shared/utils/product.constants';
 import { Product } from '../../interfaces/home.model/home-model-response';
 
 @Component({
@@ -17,6 +37,7 @@ import { Product } from '../../interfaces/home.model/home-model-response';
 })
 export class ProductCard {
   readonly product = input.required<Product>();
+  readonly wishlisted = input(false);
 
   readonly addToCart = output<Product>();
   readonly addToWishlist = output<Product>();
@@ -30,7 +51,9 @@ export class ProductCard {
   protected readonly price = computed(() => finalPrice(this.product()));
   protected readonly discounted = computed(() => hasDiscount(this.product()));
   protected readonly isNew = computed(() => isNew(this.product()));
-  protected readonly isHot = computed(() => this.product().rating >= HOT_MIN_RATING);
+  protected readonly isHot = computed(
+    () => this.product().rating >= HOT_MIN_RATING,
+  );
   protected readonly outOfStock = computed(() => isOutOfStock(this.product()));
 
   protected onAddToCart(event: Event): void {

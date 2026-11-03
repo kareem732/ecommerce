@@ -2,9 +2,12 @@
   class="header sticky top-0 z-50 w-full shadow-sm transition-colors duration-200"
 >
   <!-- Row A — Main Header -->
-  <div class="header__main-row border-b transition-colors duration-200 bg-white dark:bg-zinc-800 border-zinc-200 dark:border-zinc-800 text-zinc-900 dark:text-zinc-100">
-    <div class="mx-auto flex h-16 sm:h-18 max-w-screen-2xl items-center justify-between gap-3 px-3 sm:gap-4 sm:px-4 lg:px-6">
-
+  <div
+    class="header__main-row border-b transition-colors duration-200 bg-white dark:bg-zinc-800 border-zinc-200 dark:border-zinc-800 text-zinc-900 dark:text-zinc-100"
+  >
+    <div
+      class="mx-auto flex h-16 sm:h-18 max-w-screen-2xl items-center justify-between gap-3 px-3 sm:gap-4 sm:px-4 lg:px-6"
+    >
       <!-- Brand Logo + City -->
       <div class="header__brand flex items-center gap-2 shrink-0">
         <a
@@ -22,12 +25,18 @@
       </div>
 
       <!-- Deliver To (static: Cairo) -->
-      <div class="header__delivery hidden md:flex items-center gap-1.5 shrink-0 select-none">
+      <div
+        class="header__delivery hidden md:flex items-center gap-1.5 shrink-0 select-none"
+      >
         <div class="flex flex-col text-left rtl:text-right leading-tight">
-          <span class="header__delivery-label text-[11px] font-normal text-zinc-500 dark:text-zinc-400">
+          <span
+            class="header__delivery-label text-[11px] font-normal text-zinc-500 dark:text-zinc-400"
+          >
             {{ 'HEADER.DELIVER_TO' | translate }}
           </span>
-          <span class="header__delivery-value flex items-center gap-1 text-sm font-bold text-[#741c21] dark:text-[#ea9fa2]">
+          <span
+            class="header__delivery-value flex items-center gap-1 text-sm font-bold text-[#741c21] dark:text-[#ea9fa2]"
+          >
             <lucide-icon
               [img]="MapPin"
               [size]="16"
@@ -63,15 +72,21 @@
             [attr.aria-label]="'HEADER.SEARCH_ARIA' | translate"
             [value]="searchQuery()"
             (input)="onSearchInput($any($event.target).value)"
-            style="padding-inline-start: 44px; padding-inline-end: 16px; outline: none; box-shadow: none"
+            style="
+              padding-inline-start: 44px;
+              padding-inline-end: 16px;
+              outline: none;
+              box-shadow: none;
+            "
             class="header__search-input w-full h-10 sm:h-11 rounded-xl text-sm transition-colors appearance-none [&::-webkit-search-cancel-button]:appearance-none bg-white dark:bg-zinc-700 border border-zinc-200 dark:border-zinc-600 hover:border-zinc-400 dark:hover:border-zinc-500 focus:border-zinc-400 dark:focus:border-zinc-500 text-zinc-900 dark:text-zinc-100 placeholder:text-zinc-400 dark:placeholder:text-zinc-400"
           />
         </div>
       </form>
 
       <!-- Right Header Actions -->
-      <div class="header__actions flex items-center gap-1.5 sm:gap-2.5 shrink-0">
-
+      <div
+        class="header__actions flex items-center gap-1.5 sm:gap-2.5 shrink-0"
+      >
         <!-- Account Trigger or Login -->
         @if (isLoggedIn()) {
         <div class="header__account-container relative">
@@ -84,11 +99,15 @@
             (click)="toggleAccountMenu()"
           >
             <div class="flex flex-col text-left rtl:text-right leading-tight">
-              <span class="header__account-greeting text-[11px] font-normal text-zinc-500 dark:text-zinc-400">
+              <span
+                class="header__account-greeting text-[11px] font-normal text-zinc-500 dark:text-zinc-400"
+              >
                 {{ 'HEADER.HELLO' | translate }}
               </span>
               <div class="flex items-center gap-1">
-                <span class="header__account-name text-xs font-bold max-w-[100px] sm:max-w-[120px] truncate text-[#741c21] dark:text-[#ea9fa2]">
+                <span
+                  class="header__account-name text-xs font-bold max-w-[100px] sm:max-w-[120px] truncate text-[#741c21] dark:text-[#ea9fa2]"
+                >
                   {{ firstName() }}
                 </span>
                 <lucide-icon
@@ -109,7 +128,9 @@
             role="menu"
           >
             <!-- User Full Name Header -->
-            <div class="header__dropdown-title px-3.5 py-3 font-bold text-base border-b border-zinc-100 dark:border-zinc-800 text-[#741c21] dark:text-[#ea9fa2]">
+            <div
+              class="header__dropdown-title px-3.5 py-3 font-bold text-base border-b border-zinc-100 dark:border-zinc-800 text-[#741c21] dark:text-[#ea9fa2]"
+            >
               {{ fullName() }}
             </div>
 
@@ -120,7 +141,12 @@
               class="header__dropdown-item group flex w-full items-center gap-3 px-3.5 py-2.5 text-sm font-medium rounded-xl transition-colors cursor-pointer text-left rtl:text-right text-zinc-700 dark:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-800 hover:text-[#741c21] dark:hover:text-[#ea9fa2] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#741c21] dark:focus-visible:ring-[#ea9fa2]"
               (click)="onAccountMenuNavigate('/shop/home')"
             >
-              <lucide-icon [img]="User" [size]="18" class="shrink-0 text-zinc-400 group-hover:text-[#741c21] dark:text-zinc-400 dark:group-hover:text-[#ea9fa2] transition-colors" aria-hidden="true"></lucide-icon>
+              <lucide-icon
+                [img]="User"
+                [size]="18"
+                class="shrink-0 text-zinc-400 group-hover:text-[#741c21] dark:text-zinc-400 dark:group-hover:text-[#ea9fa2] transition-colors"
+                aria-hidden="true"
+              ></lucide-icon>
               <span>{{ 'HEADER.MY_PROFILE' | translate }}</span>
             </button>
 
@@ -131,7 +157,12 @@
               class="header__dropdown-item group flex w-full items-center gap-3 px-3.5 py-2.5 text-sm font-medium rounded-xl transition-colors cursor-pointer text-left rtl:text-right text-zinc-700 dark:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-800 hover:text-[#741c21] dark:hover:text-[#ea9fa2] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#741c21] dark:focus-visible:ring-[#ea9fa2]"
               (click)="onAccountMenuNavigate('/shop/home')"
             >
-              <lucide-icon [img]="MapPinHouse" [size]="18" class="shrink-0 text-zinc-400 group-hover:text-[#741c21] dark:text-zinc-400 dark:group-hover:text-[#ea9fa2] transition-colors" aria-hidden="true"></lucide-icon>
+              <lucide-icon
+                [img]="MapPinHouse"
+                [size]="18"
+                class="shrink-0 text-zinc-400 group-hover:text-[#741c21] dark:text-zinc-400 dark:group-hover:text-[#ea9fa2] transition-colors"
+                aria-hidden="true"
+              ></lucide-icon>
               <span>{{ 'HEADER.MY_ADDRESSES' | translate }}</span>
             </button>
 
@@ -142,25 +173,39 @@
               class="header__dropdown-item group flex w-full items-center gap-3 px-3.5 py-2.5 text-sm font-medium rounded-xl transition-colors cursor-pointer text-left rtl:text-right text-zinc-700 dark:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-800 hover:text-[#741c21] dark:hover:text-[#ea9fa2] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#741c21] dark:focus-visible:ring-[#ea9fa2]"
               (click)="onAccountMenuNavigate('/shop/home')"
             >
-              <lucide-icon [img]="ScrollText" [size]="18" class="shrink-0 text-zinc-400 group-hover:text-[#741c21] dark:text-zinc-400 dark:group-hover:text-[#ea9fa2] transition-colors" aria-hidden="true"></lucide-icon>
+              <lucide-icon
+                [img]="ScrollText"
+                [size]="18"
+                class="shrink-0 text-zinc-400 group-hover:text-[#741c21] dark:text-zinc-400 dark:group-hover:text-[#ea9fa2] transition-colors"
+                aria-hidden="true"
+              ></lucide-icon>
               <span>{{ 'HEADER.MY_ORDERS' | translate }}</span>
             </button>
 
             <!-- Dashboard Link (Admin Only) -->
             @if (isAdmin()) {
-            <div class="header__dropdown-separator my-1 border-t border-zinc-100 dark:border-zinc-800"></div>
+            <div
+              class="header__dropdown-separator my-1 border-t border-zinc-100 dark:border-zinc-800"
+            ></div>
             <button
               type="button"
               role="menuitem"
               class="header__dropdown-item group flex w-full items-center gap-3 px-3.5 py-2.5 text-sm font-medium rounded-xl transition-colors cursor-pointer text-left rtl:text-right text-zinc-700 dark:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-800 hover:text-[#741c21] dark:hover:text-[#ea9fa2] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#741c21] dark:focus-visible:ring-[#ea9fa2]"
               (click)="onAccountMenuNavigate('/adminDashboard')"
             >
-              <lucide-icon [img]="Settings" [size]="18" class="shrink-0 text-zinc-400 group-hover:text-[#741c21] dark:text-zinc-400 dark:group-hover:text-[#ea9fa2] transition-colors" aria-hidden="true"></lucide-icon>
+              <lucide-icon
+                [img]="Settings"
+                [size]="18"
+                class="shrink-0 text-zinc-400 group-hover:text-[#741c21] dark:text-zinc-400 dark:group-hover:text-[#ea9fa2] transition-colors"
+                aria-hidden="true"
+              ></lucide-icon>
               <span>{{ 'HEADER.DASHBOARD' | translate }}</span>
             </button>
             }
 
-            <div class="header__dropdown-separator my-1 border-t border-zinc-100 dark:border-zinc-800"></div>
+            <div
+              class="header__dropdown-separator my-1 border-t border-zinc-100 dark:border-zinc-800"
+            ></div>
 
             <!-- Logout Action -->
             <button
@@ -169,7 +214,12 @@
               class="header__dropdown-item group flex w-full items-center gap-3 px-3.5 py-2.5 text-sm font-medium rounded-xl transition-colors cursor-pointer text-left rtl:text-right text-zinc-700 dark:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-800 hover:text-[#741c21] dark:hover:text-[#ea9fa2] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#741c21] dark:focus-visible:ring-[#ea9fa2]"
               (click)="logout()"
             >
-              <lucide-icon [img]="LogOut" [size]="18" class="shrink-0 text-zinc-400 group-hover:text-[#741c21] dark:text-zinc-400 dark:group-hover:text-[#ea9fa2] transition-colors" aria-hidden="true"></lucide-icon>
+              <lucide-icon
+                [img]="LogOut"
+                [size]="18"
+                class="shrink-0 text-zinc-400 group-hover:text-[#741c21] dark:text-zinc-400 dark:group-hover:text-[#ea9fa2] transition-colors"
+                aria-hidden="true"
+              ></lucide-icon>
               <span>{{ 'COMMON.LOGOUT' | translate }}</span>
             </button>
           </div>
@@ -183,23 +233,39 @@
           aria-label="Login"
           (click)="closeAllMenus()"
         >
-          <lucide-icon [img]="User" [size]="18" aria-hidden="true"></lucide-icon>
+          <lucide-icon
+            [img]="User"
+            [size]="18"
+            aria-hidden="true"
+          ></lucide-icon>
           <span>{{ 'COMMON.LOGIN' | translate }}</span>
         </a>
         }
 
         <!-- Separator -->
-        <div class="header__vertical-divider hidden sm:block h-6 w-px bg-zinc-200 dark:bg-zinc-800"></div>
+        <div
+          class="header__vertical-divider hidden sm:block h-6 w-px bg-zinc-200 dark:bg-zinc-800"
+        ></div>
 
         <!-- Wishlist Icon -->
-        <button
-          type="button"
+        <a
+          routerLink="/shop/wishlist"
           class="header__icon-btn relative p-1.5 rounded-lg transition-colors cursor-pointer text-zinc-900 dark:text-zinc-100 hover:text-[#741c21] dark:hover:text-[#ea9fa2] hover:bg-zinc-100 dark:hover:bg-zinc-800/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#741c21] dark:focus-visible:ring-[#ea9fa2]"
           [attr.aria-label]="'HEADER.WISHLIST' | translate"
-          (click)="onWishlistClick()"
         >
-          <lucide-icon [img]="Heart" [size]="20" aria-hidden="true"></lucide-icon>
-        </button>
+          <lucide-icon
+            [img]="Heart"
+            [size]="20"
+            aria-hidden="true"
+          ></lucide-icon>
+          @if (wishlistCount() > 0) {
+          <span
+            class="header__badge absolute -top-1 ltr:-right-1 rtl:-left-1 min-w-4 h-4 px-1 rounded-full bg-red-600 text-white text-[10px] font-bold flex items-center justify-center leading-none shadow-sm pointer-events-none"
+          >
+            {{ wishlistCount() }}
+          </span>
+          }
+        </a>
 
         <!-- Shopping Cart Icon -->
         <button
@@ -208,7 +274,11 @@
           [attr.aria-label]="'HEADER.CART' | translate"
           (click)="onCartClick()"
         >
-          <lucide-icon [img]="ShoppingCart" [size]="20" aria-hidden="true"></lucide-icon>
+          <lucide-icon
+            [img]="ShoppingCart"
+            [size]="20"
+            aria-hidden="true"
+          ></lucide-icon>
           @if (cartCount() > 0) {
           <span
             class="header__badge absolute -top-1 ltr:-right-1 rtl:-left-1 min-w-4 h-4 px-1 rounded-full bg-red-600 text-white text-[10px] font-bold flex items-center justify-center leading-none shadow-sm pointer-events-none"
@@ -226,7 +296,11 @@
           [attr.aria-label]="'HEADER.NOTIFICATIONS' | translate"
           (click)="onNotificationClick()"
         >
-          <lucide-icon [img]="Bell" [size]="20" aria-hidden="true"></lucide-icon>
+          <lucide-icon
+            [img]="Bell"
+            [size]="20"
+            aria-hidden="true"
+          ></lucide-icon>
           @if (notificationCount() > 0) {
           <span
             class="header__badge absolute -top-1 ltr:-right-1 rtl:-left-1 min-w-4 h-4 px-1 rounded-full bg-red-600 text-white text-[10px] font-bold flex items-center justify-center leading-none shadow-sm pointer-events-none"
@@ -238,7 +312,9 @@
         }
 
         <!-- Separator -->
-        <div class="header__vertical-divider hidden sm:block h-6 w-px bg-zinc-200 dark:bg-zinc-800"></div>
+        <div
+          class="header__vertical-divider hidden sm:block h-6 w-px bg-zinc-200 dark:bg-zinc-800"
+        ></div>
 
         <!-- Theme Toggle Control -->
         <button
@@ -248,7 +324,11 @@
           [attr.aria-pressed]="isDarkMode()"
           (click)="toggleTheme()"
         >
-          <lucide-icon [img]="isDarkMode() ? Sun : Moon" [size]="19" aria-hidden="true"></lucide-icon>
+          <lucide-icon
+            [img]="isDarkMode() ? Sun : Moon"
+            [size]="19"
+            aria-hidden="true"
+          ></lucide-icon>
         </button>
 
         <!-- Language Control -->
@@ -275,7 +355,6 @@
             aria-hidden="true"
           ></lucide-icon>
         </button>
-
       </div>
     </div>
   </div>
@@ -285,7 +364,9 @@
     class="header__nav-row hidden md:block w-full transition-colors duration-200 bg-[#741c21] dark:bg-[#FFC2D0] text-white dark:text-zinc-800 shadow-inner"
     aria-label="Primary Navigation"
   >
-    <div class="mx-auto flex h-11 max-w-screen-2xl items-stretch justify-center gap-3 lg:gap-6 px-3 sm:px-4 lg:px-6">
+    <div
+      class="mx-auto flex h-11 max-w-screen-2xl items-stretch justify-center gap-3 lg:gap-6 px-3 sm:px-4 lg:px-6"
+    >
       @for (item of navItems; track item.id) {
       <a
         [routerLink]="item.route"
@@ -294,7 +375,11 @@
         class="header__nav-link flex items-center h-full gap-1.5 text-xs sm:text-sm font-medium transition-all px-2.5 rounded-none cursor-pointer hover:opacity-90 hover:text-white dark:hover:text-[#A6252A]"
         (click)="closeAllMenus()"
       >
-        <lucide-icon [img]="item.icon" [size]="16" aria-hidden="true"></lucide-icon>
+        <lucide-icon
+          [img]="item.icon"
+          [size]="16"
+          aria-hidden="true"
+        ></lucide-icon>
         <span>{{ item.labelKey | translate }}</span>
       </a>
       }
@@ -309,13 +394,24 @@
     aria-label="Mobile Navigation"
   >
     <!-- Mobile Deliver To (static: Cairo) -->
-    <div class="flex items-center gap-2 pb-3 mb-3 border-b border-zinc-200/60 dark:border-zinc-800/60">
+    <div
+      class="flex items-center gap-2 pb-3 mb-3 border-b border-zinc-200/60 dark:border-zinc-800/60"
+    >
       <div class="flex flex-col text-left rtl:text-right leading-tight">
-        <span class="header__delivery-label text-[11px] font-normal text-zinc-500 dark:text-zinc-400">
+        <span
+          class="header__delivery-label text-[11px] font-normal text-zinc-500 dark:text-zinc-400"
+        >
           {{ 'HEADER.DELIVER_TO' | translate }}
         </span>
-        <span class="header__delivery-value flex items-center gap-1 text-sm font-bold text-[#741c21] dark:text-[#ea9fa2]">
-          <lucide-icon [img]="MapPin" [size]="16" class="header__delivery-icon block shrink-0" aria-hidden="true"></lucide-icon>
+        <span
+          class="header__delivery-value flex items-center gap-1 text-sm font-bold text-[#741c21] dark:text-[#ea9fa2]"
+        >
+          <lucide-icon
+            [img]="MapPin"
+            [size]="16"
+            class="header__delivery-icon block shrink-0"
+            aria-hidden="true"
+          ></lucide-icon>
           <span>Cairo</span>
         </span>
       </div>
@@ -331,20 +427,30 @@
         class="header__mobile-link flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-colors cursor-pointer text-zinc-800 dark:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-800 hover:text-[#741c21] dark:hover:text-[#ea9fa2]"
         (click)="closeAllMenus()"
       >
-        <lucide-icon [img]="item.icon" [size]="18" aria-hidden="true"></lucide-icon>
+        <lucide-icon
+          [img]="item.icon"
+          [size]="18"
+          aria-hidden="true"
+        ></lucide-icon>
         <span>{{ item.labelKey | translate }}</span>
       </a>
       }
     </div>
 
     <!-- Mobile Theme Toggle & Language -->
-    <div class="flex items-center justify-between pt-3 mt-3 border-t border-zinc-200/60 dark:border-zinc-800/60">
+    <div
+      class="flex items-center justify-between pt-3 mt-3 border-t border-zinc-200/60 dark:border-zinc-800/60"
+    >
       <button
         type="button"
         class="flex items-center gap-2 px-3 py-2 text-sm font-medium rounded-xl transition-colors cursor-pointer text-zinc-700 dark:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-800 hover:text-[#741c21] dark:hover:text-[#ea9fa2]"
         (click)="toggleTheme()"
       >
-        <lucide-icon [img]="isDarkMode() ? Sun : Moon" [size]="18" aria-hidden="true"></lucide-icon>
+        <lucide-icon
+          [img]="isDarkMode() ? Sun : Moon"
+          [size]="18"
+          aria-hidden="true"
+        ></lucide-icon>
         <span>{{ (isDarkMode() ? 'Light Mode' : 'Dark Mode') }}</span>
       </button>
 

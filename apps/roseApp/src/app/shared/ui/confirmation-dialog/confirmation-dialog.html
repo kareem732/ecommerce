@@ -1,0 +1,34 @@
+<div class="dialog" role="alertdialog" aria-modal="true">
+  <button
+    type="button"
+    class="dialog__close"
+    [attr.aria-label]="'COMMON.CLOSE' | translate"
+    (click)="close(false)"
+  >
+    <lucide-angular [img]="X" [size]="20" />
+  </button>
+
+  @if (data.icon) {
+  <div class="dialog__icon">
+    <lucide-angular [img]="data.icon" [size]="32" />
+  </div>
+  }
+
+  <p class="dialog__message" dir="auto">{{ data.message | translate }}</p>
+
+  <div class="dialog__actions">
+    <button type="button" class="btn btn--secondary" (click)="close(false)">
+      {{ data.cancelText! | translate }}
+    </button>
+    <button
+      type="button"
+      class="btn"
+      [class.btn--danger]="data.variant === 'danger'"
+      [class.btn--primary]="data.variant === 'primary'"
+      cdkFocusInitial
+      (click)="close(true)"
+    >
+      {{ data.confirmText! | translate }}
+    </button>
+  </div>
+</div>
