@@ -1,0 +1,129 @@
+@let current = filters();
+
+<aside class="flex flex-col divide-y divide-[var(--border-default)] text-[var(--text-primary)]"
+  [attr.aria-label]="'SHOP.PRODUCT_FILTERS.TITLE' | translate">
+
+  <!-- Category -->
+  @if (categories().length) {
+  <section class="pb-5" aria-labelledby="filter-category">
+    <ng-container
+      *ngTemplateOutlet="header; context: { id: 'filter-category', label: 'SHOP.PRODUCT_FILTERS.CATEGORY', active: current.categoryId !== null, keys: ['categoryId'] }" />
+    <ul class="flex max-h-44 flex-col gap-1.5 overflow-y-auto pe-1">
+      @for (category of categories(); track category.id) {
+      @let selected = current.categoryId === category.id;
+      <li>
+        <button type="button"
+          class="flex w-full cursor-pointer items-center gap-2 rounded-sm p-0.5 text-start text-sm transition-colors focus-visible:outline-2 focus-visible:outline-[var(--border-focus)]"
+          [class]="selected
+            ? 'bg-[var(--color-primary-subtle)] text-[var(--color-primary)]'
+            : 'bg-[var(--bg-muted)] hover:bg-[var(--border-default)]'"
+          [attr.aria-pressed]="selected" (click)="toggle('categoryId', category.id)">
+          @if (category.image) {
+          <img [src]="category.image" alt="" loading="lazy"
+            class="size-6 shrink-0 rounded-sm object-cover" />
+          } @else {
+          <span class="grid size-6 shrink-0 place-items-center rounded-sm text-white"
+            [class]="selected ? 'bg-[var(--color-primary)]' : 'bg-[var(--text-secondary)]'">
+            <lucide-angular [img]="Tag" [size]="14" />
+          </span>
+          }
+          <span class="truncate">{{ category.title }}</span>
+        </button>
+      </li>
+      }
+    </ul>
+  </section>
+  }
+
+  <!-- Occasion -->
+  @if (occasions().length) {
+  <section class="py-5" aria-labelledby="filter-occasion">
+    <ng-container
+      *ngTemplateOutlet="header; context: { id: 'filter-occasion', label: 'SHOP.PRODUCT_FILTERS.OCCASION', active: current.occasionId !== null, keys: ['occasionId'] }" />
+    <ul class="grid grid-cols-2 gap-2">
+      @for (occasion of occasions(); track occasion.id) {
+      @let selected = current.occasionId === occasion.id;
+      <li>
+        <button type="button"
+          class="relative flex h-16 w-full cursor-pointer items-center justify-center overflow-hidden rounded-md bg-zinc-700 bg-cover bg-center p-1 text-sm font-medium text-white transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--border-focus)]"
+          [class]="selected ? 'ring-2 ring-[var(--color-primary)]' : ''"
+          [style.background-image]="occasion.image ? 'url(' + occasion.image + ')' : null"
+          [attr.aria-pressed]="selected" (click)="toggle('occasionId', occasion.id)">
+          <span class="absolute inset-0 transition-colors"
+            [class]="selected ? 'bg-[var(--color-primary)]/60' : 'bg-black/45 hover:bg-black/30'"></span>
+          <span class="relative line-clamp-2 text-center drop-shadow">{{ occasion.title | occasionTitle }}</span>
+        </button>
+      </li>
+      }
+    </ul>
+  </section>
+  }
+
+  <!-- Rating -->
+  <section class="py-5" aria-labelledby="filter-rating">
+    <ng-container
+      *ngTemplateOutlet="header; context: { id: 'filter-rating', label: 'SHOP.PRODUCT_FILTERS.RATING', active: current.minRating !== null, keys: ['minRating'] }" />
+    <div class="flex gap-1" (mouseleave)="hoveredRating.set(0)">
+      @for (star of stars; track star) {
+      @let lit = star <= (hoveredRating() || current.minRating || 0);
+      <button type="button"
+        class="cursor-pointer rounded-sm p-0.5 text-[#fba707] transition-transform hover:scale-110 focus-visible:outline-2 focus-visible:outline-[var(--border-focus)]"
+        [class]="lit ? '[&_svg]:fill-current' : ''"
+        [attr.aria-label]="'SHOP.PRODUCT_FILTERS.RATING_OPTION' | translate: { count: star }"
+        [attr.aria-pressed]="current.minRating === star"
+        (mouseenter)="hoveredRating.set(star)" (focus)="hoveredRating.set(star)" (blur)="hoveredRating.set(0)"
+        (click)="toggleRating(star)">
+        <lucide-angular [img]="Star" [size]="24" />
+      </button>
+      }
+    </div>
+    @if (current.minRating) {
+    <p class="mt-2 text-xs text-[var(--text-secondary)]">
+      {{ 'SHOP.PRODUCT_FILTERS.RATING_OPTION' | translate: { count: current.minRating } }}
+    </p>
+    }
+  </section>
+
+  <!-- Price -->
+  <section class="py-5" aria-labelledby="filter-price">
+    <ng-container
+      *ngTemplateOutlet="header; context: { id: 'filter-price', label: 'SHOP.PRODUCT_FILTERS.PRICE', active: current.minPrice !== null || current.maxPrice !== null, keys: ['minPrice', 'maxPrice'] }" />
+    <div class="grid grid-cols-2 gap-2">
+      <label class="flex flex-col gap-1 text-sm">
+        {{ 'SHOP.PRODUCT_FILTERS.FROM' | translate }}
+        <input type="number" min="0" inputmode="decimal" placeholder="0"
+          class="h-11 w-full rounded-lg border border-[var(--border-strong)] bg-[var(--bg-surface)] px-3 text-sm outline-none focus:border-[var(--border-focus)] focus:ring-2 focus:ring-[var(--ring-focus)]"
+          [value]="current.minPrice ?? ''" (input)="onPriceInput('minPrice', $event)" />
+      </label>
+      <label class="flex flex-col gap-1 text-sm">
+        {{ 'SHOP.PRODUCT_FILTERS.TO' | translate }}
+        <input type="number" min="0" inputmode="decimal" placeholder="1000000"
+          class="h-11 w-full rounded-lg border border-[var(--border-strong)] bg-[var(--bg-surface)] px-3 text-sm outline-none focus:border-[var(--border-focus)] focus:ring-2 focus:ring-[var(--ring-focus)]"
+          [value]="current.maxPrice ?? ''" (input)="onPriceInput('maxPrice', $event)" />
+      </label>
+    </div>
+  </section>
+
+  <div class="pt-5">
+    <button type="button"
+      class="flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg bg-[var(--color-primary-subtle)] py-2.5 text-sm font-medium text-[var(--color-primary)] transition-opacity hover:opacity-80 focus-visible:outline-2 focus-visible:outline-[var(--border-focus)] disabled:cursor-not-allowed disabled:opacity-50"
+      [disabled]="!hasActiveFilters(current)" (click)="resetAll()">
+      <lucide-angular [img]="RotateCcw" [size]="16" />
+      {{ 'SHOP.PRODUCT_FILTERS.RESET_ALL' | translate }}
+    </button>
+  </div>
+</aside>
+
+<ng-template #header let-id="id" let-label="label" let-active="active" let-keys="keys">
+  <div class="mb-3 flex items-center justify-between">
+    <h3 [id]="id" class="text-base font-medium">{{ label | translate }}</h3>
+    @if (active) {
+    <button type="button"
+      class="flex cursor-pointer items-center gap-1 rounded-sm text-sm text-[var(--color-primary)] hover:underline focus-visible:outline-2 focus-visible:outline-[var(--border-focus)]"
+      (click)="reset(keys)">
+      <lucide-angular [img]="X" [size]="14" />
+      {{ 'SHOP.PRODUCT_FILTERS.RESET' | translate }}
+    </button>
+    }
+  </div>
+</ng-template>

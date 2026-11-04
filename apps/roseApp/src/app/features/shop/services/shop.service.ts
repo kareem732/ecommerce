@@ -3,8 +3,9 @@ import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import ShopApi from '../base/shopApi';
 import ShopEndPoint from '../enums/EndPoints';
-import { ProductsQuery } from '../interfaces/home.model/home-model-request';
+import { PageQuery, ProductsQuery } from '../interfaces/home.model/home-model-request';
 import {
+  CategoriesResponse,
   OccasionsResponse,
   ProductResponse,
   ProductsResponse,
@@ -51,8 +52,16 @@ export class ShopService implements ShopApi {
     );
   }
 
-  getOccasions(): Observable<OccasionsResponse> {
-    return this._httpClient.get<OccasionsResponse>(ShopEndPoint.OCCASIONS);
+  getCategories(query: PageQuery = {}): Observable<CategoriesResponse> {
+    return this._httpClient.get<CategoriesResponse>(ShopEndPoint.CATEGORIES, {
+      params: this.buildParams(query),
+    });
+  }
+
+  getOccasions(query: PageQuery = {}): Observable<OccasionsResponse> {
+    return this._httpClient.get<OccasionsResponse>(ShopEndPoint.OCCASIONS, {
+      params: this.buildParams(query),
+    });
   }
 
   getReviews(query: ReviewsQuery = {}): Observable<ReviewsResponse> {
@@ -101,7 +110,7 @@ export class ShopService implements ShopApi {
     );
   }
 
-  private buildParams(query: ProductsQuery | ReviewsQuery): HttpParams {
+  private buildParams(query: ProductsQuery | ReviewsQuery | PageQuery): HttpParams {
     let params = new HttpParams();
     Object.entries(query).forEach(([key, value]) => {
       if (value !== undefined && value !== null && value !== '') {

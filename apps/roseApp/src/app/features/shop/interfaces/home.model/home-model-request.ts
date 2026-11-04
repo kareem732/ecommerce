@@ -1,5 +1,10 @@
 import { ProductSortBy, SortOrder } from '../../enums/product-sort';
 
+export interface PageQuery {
+  page?: number;
+  limit?: number;
+}
+
 export interface ProductsQuery {
   page?: number;
   limit?: number;
