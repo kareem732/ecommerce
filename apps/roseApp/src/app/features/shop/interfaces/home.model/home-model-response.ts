@@ -32,6 +32,18 @@ export interface Occasion {
   updatedAt: string;
 }
 
+export interface Category {
+  id: string;
+  title: string;
+  description: string | null;
+  image: string | null;
+  immutable: boolean;
+  createdAt: string;
+  updatedAt: string;
+  subCategories: CategoryRef[];
+  _count: { products: number };
+}
+
 export interface ProductOccasion {
   id: string;
   productId: string;
@@ -74,3 +86,4 @@ export interface Product {
 export type ProductsResponse = ApiResponse<PaginatedPayload<Product>>;
 export type ProductResponse = ApiResponse<{ product: Product }>;
 export type OccasionsResponse = ApiResponse<PaginatedPayload<Occasion>>;
+export type CategoriesResponse = ApiResponse<PaginatedPayload<Category>>;
