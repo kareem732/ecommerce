@@ -444,6 +444,8 @@
     "TOTAL": "Total",
     "CHECKOUT": "Checkout",
     "CONTINUE_SHOPPING": "Continue Shopping",
-    "EMPTY": "Your cart is empty, wanna try shopping?"
+    "EMPTY": "Your cart is empty, wanna try shopping?",
+    "SUMMARY": "Summary",
+"RECOMMENDED_PRODUCTS": "Products You May Like"
   }
 }

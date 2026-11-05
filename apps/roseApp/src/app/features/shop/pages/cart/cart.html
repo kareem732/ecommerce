@@ -8,11 +8,11 @@
     <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
       <div class="flex flex-wrap items-baseline gap-2 sm:gap-3">
         <p class="font-primary text-3xl sm:text-4xl lg:text-5xl font-bold leading-none text-[#27272A]">
-          Cart
+          {{ 'CART.TITLE' | translate }}
         </p>
 
         <span class="font-primary text-sm sm:text-base font-medium text-[#A1A1AA]">
-          {{cartItems().length}} products
+          {{ 'CART.PRODUCTS_COUNT' | translate: { count: cartItems().length } }}
         </span>
       </div>
 
@@ -21,7 +21,7 @@
         [bgColor]="'#FBEAEA'"
         [textColor]="'#A6252A'"
         [icon]="shoppingBasket"
-        label="Clear Cart">
+        [label]="'CART.CLEAR' | translate">
       </app-button>
     </div>
 
@@ -69,7 +69,7 @@
                   </p>
 
                   <span class="font-primary text-xs sm:text-sm lg:text-base font-medium text-[#155DFC]">
-                    ({{ item.product.ratings }} ratings)
+                    ({{ 'CART.RATING' | translate }})
                   </span>
 
                 </div>
@@ -130,7 +130,7 @@
 
         <div class="py-10 text-center text-gray-500">
           <img class="mx-auto max-w-full" src="/no-cart 1.png" alt="">
-          <span>Your cart is empty, wanna try shopping?</span>
+          <span>{{ 'CART.EMPTY' | translate }}</span>
         </div>
 
       }
@@ -141,7 +141,7 @@
     <div class="mt-6">
       <app-button
         [icon]="arrowLeft"
-        label="Continue Shopping">
+        [label]="'CART.CONTINUE_SHOPPING' | translate">
       </app-button>
     </div>
 
@@ -151,7 +151,7 @@
   <section class="w-full lg:w-95 xl:w-114.5 shrink-0">
 
     <h2 class="font-primary text-2xl sm:text-[30px] font-semibold leading-none text-black mb-5">
-      Summary
+      {{ 'CART.SUMMARY' | translate }}
     </h2>
 
     <!-- Summary Card -->
@@ -163,13 +163,13 @@
         <div class="w-full sm:flex-1 min-w-0">
           <app-input
             width="100%"
-            placeholder="Coupon Code">
+            [placeholder]="'CART.COUPON_CODE' | translate">
           </app-input>
         </div>
 
         <div class="w-full sm:w-auto">
           <app-button
-            label="Apply Coupon"
+            [label]="'CART.APPLY_COUPON' | translate"
             [icon]="ticketPercent">
           </app-button>
         </div>
@@ -180,7 +180,7 @@
       <div class="w-full min-h-32 sm:min-h-40 rounded-md p-3 border border-[#D9D9D9] bg-[#D9D9D9] flex items-center justify-center mt-3">
 
         <span class="font-primary text-sm sm:text-base font-normal italic text-[#71717A] text-center">
-          No coupons applied
+          {{ 'CART.NO_COUPONS' | translate }}
         </span>
 
       </div>
@@ -190,7 +190,7 @@
 
         <div class="flex justify-between items-center gap-2 mb-4">
           <span class="font-primary text-base sm:text-lg font-medium text-[#27272A]">
-            Subtotal
+            {{ 'CART.SUBTOTAL' | translate }}
           </span>
 
           <span class="font-primary text-lg sm:text-xl font-semibold text-[#27272A]">
@@ -201,7 +201,7 @@
         <div class="h-px w-full bg-[#D9D9D9]"></div>
 
         <div class="flex justify-between items-center gap-2 font-primary text-lg sm:text-2xl font-bold text-[#A6252A] mt-4">
-          <span>Total</span>
+          <span> {{ 'CART.TOTAL' | translate }} </span>
           <span>125 EGP</span>
         </div>
 
@@ -214,7 +214,7 @@
       <app-button
         class="w-full"
         [fullWidth]="true"
-        label="Checkout"
+        [label]="'CART.CHECKOUT' | translate"
         [endIcon]="arrowRight">
       </app-button>
     </div>
@@ -227,7 +227,7 @@
 <section class="py-8 sm:py-12 lg:py-15 px-4 sm:px-6 lg:px-10 xl:px-20">
 
   <app-section-title>
-    Products You May Like
+    {{ 'CART.RECOMMENDED_PRODUCTS' | translate }}
   </app-section-title>
 
   <div class="best-selling__slider pt-5 sm:pt-6">
