@@ -4,21 +4,18 @@ import {
   combineLatest,
   debounce,
   distinctUntilChanged,
-  forkJoin,
   map,
   Observable,
   of,
   shareReplay,
   startWith,
-  switchMap,
   timer,
 } from 'rxjs';
 import { skipLoading } from '../../../core/interceptors/loading.interceptor';
 import { normalizeSearchTerm } from '../../../shared/utils/text-search';
 import { Product } from '../interfaces/home.model/home-model-response';
-import { ShopService } from './shop.service';
+import { ProductCatalogService } from './product-catalog.service';
 import {
-  SEARCH_CATALOG_PAGE_SIZE,
   SEARCH_DEBOUNCE_MS,
   SEARCH_RESULTS_LIMIT,
   SEARCH_SUGGESTIONS_LIMIT,
@@ -49,9 +46,9 @@ const EMPTY_INDEX: SearchIndex = { entries: [], suggestions: [] };
  */
 @Injectable({ providedIn: 'root' })
 export class ProductSearchService {
-  private readonly shop = inject(ShopService);
+  private readonly catalog = inject(ProductCatalogService);
 
-  private readonly index$: Observable<SearchIndex> = this.loadCatalog().pipe(
+  private readonly index$: Observable<SearchIndex> = this.catalog.loadAll(skipLoading()).pipe(
     map(buildIndex),
     // shareReplay resets on error, so a failed load is retried on the next open.
     shareReplay({ bufferSize: 1, refCount: false }),
@@ -72,22 +69,6 @@ export class ProductSearchService {
         loading: false,
       })),
       startWith(INITIAL_PRODUCT_SEARCH_STATE),
-    );
-  }
-
-  private loadCatalog(): Observable<Product[]> {
-    const context = skipLoading();
-    const fetchPage = (page: number) =>
-      this.shop
-        .getProducts({ page, limit: SEARCH_CATALOG_PAGE_SIZE }, context)
-        .pipe(map(({ payload }) => payload));
-
-    return fetchPage(1).pipe(
-      switchMap(({ data, metadata }) => {
-        if (metadata.totalPages <= 1) return of(data);
-        const rest = Array.from({ length: metadata.totalPages - 1 }, (_, i) => fetchPage(i + 2));
-        return forkJoin(rest).pipe(map((pages) => data.concat(...pages.map((p) => p.data))));
-      }),
     );
   }
 }

@@ -337,7 +337,23 @@
     },
     "PRODUCTS": {
       "TITLE": "Products",
-      "EMPTY": "No products found."
+      "EMPTY": "No products found.",
+      "LOADING": "Loading products..."
+    },
+    "PRODUCT_FILTERS": {
+      "TITLE": "Filters",
+      "SHOW": "Show filters",
+      "HIDE": "Hide filters",
+      "CATEGORY": "Category",
+      "OCCASION": "Occasion",
+      "RATING": "Rating",
+      "RATING_OPTION": "{{count}} stars & up",
+      "PRICE": "Price",
+      "FROM": "from",
+      "TO": "to",
+      "RESET": "Reset",
+      "RESET_ALL": "Reset All",
+      "NO_MATCH": "No products match these filters."
     },
     "RELATED": {
       "TITLE": {

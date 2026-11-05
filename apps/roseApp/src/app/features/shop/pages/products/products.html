@@ -1,27 +1,54 @@
 <section class="mx-auto w-full max-w-screen-2xl px-4 py-8 sm:px-6 lg:px-8"
   aria-label="{{ 'SHOP.PRODUCTS.TITLE' | translate }}">
-  @if ( products().length === 0) {
-  <p class="py-16 text-center text-[var(--text-secondary)]">{{ 'SHOP.PRODUCTS.EMPTY' | translate }}</p>
-  } @else {
-  <div
-    class="mx-auto grid w-full grid-cols-1 gap-x-5 gap-y-8 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
-      @for (product of products(); track product.id) {
-    <app-product-card
-      [product]="product"
-      [wishlisted]="wishlist.ids().has(product.id)"
-      (addToCart)="onAddToCart($event)"
-      (addToWishlist)="onAddToWishlist($event)"
-    />
-    }
-  </div>
-  }
+  <div class="flex flex-col gap-6 lg:flex-row lg:gap-8">
 
-  @if (pagination().totalPages > 1 && pagination().total > pagination().limit) {
-  <app-shared-pagination
-    [currentPage]="pagination().page"
-    [pageSize]="pagination().limit"
-    [totalItems]="pagination().total"
-    (pageChange)="onPageChange($event)"
-  />
-  }
+    <!-- Filters: toggle on small screens, fixed sidebar on large screens -->
+    <div class="lg:w-64 lg:shrink-0 lg:border-e lg:border-[var(--border-default)] lg:pe-6">
+      <button type="button"
+        class="flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg border border-[var(--border-strong)] py-2.5 text-sm font-medium text-[var(--text-primary)] focus-visible:outline-2 focus-visible:outline-[var(--border-focus)] lg:hidden"
+        aria-controls="product-filters" [attr.aria-expanded]="filtersOpen()"
+        (click)="filtersOpen.set(!filtersOpen())">
+        <lucide-angular [img]="SlidersHorizontal" [size]="16" />
+        {{ (filtersOpen() ? 'SHOP.PRODUCT_FILTERS.HIDE' : 'SHOP.PRODUCT_FILTERS.SHOW') | translate }}
+        @if (hasActiveFilters()) {
+        <span class="size-2 rounded-full bg-[var(--color-primary)]" aria-hidden="true"></span>
+        }
+      </button>
+
+      <app-product-filters id="product-filters" class="mt-4 lg:mt-0"
+        [class]="filtersOpen() ? 'block' : 'hidden lg:block'"
+        [categories]="categories()" [occasions]="occasions()" [filters]="filters()"
+        (filtersChange)="onFiltersChange($event)" />
+    </div>
+
+    <div class="min-w-0 flex-1">
+      @if (loading()) {
+      <p class="py-16 text-center text-[var(--text-secondary)]">{{ 'SHOP.PRODUCTS.LOADING' | translate }}</p>
+      } @else if (visible().length === 0) {
+      <p class="py-16 text-center text-[var(--text-secondary)]">
+        {{ (hasActiveFilters() ? 'SHOP.PRODUCT_FILTERS.NO_MATCH' : 'SHOP.PRODUCTS.EMPTY') | translate }}
+      </p>
+      } @else {
+      <div class="grid w-full grid-cols-1 gap-x-5 gap-y-8 sm:grid-cols-2 xl:grid-cols-3">
+        @for (product of visible(); track product.id) {
+        <app-product-card
+          [product]="product"
+          [wishlisted]="wishlist.ids().has(product.id)"
+          (addToCart)="onAddToCart($event)"
+          (addToWishlist)="onAddToWishlist($event)"
+        />
+        }
+      </div>
+      }
+
+      @if (filtered().length > pageSize()) {
+      <app-shared-pagination
+        [currentPage]="page()"
+        [pageSize]="pageSize()"
+        [totalItems]="filtered().length"
+        (pageChange)="onPageChange($event)"
+      />
+      }
+    </div>
+  </div>
 </section>

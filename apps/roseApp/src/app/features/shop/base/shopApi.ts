@@ -1,7 +1,8 @@
 import { HttpContext } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { ProductsQuery } from '../interfaces/home.model/home-model-request';
+import { PageQuery, ProductsQuery } from '../interfaces/home.model/home-model-request';
 import {
+  CategoriesResponse,
   OccasionsResponse,
   ProductResponse,
   ProductsResponse,
@@ -24,7 +25,8 @@ import {
 export default abstract class ShopApi {
   abstract getProducts(query?: ProductsQuery, context?: HttpContext): Observable<ProductsResponse>;
   abstract getProduct(id: string): Observable<ProductResponse>;
-  abstract getOccasions(): Observable<OccasionsResponse>;
+  abstract getCategories(query?: PageQuery): Observable<CategoriesResponse>;
+  abstract getOccasions(query?: PageQuery): Observable<OccasionsResponse>;
   abstract getReviews(query?: ReviewsQuery): Observable<ReviewsResponse>;
   abstract addReview(
     body: CreateReviewRequest,
