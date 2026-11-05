@@ -2,6 +2,8 @@
   class="field"
   [class.field--error]="error()"
   [class.field--disabled]="isDisabled()"
+  [style.width]="width()"
+  [style.height]="height()"
 >
   @if (label()) {
   <app-label

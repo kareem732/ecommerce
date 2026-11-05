@@ -1,27 +1,21 @@
-<button
-  class="btn"
-  [class]="'btn btn--' + variant()"
-  [class.btn--full]="fullWidth()"
-  [class.btn--loading]="loading()"
-  [type]="type()"
-  [disabled]="isDisabled()"
-  [attr.aria-label]="ariaLabel() || null"
-  [attr.aria-busy]="loading()"
-  (click)="onClick($event)"
->
+<button class="btn" [class]="'btn btn--' + variant()" [class.btn--full]="fullWidth()" [class.btn--loading]="loading()"
+  [type]="type()" [disabled]="isDisabled()" [attr.aria-label]="ariaLabel() || null" [attr.aria-busy]="loading()"
+  (click)="onClick($event)" [style.background-color]="bgColor()"
+  [style.color]="textColor()">
+
   @if (icon() && !loading()) {
-    <i [class]="icon()"></i>
+  <lucide-icon [img]="icon()!" [size]="20" aria-hidden="true"></lucide-icon>
   }
 
   @if (label()) {
-    <span>{{ label() }}</span>
+  <span>{{ label() }}</span>
   }
 
   @if (!loading() && endIcon(); as end) {
-    <lucide-icon [img]="end" [size]="20" aria-hidden="true"></lucide-icon>
+  <lucide-icon [img]="end" [size]="20" aria-hidden="true"></lucide-icon>
   }
 
   @if (loading()) {
-    <app-spinner [size]="18" />
+  <app-spinner [size]="18" />
   }
 </button>

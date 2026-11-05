@@ -11,6 +11,7 @@ import { providePrimeNG } from 'primeng/config';
 import { appRoutes } from './app.routes';
 import { environment } from '../environments/environment';
 import { loadingInterceptor } from './core/interceptors/loading.interceptor';
+import { provideToastr } from 'ngx-toastr';
 
 const RosePreset = definePreset(Aura, {
   semantic: {
@@ -47,6 +48,7 @@ const RosePreset = definePreset(Aura, {
 
 export const appConfig: ApplicationConfig = {
   providers: [
+     provideToastr(),
     provideBrowserGlobalErrorListeners(),
     provideHttpClient(
       withInterceptors([loadingInterceptor, authInterceptor, errorInterceptor]),

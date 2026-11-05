@@ -6,6 +6,9 @@ import {
   AddToCartRequest,
   AddToCartResponse,
   CartResponse,
+  removeItem,
+  UpdateCartRequest,
+  updateCartResponse,
 } from '../interfaces/cart.model/cart.model';
 
 @Injectable({
@@ -21,4 +24,17 @@ export class CartService {
   addToCart(body: AddToCartRequest): Observable<AddToCartResponse> {
     return this._httpClient.post<AddToCartResponse>(ShopEndPoint.CART, body);
   }
+
+  UpdateItemQuantity(itemId:string , itemQuantity:UpdateCartRequest):Observable<updateCartResponse>{
+    return this._httpClient.patch<updateCartResponse>(`${ShopEndPoint.CART}/${itemId}`, itemQuantity)
+  }
+
+  removeItemFromCart(itemId:string): Observable<removeItem>{
+    return this._httpClient.delete<removeItem>(`${ShopEndPoint.CART}/${itemId}`)
+  }
+
+  clearCart(): Observable<removeItem>{
+    return this._httpClient.delete<removeItem>(ShopEndPoint.CART)
+  }
+
 }

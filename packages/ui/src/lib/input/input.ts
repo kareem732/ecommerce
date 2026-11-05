@@ -1,6 +1,6 @@
-import {ChangeDetectionStrategy,Component,computed,forwardRef,input,signal} from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, forwardRef, input, signal } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import {LucideAngularModule,LucideIconData,Eye,EyeOff} from 'lucide-angular';
+import { LucideAngularModule, LucideIconData, Eye, EyeOff } from 'lucide-angular';
 import { Label } from '../label/label';
 
 let nextId = 0;
@@ -35,6 +35,9 @@ export class Input implements ControlValueAccessor {
   value = signal('');
   formDisabled = signal(false);
   isDisabled = computed(() => this.disabled() || this.formDisabled());
+
+  width = input<string>('100%');
+  height = input<string>('auto');
 
   isPassword = computed(() => this.type() === 'password');
   showPassword = signal(false);
