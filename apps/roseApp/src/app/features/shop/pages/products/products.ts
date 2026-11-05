@@ -18,11 +18,8 @@ import {
   PaginationChange,
   SharedPagination,
 } from '../../../../shared/ui/shared-pagination/shared-pagination';
+import { WishlistStore } from '../../stores/wishlist/wishlist.store';
 
-/**
- * Products listing with frontend-only filtering: the whole catalog is loaded once,
- * then filters and pagination are applied in memory.
- */
 @Component({
   selector: 'app-products',
   standalone: true,
@@ -32,6 +29,7 @@ import {
 })
 export class Products {
   private readonly catalog = inject(ProductCatalogService);
+  protected readonly wishlist = inject(WishlistStore);
 
   protected readonly SlidersHorizontal = SlidersHorizontal;
 
@@ -82,5 +80,13 @@ export class Products {
   protected onPageChange({ page, rows }: PaginationChange): void {
     this.page.set(page + 1);
     this.pageSize.set(rows);
+  }
+
+  protected onAddToCart(product: Product): void {
+    console.log('add to cart', product.id);
+  }
+
+  protected onAddToWishlist(product: Product): void {
+    this.wishlist.toggle(product.id);
   }
 }
