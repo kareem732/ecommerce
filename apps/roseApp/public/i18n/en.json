@@ -421,21 +421,21 @@
     }
   },
   "WISHLIST": {
-  "TITLE": "Wishlist",
-  "ITEMS_COUNT": "{{count}} items",
-  "CLEAR": "Clear Wishlist",
-  "IN_STOCK": "In Stock",
-  "OUT_OF_STOCK": "Out of Stock",
-  "EXPLORE_SIMILAR": "Explore Similar Products",
-  "REMOVE": "Remove from wishlist",
-  "CONTINUE_SHOPPING": "Continue Shopping",
-  "EMPTY": "Your wishlist is empty.",
-  "LOAD_ERROR": "We couldn't load your wishlist.",
-  "CONFIRM_CLEAR": "Are you sure you want to clear your Wishlist?",
-  "ADDED": "Added to your wishlist",
-  "REMOVED": "Removed from your wishlist",
-  "CLEARED": "Wishlist cleared"
-},
+    "TITLE": "Wishlist",
+    "ITEMS_COUNT": "{{count}} items",
+    "CLEAR": "Clear Wishlist",
+    "IN_STOCK": "In Stock",
+    "OUT_OF_STOCK": "Out of Stock",
+    "EXPLORE_SIMILAR": "Explore Similar Products",
+    "REMOVE": "Remove from wishlist",
+    "CONTINUE_SHOPPING": "Continue Shopping",
+    "EMPTY": "Your wishlist is empty.",
+    "LOAD_ERROR": "We couldn't load your wishlist.",
+    "CONFIRM_CLEAR": "Are you sure you want to clear your Wishlist?",
+    "ADDED": "Added to your wishlist",
+    "REMOVED": "Removed from your wishlist",
+    "CLEARED": "Wishlist cleared"
+  },
   "PRODUCTS": {
     "DETAILS": {
       "PRODUCT_NOT_FOUND": "Product not found",
@@ -443,7 +443,25 @@
       "NO_IMAGE": "No image available"
     }
   },
-    "productsMayLike":{
-    "Products You May Like":"Products You May Like"
+  "productsMayLike": {
+    "Products You May Like": "Products You May Like"
+  },
+  "CART": {
+    "TITLE": "Cart",
+    "PRODUCTS_COUNT": "{{count}} products",
+    "CLEAR": "Clear Cart",
+    "REMOVE": "Remove",
+    "RATING": "Rating:",
+    "QUANTITY": "Quantity",
+    "COUPON_CODE": "Coupon Code",
+    "APPLY_COUPON": "Apply Coupon",
+    "NO_COUPONS": "No coupons applied",
+    "SUBTOTAL": "Subtotal",
+    "TOTAL": "Total",
+    "CHECKOUT": "Checkout",
+    "CONTINUE_SHOPPING": "Continue Shopping",
+    "EMPTY": "Your cart is empty, wanna try shopping?",
+    "SUMMARY": "Summary",
+"RECOMMENDED_PRODUCTS": "Products You May Like"
   }
 }

@@ -55,7 +55,7 @@ export class Navbar {
   readonly isSearchOpen = signal(false);
   readonly isMobileSearchOpen = signal(false);
 
-  private readonly searchQuery$ = toObservable(this.searchQuery);
+  private readonly searchQuery$ = toObservable(this.searchQuery,{injector : this.injector});
   private readonly isSearchActive = computed(
     () => this.isSearchOpen() || this.isMobileSearchOpen(),
   );
@@ -258,7 +258,7 @@ export class Navbar {
   onCartClick(): void {
     this.closeAllMenus();
     if (this.isLoggedIn()) {
-      this.router.navigate(['/shop/home']);
+      this.router.navigate(['/shop/cart']);
     } else {
       this.router.navigate(['/auth/login'], {
         queryParams: { returnUrl: '/shop/home' },

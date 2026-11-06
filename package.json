@@ -44,7 +44,8 @@
     "flag-icons": "^7.5.0",
     "libphonenumber-js": "^1.13.15",
     "lucide-angular": "^1.0.0",
-    "ngx-cookie-service": "^22.0.0",
+    "ngx-cookie-service": "^21.3.1",
+    "ngx-toastr": "^20.0.5",
     "primeng": "21.1.10",
     "rxjs": "~7.8.0",
     "zone.js": "0.16.2"

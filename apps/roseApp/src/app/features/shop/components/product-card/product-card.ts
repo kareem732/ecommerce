@@ -3,6 +3,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  inject,
   input,
   output,
 } from '@angular/core';
@@ -27,6 +28,7 @@ import {
   MAX_STARS,
 } from '../../../../shared/utils/product.constants';
 import { Product } from '../../interfaces/home.model/home-model-response';
+
 
 @Component({
   selector: 'app-product-card',
@@ -67,4 +69,6 @@ export class ProductCard {
     event.stopPropagation();
     this.addToWishlist.emit(this.product());
   }
+
+
 }

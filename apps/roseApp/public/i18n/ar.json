@@ -445,5 +445,23 @@
   },
   "productsMayLike":{
     "Products You May Like":"منتجات قد تعجبك"
-  }
+  },
+  "CART": {
+  "TITLE": "سلة التسوق",
+  "PRODUCTS_COUNT": "{{count}} منتجات",
+  "CLEAR": "إفراغ السلة",
+  "REMOVE": "إزالة",
+  "RATING": "التقييم:",
+  "QUANTITY": "الكمية",
+  "COUPON_CODE": "كود الخصم",
+  "APPLY_COUPON": "تطبيق الكوبون",
+  "NO_COUPONS": "لم يتم تطبيق أي كوبونات",
+  "SUBTOTAL": "المجموع الفرعي",
+  "TOTAL": "الإجمالي",
+  "CHECKOUT": "إتمام الشراء",
+  "CONTINUE_SHOPPING": "متابعة التسوق",
+  "EMPTY": "سلتك فارغة، هل تريدين تجربة التسوق؟",
+  "SUMMARY": "ملخص الطلب",
+"RECOMMENDED_PRODUCTS": "منتجات قد تعجبك"
+}
 }

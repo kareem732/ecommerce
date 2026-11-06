@@ -21,12 +21,15 @@ export class Button {
   label = input<string>('Button');
   variant = input<ButtonVariant>('primary');
   type = input<'button' | 'submit' | 'reset'>('button');
-  icon = input<string>('');
+  icon = input<LucideIconData | null>(null);
   endIcon = input<LucideIconData | null>(null);
   ariaLabel = input<string>('');
   loading = input<boolean>(false);
   disabled = input<boolean>(false);
   fullWidth = input<boolean>(false);
+
+  bgColor = input<string | null>(null);
+  textColor = input<string | null>(null);
 
   clicked = output<MouseEvent>();
 
