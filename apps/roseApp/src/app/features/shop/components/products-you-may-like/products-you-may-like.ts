@@ -3,9 +3,9 @@ import { TranslatePipe } from '@ngx-translate/core';
 import { SectionTitle } from '../../../../shared/ui/section-title/section-title';
 import { Product } from '../../interfaces/home.model/home-model-response';
 import { HomeStore } from '../../stores/home/home.store';
-import { CartStore } from '../../stores/cart/cart.store';
 import { Carousel } from '../carousel/carousel';
 import { ProductCard } from '../product-card/product-card';
+import { CartStore } from '../../stores/cart/cart.store';
 
 @Component({
   selector: 'app-products-you-may-like',
@@ -19,6 +19,6 @@ export class ProductsYouMayLike {
   protected readonly products = inject(HomeStore).bestSelling;
 
   protected onAddToCart(product: Product): void {
-    this.cart.addToCart(product.id);
+    this.cart.add(product.id);
   }
 }

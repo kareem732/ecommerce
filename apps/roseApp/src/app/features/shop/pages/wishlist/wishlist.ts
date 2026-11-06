@@ -2,10 +2,19 @@ import { DecimalPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
-import { ArrowLeft,BrushCleaning,FolderHeart,LucideAngularModule,ShoppingCart,Star,Trash2} from 'lucide-angular';
+import {
+  ArrowLeft,
+  BrushCleaning,
+  FolderHeart,
+  LucideAngularModule,
+  ShoppingCart,
+  Star,
+  Trash2,
+} from 'lucide-angular';
 import { ConfirmationDialogService } from '../../../../shared/business/confirmation-dialog.service';
-import { finalPrice,hasDiscount,isOutOfStock} from '../../../../shared/utils/product-price';
+import { finalPrice, hasDiscount, isOutOfStock } from '../../../../shared/utils/product-price';
 import { Product } from '../../interfaces/home.model/home-model-response';
+import { CartStore } from '../../stores/cart/cart.store';
 import { WishlistStore } from '../../stores/wishlist/wishlist.store';
 
 @Component({
@@ -17,6 +26,7 @@ import { WishlistStore } from '../../stores/wishlist/wishlist.store';
 })
 export class Wishlist {
   protected readonly store = inject(WishlistStore);
+  private readonly cart = inject(CartStore);
   private readonly confirmation = inject(ConfirmationDialogService);
 
   protected readonly FolderHeart = FolderHeart;
@@ -46,6 +56,6 @@ export class Wishlist {
   }
 
   protected addToCart(product: Product): void {
-    console.log('add to cart', product.id);
+    this.cart.add(product.id);
   }
 }

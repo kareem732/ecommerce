@@ -38,17 +38,17 @@ describe('ProductsYouMayLike', () => {
   let fixture: ComponentFixture<ProductsYouMayLike>;
   let element: HTMLElement;
   let bestSelling: ReturnType<typeof signal<Product[]>>;
-  let addToCart: ReturnType<typeof vi.fn>;
+  let add: ReturnType<typeof vi.fn>;
 
   const setup = async (initial: Product[] = products) => {
     bestSelling = signal<Product[]>(initial);
-    addToCart = vi.fn();
+    add = vi.fn();
 
     await TestBed.configureTestingModule({
       imports: [ProductsYouMayLike],
       providers: [
         { provide: HomeStore, useValue: { bestSelling } },
-        { provide: CartStore, useValue: { count: signal(0), addToCart } },
+        { provide: CartStore, useValue: { add } },
         provideTranslateTesting(),
         provideRouter([]),
       ],
@@ -104,11 +104,9 @@ describe('ProductsYouMayLike', () => {
   it('adds the product to the cart when a card emits addToCart', async () => {
     await setup();
 
-    const card = fixture.debugElement.query(
-      (node) => node.name === 'app-product-card',
-    );
+    const card = fixture.debugElement.query((node) => node.name === 'app-product-card');
     card.triggerEventHandler('addToCart', products[0]);
 
-    expect(addToCart).toHaveBeenCalledWith('a');
+    expect(add).toHaveBeenCalledWith('a');
   });
 });

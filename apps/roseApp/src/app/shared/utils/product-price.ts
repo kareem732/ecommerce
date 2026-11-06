@@ -1,11 +1,15 @@
 import { Product } from "../../features/shop/interfaces/home.model/home-model-response";
 import { MS_PER_DAY, NEW_PRODUCT_DAYS } from "./product.constants";
 
-export function hasDiscount(product: Product): boolean {
+type Priced = Pick<Product, 'price'> & {
+  discountValue: Product['discountValue'] | string;
+};
+
+export function hasDiscount(product: Pick<Priced, 'discountValue'>): boolean {
   return Number(product.discountValue ?? 0) > 0;
 }
 
-export function finalPrice(product: Product): number {
+export function finalPrice(product: Priced): number {
   const price = Number(product.price);
   if (!hasDiscount(product)) return price;
   return price - (price * Number(product.discountValue)) / 100;

@@ -2,7 +2,6 @@
   aria-label="{{ 'SHOP.PRODUCTS.TITLE' | translate }}">
   <div class="flex flex-col gap-6 lg:flex-row lg:gap-8">
 
-    <!-- Filters: toggle on small screens, fixed sidebar on large screens -->
     <div class="lg:w-64 lg:shrink-0 lg:border-e lg:border-[var(--border-default)] lg:pe-6">
       <button type="button"
         class="flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg border border-[var(--border-strong)] py-2.5 text-sm font-medium text-[var(--text-primary)] focus-visible:outline-2 focus-visible:outline-[var(--border-focus)] lg:hidden"
@@ -42,10 +41,12 @@
       }
 
       @if (filtered().length > pageSize()) {
-      <app-shared-pagination
-        [currentPage]="page()"
-        [pageSize]="pageSize()"
-        [totalItems]="filtered().length"
+      <app-pagination
+        class="mt-8"
+        [totalRecords]="filtered().length"
+        [rows]="pageSize()"
+        [pageLinks]="5"
+        [first]="first()"
         (pageChange)="onPageChange($event)"
       />
       }

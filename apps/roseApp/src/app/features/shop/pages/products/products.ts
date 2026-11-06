@@ -14,21 +14,20 @@ import {
   hasActiveFilters,
   ProductFilters,
 } from '../../utils/product-filters';
-import {
-  PaginationChange,
-  SharedPagination,
-} from '../../../../shared/ui/shared-pagination/shared-pagination';
+import { CartStore } from '../../stores/cart/cart.store';
 import { WishlistStore } from '../../stores/wishlist/wishlist.store';
+import { Pagination } from '@org/ui';
 
 @Component({
   selector: 'app-products',
   standalone: true,
-  imports: [ProductCard, ProductFiltersPanel, SharedPagination, TranslatePipe, LucideAngularModule],
+  imports: [ProductCard, ProductFiltersPanel, Pagination, TranslatePipe, LucideAngularModule],
   templateUrl: './products.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Products {
   private readonly catalog = inject(ProductCatalogService);
+  private readonly cart = inject(CartStore);
   protected readonly wishlist = inject(WishlistStore);
 
   protected readonly SlidersHorizontal = SlidersHorizontal;
@@ -49,6 +48,8 @@ export class Products {
   });
   protected readonly hasActiveFilters = computed(() => hasActiveFilters(this.filters()));
 
+  protected readonly first = computed(() => (this.page() - 1) * this.pageSize());
+
   constructor() {
     this.catalog
       .loadAll()
@@ -58,7 +59,6 @@ export class Products {
       )
       .subscribe({ next: (products) => this.products.set(products), error: () => undefined });
 
-    // Filter options are optional: if they fail, the products still show.
     this.loadOptions(this.catalog.loadCategories(), this.categories.set.bind(this.categories));
     this.loadOptions(this.catalog.loadOccasions(), this.occasions.set.bind(this.occasions));
   }
@@ -77,13 +77,12 @@ export class Products {
     this.page.set(1);
   }
 
-  protected onPageChange({ page, rows }: PaginationChange): void {
-    this.page.set(page + 1);
-    this.pageSize.set(rows);
+  protected onPageChange(page: number): void {
+    this.page.set(page);
   }
 
   protected onAddToCart(product: Product): void {
-    console.log('add to cart', product.id);
+    this.cart.add(product.id);
   }
 
   protected onAddToWishlist(product: Product): void {

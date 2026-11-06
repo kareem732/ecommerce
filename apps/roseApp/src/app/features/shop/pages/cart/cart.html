@@ -1,46 +1,51 @@
-
-<main class="flex flex-col lg:flex-row gap-6 lg:gap-10 w-full px-4 sm:px-6 lg:px-10 xl:px-15.5 py-8 sm:py-12 lg:py-20">
+<main class="flex flex-col lg:flex-row gap-6 lg:gap-10 w-full">
 
   <!-- Left Side: Cart -->
   <section class="w-full min-w-0 flex-1">
 
-    <!-- Cart Header -->
-    <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
-      <div class="flex flex-wrap items-baseline gap-2 sm:gap-3">
-        <p class="font-primary text-3xl sm:text-4xl lg:text-5xl font-bold leading-none text-[#27272A]">
+    <!-- Cart Header (same height/position as the wishlist header) -->
+    <div class="flex flex-wrap items-center justify-between gap-4 mb-6 min-h-12.5">
+      <div class="flex items-baseline gap-3">
+        <h1 class="font-primary text-[32px] font-bold leading-normal text-[#27272A] m-0">
           {{ 'CART.TITLE' | translate }}
-        </p>
+        </h1>
 
-        <span class="font-primary text-sm sm:text-base font-medium text-[#A1A1AA]">
-          {{ 'CART.PRODUCTS_COUNT' | translate: { count: cartItems().length } }}
+        <span class="font-primary text-sm font-medium text-[#A1A1AA]">
+          {{ 'CART.PRODUCTS_COUNT' | translate: { count: cart.count() } }}
         </span>
       </div>
 
-      <app-button
-        (clicked)="resetCartItems()"
-        [bgColor]="'#FBEAEA'"
-        [textColor]="'#A6252A'"
-        [icon]="shoppingBasket"
-        [label]="'CART.CLEAR' | translate">
-      </app-button>
+      @if (cart.count() > 0) {
+        <app-button
+          (clicked)="onClear()"
+          [bgColor]="'#FBEAEA'"
+          [textColor]="'#A6252A'"
+          [icon]="brushCleaning"
+          [label]="'CART.CLEAR' | translate">
+        </app-button>
+      }
     </div>
 
     <!-- Cart Card -->
     <div class="w-full min-w-0 rounded-md border border-[#E4E4E7] p-3 sm:p-5">
 
-      @for (item of cartItems(); track item.id) {
+      @for (item of cart.items(); track item.id) {
 
         <!-- Product Item -->
         <div class="flex flex-col sm:flex-row w-full gap-4 sm:gap-5 py-5 border-b border-[#E4E4E7]">
 
-          <!-- Product Image -->
-          <div class="shrink-0">
+          <!-- Product Image (links to product page) -->
+          <a
+            class="shrink-0 block"
+            [routerLink]="['/shop/products', item.product.id]"
+            [attr.aria-label]="item.product.title">
             <img
               [src]="item.product.cover"
               [alt]="item.product.title"
+              loading="lazy"
               class="w-24 h-24 sm:w-28 sm:h-28 lg:w-30 lg:h-30 rounded-md object-cover"
             />
-          </div>
+          </a>
 
           <!-- Product Details -->
           <div class="flex flex-1 min-w-0 flex-col justify-between gap-5">
@@ -62,14 +67,14 @@
                   />
 
                   <p class="font-primary text-sm sm:text-base text-black">
-                    Rating:
+                    {{ 'CART.RATING' | translate }}
                     <span class="font-medium">
                       {{ item.product.rating }}/5
                     </span>
                   </p>
 
                   <span class="font-primary text-xs sm:text-sm lg:text-base font-medium text-[#155DFC]">
-                    ({{ 'CART.RATING' | translate }})
+                    {{ 'CART.RATINGS_COUNT' | translate: { count: item.product.ratings } }}
                   </span>
 
                 </div>
@@ -77,10 +82,10 @@
 
               <div class="shrink-0">
                 <app-button
-                  (clicked)="deleteItemFromCart(item.id!)"
+                  (clicked)="cart.remove(item.id)"
                   [icon]="trash2"
                   [bgColor]="'#DC2626'"
-                  label="Remove"
+                  [label]="'CART.REMOVE' | translate"
                 />
               </div>
 
@@ -95,7 +100,7 @@
                 </span>
 
                 <span class="font-primary text-lg sm:text-xl lg:text-2xl font-bold text-[#27272A]">
-                  {{ item.product.price }}
+                  {{ unitPrice(item) | number: '1.2-2' }}
                 </span>
 
                 <span class="font-primary text-sm sm:text-base font-medium text-[#27272A]">
@@ -103,21 +108,32 @@
                 </span>
               </div>
 
+              <!-- Quantity controls -->
               <div class="flex items-center gap-1.5 shrink-0">
                 <app-button
-                  (clicked)="updateQuantity(item.id!, (item.quantity ?? 1) - 1)"
-                  label="-"
+                  (clicked)="cart.updateQuantity(item.id, item.quantity - 1)"
+                  [icon]="minus"
+                  [label]="''"
+                  [bgColor]="'#FBEAEA'"
+                  [textColor]="'#A6252A'"
                 />
 
-                <app-input
-                  width="70px"
-                  height="45px"
-                  [placeholder]="(item.quantity ?? 1).toString()"
+                <input
+                  type="number"
+                  min="1"
+                  inputmode="numeric"
+                  [value]="item.quantity"
+                  [attr.aria-label]="item.product.title"
+                  (change)="onQuantityChange(item, $event)"
+                  class="w-17.5 h-11.25 rounded-md border border-[#D9D9D9] bg-white text-center font-primary text-base font-medium text-[#27272A] outline-none transition-colors focus:border-[#A6252A] [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
                 />
 
                 <app-button
-                  (clicked)="updateQuantity(item.id!, (item.quantity ?? 1) + 1)"
-                  label="+"
+                  (clicked)="cart.updateQuantity(item.id, item.quantity + 1)"
+                  [icon]="plus"
+                  [label]="''"
+                  [bgColor]="'#FBEAEA'"
+                  [textColor]="'#A6252A'"
                 />
               </div>
 
@@ -140,6 +156,7 @@
     <!-- Continue Shopping -->
     <div class="mt-6">
       <app-button
+        routerLink="/shop/products"
         [icon]="arrowLeft"
         [label]="'CART.CONTINUE_SHOPPING' | translate">
       </app-button>
@@ -148,11 +165,14 @@
   </section>
 
   <!-- Right Side: Summary -->
-  <section class="w-full lg:w-95 xl:w-114.5 shrink-0">
+  <section class="w-full lg:w-95 xl:w-96 shrink-0">
 
-    <h2 class="font-primary text-2xl sm:text-[30px] font-semibold leading-none text-black mb-5">
-      {{ 'CART.SUMMARY' | translate }}
-    </h2>
+    <!-- Same min-height as the cart header so both headings line up -->
+    <div class="flex items-center min-h-12.5 mb-6">
+      <h2 class="font-primary text-2xl sm:text-[30px] font-semibold leading-none text-black m-0">
+        {{ 'CART.SUMMARY' | translate }}
+      </h2>
+    </div>
 
     <!-- Summary Card -->
     <div class="w-full rounded-sm p-3 sm:p-4 bg-[#FAFAFA]">
@@ -169,6 +189,7 @@
 
         <div class="w-full sm:w-auto">
           <app-button
+            [bgColor]="'#A6252A'"
             [label]="'CART.APPLY_COUPON' | translate"
             [icon]="ticketPercent">
           </app-button>
@@ -177,7 +198,7 @@
       </div>
 
       <!-- Coupon Status -->
-      <div class="w-full min-h-32 sm:min-h-40 rounded-md p-3 border border-[#D9D9D9] bg-[#D9D9D9] flex items-center justify-center mt-3">
+      <div class="w-full min-h-32 sm:min-h-40 rounded-md p-3 border border-[#D9D9D9] bg-transparent flex items-center justify-center mt-3">
 
         <span class="font-primary text-sm sm:text-base font-normal italic text-[#71717A] text-center">
           {{ 'CART.NO_COUPONS' | translate }}
@@ -194,7 +215,7 @@
           </span>
 
           <span class="font-primary text-lg sm:text-xl font-semibold text-[#27272A]">
-            250 EGP
+            {{ cart.subtotal() | number: '1.2-2' }} EGP
           </span>
         </div>
 
@@ -202,7 +223,7 @@
 
         <div class="flex justify-between items-center gap-2 font-primary text-lg sm:text-2xl font-bold text-[#A6252A] mt-4">
           <span> {{ 'CART.TOTAL' | translate }} </span>
-          <span>125 EGP</span>
+          <span>{{ total() | number: '1.2-2' }} EGP</span>
         </div>
 
       </div>
@@ -214,6 +235,7 @@
       <app-button
         class="w-full"
         [fullWidth]="true"
+        [bgColor]="'#A6252A'"
         [label]="'CART.CHECKOUT' | translate"
         [endIcon]="arrowRight">
       </app-button>
@@ -224,7 +246,7 @@
 </main>
 
 <!-- Products You May Like -->
-<section class="py-8 sm:py-12 lg:py-15 px-4 sm:px-6 lg:px-10 xl:px-20">
+<section class="py-8 sm:py-12">
 
   <app-section-title>
     {{ 'CART.RECOMMENDED_PRODUCTS' | translate }}
@@ -233,7 +255,7 @@
   <div class="best-selling__slider pt-5 sm:pt-6">
     <app-carousel
       [items]="products()"
-      [numVisible]="3">
+      [numVisible]="4">
 
       <ng-template #itemTemplate let-product>
         <app-product-card

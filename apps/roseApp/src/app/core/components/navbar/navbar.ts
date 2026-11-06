@@ -1,13 +1,57 @@
 import { DOCUMENT } from '@angular/common';
-import { afterNextRender,ChangeDetectionStrategy,Component,ElementRef,HostListener,Injector,computed,effect,inject,input,output,signal,viewChild,untracked} from '@angular/core';
+import {
+  afterNextRender,
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  HostListener,
+  Injector,
+  computed,
+  effect,
+  inject,
+  input,
+  output,
+  signal,
+  viewChild,
+  untracked,
+} from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
 import { first, switchMap } from 'rxjs';
-import { Bell,ChevronDown,ClipboardList,Gift,Headphones,Heart,House,Info,LogOut,LucideAngularModule,MapPin,MapPinHouse,Menu,Moon,PartyPopper,ScrollText,Search,Settings,ShoppingCart,Sun,User,X} from 'lucide-angular';
-import { AuthUser,CookieService,LoginService,SessionService} from '@org/auth-service';
+import {
+  Bell,
+  ChevronDown,
+  ClipboardList,
+  Gift,
+  Headphones,
+  Heart,
+  House,
+  Info,
+  LogOut,
+  LucideAngularModule,
+  MapPin,
+  MapPinHouse,
+  Menu,
+  Moon,
+  PartyPopper,
+  ScrollText,
+  Search,
+  Settings,
+  ShoppingCart,
+  Sun,
+  User,
+  X,
+} from 'lucide-angular';
+import {
+  AuthUser,
+  CookieService,
+  LoginService,
+  SessionService,
+} from '@org/auth-service';
 import { LanguageEnum, LanguageService } from '@org/shared-i18n';
 import { ThemeService } from '@org/theme';
+import { CartStore } from '../../../features/shop/stores/cart/cart.store';
 import { WishlistStore } from '../../../features/shop/stores/wishlist/wishlist.store';
 import { NavItem } from './navbar.model';
 import { NAVBAR_NAVIGATION_LINKS } from './navbar.control';
@@ -42,8 +86,8 @@ export class Navbar {
   private readonly productSearch = inject(ProductSearchService);
   private readonly searchBox = viewChild<ElementRef<HTMLElement>>('searchBox');
   private readonly wishlist = inject(WishlistStore);
+  private readonly cart = inject(CartStore);
 
-  readonly cartCount = input<number>(0);
   readonly notificationCount = input<number>(0);
   readonly deliveryLocation = input<string | null>(null);
 
@@ -55,7 +99,9 @@ export class Navbar {
   readonly isSearchOpen = signal(false);
   readonly isMobileSearchOpen = signal(false);
 
-  private readonly searchQuery$ = toObservable(this.searchQuery,{injector : this.injector});
+  private readonly searchQuery$ = toObservable(this.searchQuery, {
+    injector: this.injector,
+  });
   private readonly isSearchActive = computed(
     () => this.isSearchOpen() || this.isMobileSearchOpen(),
   );
@@ -122,6 +168,12 @@ export class Navbar {
 
   readonly wishlistCount = computed(() => this.wishlist.count());
 
+  // Badge يتحدث تلقائي من الـ CartStore (بيتصفر لما المستخدم يعمل logout).
+  // لو عاوز مجموع الكميات بدل عدد المنتجات استخدم this.cart.totalQuantity()
+  readonly cartCount = computed(() =>
+    this.isLoggedIn() ? this.cart.count() : 0,
+  );
+
   readonly currentLang = computed(() => this.languageService.currentLang());
   readonly isRTL = computed(() => this.languageService.isRTL());
   readonly isDarkMode = computed(() => this.themeService.theme() === 'dark');
@@ -161,7 +213,10 @@ export class Navbar {
 
     effect(() => {
       if (this.isLoggedIn()) {
-        untracked(() => this.wishlist.load());
+        untracked(() => {
+          this.wishlist.load();
+          this.cart.load();
+        });
       }
     });
   }
@@ -261,7 +316,7 @@ export class Navbar {
       this.router.navigate(['/shop/cart']);
     } else {
       this.router.navigate(['/auth/login'], {
-        queryParams: { returnUrl: '/shop/home' },
+        queryParams: { returnUrl: '/shop/cart' },
       });
     }
   }

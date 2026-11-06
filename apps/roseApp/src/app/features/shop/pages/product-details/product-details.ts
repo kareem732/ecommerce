@@ -26,6 +26,7 @@ import { Spinner } from '@org/ui';
 import { ProductReviews } from '../../components/product-reviews/product-reviews';
 import { ProductDetailsStore } from '../../stores/product-details/product-details.store';
 import { RelatedProducts } from '../../components/related-products/related-products';
+import { CartStore } from '../../stores/cart/cart.store';
 import { WishlistStore } from '../../stores/wishlist/wishlist.store';
 
 @Component({
@@ -48,6 +49,7 @@ export class ProductDetails {
   protected readonly store = inject(ProductDetailsStore);
   private readonly route = inject(ActivatedRoute);
   protected readonly wishlist = inject(WishlistStore);
+  private readonly cart = inject(CartStore);
 
   protected readonly PackageIcon = Package;
   protected readonly StarIcon = Star;
@@ -87,5 +89,9 @@ export class ProductDetails {
 
   protected onToggleWishlist(productId: string): void {
     this.wishlist.toggle(productId);
+  }
+
+  protected onAddToCart(productId: string): void {
+    this.cart.add(productId);
   }
 }

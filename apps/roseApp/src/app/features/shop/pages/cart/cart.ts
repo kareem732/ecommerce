@@ -1,124 +1,103 @@
-import { Component, computed, inject, input, OnInit, signal, WritableSignal } from '@angular/core';
-import { Button, Input } from '@org/ui';
-import { TicketPercent, LucideAngularModule, ArrowRight, ShoppingBasket, Star, Trash2, Minus, Plus, ArrowLeft } from 'lucide-angular';
-import { CartService } from '../../services/cart.service';
-import { CartResponse } from '../../interfaces/cart.model/cart.model';
-import { SectionTitle } from '../../../../shared/ui/section-title/section-title';
-import { WishlistStore } from '../../stores/wishlist/wishlist.store';
-import { HomeStore } from '../../stores/home/home.store';
-import { Product } from '../../interfaces/home.model/home-model-response';
-import { ProductCard } from '../../components/product-card/product-card';
-import { ToastrService } from 'ngx-toastr';
-import { Carousel } from '../../components/carousel/carousel';
+import { DecimalPipe } from '@angular/common';
+import { ChangeDetectionStrategy, Component, computed, inject, OnInit } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
-
+import { Button, Input } from '@org/ui';
+import {
+  ArrowLeft,
+  ArrowRight,
+  BrushCleaning,
+  LucideAngularModule,
+  Minus,
+  Plus,
+  Star,
+  TicketPercent,
+  Trash2,
+} from 'lucide-angular';
+import { ConfirmationDialogService } from '../../../../shared/business/confirmation-dialog.service';
+import { SectionTitle } from '../../../../shared/ui/section-title/section-title';
+import { finalPrice } from '../../../../shared/utils/product-price';
+import { Carousel } from '../../components/carousel/carousel';
+import { ProductCard } from '../../components/product-card/product-card';
+import { CartItem } from '../../interfaces/cart.model/cart.model';
+import { Product } from '../../interfaces/home.model/home-model-response';
+import { CartStore } from '../../stores/cart/cart.store';
+import { HomeStore } from '../../stores/home/home.store';
+import { WishlistStore } from '../../stores/wishlist/wishlist.store';
 
 @Component({
   selector: 'app-cart',
-  imports: [Button, LucideAngularModule, Input, SectionTitle, ProductCard, Carousel, TranslatePipe ],
+  imports: [
+    Button,
+    LucideAngularModule,
+    Input,
+    SectionTitle,
+    ProductCard,
+    Carousel,
+    TranslatePipe,
+    DecimalPipe,
+    RouterLink,
+  ],
   templateUrl: './cart.html',
   styleUrl: './cart.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Cart implements OnInit {
-protected readonly ticketPercent = TicketPercent
-protected readonly arrowRight = ArrowRight
-protected readonly shoppingBasket = ShoppingBasket
-protected readonly star = Star
-protected readonly trash2 = Trash2
-protected readonly minus = Minus
-protected readonly plus = Plus
-protected readonly arrowLeft = ArrowLeft
+  protected readonly ticketPercent = TicketPercent;
+  protected readonly arrowRight = ArrowRight;
+  protected readonly arrowLeft = ArrowLeft;
+  protected readonly brushCleaning = BrushCleaning;
+  protected readonly star = Star;
+  protected readonly trash2 = Trash2;
+  protected readonly minus = Minus;
+  protected readonly plus = Plus;
 
-protected readonly wishlist = inject(WishlistStore)
-protected readonly products = inject(HomeStore).bestSelling;
-protected readonly toastrService = inject(ToastrService)
+  protected readonly cart = inject(CartStore);
+  protected readonly wishlist = inject(WishlistStore);
+  protected readonly products = inject(HomeStore).bestSelling;
+  private readonly confirmation = inject(ConfirmationDialogService);
 
-ngOnInit(): void {
-  this.getLoggedUserCart()
-}
+  protected readonly total = computed(() => this.cart.subtotal());
 
-protected readonly cartService = inject(CartService)
-cartDetails = signal<CartResponse | null>(null);
-cartItems = computed(() => {
-  const payload = this.cartDetails()?.payload;
+  ngOnInit(): void {
+    this.cart.load();
+  }
 
-  if (!payload) return [];
+  protected unitPrice(item: CartItem): number {
+    return finalPrice(item.product);
+  }
 
-  return Array.isArray(payload)
-    ? payload
-    : payload.cartItems ?? [];
-});
+  protected onQuantityChange(item: CartItem, event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const value = Math.floor(Number(input.value));
 
-getLoggedUserCart(){
-  this.cartService.getCart().subscribe({
-    next: (res) => {
-      console.log(res);
-      this.cartDetails.set(res)
-    },
-    error: (err) => {
-      console.log(err);
+    if (!Number.isFinite(value) || value < 1) {
+      input.value = String(item.quantity);
+      return;
     }
-  });
 
-}
-
-deleteItemFromCart(itemId:string){
-  this.cartService.removeItemFromCart(itemId).subscribe({
-    next: (res) => {
-      console.log(res);
-      this.getLoggedUserCart()
-    },
-    error: (err) => {
-      console.log(err);
+    if (value !== item.quantity) {
+      this.cart.updateQuantity(item.id, value);
     }
-  });
-}
+  }
 
-resetCartItems(){
-  this.cartService.clearCart().subscribe({
-    next: (res) => {
-      console.log(res);
-      this.getLoggedUserCart()
-      
-    },
-    error: (err) => {
-      console.log(err);
+  protected async onClear(): Promise<void> {
+    if (this.cart.count() === 0) return;
+
+    const confirmed = await this.confirmation.confirm({
+      message: 'CART.CONFIRM_CLEAR',
+      icon: BrushCleaning,
+    });
+
+    if (confirmed) {
+      this.cart.clear();
     }
-  });
-}
-
-updateQuantity(itemId: string, itemQuantity: number) {
-  if (itemQuantity < 1) return;
-
-  this.cartService.UpdateItemQuantity(itemId, {
-    quantity: itemQuantity
-  }).subscribe({
-    next: (res) => {
-      console.log(res);
-      this.getLoggedUserCart();
-    },
-    error: (err) => {
-      console.log(err);
-    }
-  });
-}
+  }
 
   protected onAddToCart(product: Product): void {
-    const body = {
-      productId: product.id,
-      quantity: 1,
-    };
-    this.cartService.addToCart(body). subscribe({
-      next: (res) => {
-        console.log('Added to cart successfully', res);
-        this.toastrService.success('Added to cart successfully','Rose App')
-        
-      },
-      error: (err) => {
-        console.error('Error adding product to cart', err);
-      }
-    });
+    this.cart.add(product.id);
   }
+
   protected onAddToWishlist(product: Product): void {
     this.wishlist.toggle(product.id);
   }

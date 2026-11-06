@@ -1,25 +1,34 @@
-import {ChangeDetectionStrategy,Component,computed,input,model,output} from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  input,
+  model,
+  output,
+} from '@angular/core';
 import { PaginatorModule, PaginatorState } from 'primeng/paginator';
 
 @Component({
   selector: 'app-pagination',
-  standalone: true,
   imports: [PaginatorModule],
   templateUrl: './pagination.html',
   styleUrl: './pagination.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Pagination {
-  totalRecords = input<number>(100);
-  rows = input<number>(10);
-  pageLinks = input<number>(3);
+  readonly totalRecords = input<number>(100);
+  readonly rows = input<number>(10);
+  readonly pageLinks = input<number>(3);
 
-  first = model<number>(0);
-  pageChange = output<number>();
+  readonly first = model<number>(0);
 
-  currentPage = computed(() => Math.floor(this.first() / this.rows()) + 1);
+  readonly pageChange = output<number>();
 
-  onPageChange(event: PaginatorState): void {
+  readonly currentPage = computed(
+    () => Math.floor(this.first() / this.rows()) + 1,
+  );
+
+  protected onPageChange(event: PaginatorState): void {
     this.first.set(event.first ?? 0);
     this.pageChange.emit((event.page ?? 0) + 1);
   }

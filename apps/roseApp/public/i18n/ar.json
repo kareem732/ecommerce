@@ -369,7 +369,10 @@
     },
     "CART": {
       "ADDED": "تمت الإضافة إلى سلتك.",
-      "ADD_ERROR": "تعذّرت الإضافة إلى السلة. حاول مرة أخرى."
+      "ADD_ERROR": "تعذّرت الإضافة إلى السلة. حاول مرة أخرى.",
+      "UPDATE_ERROR": "تعذّر تحديث السلة. حاول مرة أخرى.",
+      "REMOVED": "تمت الإزالة من سلتك.",
+      "CLEARED": "تم إفراغ سلتك."
     },
     "FILTER": {
       "LABEL": "تصفية حسب المناسبة",
@@ -443,25 +446,27 @@
       "NO_IMAGE": "لا تتوفر صورة"
     }
   },
-  "productsMayLike":{
-    "Products You May Like":"منتجات قد تعجبك"
-  },
   "CART": {
-  "TITLE": "سلة التسوق",
-  "PRODUCTS_COUNT": "{{count}} منتجات",
-  "CLEAR": "إفراغ السلة",
-  "REMOVE": "إزالة",
-  "RATING": "التقييم:",
-  "QUANTITY": "الكمية",
-  "COUPON_CODE": "كود الخصم",
-  "APPLY_COUPON": "تطبيق الكوبون",
-  "NO_COUPONS": "لم يتم تطبيق أي كوبونات",
-  "SUBTOTAL": "المجموع الفرعي",
-  "TOTAL": "الإجمالي",
-  "CHECKOUT": "إتمام الشراء",
-  "CONTINUE_SHOPPING": "متابعة التسوق",
-  "EMPTY": "سلتك فارغة، هل تريدين تجربة التسوق؟",
-  "SUMMARY": "ملخص الطلب",
-"RECOMMENDED_PRODUCTS": "منتجات قد تعجبك"
-}
+    "TITLE": "سلة التسوق",
+    "PRODUCTS_COUNT": "{{count}} منتجات",
+    "CLEAR": "إفراغ السلة",
+    "CONFIRM_CLEAR": "هل أنت متأكد أنك تريد حذف كل المنتجات من السلة؟",
+    "REMOVE": "إزالة",
+    "RATING": "التقييم:",
+    "RATINGS_COUNT": "({{count}} تقييم)",
+    "QUANTITY": "الكمية",
+    "COUPON_CODE": "كود الخصم",
+    "APPLY_COUPON": "تطبيق الكوبون",
+    "NO_COUPONS": "لم يتم تطبيق أي كوبونات",
+    "SUBTOTAL": "المجموع الفرعي",
+    "TOTAL": "الإجمالي",
+    "CHECKOUT": "إتمام الشراء",
+    "CONTINUE_SHOPPING": "متابعة التسوق",
+    "EMPTY": "سلتك فارغة، هل تريد تجربة التسوق؟",
+    "SUMMARY": "ملخص الطلب",
+    "RECOMMENDED_PRODUCTS": "منتجات قد تعجبك"
+  },
+  "ERRORS": {
+    "INSUFFICIENT_STOCK": "الكمية المتاحة في المخزون غير كافية."
+  }
 }
