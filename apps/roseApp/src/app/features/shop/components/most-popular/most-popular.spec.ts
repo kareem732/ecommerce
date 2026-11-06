@@ -1,3 +1,4 @@
+import { signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 import { of } from 'rxjs';
@@ -5,19 +6,21 @@ import { ProductSortBy, SortOrder } from '../../enums/product-sort';
 import { ProductsQuery } from '../../interfaces/home.model/home-model-request';
 import { Product } from '../../interfaces/home.model/home-model-response';
 import { ShopService } from '../../services/shop.service';
+import { CartStore } from '../../stores/cart/cart.store';
 import { HomeStore } from '../../stores/home/home.store';
+import { WishlistStore } from '../../stores/wishlist/wishlist.store';
 import {
   makeOccasion,
   makeOccasionsResponse,
   makeProduct,
   makeProductsResponse,
 } from '../../../../shared/utils/testing/product.fixtures';
+import { makeTestimonialsResponse } from '../../../../shared/utils/testing/testimonial.fixtures';
 import {
   provideTranslateTesting,
   useEnglish,
 } from '../../../../shared/utils/testing/translate.testing';
 import { MostPopular } from './most-popular';
-import { makeTestimonialsResponse } from '../../../../shared/utils/testing/testimonial.fixtures';
 
 describe('MostPopular', () => {
   const occasions = [
@@ -29,6 +32,8 @@ describe('MostPopular', () => {
   let element: HTMLElement;
   let queries: ProductsQuery[];
   let productsResult: Product[];
+  let cartAdd: ReturnType<typeof vi.fn>;
+  let wishlistToggle: ReturnType<typeof vi.fn>;
 
   const filterButtons = () =>
     element.querySelectorAll<HTMLButtonElement>('.filter__item');
@@ -43,6 +48,9 @@ describe('MostPopular', () => {
   };
 
   const setup = async () => {
+    cartAdd = vi.fn();
+    wishlistToggle = vi.fn();
+
     await TestBed.configureTestingModule({
       imports: [MostPopular],
       providers: [
@@ -57,6 +65,11 @@ describe('MostPopular', () => {
               return of(makeProductsResponse(productsResult));
             },
           },
+        },
+        { provide: CartStore, useValue: { add: cartAdd } },
+        {
+          provide: WishlistStore,
+          useValue: { ids: signal(new Set<string>()), toggle: wishlistToggle },
         },
         provideRouter([]),
         provideTranslateTesting(),
@@ -152,5 +165,23 @@ describe('MostPopular', () => {
 
     expect(link.textContent).toContain('View More');
     expect(link.getAttribute('href')).toBe('/shop/products');
+  });
+
+  it('adds the product to the cart when a card emits addToCart', async () => {
+    await setup();
+
+    const card = fixture.debugElement.query((node) => node.name === 'app-product-card');
+    card.triggerEventHandler('addToCart', productsResult[0]);
+
+    expect(cartAdd).toHaveBeenCalledWith('p1');
+  });
+
+  it('toggles the wishlist when a card emits addToWishlist', async () => {
+    await setup();
+
+    const card = fixture.debugElement.query((node) => node.name === 'app-product-card');
+    card.triggerEventHandler('addToWishlist', productsResult[0]);
+
+    expect(wishlistToggle).toHaveBeenCalledWith('p1');
   });
 });

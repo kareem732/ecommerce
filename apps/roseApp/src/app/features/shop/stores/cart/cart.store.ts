@@ -1,90 +1,128 @@
-import { DestroyRef, inject } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { Router } from '@angular/router';
-import { patchState, signalStore, withHooks, withMethods, withState } from '@ngrx/signals';
+import { computed, inject } from '@angular/core';
+import {
+  patchState,
+  signalStore,
+  withComputed,
+  withMethods,
+  withState,
+} from '@ngrx/signals';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
-import { TranslateService } from '@ngx-translate/core';
-import { NotificationService, SessionService } from '@org/auth-service';
+import { NotificationService } from '@org/auth-service';
 import { catchError, EMPTY, pipe, switchMap, tap } from 'rxjs';
-import { CartItem, CartResponse } from '../../interfaces/cart.model/cart.model';
-import { CartService } from '../../services/cart.service';
+import { ShopService } from '../../services/shop.service';
+import { finalPrice } from '../../../../shared/utils/product-price';
+import { initialState } from './cart.state';
 
-function sumQuantities(items: CartItem[]): number {
-  return items.reduce((total, item) => total + (item.quantity ?? 1), 0);
-}
-
-function cartCountFrom(res: CartResponse): number {
-  const payload = res?.payload;
-  if (!payload) {
-    return 0;
-  }
-  if (Array.isArray(payload)) {
-    return sumQuantities(payload);
-  }
-  const items = payload.items ?? payload.data;
-  if (Array.isArray(items)) {
-    return sumQuantities(items);
-  }
-  return payload.totalQuantity ?? payload.totalItems ?? payload.count ?? 0;
-}
 
 export const CartStore = signalStore(
   { providedIn: 'root' },
-  withState({ count: 0 }),
+  withState(initialState),
+
+  withComputed(({ items }) => ({
+    count: computed(() => items().length),
+    totalQuantity: computed(() =>
+      items().reduce((sum, item) => sum + item.quantity, 0),
+    ),
+    subtotal: computed(() =>
+      items().reduce(
+        (sum, item) => sum + finalPrice(item.product) * item.quantity,
+        0,
+      ),
+    ),
+  })),
 
   withMethods(
     (
       store,
-      cart = inject(CartService),
-      session = inject(SessionService),
+      api = inject(ShopService),
       notifications = inject(NotificationService),
-      translate = inject(TranslateService),
-      router = inject(Router),
-      destroyRef = inject(DestroyRef),
-    ) => ({
-      loadCart: rxMethod<void>(
+    ) => {
+      const setQuantity = (cartItemId: string, quantity: number): void => {
+        patchState(store, {
+          items: store
+            .items()
+            .map((item) =>
+              item.id === cartItemId ? { ...item, quantity } : item,
+            ),
+        });
+      };
+
+      const load = rxMethod<void>(
         pipe(
+          tap(() => patchState(store, { status: 'loading' })),
           switchMap(() =>
-            cart.getCart().pipe(
-              tap((res) => patchState(store, { count: cartCountFrom(res) })),
-              catchError(() => EMPTY),
+            api.getCart().pipe(
+              tap(({ payload }) =>
+                patchState(store, {
+                  items: payload?.cartItems ?? [],
+                  status: 'success',
+                }),
+              ),
+              catchError(() => {
+                patchState(store, { status: 'error' });
+                return EMPTY;
+              }),
             ),
           ),
         ),
-      ),
+      );
 
-      addToCart(productId: string): void {
-        if (!session.isLoggedIn()) {
-          router.navigate(['/auth/login'], {
-            queryParams: { returnUrl: router.url },
-          });
-          return;
-        }
+      const add = (productId: string, quantity = 1): void => {
+        api.addToCart({ productId, quantity }).subscribe({
+          next: (res) => {
+            if (!res?.message) notifications.success('SHOP.CART.ADDED');
+            load();
+          },
+          error: () => undefined,
+        });
+      };
 
-        cart
-          .addToCart({ productId, quantity: 1 })
-          .pipe(
-            switchMap(() => cart.getCart()),
-            takeUntilDestroyed(destroyRef),
-          )
-          .subscribe({
-            next: (res) => {
-              patchState(store, { count: cartCountFrom(res) });
-              notifications.success(translate.instant('SHOP.CART.ADDED'));
-            },
-            error: () =>
-              notifications.error(translate.instant('SHOP.CART.ADD_ERROR')),
-          });
-      },
-    }),
-  ),
+      const updateQuantity = (cartItemId: string, quantity: number): void => {
+        if (quantity < 1) return;
 
-  withHooks({
-    onInit(store) {
-      const session = inject(SessionService);
-      if (session.isLoggedIn()) {
-        store.loadCart();
-      }
+        const target = store.items().find((item) => item.id === cartItemId);
+        if (!target) return;
+
+        const previousQuantity = target.quantity;
+        setQuantity(cartItemId, quantity);
+
+        api.updateItemQuantity(cartItemId, { quantity }).subscribe({
+          error: () => setQuantity(cartItemId, previousQuantity),
+        });
+      };
+
+      const remove = (cartItemId: string): void => {
+        const previous = store.items();
+        const index = previous.findIndex((item) => item.id === cartItemId);
+        if (index === -1) return;
+
+        const target = previous[index];
+        patchState(store, {
+          items: previous.filter((item) => item.id !== cartItemId),
+        });
+
+        api.removeItemFromCart(cartItemId).subscribe({
+          error: () => {
+            const current = store.items();
+            if (!current.some((item) => item.id === target.id)) {
+              const restored = [...current];
+              restored.splice(Math.min(index, restored.length), 0, target);
+              patchState(store, { items: restored });
+            }
+          },
+        });
+      };
+
+      const clear = (): void => {
+        const previous = store.items();
+        patchState(store, { items: [] });
+
+        api.clearCart().subscribe({
+          error: () => patchState(store, { items: previous }),
+        });
+      };
+
+      return { load, add, updateQuantity, remove, clear };
     },
-  }),
+  ),
 );

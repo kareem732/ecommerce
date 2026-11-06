@@ -1,18 +1,27 @@
-import { makeTestimonialsResponse } from './../../../../shared/utils/testing/testimonial.fixtures';
 import { NgTemplateOutlet } from '@angular/common';
-import { Component, TemplateRef, contentChild, input } from '@angular/core';
+import { Component, TemplateRef, contentChild, input, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 import { of } from 'rxjs';
-import { BestSelling } from './best-selling';
-import { Product } from '../../interfaces/home.model/home-model-response';
-import { makeOccasionsResponse,makeProduct,makeProductsResponse} from '../../../../shared/utils/testing/product.fixtures';
-import { provideTranslateTesting, useEnglish } from '../../../../shared/utils/testing/translate.testing';
-import { ProductsQuery } from '../../interfaces/home.model/home-model-request';
-import { ShopService } from '../../services/shop.service';
-import { HomeStore } from '../../stores/home/home.store';
-import { Carousel } from '../carousel/carousel';
 import { ProductSortBy, SortOrder } from '../../enums/product-sort';
+import { ProductsQuery } from '../../interfaces/home.model/home-model-request';
+import { Product } from '../../interfaces/home.model/home-model-response';
+import { ShopService } from '../../services/shop.service';
+import { CartStore } from '../../stores/cart/cart.store';
+import { HomeStore } from '../../stores/home/home.store';
+import { WishlistStore } from '../../stores/wishlist/wishlist.store';
+import {
+  makeOccasionsResponse,
+  makeProduct,
+  makeProductsResponse,
+} from '../../../../shared/utils/testing/product.fixtures';
+import { makeTestimonialsResponse } from '../../../../shared/utils/testing/testimonial.fixtures';
+import {
+  provideTranslateTesting,
+  useEnglish,
+} from '../../../../shared/utils/testing/translate.testing';
+import { Carousel } from '../carousel/carousel';
+import { BestSelling } from './best-selling';
 
 @Component({
   selector: 'app-carousel',
@@ -39,9 +48,13 @@ describe('BestSelling', () => {
   let fixture: ComponentFixture<BestSelling>;
   let element: HTMLElement;
   let queries: ProductsQuery[];
+  let cartAdd: ReturnType<typeof vi.fn>;
+  let wishlistToggle: ReturnType<typeof vi.fn>;
 
   beforeEach(async () => {
     queries = [];
+    cartAdd = vi.fn();
+    wishlistToggle = vi.fn();
 
     const shopServiceStub = {
       getProducts: (query?: ProductsQuery) => {
@@ -57,6 +70,11 @@ describe('BestSelling', () => {
       providers: [
         HomeStore,
         { provide: ShopService, useValue: shopServiceStub },
+        { provide: CartStore, useValue: { add: cartAdd } },
+        {
+          provide: WishlistStore,
+          useValue: { ids: signal(new Set<string>()), toggle: wishlistToggle },
+        },
         provideRouter([]),
         provideTranslateTesting(),
       ],
@@ -110,5 +128,21 @@ describe('BestSelling', () => {
 
     expect(cta.textContent).toContain('Explore gifts');
     expect(cta.getAttribute('href')).toBe('/shop/products');
+  });
+
+  it('adds the product to the cart when a card emits addToCart', () => {
+    const card = fixture.debugElement.query((node) => node.name === 'app-product-card');
+
+    card.triggerEventHandler('addToCart', products[0]);
+
+    expect(cartAdd).toHaveBeenCalledWith('a');
+  });
+
+  it('toggles the wishlist when a card emits addToWishlist', () => {
+    const card = fixture.debugElement.query((node) => node.name === 'app-product-card');
+
+    card.triggerEventHandler('addToWishlist', products[0]);
+
+    expect(wishlistToggle).toHaveBeenCalledWith('a');
   });
 });
