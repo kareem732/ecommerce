@@ -92,7 +92,7 @@
                 <span>{{ 'SHOP.PRODUCT.ADD_TO_CART' | translate }}</span>
               </button>
             } @else {
-              <a class="btn btn--soft" routerLink="/shop/products">
+              <a class="btn btn--soft" routerLink="/shop/products" [queryParams]="similarFilters(product)">
                 {{ 'WISHLIST.EXPLORE_SIMILAR' | translate }}
               </a>
             }

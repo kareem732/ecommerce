@@ -22,12 +22,12 @@ export class ProductCatalogService {
     return loadAllPages((page, limit) => this.shop.getProducts({ page, limit }, context));
   }
 
-  loadCategories(): Observable<Category[]> {
-    return loadAllPages((page, limit) => this.shop.getCategories({ page, limit }));
+  loadCategories(context?: HttpContext): Observable<Category[]> {
+    return loadAllPages((page, limit) => this.shop.getCategories({ page, limit }, context));
   }
 
-  loadOccasions(): Observable<Occasion[]> {
-    return loadAllPages((page, limit) => this.shop.getOccasions({ page, limit }));
+  loadOccasions(context?: HttpContext): Observable<Occasion[]> {
+    return loadAllPages((page, limit) => this.shop.getOccasions({ page, limit }, context));
   }
 }
 

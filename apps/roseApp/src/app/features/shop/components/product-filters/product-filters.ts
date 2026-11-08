@@ -1,16 +1,19 @@
 import { NgTemplateOutlet } from '@angular/common';
 import {
+  afterRenderEffect,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  ElementRef,
   inject,
   input,
   output,
   signal,
+  viewChild,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
-import { LucideAngularModule, RotateCcw, Star, Tag, X } from 'lucide-angular';
+import { Check, LucideAngularModule, RotateCcw, Star, Tag, X } from 'lucide-angular';
 import { MAX_STARS } from '../../../../shared/utils/product.constants';
 import { Category, Occasion } from '../../interfaces/home.model/home-model-response';
 import { OccasionTitlePipe } from '../../pipes/occasion-title.pipe';
@@ -38,6 +41,9 @@ export class ProductFiltersPanel {
 
   readonly filtersChange = output<ProductFilters>();
 
+  private readonly categoryList = viewChild<ElementRef<HTMLElement>>('categoryList');
+
+  protected readonly Check = Check;
   protected readonly Star = Star;
   protected readonly Tag = Tag;
   protected readonly X = X;
@@ -51,6 +57,25 @@ export class ProductFiltersPanel {
     inject(TranslateService)
       .onLangChange.pipe(takeUntilDestroyed())
       .subscribe(() => this.cdr.markForCheck());
+
+    // Bring the active category into view inside the (scrollable) list, e.g. when
+    // arriving preselected from "Explore Similar Products".
+    afterRenderEffect(() => {
+      // Re-run when the selection changes or the categories finish loading.
+      void this.filters().categoryId;
+      void this.categories();
+      const list = this.categoryList()?.nativeElement;
+      const item = list?.querySelector<HTMLElement>('[aria-pressed="true"]');
+      if (list && item) this.scrollWithin(list, item);
+    });
+  }
+
+  /** Scrolls only the list (never the page) so the item is centred if it is out of view. */
+  private scrollWithin(list: HTMLElement, item: HTMLElement): void {
+    const listRect = list.getBoundingClientRect();
+    const itemRect = item.getBoundingClientRect();
+    if (itemRect.top >= listRect.top && itemRect.bottom <= listRect.bottom) return;
+    list.scrollTop += itemRect.top - listRect.top - (list.clientHeight - item.offsetHeight) / 2;
   }
 
   protected toggle(key: 'categoryId' | 'occasionId', id: string): void {
