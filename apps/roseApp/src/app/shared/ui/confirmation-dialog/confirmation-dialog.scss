@@ -2,7 +2,7 @@
   position: relative;
   width: min(520px, 92vw);
   padding: 28px 28px 28px;
-  background: #fff;
+  background: var(--dialog-bg);
   border-radius: 20px;
   text-align: center;
 
@@ -18,15 +18,15 @@
     background: transparent;
     border: 0;
     border-radius: 8px;
-    color: #6b6b6b;
+    color: var(--dialog-close);
     cursor: pointer;
     transition:
       background-color 0.15s ease,
       color 0.15s ease;
 
     &:hover {
-      background: #f0f0f0;
-      color: #222;
+      background: var(--dialog-close-hover-bg);
+      color: var(--dialog-close-hover);
     }
   }
 
@@ -37,9 +37,9 @@
     height: 64px;
     margin: 24px auto 40px;
     border-radius: 50%;
-    background: #e4e4e4;
-    box-shadow: 0 0 0 16px #f3f3f3;
-    color: #1a1a1a;
+    background: var(--dialog-icon-bg);
+    box-shadow: 0 0 0 16px var(--dialog-icon-ring);
+    color: var(--dialog-text);
   }
 
   &__message {
@@ -47,7 +47,7 @@
     font-size: 16px;
     font-weight: 500;
     line-height: 1.5;
-    color: #1a1a1a;
+    color: var(--dialog-text);
     unicode-bidi: plaintext;
   }
 
@@ -74,13 +74,13 @@
     border-color 0.15s ease;
 
   &--secondary {
-    background: #f3f3f3;
-    border-color: #d6d6d6;
-    color: #1a1a1a;
+    background: var(--dialog-btn-bg);
+    border-color: var(--dialog-btn-border);
+    color: var(--dialog-text);
 
     &:hover {
-      background: #e8e8e8;
-      border-color: #c4c4c4;
+      background: var(--dialog-btn-hover-bg);
+      border-color: var(--dialog-btn-hover-border);
     }
   }
 

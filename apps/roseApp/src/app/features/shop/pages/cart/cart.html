@@ -3,14 +3,13 @@
   <!-- Left Side: Cart -->
   <section class="w-full min-w-0 flex-1">
 
-    <!-- Cart Header (same height/position as the wishlist header) -->
     <div class="flex flex-wrap items-center justify-between gap-4 mb-6 min-h-12.5">
       <div class="flex items-baseline gap-3">
-        <h1 class="font-primary text-[32px] font-bold leading-normal text-[#27272A] m-0">
+        <h1 class="font-primary text-[32px] font-bold leading-normal text-[var(--text-strong)] m-0">
           {{ 'CART.TITLE' | translate }}
         </h1>
 
-        <span class="font-primary text-sm font-medium text-[#A1A1AA]">
+        <span class="font-primary text-sm font-medium text-[var(--text-muted)]">
           {{ 'CART.PRODUCTS_COUNT' | translate: { count: cart.count() } }}
         </span>
       </div>
@@ -18,8 +17,8 @@
       @if (cart.count() > 0) {
         <app-button
           (clicked)="onClear()"
-          [bgColor]="'#FBEAEA'"
-          [textColor]="'#A6252A'"
+          [bgColor]="'var(--btn-soft-bg)'"
+          [textColor]="'var(--btn-soft-text)'"
           [icon]="brushCleaning"
           [label]="'CART.CLEAR' | translate">
         </app-button>
@@ -27,14 +26,12 @@
     </div>
 
     <!-- Cart Card -->
-    <div class="w-full min-w-0 rounded-md border border-[#E4E4E7] p-3 sm:p-5">
+    <div class="w-full min-w-0 rounded-md border border-[var(--border-default)] p-3 sm:p-5">
 
       @for (item of cart.items(); track item.id) {
 
-        <!-- Product Item -->
-        <div class="flex flex-col sm:flex-row w-full gap-4 sm:gap-5 py-5 border-b border-[#E4E4E7]">
+        <div class="flex flex-col sm:flex-row w-full gap-4 sm:gap-5 py-5 border-b border-[var(--border-default)]">
 
-          <!-- Product Image (links to product page) -->
           <a
             class="shrink-0 block"
             [routerLink]="['/shop/products', item.product.id]"
@@ -47,14 +44,12 @@
             />
           </a>
 
-          <!-- Product Details -->
           <div class="flex flex-1 min-w-0 flex-col justify-between gap-5">
 
-            <!-- Title and Rating -->
             <div class="flex items-start justify-between gap-2 sm:gap-3">
 
               <div class="min-w-0 flex-1">
-                <h3 class="font-primary text-base sm:text-lg font-semibold text-[#741C21] wrap-break-word">
+                <h3 class="font-primary text-base sm:text-lg font-semibold text-[var(--text-title-brand)] wrap-break-word">
                   {{ item.product.title }}
                 </h3>
 
@@ -66,14 +61,14 @@
                     class="fill-[#FFA508] text-[#FFA508]"
                   />
 
-                  <p class="font-primary text-sm sm:text-base text-black">
+                  <p class="font-primary text-sm sm:text-base text-[var(--text-heading)]">
                     {{ 'CART.RATING' | translate }}
                     <span class="font-medium">
                       {{ item.product.rating }}/5
                     </span>
                   </p>
 
-                  <span class="font-primary text-xs sm:text-sm lg:text-base font-medium text-[#155DFC]">
+                  <span class="font-primary text-xs sm:text-sm lg:text-base font-medium text-[var(--color-info)]">
                     {{ 'CART.RATINGS_COUNT' | translate: { count: item.product.ratings } }}
                   </span>
 
@@ -84,38 +79,36 @@
                 <app-button
                   (clicked)="cart.remove(item.id)"
                   [icon]="trash2"
-                  [bgColor]="'#DC2626'"
+                  [bgColor]="'var(--btn-danger-bg)'"
                   [label]="'CART.REMOVE' | translate"
                 />
               </div>
 
             </div>
 
-            <!-- Price and Quantity -->
             <div class="flex flex-wrap items-center justify-between gap-3">
 
               <div class="flex items-center gap-1 min-w-0">
-                <span class="font-primary text-sm font-medium text-[#A6252A]">
+                <span class="font-primary text-sm font-medium text-[var(--text-accent)]">
                   (×{{ item.quantity }})
                 </span>
 
-                <span class="font-primary text-lg sm:text-xl lg:text-2xl font-bold text-[#27272A]">
+                <span class="font-primary text-lg sm:text-xl lg:text-2xl font-bold text-[var(--text-strong)]">
                   {{ unitPrice(item) | number: '1.2-2' }}
                 </span>
 
-                <span class="font-primary text-sm sm:text-base font-medium text-[#27272A]">
+                <span class="font-primary text-sm sm:text-base font-medium text-[var(--text-strong)]">
                   EGP
                 </span>
               </div>
 
-              <!-- Quantity controls -->
               <div class="flex items-center gap-1.5 shrink-0">
                 <app-button
                   (clicked)="cart.updateQuantity(item.id, item.quantity - 1)"
                   [icon]="minus"
                   [label]="''"
-                  [bgColor]="'#FBEAEA'"
-                  [textColor]="'#A6252A'"
+                  [bgColor]="'var(--btn-soft-bg)'"
+                  [textColor]="'var(--btn-soft-text)'"
                 />
 
                 <input
@@ -125,15 +118,15 @@
                   [value]="item.quantity"
                   [attr.aria-label]="item.product.title"
                   (change)="onQuantityChange(item, $event)"
-                  class="w-17.5 h-11.25 rounded-md border border-[#D9D9D9] bg-white text-center font-primary text-base font-medium text-[#27272A] outline-none transition-colors focus:border-[#A6252A] [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+                  class="w-17.5 h-11.25 rounded-md border border-[var(--border-input)] bg-[var(--bg-input)] text-center font-primary text-base font-medium text-[var(--text-strong)] outline-none transition-colors focus:border-[var(--border-focus)] [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
                 />
 
                 <app-button
                   (clicked)="cart.updateQuantity(item.id, item.quantity + 1)"
                   [icon]="plus"
                   [label]="''"
-                  [bgColor]="'#FBEAEA'"
-                  [textColor]="'#A6252A'"
+                  [bgColor]="'var(--btn-soft-bg)'"
+                  [textColor]="'var(--btn-soft-text)'"
                 />
               </div>
 
@@ -144,7 +137,7 @@
 
       } @empty {
 
-        <div class="py-10 text-center text-gray-500">
+        <div class="py-10 text-center text-[var(--text-secondary)]">
           <img class="mx-auto max-w-full" src="/no-cart 1.png" alt="">
           <span>{{ 'CART.EMPTY' | translate }}</span>
         </div>
@@ -167,17 +160,14 @@
   <!-- Right Side: Summary -->
   <section class="w-full lg:w-95 xl:w-96 shrink-0">
 
-    <!-- Same min-height as the cart header so both headings line up -->
     <div class="flex items-center min-h-12.5 mb-6">
-      <h2 class="font-primary text-2xl sm:text-[30px] font-semibold leading-none text-black m-0">
+      <h2 class="font-primary text-2xl sm:text-[30px] font-semibold leading-none text-[var(--text-heading)] m-0">
         {{ 'CART.SUMMARY' | translate }}
       </h2>
     </div>
 
-    <!-- Summary Card -->
-    <div class="w-full rounded-sm p-3 sm:p-4 bg-[#FAFAFA]">
+    <div class="w-full rounded-sm p-3 sm:p-4 bg-[var(--bg-card)]">
 
-      <!-- Coupon -->
       <div class="flex flex-col sm:flex-row gap-2.5">
 
         <div class="w-full sm:flex-1 min-w-0">
@@ -189,7 +179,8 @@
 
         <div class="w-full sm:w-auto">
           <app-button
-            [bgColor]="'#A6252A'"
+            [bgColor]="'var(--btn-brand-bg)'"
+            [textColor]="'var(--btn-brand-text)'"
             [label]="'CART.APPLY_COUPON' | translate"
             [icon]="ticketPercent">
           </app-button>
@@ -197,31 +188,29 @@
 
       </div>
 
-      <!-- Coupon Status -->
-      <div class="w-full min-h-32 sm:min-h-40 rounded-md p-3 border border-[#D9D9D9] bg-transparent flex items-center justify-center mt-3">
+      <div class="w-full min-h-32 sm:min-h-40 rounded-md p-3 border border-[var(--border-input)] bg-transparent flex items-center justify-center mt-3">
 
-        <span class="font-primary text-sm sm:text-base font-normal italic text-[#71717A] text-center">
+        <span class="font-primary text-sm sm:text-base font-normal italic text-[var(--text-secondary)] text-center">
           {{ 'CART.NO_COUPONS' | translate }}
         </span>
 
       </div>
 
-      <!-- Price Details -->
       <div class="mt-4 p-2 sm:p-2.5">
 
         <div class="flex justify-between items-center gap-2 mb-4">
-          <span class="font-primary text-base sm:text-lg font-medium text-[#27272A]">
+          <span class="font-primary text-base sm:text-lg font-medium text-[var(--text-strong)]">
             {{ 'CART.SUBTOTAL' | translate }}
           </span>
 
-          <span class="font-primary text-lg sm:text-xl font-semibold text-[#27272A]">
+          <span class="font-primary text-lg sm:text-xl font-semibold text-[var(--text-strong)]">
             {{ cart.subtotal() | number: '1.2-2' }} EGP
           </span>
         </div>
 
-        <div class="h-px w-full bg-[#D9D9D9]"></div>
+        <div class="h-px w-full bg-[var(--border-input)]"></div>
 
-        <div class="flex justify-between items-center gap-2 font-primary text-lg sm:text-2xl font-bold text-[#A6252A] mt-4">
+        <div class="flex justify-between items-center gap-2 font-primary text-lg sm:text-2xl font-bold text-[var(--text-accent)] mt-4">
           <span> {{ 'CART.TOTAL' | translate }} </span>
           <span>{{ total() | number: '1.2-2' }} EGP</span>
         </div>
@@ -230,12 +219,12 @@
 
     </div>
 
-    <!-- Checkout -->
     <div class="mt-4 w-full">
       <app-button
         class="w-full"
         [fullWidth]="true"
-        [bgColor]="'#A6252A'"
+        [bgColor]="'var(--btn-brand-bg)'"
+        [textColor]="'var(--btn-brand-text)'"
         [label]="'CART.CHECKOUT' | translate"
         [endIcon]="arrowRight">
       </app-button>

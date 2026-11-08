@@ -5,10 +5,13 @@
 
   <!-- Category -->
   @if (categories().length) {
-  <section class="pb-5" aria-labelledby="filter-category">
+  <section class="pb-4" aria-labelledby="filter-category">
     <ng-container
       *ngTemplateOutlet="header; context: { id: 'filter-category', label: 'SHOP.PRODUCT_FILTERS.CATEGORY', active: current.categoryId !== null, keys: ['categoryId'] }" />
-    <ul #categoryList class="flex max-h-44 flex-col gap-1.5 overflow-y-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+    <ul
+      #categoryList
+      class="categories-scroll flex max-h-40 flex-col gap-1 overflow-y-auto pe-1"
+    >
       @for (category of categories(); track category.id) {
       @let selected = current.categoryId === category.id;
       <li>
@@ -20,16 +23,16 @@
           [attr.aria-pressed]="selected" (click)="toggle('categoryId', category.id)">
           @if (category.image) {
           <img [src]="category.image" alt="" loading="lazy"
-            class="size-6 shrink-0 rounded-sm object-cover" />
+            class="size-[22px] shrink-0 rounded-sm object-cover" />
           } @else {
-          <span class="grid size-6 shrink-0 place-items-center rounded-sm text-white"
+          <span class="grid size-[22px] shrink-0 place-items-center rounded-sm text-white"
             [class]="selected ? 'bg-white/20' : 'bg-[var(--text-secondary)]'">
-            <lucide-angular [img]="Tag" [size]="14" />
+            <lucide-angular [img]="Tag" [size]="13" />
           </span>
           }
           <span class="truncate">{{ category.title }}</span>
           @if (selected) {
-          <lucide-angular [img]="Check" [size]="16" class="ms-auto shrink-0 pe-1" aria-hidden="true" />
+          <lucide-angular [img]="Check" [size]="15" class="ms-auto shrink-0 pe-1" aria-hidden="true" />
           }
         </button>
       </li>
@@ -40,7 +43,7 @@
 
   <!-- Occasion -->
   @if (occasions().length) {
-  <section class="py-5" aria-labelledby="filter-occasion">
+  <section class="py-4" aria-labelledby="filter-occasion">
     <ng-container
       *ngTemplateOutlet="header; context: { id: 'filter-occasion', label: 'SHOP.PRODUCT_FILTERS.OCCASION', active: current.occasionId !== null, keys: ['occasionId'] }" />
     <ul class="grid grid-cols-2 gap-2">
@@ -48,13 +51,13 @@
       @let selected = current.occasionId === occasion.id;
       <li>
         <button type="button"
-          class="relative flex h-16 w-full cursor-pointer items-center justify-center overflow-hidden rounded-md bg-zinc-700 bg-cover bg-center p-1 text-sm font-medium text-white transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--border-focus)]"
+          class="relative flex h-14 w-full cursor-pointer items-center justify-center overflow-hidden rounded-md bg-zinc-700 bg-cover bg-center p-1 text-[13px] font-medium text-white transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--border-focus)]"
           [class]="selected ? 'ring-2 ring-[var(--color-primary)]' : ''"
           [style.background-image]="occasion.image ? 'url(' + occasion.image + ')' : null"
           [attr.aria-pressed]="selected" (click)="toggle('occasionId', occasion.id)">
           <span class="absolute inset-0 transition-colors"
             [class]="selected ? 'bg-[var(--color-primary)]/60' : 'bg-black/45 hover:bg-black/30'"></span>
-          <span class="relative line-clamp-2 text-center drop-shadow">{{ occasion.title | occasionTitle }}</span>
+          <span class="relative line-clamp-2 text-center leading-tight drop-shadow">{{ occasion.title | occasionTitle }}</span>
         </button>
       </li>
       }
@@ -63,7 +66,7 @@
   }
 
   <!-- Rating -->
-  <section class="py-5" aria-labelledby="filter-rating">
+  <section class="py-4" aria-labelledby="filter-rating">
     <ng-container
       *ngTemplateOutlet="header; context: { id: 'filter-rating', label: 'SHOP.PRODUCT_FILTERS.RATING', active: current.minRating !== null, keys: ['minRating'] }" />
     <div class="flex gap-1" (mouseleave)="hoveredRating.set(0)">
@@ -76,7 +79,7 @@
         [attr.aria-pressed]="current.minRating === star"
         (mouseenter)="hoveredRating.set(star)" (focus)="hoveredRating.set(star)" (blur)="hoveredRating.set(0)"
         (click)="toggleRating(star)">
-        <lucide-angular [img]="Star" [size]="24" />
+        <lucide-angular [img]="Star" [size]="22" />
       </button>
       }
     </div>
@@ -88,28 +91,28 @@
   </section>
 
   <!-- Price -->
-  <section class="py-5" aria-labelledby="filter-price">
+  <section class="py-4" aria-labelledby="filter-price">
     <ng-container
       *ngTemplateOutlet="header; context: { id: 'filter-price', label: 'SHOP.PRODUCT_FILTERS.PRICE', active: current.minPrice !== null || current.maxPrice !== null, keys: ['minPrice', 'maxPrice'] }" />
     <div class="grid grid-cols-2 gap-2">
-      <label class="flex flex-col gap-1 text-sm">
+      <label class="flex flex-col gap-1 text-[13px]">
         {{ 'SHOP.PRODUCT_FILTERS.FROM' | translate }}
         <input type="number" min="0" inputmode="decimal" placeholder="0"
-          class="h-11 w-full rounded-lg border border-[var(--border-strong)] bg-[var(--bg-surface)] px-3 text-sm outline-none focus:border-[var(--border-focus)] focus:ring-2 focus:ring-[var(--ring-focus)]"
+          class="h-10 w-full rounded-lg border border-[var(--border-strong)] bg-[var(--bg-surface)] px-3 text-sm outline-none focus:border-[var(--border-focus)] focus:ring-2 focus:ring-[var(--ring-focus)]"
           [value]="current.minPrice ?? ''" (input)="onPriceInput('minPrice', $event)" />
       </label>
-      <label class="flex flex-col gap-1 text-sm">
+      <label class="flex flex-col gap-1 text-[13px]">
         {{ 'SHOP.PRODUCT_FILTERS.TO' | translate }}
         <input type="number" min="0" inputmode="decimal" placeholder="1000000"
-          class="h-11 w-full rounded-lg border border-[var(--border-strong)] bg-[var(--bg-surface)] px-3 text-sm outline-none focus:border-[var(--border-focus)] focus:ring-2 focus:ring-[var(--ring-focus)]"
+          class="h-10 w-full rounded-lg border border-[var(--border-strong)] bg-[var(--bg-surface)] px-3 text-sm outline-none focus:border-[var(--border-focus)] focus:ring-2 focus:ring-[var(--ring-focus)]"
           [value]="current.maxPrice ?? ''" (input)="onPriceInput('maxPrice', $event)" />
       </label>
     </div>
   </section>
 
-  <div class="pt-5">
+  <div class="pt-4">
     <button type="button"
-      class="flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg bg-[var(--color-primary-subtle)] py-2.5 text-sm font-medium text-[var(--color-primary)] transition-opacity hover:opacity-80 focus-visible:outline-2 focus-visible:outline-[var(--border-focus)] disabled:cursor-not-allowed disabled:opacity-50"
+      class="flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg bg-[var(--color-primary-subtle)] py-2 text-sm font-medium text-[var(--color-primary)] transition-opacity hover:opacity-80 focus-visible:outline-2 focus-visible:outline-[var(--border-focus)] disabled:cursor-not-allowed disabled:opacity-50"
       [disabled]="!hasActiveFilters(current)" (click)="resetAll()">
       <lucide-angular [img]="RotateCcw" [size]="16" />
       {{ 'SHOP.PRODUCT_FILTERS.RESET_ALL' | translate }}
@@ -118,13 +121,13 @@
 </aside>
 
 <ng-template #header let-id="id" let-label="label" let-active="active" let-keys="keys">
-  <div class="mb-3 flex items-center justify-between">
+  <div class="mb-2.5 flex items-center justify-between">
     <h3 [id]="id" class="text-base font-medium">{{ label | translate }}</h3>
     @if (active) {
     <button type="button"
-      class="flex cursor-pointer items-center gap-1 rounded-sm text-sm text-[var(--color-primary)] hover:underline focus-visible:outline-2 focus-visible:outline-[var(--border-focus)]"
+      class="flex cursor-pointer items-center gap-1 rounded-sm text-[13px] text-[var(--color-primary)] hover:underline focus-visible:outline-2 focus-visible:outline-[var(--border-focus)]"
       (click)="reset(keys)">
-      <lucide-angular [img]="X" [size]="14" />
+      <lucide-angular [img]="X" [size]="13" />
       {{ 'SHOP.PRODUCT_FILTERS.RESET' | translate }}
     </button>
     }
