@@ -49,15 +49,12 @@ export const SIMILAR_TO_PARAM = 'similarTo';
 
 const NUMERIC_FILTER_KEYS = ['minRating', 'minPrice', 'maxPrice'] as const;
 
-/** Filters that match products like the given one: same category, first occasion, and rating floor. */
+/** Filters that match products like the given one: same category only. */
 export function similarProductFilters(product: Partial<Product>): ProductFilters {
   // Defensive: some endpoints (e.g. the wishlist) return a slimmer product shape.
-  const rating = Math.floor(Number(product.rating) || 0);
   return {
     ...EMPTY_PRODUCT_FILTERS,
     categoryId: product.categoryId || product.category?.id || null,
-    occasionId: product.occasions?.[0]?.occasionId ?? null,
-    minRating: rating > 0 ? rating : null,
   };
 }
 

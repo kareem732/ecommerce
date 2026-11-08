@@ -23,7 +23,7 @@
 
     <div class="min-w-0 flex-1">
       @if (loading()) {
-      <!-- Intentionally empty while loading: no loader on this page. -->
+      <div class="min-w-0 flex-1 min-h-[100vh]"></div>
       } @else if (visible().length === 0) {
       <p class="py-16 text-center text-[var(--text-secondary)]">
         {{ (hasActiveFilters() ? 'SHOP.PRODUCT_FILTERS.NO_MATCH' : 'SHOP.PRODUCTS.EMPTY') | translate }}

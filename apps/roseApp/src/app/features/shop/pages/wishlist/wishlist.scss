@@ -53,8 +53,8 @@
     padding: 8px 20px;
     border: 0;
     border-radius: 8px;
-    background: var(--color-red-600, #dc2626);
-    color: #fff;
+    background: var(--btn-clear-bg);
+    color: var(--btn-clear-text);
     font-size: 15px;
     font-weight: 500;
     cursor: pointer;
@@ -64,7 +64,6 @@
       opacity: 0.88;
     }
   }
-
   &__state {
     display: flex;
     flex: 1;
@@ -146,11 +145,11 @@
     vertical-align: middle;
 
     &--in {
-      color: #00bc7d;
+      color: var(--status-in-stock);
     }
 
     &--out {
-      color: var(--color-red-600, #dc2626);
+      color: var(--color-danger);
     }
   }
 
@@ -186,7 +185,7 @@
   }
 
   &__ratings-count {
-    color: #155dfc;
+    color: var(--color-info);
   }
 
   &__price {
@@ -210,7 +209,7 @@
 
   &__price-old {
     font-size: 14px;
-    color: var(--color-zinc-400, #a1a1aa);
+    color: var(--text-muted);
     text-decoration: line-through;
   }
 
@@ -231,11 +230,11 @@
     border: 0;
     border-radius: 8px;
     background: transparent;
-    color: var(--color-red-600, #dc2626);
+    color: var(--color-danger);
     cursor: pointer;
 
     &:hover {
-      background: rgb(220 38 38 / 0.1);
+      background: color-mix(in srgb, var(--color-danger) 12%, transparent);
     }
   }
 }
@@ -261,13 +260,13 @@
   }
 
   &--dark {
-    background: var(--color-maroon-700, #741c21);
-    color: #fff;
+    background: var(--btn-deep-bg);
+    color: var(--btn-brand-text);
   }
 
   &--soft {
-    background: var(--color-maroon-50, #fbeaea);
-    color: var(--color-maroon-600, #a6252a);
+    background: var(--btn-soft-bg);
+    color: var(--btn-soft-text);
   }
 }
 

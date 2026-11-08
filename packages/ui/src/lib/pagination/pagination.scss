@@ -47,12 +47,12 @@
   }
 
   .p-paginator-page.p-paginator-page-selected {
-    background: var(--color-primary);
-    border-color: var(--color-primary);
-    color: var(--text-on-primary);
+    background: var(--pagination-active-bg);
+    border-color: var(--pagination-active-bg);
+    color: var(--pagination-active-text);
 
     &:hover {
-      background: var(--color-primary-hover);
+      background: var(--pagination-active-bg-hover);
     }
   }
 

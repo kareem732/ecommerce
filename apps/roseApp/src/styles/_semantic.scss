@@ -49,6 +49,47 @@
   --scrollbar-thumb:       var(--color-primary);
   --scrollbar-thumb-hover: var(--color-primary-hover);
   --scrollbar-track:       var(--bg-page);
+
+  /* pagination */
+  --pagination-active-bg:       var(--color-primary);
+  --pagination-active-bg-hover: var(--color-primary-hover);
+  --pagination-active-text:     var(--text-on-primary);
+
+  /* cart & wishlist */
+  --text-heading:     #000000;
+  --text-strong:      var(--color-zinc-800);
+  --text-muted:       var(--color-zinc-400);
+  --text-accent:      var(--color-maroon-600);
+  --text-title-brand: var(--color-maroon-700);
+  --status-in-stock:  var(--color-emerald-500);
+
+  --bg-card:      var(--color-zinc-50);
+  --bg-input:     var(--color-white);
+  --border-input: #d9d9d9;
+
+  --btn-brand-bg:   var(--color-maroon-600);
+  --btn-brand-text: var(--color-white);
+  --btn-deep-bg:    var(--color-maroon-700);
+  --btn-soft-bg:    var(--color-maroon-50);
+  --btn-soft-text:  var(--color-maroon-600);
+  --btn-danger-bg:  var(--color-red-600);
+
+  /* wishlist clear button */
+  --btn-clear-bg:   var(--color-red-600);
+  --btn-clear-text: #ffffff;
+
+  /* dialog */
+  --dialog-bg:               #ffffff;
+  --dialog-text:             #1a1a1a;
+  --dialog-close:            #6b6b6b;
+  --dialog-close-hover-bg:   #f0f0f0;
+  --dialog-close-hover:      #222222;
+  --dialog-icon-bg:          #e4e4e4;
+  --dialog-icon-ring:        #f3f3f3;
+  --dialog-btn-bg:           #f3f3f3;
+  --dialog-btn-border:       #d6d6d6;
+  --dialog-btn-hover-bg:     #e8e8e8;
+  --dialog-btn-hover-border: #c4c4c4;
 }
 
 @mixin dark-tokens {
@@ -102,6 +143,47 @@
   --scrollbar-thumb:       var(--color-soft-pink-200);
   --scrollbar-thumb-hover: var(--color-soft-pink-300);
   --scrollbar-track:       var(--bg-page);
+
+  /* pagination */
+  --pagination-active-bg:       var(--color-soft-pink-200);
+  --pagination-active-bg-hover: var(--color-soft-pink-300);
+  --pagination-active-text:     var(--color-zinc-900);
+
+  /* cart & wishlist */
+  --text-heading:     var(--color-zinc-50);
+  --text-strong:      var(--color-zinc-50);
+  --text-muted:       var(--color-zinc-400);
+  --text-accent:      var(--color-soft-pink-200);
+  --text-title-brand: var(--color-soft-pink-200);
+  --status-in-stock:  var(--color-emerald-400);
+
+  --bg-card:      var(--color-zinc-900);
+  --bg-input:     var(--color-zinc-800);
+  --border-input: var(--color-zinc-600);
+
+  --btn-brand-bg:   var(--color-soft-pink-200);
+  --btn-brand-text: var(--color-zinc-900);
+  --btn-deep-bg:    var(--color-soft-pink-200);
+  --btn-soft-bg:    var(--color-zinc-700);
+  --btn-soft-text:  var(--color-soft-pink-200);
+  --btn-danger-bg:  var(--color-maroon-500);
+
+  /* wishlist clear button */
+  --btn-clear-bg:   var(--btn-soft-bg);
+  --btn-clear-text: var(--btn-soft-text);
+
+  /* dialog */
+  --dialog-bg:               var(--color-zinc-900);
+  --dialog-text:             var(--color-zinc-50);
+  --dialog-close:            var(--color-zinc-400);
+  --dialog-close-hover-bg:   var(--color-zinc-700);
+  --dialog-close-hover:      var(--color-zinc-50);
+  --dialog-icon-bg:          var(--color-zinc-700);
+  --dialog-icon-ring:        var(--color-zinc-800);
+  --dialog-btn-bg:           var(--color-zinc-800);
+  --dialog-btn-border:       var(--color-zinc-600);
+  --dialog-btn-hover-bg:     var(--color-zinc-700);
+  --dialog-btn-hover-border: var(--color-zinc-500);
 }
 
 :root {
