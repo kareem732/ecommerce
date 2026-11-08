@@ -8,14 +8,14 @@
   <section class="pb-5" aria-labelledby="filter-category">
     <ng-container
       *ngTemplateOutlet="header; context: { id: 'filter-category', label: 'SHOP.PRODUCT_FILTERS.CATEGORY', active: current.categoryId !== null, keys: ['categoryId'] }" />
-    <ul class="flex max-h-44 flex-col gap-1.5 overflow-y-auto pe-1">
+    <ul #categoryList class="flex max-h-44 flex-col gap-1.5 overflow-y-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
       @for (category of categories(); track category.id) {
       @let selected = current.categoryId === category.id;
       <li>
         <button type="button"
           class="flex w-full cursor-pointer items-center gap-2 rounded-sm p-0.5 text-start text-sm transition-colors focus-visible:outline-2 focus-visible:outline-[var(--border-focus)]"
           [class]="selected
-            ? 'bg-[var(--color-primary-subtle)] text-[var(--color-primary)]'
+            ? 'bg-[var(--color-primary)] font-medium text-white shadow-sm'
             : 'bg-[var(--bg-muted)] hover:bg-[var(--border-default)]'"
           [attr.aria-pressed]="selected" (click)="toggle('categoryId', category.id)">
           @if (category.image) {
@@ -23,11 +23,14 @@
             class="size-6 shrink-0 rounded-sm object-cover" />
           } @else {
           <span class="grid size-6 shrink-0 place-items-center rounded-sm text-white"
-            [class]="selected ? 'bg-[var(--color-primary)]' : 'bg-[var(--text-secondary)]'">
+            [class]="selected ? 'bg-white/20' : 'bg-[var(--text-secondary)]'">
             <lucide-angular [img]="Tag" [size]="14" />
           </span>
           }
           <span class="truncate">{{ category.title }}</span>
+          @if (selected) {
+          <lucide-angular [img]="Check" [size]="16" class="ms-auto shrink-0 pe-1" aria-hidden="true" />
+          }
         </button>
       </li>
       }

@@ -1,0 +1,17 @@
+// Filters sidebar: stays in view under the sticky navbar on large screens,
+// scrolls internally when taller than the viewport, with the scrollbar hidden.
+.products__filters {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  @media (min-width: 1024px) {
+    position: sticky;
+    top: 8rem; // clears the sticky navbar (~117px on lg)
+    max-height: calc(100vh - 9rem);
+    overflow-y: auto;
+  }
+}

@@ -182,14 +182,16 @@ export class ShopService implements ShopApi {
     );
   }
 
-  getCategories(query: PageQuery = {}): Observable<CategoriesResponse> {
+  getCategories(query: PageQuery = {}, context?: HttpContext): Observable<CategoriesResponse> {
     return this._httpClient.get<CategoriesResponse>(ShopEndPoint.CATEGORIES, {
+      context,
       params: this.buildParams(query),
     });
   }
 
-  getOccasions(query: PageQuery = {}): Observable<OccasionsResponse> {
+  getOccasions(query: PageQuery = {}, context?: HttpContext): Observable<OccasionsResponse> {
     return this._httpClient.get<OccasionsResponse>(ShopEndPoint.OCCASIONS, {
+      context,
       params: this.buildParams(query),
     });
   }

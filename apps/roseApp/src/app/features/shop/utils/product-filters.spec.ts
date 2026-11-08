@@ -3,7 +3,10 @@ import { ProductOccasion } from '../interfaces/home.model/home-model-response';
 import {
   EMPTY_PRODUCT_FILTERS,
   filterProducts,
+  filtersFromQueryParams,
+  filtersToQueryParams,
   hasActiveFilters,
+  similarProductFilters,
 } from './product-filters';
 
 const linkOccasion = (productId: string, id: string, title = id): ProductOccasion => ({
@@ -85,5 +88,65 @@ describe('hasActiveFilters', () => {
   it('is false for the empty filters and true once any filter is set', () => {
     expect(hasActiveFilters(EMPTY_PRODUCT_FILTERS)).toBe(false);
     expect(hasActiveFilters({ ...EMPTY_PRODUCT_FILTERS, minPrice: 0 })).toBe(true);
+  });
+});
+
+describe('similarProductFilters', () => {
+  it('matches category, first occasion and the rating floor', () => {
+    const product = makeProduct({
+      id: 'p',
+      categoryId: 'flowers',
+      rating: 4.5,
+      occasions: [linkOccasion('p', 'wedding'), linkOccasion('p', 'birthday')],
+    });
+
+    expect(similarProductFilters(product)).toEqual({
+      ...EMPTY_PRODUCT_FILTERS,
+      categoryId: 'flowers',
+      occasionId: 'wedding',
+      minRating: 4,
+    });
+  });
+
+  it('copes with the slimmer wishlist product shape (no occasions, category only as a ref)', () => {
+    const slim = { id: 'p', rating: 3.2, category: { id: 'flowers', title: 'Flowers' } };
+
+    expect(similarProductFilters(slim)).toEqual({
+      ...EMPTY_PRODUCT_FILTERS,
+      categoryId: 'flowers',
+      minRating: 3,
+    });
+  });
+
+  it('leaves occasion and rating unset when the product has none', () => {
+    const product = makeProduct({ id: 'p', categoryId: 'flowers', rating: 0, occasions: [] });
+
+    expect(similarProductFilters(product)).toEqual({ ...EMPTY_PRODUCT_FILTERS, categoryId: 'flowers' });
+  });
+});
+
+describe('filter query params', () => {
+  const params = (values: Record<string, string>) => ({ get: (name: string) => values[name] ?? null });
+
+  it('omits inactive filters when serialising', () => {
+    expect(filtersToQueryParams({ ...EMPTY_PRODUCT_FILTERS, categoryId: 'flowers', minPrice: 0 })).toEqual({
+      categoryId: 'flowers',
+      minPrice: 0,
+    });
+  });
+
+  it('round-trips through the URL', () => {
+    const filters = { categoryId: 'flowers', occasionId: 'wedding', minRating: 4, minPrice: 10, maxPrice: 500 };
+    const serialised = Object.fromEntries(
+      Object.entries(filtersToQueryParams(filters)).map(([key, value]) => [key, String(value)]),
+    );
+
+    expect(filtersFromQueryParams(params(serialised))).toEqual(filters);
+  });
+
+  it('ignores malformed numeric params', () => {
+    expect(filtersFromQueryParams(params({ minRating: 'abc', maxPrice: '-5', minPrice: '' }))).toEqual(
+      EMPTY_PRODUCT_FILTERS,
+    );
   });
 });

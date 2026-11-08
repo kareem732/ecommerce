@@ -14,6 +14,7 @@ import {
 import { ConfirmationDialogService } from '../../../../shared/business/confirmation-dialog.service';
 import { finalPrice, hasDiscount, isOutOfStock } from '../../../../shared/utils/product-price';
 import { Product } from '../../interfaces/home.model/home-model-response';
+import { filtersToQueryParams, SIMILAR_TO_PARAM, similarProductFilters } from '../../utils/product-filters';
 import { CartStore } from '../../stores/cart/cart.store';
 import { WishlistStore } from '../../stores/wishlist/wishlist.store';
 
@@ -53,6 +54,11 @@ export class Wishlist {
     if (confirmed) {
       this.store.clear();
     }
+  }
+
+  /** Query params that open the products page filtered to items like this one. */
+  protected similarFilters(product: Product) {
+    return { ...filtersToQueryParams(similarProductFilters(product)), [SIMILAR_TO_PARAM]: product.id };
   }
 
   protected addToCart(product: Product): void {
