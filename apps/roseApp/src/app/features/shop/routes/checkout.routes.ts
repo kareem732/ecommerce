@@ -16,5 +16,10 @@ export const CHECKOUT_FLOW_ROUTE: Route = {
       loadComponent: () =>
         import('../pages/shipping-address/shipping-address').then((m) => m.ShippingAddress),
     },
+    {
+      path: 'payment',
+      loadComponent: () =>
+        import('../pages/payment-method/payment-method').then((m) => m.PaymentMethod),
+    },
   ],
 };

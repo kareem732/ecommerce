@@ -9,4 +9,6 @@ export default class ShopEndPoint {
   static readonly CART = `${environment.apiUrl}/api/cart`;
   static readonly WISHLIST = `${environment.apiUrl}/api/wishlist`;
   static readonly ADDRESSES = `${environment.apiUrl}/api/addresses`;
+  static readonly ORDERS = `${environment.apiUrl}/api/orders`;
+  static readonly PAYMENTS_CHECKOUT_SESSION = `${environment.apiUrl}/api/payments/checkout-session`;
 }

@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { Router } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
 import { Button } from '@org/ui';
 import { ArrowRight, LucideAngularModule } from 'lucide-angular';
@@ -23,6 +24,7 @@ import { AddressStore } from '../../stores/address/address.store';
 })
 export class ShippingAddress {
   protected readonly store = inject(AddressStore);
+  private readonly router = inject(Router);
 
   protected readonly arrowRight = ArrowRight;
   protected readonly skeletonRows = [1, 2, 3];
@@ -53,5 +55,6 @@ export class ShippingAddress {
 
   protected onNext(): void {
     if (!this.store.selectedAddress()) return;
+    void this.router.navigate(['/shop/cart/payment']);
   }
 }

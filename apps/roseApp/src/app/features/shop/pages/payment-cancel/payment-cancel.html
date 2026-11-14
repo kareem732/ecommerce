@@ -1,0 +1,38 @@
+<div
+  class="flex min-h-[60vh] flex-col items-center justify-center gap-5 px-4 py-16 text-center"
+>
+  <div
+    class="flex h-20 w-20 items-center justify-center rounded-full"
+    style="background: #fef2f2"
+  >
+    <lucide-icon
+      [img]="circleX"
+      [size]="48"
+      style="color: #dc2626"
+      aria-hidden="true"
+    />
+  </div>
+
+  <h1 class="font-primary text-2xl font-bold text-[var(--text-heading)] sm:text-3xl">
+    {{ 'SHOP.PAYMENT.CANCEL_TITLE' | translate }}
+  </h1>
+
+  <p class="max-w-md font-primary text-base text-[var(--text-secondary)]">
+    {{ 'SHOP.PAYMENT.CANCEL_SUBTITLE' | translate }}
+  </p>
+
+  <div class="mt-2 flex flex-wrap items-center justify-center gap-3">
+    <a
+      routerLink="/shop/cart/payment"
+      class="inline-flex h-11 items-center justify-center rounded-[10px] bg-[#A6252A] px-6 font-primary text-sm font-medium text-white transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#A6252A] focus-visible:ring-offset-2"
+    >
+      {{ 'SHOP.PAYMENT.TRY_AGAIN' | translate }}
+    </a>
+    <a
+      routerLink="/shop/cart"
+      class="inline-flex h-11 items-center justify-center rounded-[10px] border border-[var(--border-input)] px-6 font-primary text-sm font-medium text-[var(--text-strong)] transition-colors hover:bg-[var(--bg-card)]"
+    >
+      {{ 'SHOP.PAYMENT.BACK_TO_CART' | translate }}
+    </a>
+  </div>
+</div>
