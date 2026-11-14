@@ -20,6 +20,7 @@
   --font-arabic: 'Tajawal', sans-serif;
   --font-zain: 'Zain', sans-serif;
   --font-edwardian: 'Edwardian Script ITC', cursive;
+  --font-primary: 'Sarabun', 'Tajawal', sans-serif;
 }
 
 @utility page-container {
@@ -63,6 +64,14 @@
   line-height: 1.5;
   letter-spacing: 0;
   vertical-align: middle;
+}
+
+@utility field-control {
+  @apply w-full rounded-md border border-[var(--border-input)] bg-transparent px-3 font-primary text-sm text-[var(--text-strong)] outline-none transition-colors placeholder:text-[#A1A1AA] focus:border-[var(--btn-brand-bg)] focus:ring-1 focus:ring-[var(--btn-brand-bg)] aria-invalid:border-[var(--btn-danger-bg)];
+}
+
+@utility field-error {
+  @apply font-primary text-xs text-[var(--btn-danger-bg)];
 }
 
 @theme inline {

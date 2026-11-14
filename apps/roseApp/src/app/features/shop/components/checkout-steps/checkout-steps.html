@@ -1,0 +1,36 @@
+<div
+  class="checkout-steps relative h-6 w-full"
+  role="progressbar"
+  aria-valuemin="1"
+  [attr.aria-valuemax]="totalSteps"
+  [attr.aria-valuenow]="currentStep()"
+  [attr.aria-valuetext]="
+    'CHECKOUT.STEP_PROGRESS' | translate: { current: currentStep(), total: totalSteps }
+  "
+>
+  <div
+    class="checkout-steps__track absolute inset-x-0 top-1/2 h-0.5 -translate-y-1/2 rounded-full bg-[var(--border-default)]"
+  ></div>
+
+  <div
+    class="checkout-steps__fill absolute top-1/2 h-0.5 -translate-y-1/2 rounded-full bg-[var(--btn-brand-bg)] transition-[width] duration-300 motion-reduce:transition-none ltr:left-0 rtl:right-0"
+    [style.width.%]="progress()"
+  ></div>
+
+  @for (step of steps; track step) {
+    <span
+      class="checkout-steps__dot absolute top-1/2 grid size-6 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full font-primary text-xs font-semibold transition-colors duration-300 motion-reduce:transition-none rtl:translate-x-1/2"
+      [class]="
+        step <= currentStep()
+          ? 'bg-[var(--btn-brand-bg)] text-white'
+          : 'bg-[var(--border-default)] text-[var(--text-secondary)]'
+      "
+      [style.inset-inline-start.%]="positions[step - 1]"
+      [attr.data-step]="step"
+      [attr.data-active]="step <= currentStep()"
+      aria-hidden="true"
+    >
+      {{ step }}
+    </span>
+  }
+</div>

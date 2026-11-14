@@ -1,0 +1,70 @@
+<fieldset
+  class="m-0 min-w-0 rounded-[10px] border pb-4 pe-9 ps-4 pt-0 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#A6252A] focus-visible:ring-offset-2"
+  [class]="
+    active()
+      ? 'border-[#A6252A]'
+      : 'cursor-pointer border-[#D9D9D9] hover:border-[#A6252A]'
+  "
+  tabindex="0"
+  [attr.aria-current]="active() ? 'true' : null"
+  [attr.aria-busy]="busy()"
+  (click)="select()"
+  (keydown.enter)="onKey($event)"
+  (keydown.space)="onKey($event)"
+>
+  @if (address().title) {
+    <legend class="ms-1 px-2 font-primary text-base font-medium leading-none text-[#A6252A]">
+      {{ 'ADDRESS.CATEGORIES.' + address().title.toUpperCase() | translate }}
+    </legend>
+  }
+
+  <div class="mt-1 grid grid-cols-[minmax(0,1fr)_auto_0px] items-center gap-y-2.5">
+    <div class="flex min-w-0 items-center gap-2.5">
+      <span class="grid size-7 shrink-0 place-items-center rounded-full bg-emerald-600 text-white">
+        <lucide-icon [img]="pinIcon" [size]="14" aria-hidden="true" />
+      </span>
+      <h4 class="m-0 truncate font-primary text-lg font-medium leading-none text-[var(--text-strong)]">
+        {{ address().city }}
+      </h4>
+    </div>
+
+    <span
+      class="flex items-center gap-1.5 justify-self-end pe-3 font-primary text-sm font-medium text-[var(--text-strong)]"
+    >
+      <lucide-icon [img]="phoneIcon" [size]="14" aria-hidden="true" />
+      <span dir="ltr">{{ address().phone }}</span>
+    </span>
+
+    <div class="relative h-0">
+      <button
+        type="button"
+        data-testid="edit"
+        class="absolute start-9 top-1/2 -ms-4 grid size-8 -translate-y-1/2 cursor-pointer place-items-center rounded-full border border-[#D4D4D8] bg-white text-[var(--text-strong)] transition-opacity hover:opacity-70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#A6252A] disabled:cursor-not-allowed disabled:opacity-50"
+        [disabled]="busy()"
+        [attr.aria-label]="'ADDRESS.EDIT' | translate"
+        (click)="onEdit($event)"
+      >
+        <lucide-icon [img]="editIcon" [size]="14" aria-hidden="true" />
+      </button>
+    </div>
+
+    <p
+      class="m-0 col-span-2 inline-block max-w-full justify-self-start wrap-break-word rounded-md bg-[var(--bg-card)] px-2.5 py-1 font-primary text-sm leading-snug text-[var(--text-strong)]"
+    >
+      {{ address().street }}
+    </p>
+
+    <div class="relative h-0">
+      <button
+        type="button"
+        data-testid="delete"
+        class="absolute start-9 top-1/2 -ms-4 grid size-8 -translate-y-1/2 cursor-pointer place-items-center rounded-full bg-[var(--btn-danger-bg)] text-white transition-opacity hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--btn-danger-bg)] focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+        [disabled]="busy()"
+        [attr.aria-label]="'ADDRESS.DELETE' | translate"
+        (click)="onRemove($event)"
+      >
+        <lucide-icon [img]="deleteIcon" [size]="14" aria-hidden="true" />
+      </button>
+    </div>
+  </div>
+</fieldset>
