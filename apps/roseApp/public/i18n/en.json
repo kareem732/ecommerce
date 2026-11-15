@@ -468,5 +468,22 @@
   },
   "ERRORS": {
     "INSUFFICIENT_STOCK": "Not enough stock available for this quantity."
+  },
+  "NOTIFICATIONS": {
+    "TITLE": "Notifications",
+    "EMPTY": "No notifications yet",
+    "EMPTY_DESCRIPTION": "We'll let you know when something arrives!",
+    "LOADING": "Loading notifications...",
+    "ERROR": "Failed to load notifications",
+    "RETRY": "Retry",
+    "CLEAR_ALL": "Clear all",
+    "MARK_ALL_READ": "Mark all as read",
+    "MARK_READ": "Mark as read",
+    "DELETE": "Delete",
+    "ITEM_ACTIONS": "Notification actions",
+    "CLOSE": "Close",
+    "UNREAD_BADGE": "{{count}} unread notifications",
+    "CONFIRM_CLEAR_TITLE": "Clear all notifications",
+    "CONFIRM_CLEAR_MESSAGE": "Are you sure you want to clear all notifications? This action cannot be undone."
   }
 }

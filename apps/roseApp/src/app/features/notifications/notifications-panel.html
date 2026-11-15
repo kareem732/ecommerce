@@ -1,0 +1,273 @@
+<div
+  class="notifications-panel flex flex-col w-80 sm:w-96 max-w-[calc(100vw-2rem)] max-h-[34rem] rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 shadow-2xl overflow-hidden text-start"
+  role="region"
+  [attr.aria-label]="'NOTIFICATIONS.TITLE' | translate"
+>
+  <!-- Header -->
+  <header
+    class="flex items-center justify-between px-4 py-3 border-b border-zinc-100 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900/50"
+  >
+    <div class="flex items-center gap-2">
+      <h2
+        class="text-base font-bold text-[#741c21] dark:text-[#ea9fa2] tracking-tight"
+      >
+        {{ 'NOTIFICATIONS.TITLE' | translate }}
+      </h2>
+      @if (store.unreadCount() > 0) {
+      <span
+        class="px-2 py-0.5 text-xs font-bold rounded-full bg-[#741c21]/10 text-[#741c21] dark:bg-[#ea9fa2]/20 dark:text-[#ea9fa2]"
+      >
+        {{ store.unreadCount() }}
+      </span>
+      }
+    </div>
+    <button
+      type="button"
+      class="p-1 rounded-lg text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#741c21] dark:focus-visible:ring-[#ea9fa2] cursor-pointer"
+      [attr.aria-label]="'NOTIFICATIONS.CLOSE' | translate"
+      (click)="close.emit()"
+    >
+      <lucide-icon [img]="X" [size]="18" aria-hidden="true"></lucide-icon>
+    </button>
+  </header>
+
+  <!-- Action Strip -->
+  <div
+    class="flex items-center justify-between px-4 py-2 border-b border-zinc-100 dark:border-zinc-800 text-xs bg-white dark:bg-zinc-900"
+  >
+    <button
+      type="button"
+      class="inline-flex items-center gap-1.5 font-medium text-zinc-600 dark:text-zinc-300 hover:text-[#741c21] dark:hover:text-[#ea9fa2] disabled:opacity-40 disabled:cursor-not-allowed transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#741c21] dark:focus-visible:ring-[#ea9fa2] rounded cursor-pointer"
+      [disabled]="store.unreadCount() === 0 || store.isMarkingAllRead()"
+      (click)="onMarkAllRead()"
+    >
+      <lucide-icon
+        [img]="CheckCheck"
+        [size]="14"
+        aria-hidden="true"
+      ></lucide-icon>
+      <span>{{ 'NOTIFICATIONS.MARK_ALL_READ' | translate }}</span>
+    </button>
+
+    <button
+      type="button"
+      class="inline-flex items-center gap-1.5 font-medium text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 disabled:opacity-40 disabled:cursor-not-allowed transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500 rounded cursor-pointer"
+      [disabled]="store.total() === 0 || store.isClearingAll()"
+      (click)="onClearAll()"
+    >
+      <lucide-icon [img]="Trash2" [size]="14" aria-hidden="true"></lucide-icon>
+      <span>{{ 'NOTIFICATIONS.CLEAR_ALL' | translate }}</span>
+    </button>
+  </div>
+
+  <!-- Main Body -->
+  <div class="flex-1 overflow-y-auto min-h-[16rem] max-h-[22rem]">
+    <!-- Loading State -->
+    @if (store.isLoading()) {
+    <div
+      class="flex flex-col items-center justify-center h-64 gap-3 text-zinc-500 dark:text-zinc-400"
+      role="status"
+    >
+      <lucide-icon
+        [img]="RotateCcw"
+        [size]="28"
+        class="animate-spin text-[#741c21] dark:text-[#ea9fa2]"
+        aria-hidden="true"
+      ></lucide-icon>
+      <p class="text-sm font-medium">
+        {{ 'NOTIFICATIONS.LOADING' | translate }}
+      </p>
+    </div>
+    }
+
+    <!-- Error State -->
+    @else if (store.isError()) {
+    <div
+      class="flex flex-col items-center justify-center h-64 px-4 text-center gap-3"
+      role="alert"
+    >
+      <div
+        class="p-3 rounded-full bg-red-100 text-red-600 dark:bg-red-950/40 dark:text-red-400"
+      >
+        <lucide-icon
+          [img]="AlertCircle"
+          [size]="28"
+          aria-hidden="true"
+        ></lucide-icon>
+      </div>
+      <div>
+        <p class="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
+          {{ 'NOTIFICATIONS.ERROR' | translate }}
+        </p>
+        @if (store.error()) {
+        <p class="text-xs text-zinc-500 dark:text-zinc-400 mt-0.5">
+          {{ store.error() }}
+        </p>
+        }
+      </div>
+      <button
+        type="button"
+        class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg bg-[#741c21] text-white dark:bg-[#ea9fa2] dark:text-zinc-900 hover:opacity-90 transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#741c21] cursor-pointer"
+        (click)="store.retry()"
+      >
+        <lucide-icon
+          [img]="RotateCcw"
+          [size]="14"
+          aria-hidden="true"
+        ></lucide-icon>
+        <span>{{ 'NOTIFICATIONS.RETRY' | translate }}</span>
+      </button>
+    </div>
+    }
+
+    <!-- Empty State -->
+    @else if (store.isEmpty()) {
+    <div
+      class="flex flex-col items-center justify-center h-64 px-4 text-center gap-3"
+    >
+      <div
+        class="p-4 rounded-full bg-zinc-100 dark:bg-zinc-800 text-zinc-400 dark:text-zinc-500"
+      >
+        <lucide-icon [img]="BellOff" [size]="32" aria-hidden="true"></lucide-icon>
+      </div>
+      <div>
+        <p class="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
+          {{ 'NOTIFICATIONS.EMPTY' | translate }}
+        </p>
+        <p class="text-xs text-zinc-500 dark:text-zinc-400 mt-1">
+          {{ 'NOTIFICATIONS.EMPTY_DESCRIPTION' | translate }}
+        </p>
+      </div>
+    </div>
+    }
+
+    <!-- Items List -->
+    @else {
+    <ul class="divide-y divide-zinc-100 dark:divide-zinc-800" role="list">
+      @for (item of store.items(); track item.id) {
+      <li
+        class="group relative flex items-start gap-3 p-3.5 transition-colors cursor-pointer select-none"
+        [class.bg-rose-50/70]="!item.isRead"
+        [class.dark:bg-rose-950/20]="!item.isRead"
+        [class.bg-white]="item.isRead"
+        [class.dark:bg-zinc-900]="item.isRead"
+        [class.hover:bg-zinc-100/80]="item.isRead"
+        [class.dark:hover:bg-zinc-800/50]="item.isRead"
+        [class.hover:bg-rose-100/60]="!item.isRead"
+        [class.dark:hover:bg-rose-950/30]="!item.isRead"
+        (click)="onItemClick(item)"
+      >
+        <!-- Unread indicator dot -->
+        <div class="mt-1.5 shrink-0 w-2 h-2">
+          @if (!item.isRead) {
+          <span
+            class="block w-2 h-2 rounded-full bg-[#741c21] dark:bg-[#ea9fa2]"
+            aria-hidden="true"
+          ></span>
+          }
+        </div>
+
+        <!-- Content -->
+        <div class="flex-1 min-w-0">
+          <div class="flex items-center justify-between gap-2">
+            <h3
+              class="text-xs font-semibold text-zinc-900 dark:text-zinc-100 truncate"
+            >
+              {{ item.title }}
+            </h3>
+            <span class="text-[10px] text-zinc-400 dark:text-zinc-500 shrink-0">
+              {{ item.createdAt | date : 'short' }}
+            </span>
+          </div>
+          <p
+            class="text-xs text-zinc-600 dark:text-zinc-300 mt-1 line-clamp-2 leading-relaxed"
+          >
+            {{ item.message }}
+          </p>
+        </div>
+
+        <!-- Per-item Action Trigger -->
+        <div class="shrink-0" (click)="$event.stopPropagation()">
+          <button
+            #menuBtn
+            type="button"
+            cdkOverlayOrigin
+            #trigger="cdkOverlayOrigin"
+            class="p-1 rounded-lg text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-200 hover:bg-zinc-200/60 dark:hover:bg-zinc-800 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#741c21] dark:focus-visible:ring-[#ea9fa2] cursor-pointer"
+            [attr.aria-label]="'NOTIFICATIONS.ITEM_ACTIONS' | translate"
+            aria-haspopup="menu"
+            [attr.aria-expanded]="activeMenuId() === item.id"
+            (click)="openMenu(item.id, trigger, menuBtn)"
+          >
+            <lucide-icon
+              [img]="MoreVertical"
+              [size]="16"
+              aria-hidden="true"
+            ></lucide-icon>
+          </button>
+        </div>
+      </li>
+      }
+    </ul>
+    }
+  </div>
+
+  <!-- Pagination Footer -->
+  @if (!store.isLoading() && !store.isError() && store.total() > 20) {
+  <footer
+    class="px-2 py-2 border-t border-zinc-100 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900/50"
+  >
+    <app-pagination
+      [totalRecords]="store.total()"
+      [rows]="20"
+      [first]="(store.currentPage() - 1) * 20"
+      (pageChange)="onPageChange($event)"
+    />
+  </footer>
+  }
+</div>
+
+<!-- Anchored Per-Item Actions Menu Overlay -->
+@if (activeOrigin(); as origin) {
+<ng-template
+  cdkConnectedOverlay
+  [cdkConnectedOverlayOrigin]="origin"
+  [cdkConnectedOverlayOpen]="activeMenuId() !== null"
+  [cdkConnectedOverlayHasBackdrop]="true"
+  cdkConnectedOverlayBackdropClass="cdk-overlay-transparent-backdrop"
+  (backdropClick)="closeMenu()"
+  (detach)="closeMenu()"
+>
+  <div
+    class="w-44 py-1 rounded-xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 shadow-xl z-50 text-start"
+    role="menu"
+    [attr.aria-label]="'NOTIFICATIONS.ITEM_ACTIONS' | translate"
+    (keydown.escape)="closeMenu()"
+  >
+    <!-- Mark as read -->
+    <button
+      type="button"
+      role="menuitem"
+      class="flex items-center gap-2.5 w-full px-3 py-2 text-xs font-medium text-zinc-700 dark:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-800 hover:text-[#741c21] dark:hover:text-[#ea9fa2] disabled:opacity-40 disabled:cursor-not-allowed transition-colors cursor-pointer text-start"
+      [disabled]="activeItem()?.isRead"
+      (click)="activeMenuId() && onMarkRead(activeMenuId()!)"
+    >
+      <lucide-icon [img]="Check" [size]="14" aria-hidden="true"></lucide-icon>
+      <span>{{ 'NOTIFICATIONS.MARK_READ' | translate }}</span>
+    </button>
+
+    <div class="my-1 border-t border-zinc-100 dark:border-zinc-800"></div>
+
+    <!-- Delete -->
+    <button
+      type="button"
+      role="menuitem"
+      class="flex items-center gap-2.5 w-full px-3 py-2 text-xs font-medium text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/40 transition-colors cursor-pointer text-start"
+      (click)="activeMenuId() && onDelete(activeMenuId()!)"
+    >
+      <lucide-icon [img]="Trash2" [size]="14" aria-hidden="true"></lucide-icon>
+      <span>{{ 'NOTIFICATIONS.DELETE' | translate }}</span>
+    </button>
+  </div>
+</ng-template>
+}
