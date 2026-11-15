@@ -466,8 +466,72 @@
     "SUMMARY": "Summary",
     "RECOMMENDED_PRODUCTS": "Products You May Like"
   },
+  "CHECKOUT": {
+    "STEP_PROGRESS": "Step {{current}} of {{total}}"
+  },
+  "ADDRESS": {
+    "TITLE": "Shipping Address",
+    "MY_ADDRESSES": "My Addresses",
+    "EMPTY": "You don't have any saved addresses yet.",
+    "OR": "OR",
+    "ADD_NEW": "Add a New Address",
+    "UPDATE_ADDRESS": "Update Address",
+    "ADD_TITLE": "Add a New Address",
+    "UPDATE_TITLE": "Edit Address",
+    "ADD_ADDRESS": "Add Address",
+    "SAVE_CHANGES": "Save changes",
+    "EDIT": "Edit address",
+    "DELETE": "Delete address",
+    "CONFIRM_DELETE": "Are you sure you want to delete this address?",
+    "NEXT": "Next",
+    "BACK": "Back",
+    "DETAILS_TITLE": "Enter address details",
+    "CATEGORY": "Address type",
+    "CATEGORIES": {
+      "HOME": "Home",
+      "WORK": "Work",
+      "FAMILY": "Family"
+    },
+    "CITY": "City",
+    "CITY_PLACEHOLDER": "Enter city name",
+    "ADDRESS": "Address",
+    "ADDRESS_PLACEHOLDER": "Enter your full address",
+    "PHONE": "Phone number",
+    "PHONE_PLACEHOLDER": "Phone number",
+    "SET_PRIMARY": "Primary address",
+    "FIND_LOCATION": "Find Your Location",
+    "MAP_LABEL": "Map for choosing the address location",
+    "FIND_MY_LOCATION": "My current location",
+    "LOCATING": "Locating...",
+    "MAP_HINT": "Click the map or drag the pin to set your location.",
+    "SELECTED_LOCATION": "Selected location",
+    "ERRORS": {
+      "REQUIRED": "This field is required",
+      "INVALID": "Invalid value",
+      "PHONE_INVALID": "Enter a valid Egyptian phone number",
+      "STREET_SHORT": "Address is too short (at least 5 characters)",
+      "PICK_LOCATION": "Please pick your location on the map",
+      "GEO_UNSUPPORTED": "Your browser doesn't support geolocation",
+      "GEO_DENIED": "Location permission was denied. Enable it in your browser settings.",
+      "GEO_FAILED": "We couldn't get your location. Please try again.",
+      "MAP_LOAD_FAILED": "The map couldn't be loaded"
+    }
+  },
   "ERRORS": {
     "INSUFFICIENT_STOCK": "Not enough stock available for this quantity."
+  },
+  "TOAST": {
+    "INVALID_CREDENTIALS": "Incorrect email or password",
+    "UNAUTHORIZED": "You are not authorized to do this",
+    "SESSION_EXPIRED": "Your session has expired, please log in again",
+    "ADDRESS_ADDED": "Address added successfully",
+    "ADDRESS_UPDATED": "Address updated successfully",
+    "ADDRESS_DELETED": "Address deleted successfully",
+    "REVIEW_ADDED": "Your review has been added",
+    "ONLY_LEFT": "Only {{count}} left in stock",
+    "NETWORK": "Network error, please check your connection",
+    "SERVER": "Server error, please try again later",
+    "GENERIC": "Something went wrong, please try again"
   },
   "NOTIFICATIONS": {
     "TITLE": "Notifications",

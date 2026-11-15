@@ -21,6 +21,17 @@ interface ToastStyle {
   bar: string;
 }
 
+interface ResolvedMessage {
+  key: string;
+  params?: Record<string, unknown>;
+}
+
+interface PatternRule {
+  pattern: RegExp;
+  key: string;
+  params?: (match: RegExpMatchArray) => Record<string, unknown>;
+}
+
 const STYLES: Record<ToastSeverity, ToastStyle> = {
   success: {
     container:
@@ -49,17 +60,56 @@ const ICONS = {
 } as const;
 
 const BACKEND_MESSAGE_KEYS: Record<string, string> = {
+  // Wishlist
   'item added to wishlist': 'WISHLIST.ADDED',
   'item removed from wishlist': 'WISHLIST.REMOVED',
   'wishlist cleared': 'WISHLIST.CLEARED',
+
   'item added to cart': 'SHOP.CART.ADDED',
   'item removed from cart': 'SHOP.CART.REMOVED',
   'cart cleared': 'SHOP.CART.CLEARED',
   'insufficient stock': 'ERRORS.INSUFFICIENT_STOCK',
+
+  'invalid credentials': 'TOAST.INVALID_CREDENTIALS',
+  'incorrect email or password': 'TOAST.INVALID_CREDENTIALS',
+  unauthorized: 'TOAST.UNAUTHORIZED',
+  'token expired': 'TOAST.SESSION_EXPIRED',
+
+  'address added successfully': 'TOAST.ADDRESS_ADDED',
+  'address updated successfully': 'TOAST.ADDRESS_UPDATED',
+  'address deleted successfully': 'TOAST.ADDRESS_DELETED',
+
+  'review added successfully': 'TOAST.REVIEW_ADDED',
+
+  'network error': 'TOAST.NETWORK',
+  'internal server error': 'TOAST.SERVER',
+  'something went wrong': 'TOAST.GENERIC',
 };
+
+const BACKEND_MESSAGE_PATTERNS: PatternRule[] = [
+  {
+    pattern: /^only (\d+) (?:items? )?left in stock$/,
+    key: 'TOAST.ONLY_LEFT',
+    params: (m) => ({ count: Number(m[1]) }),
+  },
+];
 
 const normalize = (message: string): string =>
   message.trim().toLowerCase().replace(/[.!\s]+$/, '');
+
+function resolveBackendMessage(message: string): ResolvedMessage | null {
+  const normalized = normalize(message);
+
+  const exact = BACKEND_MESSAGE_KEYS[normalized];
+  if (exact) return { key: exact };
+
+  for (const rule of BACKEND_MESSAGE_PATTERNS) {
+    const match = normalized.match(rule.pattern);
+    if (match) return { key: rule.key, params: rule.params?.(match) };
+  }
+
+  return null;
+}
 
 @Component({
   selector: 'app-toast-host',
@@ -178,8 +228,15 @@ export class ToastHost {
     params?: Record<string, unknown>;
   }): string {
     this.i18nTick();
-    const key = BACKEND_MESSAGE_KEYS[normalize(toast.message)] ?? toast.message;
-    return this.translate.instant(key, toast.params);
+
+    const resolved = resolveBackendMessage(toast.message);
+
+    if (!resolved) return this.translate.instant(toast.message, toast.params);
+
+    return this.translate.instant(resolved.key, {
+      ...toast.params,
+      ...resolved.params,
+    });
   }
 
   protected closeLabel(): string {

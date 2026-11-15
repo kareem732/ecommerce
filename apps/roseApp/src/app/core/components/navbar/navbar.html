@@ -8,7 +8,7 @@
     <div
       class="mx-auto flex h-16 sm:h-18 max-w-screen-2xl items-center justify-between gap-3 px-3 sm:gap-4 sm:px-4 lg:px-6"
     >
-      <!-- Brand Logo + City -->
+      <!-- Brand Logo -->
       <div class="header__brand flex items-center gap-2 shrink-0">
         <a
           routerLink="/shop/home"
@@ -24,11 +24,17 @@
         </a>
       </div>
 
-      <!-- Deliver To (static: Cairo) -->
-      <div
-        class="header__delivery hidden md:flex items-center gap-1.5 shrink-0 select-none"
+      <!-- Deliver To (selected address) -->
+      @if (isLoggedIn()) {
+      <button
+        type="button"
+        class="header__delivery hidden md:flex items-center gap-1.5 shrink-0 max-w-[180px] cursor-pointer rounded-lg px-2 py-1 text-left rtl:text-right transition-colors hover:bg-zinc-100 dark:hover:bg-zinc-800/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#741c21] dark:focus-visible:ring-[#ea9fa2]"
+        aria-haspopup="dialog"
+        [attr.aria-label]="'ADDRESS.MY_ADDRESSES' | translate"
+        [attr.title]="selectedAddress()?.street"
+        (click)="openAddresses()"
       >
-        <div class="flex flex-col text-left rtl:text-right leading-tight">
+        <div class="flex min-w-0 flex-col leading-tight">
           <span
             class="header__delivery-label text-[11px] font-normal text-zinc-500 dark:text-zinc-400"
           >
@@ -43,10 +49,13 @@
               class="header__delivery-icon block shrink-0"
               aria-hidden="true"
             ></lucide-icon>
-            <span>Cairo</span>
+            <span class="truncate">
+              {{ deliveryLabel() ?? ('ADDRESS.ADD_NEW' | translate) }}
+            </span>
           </span>
         </div>
-      </div>
+      </button>
+      }
 
       <!-- Search Input -->
       <form
@@ -172,12 +181,13 @@
               <span>{{ 'HEADER.MY_PROFILE' | translate }}</span>
             </button>
 
-            <!-- Addresses Link -->
+            <!-- Addresses Link (opens the My Addresses popup) -->
             <button
               type="button"
               role="menuitem"
+              aria-haspopup="dialog"
               class="header__dropdown-item group flex w-full items-center gap-3 px-3.5 py-2.5 text-sm font-medium rounded-xl transition-colors cursor-pointer text-left rtl:text-right text-zinc-700 dark:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-800 hover:text-[#741c21] dark:hover:text-[#ea9fa2] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#741c21] dark:focus-visible:ring-[#ea9fa2]"
-              (click)="onAccountMenuNavigate('/shop/home')"
+              (click)="openAddresses()"
             >
               <lucide-icon
                 [img]="MapPinHouse"
@@ -520,11 +530,15 @@
     role="dialog"
     aria-label="Mobile Navigation"
   >
-    <!-- Mobile Deliver To (static: Cairo) -->
-    <div
-      class="flex items-center gap-2 pb-3 mb-3 border-b border-zinc-200/60 dark:border-zinc-800/60"
+    <!-- Mobile Deliver To (selected address) -->
+    @if (isLoggedIn()) {
+    <button
+      type="button"
+      class="flex w-full items-center gap-2 pb-3 mb-3 border-b border-zinc-200/60 dark:border-zinc-800/60 text-left rtl:text-right cursor-pointer"
+      aria-haspopup="dialog"
+      (click)="openAddresses()"
     >
-      <div class="flex flex-col text-left rtl:text-right leading-tight">
+      <div class="flex min-w-0 flex-col leading-tight">
         <span
           class="header__delivery-label text-[11px] font-normal text-zinc-500 dark:text-zinc-400"
         >
@@ -539,10 +553,13 @@
             class="header__delivery-icon block shrink-0"
             aria-hidden="true"
           ></lucide-icon>
-          <span>Cairo</span>
+          <span class="truncate">
+            {{ deliveryLabel() ?? ('ADDRESS.ADD_NEW' | translate) }}
+          </span>
         </span>
       </div>
-    </div>
+    </button>
+    }
 
     <!-- Mobile Navigation Links List -->
     <div class="flex flex-col gap-1">
@@ -592,3 +609,6 @@
   </div>
   }
 </header>
+@defer (when isAddressesOpen(); prefetch on idle) {
+  <app-my-addresses-modal [(visible)]="isAddressesOpen" [startWithForm]="startWithForm()" />
+}
