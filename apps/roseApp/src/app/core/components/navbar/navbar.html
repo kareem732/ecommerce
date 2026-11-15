@@ -312,25 +312,41 @@
 
         <!-- Notification Bell (Authenticated Users Only) -->
         @if (isLoggedIn()) {
-        <button
-          type="button"
-          class="header__icon-btn relative p-1.5 rounded-lg transition-colors cursor-pointer text-zinc-900 dark:text-zinc-100 hover:text-[#741c21] dark:hover:text-[#ea9fa2] hover:bg-zinc-100 dark:hover:bg-zinc-800/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#741c21] dark:focus-visible:ring-[#ea9fa2]"
-          [attr.aria-label]="'HEADER.NOTIFICATIONS' | translate"
-          (click)="onNotificationClick()"
-        >
-          <lucide-icon
-            [img]="Bell"
-            [size]="20"
-            aria-hidden="true"
-          ></lucide-icon>
-          @if (notificationCount() > 0) {
-          <span
-            class="header__badge absolute -top-1 ltr:-right-1 rtl:-left-1 min-w-4 h-4 px-1 rounded-full bg-red-600 text-white text-[10px] font-bold flex items-center justify-center leading-none shadow-sm pointer-events-none"
+        <div class="relative">
+          <button
+            type="button"
+            id="notifications-bell-btn"
+            class="header__icon-btn relative p-1.5 rounded-lg transition-colors cursor-pointer text-zinc-900 dark:text-zinc-100 hover:text-[#741c21] dark:hover:text-[#ea9fa2] hover:bg-zinc-100 dark:hover:bg-zinc-800/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#741c21] dark:focus-visible:ring-[#ea9fa2]"
+            [attr.aria-label]="'HEADER.NOTIFICATIONS' | translate"
+            aria-haspopup="dialog"
+            aria-controls="notifications-panel-dialog"
+            [attr.aria-expanded]="isNotificationOpen()"
+            (click)="onNotificationClick()"
           >
-            {{ notificationCount() }}
-          </span>
+            <lucide-icon
+              [img]="Bell"
+              [size]="20"
+              aria-hidden="true"
+            ></lucide-icon>
+            @if (notificationCount() > 0) {
+            <span
+              class="header__badge absolute -top-1 ltr:-right-1 rtl:-left-1 min-w-4 h-4 px-1 rounded-full bg-red-600 text-white text-[10px] font-bold flex items-center justify-center leading-none shadow-sm pointer-events-none"
+            >
+              {{ notificationCount() }}
+            </span>
+            }
+          </button>
+
+          <!-- Notification Dropdown Panel -->
+          @if (isNotificationOpen()) {
+          <div
+            id="notifications-panel-dialog"
+            class="header__notifications-panel fixed inset-x-3 top-18 sm:top-20 md:absolute md:inset-x-auto md:top-full md:mt-2 md:ltr:right-0 md:rtl:left-0 z-50 animate-in fade-in slide-in-from-top-2 duration-150"
+          >
+            <app-notifications-panel (close)="closeNotifications()" />
+          </div>
           }
-        </button>
+        </div>
         }
 
         <!-- Separator -->

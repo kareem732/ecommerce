@@ -53,6 +53,8 @@ import { LanguageEnum, LanguageService } from '@org/shared-i18n';
 import { ThemeService } from '@org/theme';
 import { CartStore } from '../../../features/shop/stores/cart/cart.store';
 import { WishlistStore } from '../../../features/shop/stores/wishlist/wishlist.store';
+import { NotificationsStore } from '../../../features/notifications/notifications.store';
+import { NotificationsPanel } from '../../../features/notifications/notifications-panel';
 import { NavItem } from './navbar.model';
 import { NAVBAR_NAVIGATION_LINKS } from './navbar.control';
 import {
@@ -69,6 +71,7 @@ import { SearchResults } from '../../../shared/business/search-results/search-re
     TranslatePipe,
     LucideAngularModule,
     SearchResults,
+    NotificationsPanel,
   ],
   templateUrl: './navbar.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -87,14 +90,18 @@ export class Navbar {
   private readonly searchBox = viewChild<ElementRef<HTMLElement>>('searchBox');
   private readonly wishlist = inject(WishlistStore);
   private readonly cart = inject(CartStore);
+  protected readonly notificationsStore = inject(NotificationsStore);
 
-  readonly notificationCount = input<number>(0);
+  readonly notificationCount = computed(() =>
+    this.notificationsStore.unreadCount(),
+  );
   readonly deliveryLocation = input<string | null>(null);
 
   readonly searchSubmit = output<string>();
 
   readonly isAccountMenuOpen = signal(false);
   readonly isMobileMenuOpen = signal(false);
+  readonly isNotificationOpen = signal(false);
   readonly searchQuery = signal('');
   readonly isSearchOpen = signal(false);
   readonly isMobileSearchOpen = signal(false);
@@ -216,6 +223,7 @@ export class Navbar {
         untracked(() => {
           this.wishlist.load();
           this.cart.load();
+          this.notificationsStore.loadUnreadCount();
         });
       }
     });
@@ -225,6 +233,7 @@ export class Navbar {
     this.isAccountMenuOpen.update((open) => !open);
     if (this.isAccountMenuOpen()) {
       this.isMobileMenuOpen.set(false);
+      this.isNotificationOpen.set(false);
     }
   }
 
@@ -237,6 +246,7 @@ export class Navbar {
     if (this.isMobileMenuOpen()) {
       this.isAccountMenuOpen.set(false);
       this.isMobileSearchOpen.set(false);
+      this.isNotificationOpen.set(false);
     }
   }
 
@@ -249,6 +259,7 @@ export class Navbar {
     this.isMobileMenuOpen.set(false);
     this.isSearchOpen.set(false);
     this.isMobileSearchOpen.set(false);
+    this.isNotificationOpen.set(false);
   }
 
   openSearch(): void {
@@ -322,8 +333,16 @@ export class Navbar {
   }
 
   onNotificationClick(): void {
+    const wasOpen = this.isNotificationOpen();
     this.closeAllMenus();
-    this.router.navigate(['/shop/home']);
+    if (!wasOpen) {
+      this.isNotificationOpen.set(true);
+      this.notificationsStore.openPanel();
+    }
+  }
+
+  closeNotifications(): void {
+    this.isNotificationOpen.set(false);
   }
 
   onAccountMenuNavigate(targetRoute: string): void {
@@ -352,6 +371,12 @@ export class Navbar {
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent): void {
     const target = event.target as Node;
+    const isInsideCdkOverlay = (target as Element)?.closest?.(
+      '.cdk-overlay-container',
+    );
+    if (isInsideCdkOverlay) {
+      return;
+    }
     if (!this.elementRef.nativeElement.contains(target)) {
       this.closeAllMenus();
     } else if (!this.searchBox()?.nativeElement.contains(target)) {

@@ -5,6 +5,7 @@ import { signal } from '@angular/core';
 import { CookieService, LoginService, SessionService, AuthUser } from '@org/auth-service';
 import { LanguageService } from '@org/shared-i18n';
 import { ThemeService } from '@org/theme';
+import { NotificationsStore } from '../../../features/notifications/notifications.store';
 import { Navbar } from './navbar';
 
 describe('Navbar', () => {
@@ -12,6 +13,7 @@ describe('Navbar', () => {
   let fixture: ComponentFixture<Navbar>;
   const userSignal = signal<AuthUser | null>(null);
   const isLoggedInSignal = signal<boolean>(false);
+  const unreadCountSignal = signal<number>(0);
 
   const mockSessionService = {
     user: userSignal,
@@ -39,10 +41,19 @@ describe('Navbar', () => {
     toggle: vi.fn(),
   };
 
+  const mockNotificationsStore = {
+    unreadCount: unreadCountSignal,
+    openPanel: vi.fn(),
+    loadUnreadCount: vi.fn(),
+  };
+
   beforeEach(async () => {
     TestBed.resetTestingModule();
     userSignal.set(null);
     isLoggedInSignal.set(false);
+    unreadCountSignal.set(0);
+    mockNotificationsStore.openPanel.mockClear();
+    mockNotificationsStore.loadUnreadCount.mockClear();
     mockCookieService.get.mockReset().mockReturnValue('');
 
     await TestBed.configureTestingModule({
@@ -54,6 +65,7 @@ describe('Navbar', () => {
         { provide: LoginService, useValue: mockLoginService },
         { provide: LanguageService, useValue: mockLanguageService },
         { provide: ThemeService, useValue: mockThemeService },
+        { provide: NotificationsStore, useValue: mockNotificationsStore },
       ],
     })
       .overrideComponent(Navbar, {
@@ -102,5 +114,65 @@ describe('Navbar', () => {
 
     expect(component.firstName()).toBe('CookieFirst');
     expect(component.fullName()).toBe('CookieFirst CookieLast');
+  });
+
+  describe('notifications integration', () => {
+    it('reflects unreadCount from NotificationsStore', () => {
+      unreadCountSignal.set(5);
+      expect(component.notificationCount()).toBe(5);
+    });
+
+    it('toggles isNotificationOpen and calls openPanel on notification click', () => {
+      expect(component.isNotificationOpen()).toBe(false);
+
+      component.onNotificationClick();
+      expect(component.isNotificationOpen()).toBe(true);
+      expect(mockNotificationsStore.openPanel).toHaveBeenCalled();
+
+      component.onNotificationClick();
+      expect(component.isNotificationOpen()).toBe(false);
+    });
+
+    it('closes notification panel on closeNotifications', () => {
+      component.onNotificationClick();
+      expect(component.isNotificationOpen()).toBe(true);
+
+      component.closeNotifications();
+      expect(component.isNotificationOpen()).toBe(false);
+    });
+
+    it('closes notification panel on closeAllMenus', () => {
+      component.onNotificationClick();
+      expect(component.isNotificationOpen()).toBe(true);
+
+      component.closeAllMenus();
+      expect(component.isNotificationOpen()).toBe(false);
+    });
+
+    it('closes notification panel when opening account menu', () => {
+      component.onNotificationClick();
+      expect(component.isNotificationOpen()).toBe(true);
+
+      component.toggleAccountMenu();
+      expect(component.isNotificationOpen()).toBe(false);
+      expect(component.isAccountMenuOpen()).toBe(true);
+    });
+
+    it('closes notification panel when opening mobile menu', () => {
+      component.onNotificationClick();
+      expect(component.isNotificationOpen()).toBe(true);
+
+      component.toggleMobileMenu();
+      expect(component.isNotificationOpen()).toBe(false);
+      expect(component.isMobileMenuOpen()).toBe(true);
+    });
+
+    it('closes notification panel on onEscape', () => {
+      component.onNotificationClick();
+      expect(component.isNotificationOpen()).toBe(true);
+
+      component.onEscape();
+      expect(component.isNotificationOpen()).toBe(false);
+    });
   });
 });
