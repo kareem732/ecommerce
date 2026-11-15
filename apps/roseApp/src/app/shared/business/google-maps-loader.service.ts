@@ -38,6 +38,7 @@ export class GoogleMapsLoader {
       google.maps.importLibrary('core'),
       google.maps.importLibrary('maps'),
       google.maps.importLibrary('marker'),
+      google.maps.importLibrary('geocoding'),
     ]);
   }
 }

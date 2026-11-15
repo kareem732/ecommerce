@@ -3,6 +3,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  DestroyRef,
   effect,
   inject,
   input,
@@ -21,13 +22,17 @@ import { MapPoint } from '../../../interfaces/address.model/address.types';
 import {
   CAIRO_CENTER,
   createMarkerOptions,
+  EGYPT_BOUNDS,
   GEOLOCATION_ERROR_KEYS,
   GEOLOCATION_OPTIONS,
   MAP_OPTIONS,
   MAP_ZOOM,
 } from './address-map.constants';
+import { geocodeAddress, reverseGeocode } from '../../../../../shared/utils/testing/geocoding';
 
 type MapStatus = 'loading' | 'ready' | 'failed';
+
+const REFRESH_DELAYS_MS = [100, 350, 700] as const;
 
 @Component({
   selector: 'app-address-map-step',
@@ -37,6 +42,8 @@ type MapStatus = 'loading' | 'ready' | 'failed';
 })
 export class AddressMapStep {
   readonly point = input<MapPoint | null>(null);
+  readonly city = input('');
+  readonly street = input('');
   readonly saving = input(false);
   readonly submitLabelKey = input('ADDRESS.ADD_ADDRESS');
 
@@ -44,7 +51,10 @@ export class AddressMapStep {
   readonly confirm = output<MapPoint>();
 
   private readonly loader = inject(GoogleMapsLoader);
+  private readonly destroyRef = inject(DestroyRef);
   private readonly gmap = viewChild(GoogleMap);
+  private labelRun = 0;
+  private refreshTimers: ReturnType<typeof setTimeout>[] = [];
 
   protected readonly arrowLeft = ArrowLeft;
   protected readonly locateIcon = LocateFixed;
@@ -58,15 +68,19 @@ export class AddressMapStep {
   protected readonly locating = signal(false);
   protected readonly locationError = signal<string | null>(null);
   protected readonly submitted = signal(false);
+  protected readonly resolvedAddress = signal<string | null>(null);
 
   protected readonly showPickError = computed(() => this.submitted() && !this.selected());
 
   constructor() {
+    this.destroyRef.onDestroy(() => this.clearRefreshTimers());
+
     afterNextRender(() => {
       this.loader.load().then(
         () => {
           this.markerOptions.set(createMarkerOptions());
           this.status.set('ready');
+          this.scheduleRefresh();
         },
         () => this.status.set('failed'),
       );
@@ -75,6 +89,19 @@ export class AddressMapStep {
     effect(() => {
       const point = this.point();
       if (point) untracked(() => this.setPoint(point, true));
+    });
+
+    effect(() => {
+      if (this.status() !== 'ready' || this.point()) return;
+      const city = this.city().trim();
+      const street = this.street().trim();
+      untracked(() => void this.centerOnAddress(city, street));
+    });
+
+    effect(() => {
+      const point = this.selected();
+      if (this.status() !== 'ready' || !point) return;
+      untracked(() => void this.resolveLabel(point));
     });
   }
 
@@ -113,6 +140,49 @@ export class AddressMapStep {
     const point = this.selected();
     if (!point || this.saving()) return;
     this.confirm.emit(point);
+  }
+
+  private scheduleRefresh(): void {
+    this.clearRefreshTimers();
+    this.refreshTimers = REFRESH_DELAYS_MS.map((delay) =>
+      setTimeout(() => this.refreshMap(), delay),
+    );
+  }
+
+  private clearRefreshTimers(): void {
+    this.refreshTimers.forEach((timer) => clearTimeout(timer));
+    this.refreshTimers = [];
+  }
+
+  private refreshMap(): void {
+    const map = this.gmap()?.googleMap;
+    if (!map) return;
+    google.maps.event.trigger(map, 'resize');
+    map.setCenter(this.center());
+  }
+
+  private async centerOnAddress(city: string, street: string): Promise<void> {
+    if (street && city) {
+      const hit = await geocodeAddress(`${street}, ${city}`, EGYPT_BOUNDS);
+      if (this.selected()) return;
+      if (hit?.precise) {
+        this.setPoint(hit.point, true);
+        return;
+      }
+    }
+
+    if (!city) return;
+    const cityHit = await geocodeAddress(city, EGYPT_BOUNDS);
+    if (this.selected() || !cityHit) return;
+    this.center.set({ ...cityHit.point });
+    this.zoom.set(MAP_ZOOM.city);
+  }
+
+  private async resolveLabel(point: MapPoint): Promise<void> {
+    const run = ++this.labelRun;
+    this.resolvedAddress.set(null);
+    const label = await reverseGeocode(point);
+    if (run === this.labelRun) this.resolvedAddress.set(label);
   }
 
   private pickFrom(event: google.maps.MapMouseEvent): void {

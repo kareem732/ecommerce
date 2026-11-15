@@ -11,6 +11,8 @@
 } @else {
   <app-address-map-step
     [point]="point()"
+    [city]="details()?.city ?? ''"
+    [street]="details()?.street ?? ''"
     [saving]="saving()"
     [submitLabelKey]="submitLabelKey()"
     (back)="onBack($event)"

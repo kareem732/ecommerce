@@ -38,12 +38,12 @@
             (zoomChanged)="onZoomChanged()"
           >
             @if (selected(); as point) {
-  <map-marker
-    [position]="point"
-    [options]="markerOptions() ?? {}"
-    (mapDragend)="onMarkerDragEnd($event)"
-  />
-}
+              <map-marker
+                [position]="point"
+                [options]="markerOptions() ?? {}"
+                (mapDragend)="onMarkerDragEnd($event)"
+              />
+            }
           </google-map>
         }
         @case ('failed') {
@@ -74,6 +74,13 @@
 
   @if (locationError(); as key) {
     <p role="alert" class="field-error">{{ key | translate }}</p>
+  }
+
+  @if (resolvedAddress(); as label) {
+    <p data-testid="resolved-address" class="font-primary text-xs text-[var(--text-secondary)]">
+      {{ 'ADDRESS.SELECTED_LOCATION' | translate }}:
+      <span dir="auto" class="font-medium text-[var(--text-strong)]">{{ label }}</span>
+    </p>
   }
 
   @if (showPickError()) {

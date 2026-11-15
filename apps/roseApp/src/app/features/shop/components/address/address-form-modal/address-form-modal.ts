@@ -8,13 +8,13 @@ import {
   signal,
 } from '@angular/core';
 import { TranslatePipe } from '@ngx-translate/core';
-import { toAddressDetails, toMapPoint } from '../../../utils/address.mapper';
 import {
   AddressDetails,
   AddressDraft,
   AddressLike,
   MapPoint,
 } from '../../../interfaces/address.model/address.types';
+import { toAddressDetails, toMapPoint } from '../../../utils/address.mapper';
 import { CheckoutSteps } from '../../checkout-steps/checkout-steps';
 import { AddressDetailsStep } from '../address-details-step/address-details-step';
 import { AddressMapStep } from '../address-map-step/address-map-step';
@@ -49,6 +49,10 @@ export class AddressFormModal {
   );
 
   protected onDetailsNext(details: AddressDetails): void {
+    const previous = this.details();
+    if (previous && (previous.city !== details.city || previous.street !== details.street)) {
+      this.point.set(null);
+    }
     this.details.set(details);
     this.step.set(2);
   }

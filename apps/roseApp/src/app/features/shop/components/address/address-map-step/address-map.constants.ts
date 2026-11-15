@@ -2,7 +2,14 @@ import { MapPoint } from '../../../interfaces/address.model/address.types';
 
 export const CAIRO_CENTER: MapPoint = { lat: 30.0444, lng: 31.2357 };
 
-export const MAP_ZOOM = { initial: 13, pinned: 16 } as const;
+export const EGYPT_BOUNDS: google.maps.LatLngBoundsLiteral = {
+  north: 31.9,
+  south: 21.7,
+  east: 36.95,
+  west: 24.6,
+};
+
+export const MAP_ZOOM = { initial: 13, city: 12, pinned: 16 } as const;
 
 export const GEOLOCATION_OPTIONS: PositionOptions = {
   enableHighAccuracy: true,
@@ -21,7 +28,9 @@ export const MAP_OPTIONS: google.maps.MapOptions = {
   streetViewControl: false,
   fullscreenControl: false,
   clickableIcons: false,
-  gestureHandling: 'greedy',
+  gestureHandling: 'cooperative',
+  minZoom: 6,
+  restriction: { latLngBounds: EGYPT_BOUNDS, strictBounds: false },
 };
 
 const PIN_SVG = `
