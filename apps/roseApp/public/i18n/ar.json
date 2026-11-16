@@ -466,6 +466,40 @@
     "SUMMARY": "ملخص الطلب",
     "RECOMMENDED_PRODUCTS": "منتجات قد تعجبك"
   },
+  "ORDERS": {
+    "TITLE": "الطلبات",
+    "ORDER_NUMBER": "طلب رقم {{number}}",
+    "CREATED_IN": "تاريخ الإنشاء:",
+    "TOTAL_PRICE": "السعر الإجمالي:",
+    "PAID": "تم الدفع",
+    "STATUS": "الحالة:",
+    "IN_PROGRESS": "قيد التنفيذ",
+    "PAYMENT_METHOD": "طريقة الدفع:",
+    "CASH": "نقدًا",
+    "DELIVERY_STATUS": "حالة التوصيل:",
+    "PENDING": "قيد الانتظار",
+    "ORDER_ITEMS": "منتجات الطلب:",
+    "CURRENCY": "EGP",
+    "SHOW_ALL": "عرض الكل",
+    "SHOW_LESS": "عرض أقل",
+    "STATUS_TYPES": {
+      "PENDING": "قيد الانتظار",
+      "PROCESSING": "قيد المعالجة",
+      "CONFIRMED": "تم التأكيد",
+      "SHIPPED": "تم الشحن",
+      "DELIVERED": "تم التوصيل",
+      "CANCELLED": "ملغي",
+      "DONE": "مكتمل"
+    },
+    "PAYMENT_STATUS": {
+      "PENDING": "قيد الانتظار",
+      "PROCESSING": "قيد المعالجة",
+      "SUCCEEDED": "تم الدفع",
+      "FAILED": "فشل الدفع",
+      "CANCELLED": "تم الإلغاء",
+      "REFUNDED": "تم استرداد المبلغ"
+    }
+  },
   "ERRORS": {
     "INSUFFICIENT_STOCK": "الكمية المتاحة في المخزون غير كافية."
   }

@@ -466,6 +466,39 @@
     "SUMMARY": "Summary",
     "RECOMMENDED_PRODUCTS": "Products You May Like"
   },
+  "ORDERS": {
+    "TITLE": "Orders",
+    "ORDER_NUMBER": "Order #{{number}}",
+    "CREATED_IN": "Created in:",
+    "TOTAL_PRICE": "Total Price:",
+    "PAID": "Paid",
+    "STATUS": "Status:",
+    "IN_PROGRESS": "In Progress",
+    "PAYMENT_METHOD": "Payment Method:",
+    "CASH": "Cash",
+    "DELIVERY_STATUS": "Delivery Status:",
+    "ORDER_ITEMS": "Order Items:",
+    "SHOW_ALL": "Show All",
+    "SHOW_LESS": "Show Less",
+    "CURRENCY": "EGP",
+    "STATUS_TYPES": {
+      "PENDING": "Pending",
+      "PROCESSING": "Processing",
+      "CONFIRMED": "Confirmed",
+      "SHIPPED": "Shipped",
+      "DELIVERED": "Delivered",
+      "CANCELLED": "Cancelled",
+      "DONE": "Done"
+    },
+    "PAYMENT_STATUS": {
+      "PENDING": "Pending",
+      "PROCESSING": "Processing",
+      "SUCCEEDED": "Paid",
+      "FAILED": "Failed",
+      "CANCELLED": "Cancelled",
+      "REFUNDED": "Refunded"
+    }
+  },
   "ERRORS": {
     "INSUFFICIENT_STOCK": "Not enough stock available for this quantity."
   }

@@ -31,6 +31,11 @@ export const SHOP_ROUTES: Routes = [
         loadComponent: () =>
           import('../pages/cart/cart').then((m) => m.Cart),
       },
+      {
+        path: 'order',
+        loadComponent: () =>
+          import('../pages/order/order').then((m) => m.Order),
+      },
     ],
   },
 ];
