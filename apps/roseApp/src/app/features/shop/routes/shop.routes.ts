@@ -23,6 +23,11 @@ export const SHOP_ROUTES: Routes = [
         path: 'wishlist',
         loadComponent: () => import('../pages/wishlist/wishlist').then((m) => m.Wishlist),
       },
+      {
+        path: 'order',
+        loadComponent: () =>
+          import('../pages/order/order').then((m) => m.Order),
+      },
       CHECKOUT_FLOW_ROUTE,
     ],
   },

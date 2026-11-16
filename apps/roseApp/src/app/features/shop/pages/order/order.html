@@ -1,0 +1,304 @@
+
+<main class="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 lg:py-15.5">
+
+    <!-- Page Title -->
+    <section class="mb-8">
+        <span class="font-primary font-bold text-3xl sm:text-4xl lg:text-[48px] leading-none text-[#27272A]">
+            {{ 'ORDERS.TITLE' | translate }}
+        </span>
+    </section>
+
+    <!-- Loading -->
+    @if (loading()) {
+        <div class="w-full py-12 flex justify-center">
+            <p class="font-primary text-base text-[#71717A]">
+                Loading orders...
+            </p>
+        </div>
+    }
+
+    <!-- Orders List -->
+    @else if (orders().length > 0) {
+
+        @for (order of orders(); track order.id) {
+
+            <!-- Order Card -->
+            <section class="w-full rounded-lg overflow-hidden bg-[#F4F4F5] mb-6">
+
+                <!-- Order Header -->
+                <div
+                    class="w-full min-h-14 flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 bg-[#741C21]">
+
+                    <p class="font-primary font-semibold text-xl sm:text-2xl text-white">
+                        {{ 'ORDERS.ORDER_NUMBER' | translate: { number: order.id.slice(0, 8) } }}
+                    </p>
+
+                    <div class="font-primary flex gap-1.5 text-sm sm:text-base text-[#F4F4F5]">
+                        <p>{{ 'ORDERS.CREATED_IN' | translate }}</p>
+
+                        <span class="font-semibold">
+                            {{ order.createdAt | date: 'dd MMMM, yyyy h:mm a' }}
+                        </span>
+                    </div>
+
+                </div>
+
+                <!-- Order Content -->
+                <div
+                    class="w-full flex flex-col gap-5 rounded-b-lg border-x border-b border-[#E4E4E7] p-4 sm:p-5">
+
+                    <!-- Price & Status -->
+                    <div
+                        class="w-full flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#E4E4E7] pb-4">
+
+                        <div class="flex flex-wrap items-center gap-3">
+
+                            <p class="font-primary font-medium text-lg sm:text-2xl text-[#27272A]">
+                                {{ 'ORDERS.TOTAL_PRICE' | translate }}
+
+                                <span class="font-bold text-2xl sm:text-[30px]">
+                                    {{ order.total | number: '1.0-2' }}
+                                    {{ 'ORDERS.CURRENCY' | translate }}
+                                </span>
+                            </p>
+
+                            <!-- Payment Status -->
+                            @if (order.paymentStatus === 'SUCCEEDED') {
+
+                                <div
+                                    class="min-w-[81px] w-fit min-h-7 flex items-center justify-center gap-1.5 rounded-full px-3 py-1 bg-[#00BC7D] whitespace-nowrap shrink-0">
+
+                                    <lucide-icon [img]="Check" [size]="20" [strokeWidth]="1.75"
+                                        class="text-white" />
+
+                                    <span class="text-white font-medium">
+                                        {{ 'ORDERS.PAID' | translate }}
+                                    </span>
+                                </div>
+
+                            } @else {
+
+                                <div
+                                    class="min-w-[81px] w-fit min-h-7 flex items-center justify-center rounded-full px-3 py-1 bg-[#CA8A04] whitespace-nowrap shrink-0">
+
+                                    <span class="text-white font-medium">
+                                        {{ ('ORDERS.PAYMENT_STATUS.' + order.paymentStatus) | translate }}
+                                    </span>
+
+                                </div>
+
+                            }
+
+                        </div>
+
+                        <!-- Order Status -->
+                        <div class="flex flex-wrap items-center gap-2">
+
+                            <span class="font-primary font-semibold text-base text-[#000000]">
+                                {{ 'ORDERS.STATUS' | translate }}
+                            </span>
+
+                            <div
+                                class="min-h-6 flex items-center justify-center rounded-full px-3 py-1 bg-[#2B7FFF]">
+
+                                <span class="font-primary font-semibold text-sm sm:text-base text-white">
+                                    {{ ('ORDERS.STATUS_TYPES.' + order.status) | translate }}
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <!-- Payment Information -->
+                    <div class="flex flex-col gap-3">
+
+                        <!-- Payment Method -->
+                        <div class="flex flex-wrap items-center gap-2">
+
+                            <span class="font-primary font-semibold text-base text-[#27272A]">
+                                {{ 'ORDERS.PAYMENT_METHOD' | translate }}
+                            </span>
+
+                            <span
+                                class="font-primary font-medium text-base text-[#71717A] flex items-center gap-1">
+
+                                <lucide-icon [img]="Wallet" [size]="20" [strokeWidth]="1.46" />
+
+                                {{ order.paymentMethod }}
+
+                            </span>
+
+                        </div>
+
+                        <!-- Delivery Status -->
+                        <div class="flex flex-wrap items-center gap-2">
+
+                            <span class="font-primary font-semibold text-base text-[#27272A]">
+                                {{ 'ORDERS.DELIVERY_STATUS' | translate }}
+                            </span>
+
+                            <span
+                                class="font-primary font-medium text-base text-[#CA8A04] flex items-center gap-1">
+
+                                <lucide-icon [img]="Truck" [size]="20" [strokeWidth]="1.46" />
+
+                                {{ order.status }}
+
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                    <!-- Order Items -->
+                    <div class="w-full flex flex-col gap-3">
+
+                        <span class="font-primary font-semibold text-base text-[#27272A]">
+                            {{ 'ORDERS.ORDER_ITEMS' | translate }}
+                        </span>
+
+                        <div class="w-full">
+
+                            <!-- Products Grid -->
+                            <div class="relative">
+
+                                <div
+                                    class="grid grid-cols-1 md:grid-cols-2 gap-x-3 gap-y-2 overflow-hidden transition-[max-height] duration-300 ease-in-out"
+                                    [class.max-h-[170px]]="!isOrderExpanded(order.id)"
+                                    [class.max-h-[2000px]]="isOrderExpanded(order.id)">
+
+                                    @for (item of cart.items(); track item.id) {
+
+                                        <div
+                                            class="flex gap-3 min-w-0 h-[105px] rounded-xl bg-white shadow-[0_1px_6px_rgba(0,0,0,0.06)] overflow-hidden">
+
+                                            <!-- Product Image -->
+                                            <div class="block w-[86px] h-[105px] shrink-0">
+
+                                                <img
+                                                    [src]="item.product.cover"
+                                                    [alt]="item.product.title"
+                                                    loading="lazy"
+                                                    class="w-full h-full object-cover rounded-l-xl" />
+
+                                            </div>
+
+                                            <!-- Product Details -->
+                                            <div
+                                                class="flex flex-1 min-w-0 flex-col justify-between py-2.5 pr-3">
+
+                                                <div class="min-w-0">
+
+                                                    <h3
+                                                        class="font-primary text-sm font-semibold text-[var(--text-title-brand)] truncate">
+
+                                                        {{ item.product.title }}
+
+                                                    </h3>
+
+                                                </div>
+
+                                                <div class="flex items-baseline gap-1.5">
+
+                                                    <span
+                                                        class="font-primary text-xs text-[var(--text-accent)]">
+
+                                                        (×{{ item.quantity }})
+
+                                                    </span>
+
+                                                    <span
+                                                        class="font-primary text-xl font-bold text-[var(--text-strong)]">
+
+                                                        {{ item.product.price | number: '1.0-2' }}
+
+                                                    </span>
+
+                                                    <span
+                                                        class="font-primary text-xs font-medium text-gray-500">
+
+                                                        EGP
+
+                                                    </span>
+
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+                                    }
+
+                                </div>
+
+                                <!-- Fade Overlay + Show All -->
+                                @if (cart.items().length > 2 && !isOrderExpanded(order.id)) {
+
+                                    <div
+                                        class="absolute inset-x-0 bottom-0 h-[90px] flex items-end justify-center pb-1 bg-gradient-to-t from-white via-white/90 to-transparent pointer-events-none">
+
+                                        <button
+                                            type="button"
+                                            (click)="toggleOrderItems(order.id)"
+                                            class="pointer-events-auto flex flex-col items-center text-xs font-medium text-[#A6252A]">
+
+                                            {{ 'ORDERS.SHOW_ALL' | translate }}
+
+                                            <lucide-icon [img]="chevronDown" [size]="16" />
+
+                                        </button>
+
+                                    </div>
+
+                                }
+
+                            </div>
+
+                            <!-- Show Less -->
+                            @if (cart.items().length > 2 && isOrderExpanded(order.id)) {
+
+                                <div class="flex justify-center mt-3">
+
+                                    <button
+                                        type="button"
+                                        (click)="toggleOrderItems(order.id)"
+                                        class="flex flex-col items-center text-xs font-medium text-[#A6252A]">
+
+                                        {{ 'ORDERS.SHOW_LESS' | translate }}
+
+                                        <lucide-icon [img]="chevronUp" [size]="16" />
+
+                                    </button>
+
+                                </div>
+
+                            }
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+        }
+
+    }
+
+    <!-- Empty Orders -->
+    @else {
+
+        <div class="w-full flex flex-col items-center justify-center py-16 text-center">
+
+            <p class="font-primary font-semibold text-xl text-[#27272A]">
+                No Orders Found
+            </p>
+
+        </div>
+
+    }
+
+</main>

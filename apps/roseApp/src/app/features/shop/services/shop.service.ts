@@ -32,6 +32,7 @@ import {
   UpdateCartRequest,
   UpdateCartResponse,
 } from '../interfaces/cart.model/cart.model';
+import { OrderHistoryResponse } from '../interfaces/order.model/order-history.model';
 import {
   AddressRequest,
   UpdateAddressRequest,
@@ -198,5 +199,9 @@ export class ShopService implements ShopApi {
       }
     });
     return params;
+  }
+
+  getOrderHistory(): Observable<OrderHistoryResponse> {
+    return this._httpClient.get<OrderHistoryResponse>(ShopEndPoint.ORDERHISTORY)
   }
 }
