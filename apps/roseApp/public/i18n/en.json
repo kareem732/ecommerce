@@ -367,6 +367,25 @@
         "REST": "قد تعجبك"
       }
     },
+    "PAYMENT": {
+      "TITLE": "Payment Method",
+      "BACK": "Back",
+      "COD_TITLE": "Cash on Delivery",
+      "COD_SUBTITLE": "Pay fully in cash when your order is delivered.",
+      "CC_TITLE": "Credit Card",
+      "CC_SUBTITLE": "You’ll be securely redirected to Stripe to complete your payment.",
+      "CHECKOUT": "Checkout",
+      "NO_ADDRESS": "Please select a shipping address first.",
+      "ORDER_ERROR": "We couldn’t place your order. Please try again.",
+      "CHECKOUT_ERROR": "We couldn’t start the payment. Please try again.",
+      "SUCCESS_TITLE": "Payment Successful",
+      "SUCCESS_SUBTITLE": "Thank you! Your order has been placed successfully.",
+      "CONTINUE_SHOPPING": "Continue Shopping",
+      "CANCEL_TITLE": "Payment Cancelled",
+      "CANCEL_SUBTITLE": "Your payment wasn’t completed. You can try again whenever you’re ready.",
+      "TRY_AGAIN": "Try Again",
+      "BACK_TO_CART": "Back to Cart"
+    },
     "CART": {
       "ADDED": "تمت الإضافة إلى سلتك.",
       "ADD_ERROR": "تعذّرت الإضافة إلى السلة. حاول مرة أخرى.",

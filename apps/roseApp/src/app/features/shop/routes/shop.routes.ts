@@ -29,6 +29,16 @@ export const SHOP_ROUTES: Routes = [
           import('../pages/order/order').then((m) => m.Order),
       },
       CHECKOUT_FLOW_ROUTE,
+      {
+        path: 'payment-success',
+        loadComponent: () =>
+          import('../pages/payment-success/payment-success').then((m) => m.PaymentSuccess),
+      },
+      {
+        path: 'payment-cancel',
+        loadComponent: () =>
+          import('../pages/payment-cancel/payment-cancel').then((m) => m.PaymentCancel),
+      },
     ],
   },
 ];
