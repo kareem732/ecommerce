@@ -1,0 +1,112 @@
+<main class="flex flex-col lg:flex-row gap-6 lg:gap-10 w-full">
+
+  <!-- Left Side: current step (Cart / Shipping Address / ...) -->
+  <section class="w-full min-w-0 flex-1">
+    <router-outlet />
+  </section>
+
+  <!-- Right Side: Summary -->
+  <section class="w-full lg:w-95 xl:w-96 shrink-0">
+
+    <div class="flex items-center min-h-12.5 mb-6">
+      <h2 class="font-primary text-2xl sm:text-[30px] font-semibold leading-none text-[var(--text-heading)] m-0">
+        {{ 'CART.SUMMARY' | translate }}
+      </h2>
+    </div>
+
+    <div class="w-full rounded-sm p-3 sm:p-4 bg-[var(--bg-card)]">
+
+      <div class="flex flex-col sm:flex-row gap-2.5">
+
+        <div class="w-full sm:flex-1 min-w-0">
+          <app-input
+            width="100%"
+            [placeholder]="'CART.COUPON_CODE' | translate">
+          </app-input>
+        </div>
+
+        <div class="w-full sm:w-auto">
+          <app-button
+            [bgColor]="'var(--btn-brand-bg)'"
+            [textColor]="'var(--btn-brand-text)'"
+            [label]="'CART.APPLY_COUPON' | translate"
+            [icon]="ticketPercent">
+          </app-button>
+        </div>
+
+      </div>
+
+      <div class="w-full min-h-32 sm:min-h-40 rounded-md p-3 border border-[var(--border-input)] bg-transparent flex items-center justify-center mt-3">
+
+        <span class="font-primary text-sm sm:text-base font-normal italic text-[var(--text-secondary)] text-center">
+          {{ 'CART.NO_COUPONS' | translate }}
+        </span>
+
+      </div>
+
+      <div class="mt-4 p-2 sm:p-2.5">
+
+        <div class="flex justify-between items-center gap-2 mb-4">
+          <span class="font-primary text-base sm:text-lg font-medium text-[var(--text-strong)]">
+            {{ 'CART.SUBTOTAL' | translate }}
+          </span>
+
+          <span class="font-primary text-lg sm:text-xl font-semibold text-[var(--text-strong)]">
+            {{ cart.subtotal() | number: '1.2-2' }} EGP
+          </span>
+        </div>
+
+        <div class="h-px w-full bg-[var(--border-input)]"></div>
+
+        <div class="flex justify-between items-center gap-2 font-primary text-lg sm:text-2xl font-bold text-[var(--text-accent)] mt-4">
+          <span> {{ 'CART.TOTAL' | translate }} </span>
+          <span>{{ total() | number: '1.2-2' }} EGP</span>
+        </div>
+
+      </div>
+
+    </div>
+
+    @if (showCheckout() && cart.count() > 0) {
+      <div class="mt-4 w-full">
+        <app-button
+          class="w-full"
+          routerLink="/shop/cart/shipping-address"
+          [fullWidth]="true"
+          [bgColor]="'var(--btn-brand-bg)'"
+          [textColor]="'var(--btn-brand-text)'"
+          [label]="'CART.CHECKOUT' | translate"
+          [endIcon]="arrowRight">
+        </app-button>
+      </div>
+    }
+
+  </section>
+
+</main>
+
+<!-- Products You May Like -->
+<section class="py-8 sm:py-12">
+
+  <app-section-title>
+    {{ 'CART.RECOMMENDED_PRODUCTS' | translate }}
+  </app-section-title>
+
+  <div class="best-selling__slider pt-5 sm:pt-6">
+    <app-carousel
+      [items]="products()"
+      [numVisible]="4">
+
+      <ng-template #itemTemplate let-product>
+        <app-product-card
+          [product]="product"
+          [wishlisted]="wishlist.ids().has(product.id)"
+          (addToCart)="onAddToCart($event)"
+          (addToWishlist)="onAddToWishlist($event)"
+        />
+      </ng-template>
+
+    </app-carousel>
+  </div>
+
+</section>

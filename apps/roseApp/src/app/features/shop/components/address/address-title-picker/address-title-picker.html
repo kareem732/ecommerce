@@ -1,0 +1,31 @@
+<div class="flex flex-col gap-1.5">
+  <span id="address-title-label" class="font-primary text-sm font-medium text-[var(--text-strong)]">
+    {{ 'ADDRESS.CATEGORY' | translate }}
+  </span>
+
+  <div
+    role="radiogroup"
+    aria-labelledby="address-title-label"
+    class="flex gap-2"
+    (keydown)="onKeydown($event)"
+  >
+    @for (option of options; track option.value; let i = $index) {
+      <button
+        type="button"
+        role="radio"
+        class="h-10 flex-1 cursor-pointer rounded-md border px-3 font-primary text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--btn-brand-bg)] focus-visible:ring-offset-2"
+        [class]="
+          value() === option.value
+            ? 'border-[var(--btn-brand-bg)] bg-[var(--btn-brand-bg)] text-[var(--btn-brand-text)]'
+            : 'border-[var(--border-input)] text-[var(--text-strong)] hover:border-[var(--btn-brand-bg)]'
+        "
+        [attr.data-testid]="'title-' + option.value"
+        [attr.aria-checked]="value() === option.value"
+        [attr.tabindex]="tabIndex(option.value, i)"
+        (click)="value.set(option.value)"
+      >
+        {{ option.labelKey | translate }}
+      </button>
+    }
+  </div>
+</div>

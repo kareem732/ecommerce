@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-
+import { CHECKOUT_FLOW_ROUTE } from './checkout.routes';
 export const SHOP_ROUTES: Routes = [
   {
     path: '',
@@ -17,25 +17,18 @@ export const SHOP_ROUTES: Routes = [
       {
         path: 'products/:id',
         loadComponent: () =>
-          import('../pages/product-details/product-details').then(
-            (m) => m.ProductDetails,
-          ),
+          import('../pages/product-details/product-details').then((m) => m.ProductDetails),
       },
       {
         path: 'wishlist',
-        loadComponent: () =>
-          import('../pages/wishlist/wishlist').then((m) => m.Wishlist),
-      },
-      {
-        path: 'cart',
-        loadComponent: () =>
-          import('../pages/cart/cart').then((m) => m.Cart),
+        loadComponent: () => import('../pages/wishlist/wishlist').then((m) => m.Wishlist),
       },
       {
         path: 'order',
         loadComponent: () =>
           import('../pages/order/order').then((m) => m.Order),
       },
+      CHECKOUT_FLOW_ROUTE,
     ],
   },
 ];

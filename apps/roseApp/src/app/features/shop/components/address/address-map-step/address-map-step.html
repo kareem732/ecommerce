@@ -1,0 +1,104 @@
+<div class="flex flex-col gap-4">
+  <div class="flex items-center gap-3 border-b border-[#E4E4E7] pb-3">
+    <button
+      type="button"
+      data-testid="map-back"
+      class="grid size-8 cursor-pointer place-items-center rounded-full bg-[var(--btn-brand-bg)] text-[var(--btn-brand-text)] transition-opacity hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--btn-brand-bg)] focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+      [disabled]="saving()"
+      [attr.aria-label]="'ADDRESS.BACK' | translate"
+      (click)="onBack()"
+    >
+      <lucide-icon [img]="arrowLeft" [size]="16" class="rtl:rotate-180" aria-hidden="true" />
+    </button>
+    <h3 class="font-primary text-lg font-semibold text-[var(--text-accent)]">
+      {{ 'ADDRESS.FIND_LOCATION' | translate }}
+    </h3>
+  </div>
+
+  <div
+    dir="ltr"
+    class="relative overflow-hidden rounded-md border"
+    [class]="showPickError() ? 'border-[var(--btn-danger-bg)]' : 'border-[var(--border-input)]'"
+  >
+    <div
+      data-testid="map"
+      class="h-[300px] w-full sm:h-[340px]"
+      role="application"
+      [attr.aria-label]="'ADDRESS.MAP_LABEL' | translate"
+    >
+      @switch (status()) {
+        @case ('ready') {
+          <google-map
+            height="100%"
+            width="100%"
+            [center]="center()"
+            [zoom]="zoom()"
+            [options]="mapOptions"
+            (mapClick)="onMapClick($event)"
+            (zoomChanged)="onZoomChanged()"
+          >
+            @if (selected(); as point) {
+              <map-marker
+                [position]="point"
+                [options]="markerOptions() ?? {}"
+                (mapDragend)="onMarkerDragEnd($event)"
+              />
+            }
+          </google-map>
+        }
+        @case ('failed') {
+          <p
+            data-testid="map-failed"
+            class="grid h-full place-items-center px-4 text-center font-primary text-sm text-[var(--btn-danger-bg)]"
+          >
+            {{ 'ADDRESS.ERRORS.MAP_LOAD_FAILED' | translate }}
+          </p>
+        }
+        @default {
+          <div class="size-full animate-pulse bg-[var(--bg-card)]" aria-busy="true"></div>
+        }
+      }
+    </div>
+
+    <button
+      type="button"
+      data-testid="find-my-location"
+      class="absolute end-3 top-3 z-10 flex cursor-pointer items-center gap-1.5 rounded-md border border-[var(--btn-brand-bg)] bg-white px-3 py-1.5 font-primary text-xs font-medium text-[var(--btn-brand-bg)] shadow-sm transition-opacity hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--btn-brand-bg)] disabled:cursor-not-allowed disabled:opacity-60"
+      [disabled]="locating() || saving()"
+      (click)="findMyLocation()"
+    >
+      <lucide-icon [img]="locateIcon" [size]="14" aria-hidden="true" />
+      {{ (locating() ? 'ADDRESS.LOCATING' : 'ADDRESS.FIND_MY_LOCATION') | translate }}
+    </button>
+  </div>
+
+  @if (locationError(); as key) {
+    <p role="alert" class="field-error">{{ key | translate }}</p>
+  }
+
+  @if (resolvedAddress(); as label) {
+    <p data-testid="resolved-address" class="font-primary text-xs text-[var(--text-secondary)]">
+      {{ 'ADDRESS.SELECTED_LOCATION' | translate }}:
+      <span dir="auto" class="font-medium text-[var(--text-strong)]">{{ label }}</span>
+    </p>
+  }
+
+  @if (showPickError()) {
+    <p role="alert" class="field-error">{{ 'ADDRESS.ERRORS.PICK_LOCATION' | translate }}</p>
+  } @else if (!selected()) {
+    <p class="font-primary text-xs text-[var(--text-secondary)]">
+      {{ 'ADDRESS.MAP_HINT' | translate }}
+    </p>
+  }
+
+  <app-button
+    data-testid="map-submit"
+    class="w-full"
+    [fullWidth]="true"
+    [bgColor]="'var(--btn-brand-bg)'"
+    [textColor]="'var(--btn-brand-text)'"
+    [label]="submitLabelKey() | translate"
+    [disabled]="saving()"
+    (clicked)="onConfirm()"
+  />
+</div>

@@ -53,6 +53,10 @@ import { LanguageEnum, LanguageService } from '@org/shared-i18n';
 import { ThemeService } from '@org/theme';
 import { CartStore } from '../../../features/shop/stores/cart/cart.store';
 import { WishlistStore } from '../../../features/shop/stores/wishlist/wishlist.store';
+import { AddressStore } from '../../../features/shop/stores/address/address.store';
+import { MyAddressesModal } from '../../../features/shop/components/address/my-addresses-modal/my-addresses-modal';
+import { NotificationsStore } from '../../../features/notifications/notifications.store';
+import { NotificationsPanel } from '../../../features/notifications/notifications-panel';
 import { NavItem } from './navbar.model';
 import { NAVBAR_NAVIGATION_LINKS } from './navbar.control';
 import {
@@ -69,6 +73,8 @@ import { SearchResults } from '../../../shared/business/search-results/search-re
     TranslatePipe,
     LucideAngularModule,
     SearchResults,
+    MyAddressesModal,
+    NotificationsPanel,
   ],
   templateUrl: './navbar.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -87,17 +93,24 @@ export class Navbar {
   private readonly searchBox = viewChild<ElementRef<HTMLElement>>('searchBox');
   private readonly wishlist = inject(WishlistStore);
   private readonly cart = inject(CartStore);
+  private readonly addressStore = inject(AddressStore);
+  protected readonly notificationsStore = inject(NotificationsStore);
 
-  readonly notificationCount = input<number>(0);
+  readonly notificationCount = computed(() =>
+    this.notificationsStore.unreadCount(),
+  );
   readonly deliveryLocation = input<string | null>(null);
 
   readonly searchSubmit = output<string>();
 
   readonly isAccountMenuOpen = signal(false);
   readonly isMobileMenuOpen = signal(false);
+  readonly isNotificationOpen = signal(false);
   readonly searchQuery = signal('');
   readonly isSearchOpen = signal(false);
   readonly isMobileSearchOpen = signal(false);
+  readonly isAddressesOpen = signal(false);
+  readonly startWithForm = signal(false);
 
   private readonly searchQuery$ = toObservable(this.searchQuery, {
     injector: this.injector,
@@ -106,7 +119,6 @@ export class Navbar {
     () => this.isSearchOpen() || this.isMobileSearchOpen(),
   );
 
-  // The catalog is only requested the first time either search (desktop box or mobile drawer) is opened.
   readonly searchState = toSignal(
     toObservable(this.isSearchActive).pipe(
       first((open) => open),
@@ -152,24 +164,17 @@ export class Navbar {
     return 'User';
   });
 
-  readonly userLocation = computed<string | null>(() => {
-    if (this.deliveryLocation()) return this.deliveryLocation();
-    const u = this.user();
-    if (!u) return null;
-    return (
-      (u as unknown as { city?: string }).city ||
-      (u as unknown as { address?: { city?: string } }).address?.city ||
-      (u as unknown as { deliveryLocation?: string }).deliveryLocation ||
-      null
-    );
+  readonly selectedAddress = computed(() => this.addressStore.selectedAddress());
+
+  readonly deliveryLabel = computed<string | null>(() => {
+    if (!this.isLoggedIn()) return null;
+    return this.selectedAddress()?.city ?? null;
   });
 
   readonly isAdmin = computed<boolean>(() => this.user()?.role === 'ADMIN');
 
   readonly wishlistCount = computed(() => this.wishlist.count());
 
-  // Badge يتحدث تلقائي من الـ CartStore (بيتصفر لما المستخدم يعمل logout).
-  // لو عاوز مجموع الكميات بدل عدد المنتجات استخدم this.cart.totalQuantity()
   readonly cartCount = computed(() =>
     this.isLoggedIn() ? this.cart.count() : 0,
   );
@@ -203,7 +208,6 @@ export class Navbar {
   readonly navItems: NavItem[] = NAVBAR_NAVIGATION_LINKS;
 
   constructor() {
-    // Keep the page behind the mobile search drawer from scrolling.
     effect(() => {
       this.document.body.classList.toggle(
         'overflow-hidden',
@@ -216,6 +220,13 @@ export class Navbar {
         untracked(() => {
           this.wishlist.load();
           this.cart.load();
+          void this.addressStore.load();
+          this.notificationsStore.loadUnreadCount();
+        });
+      } else {
+        untracked(() => {
+          this.addressStore.reset();
+          this.isAddressesOpen.set(false);
         });
       }
     });
@@ -225,6 +236,7 @@ export class Navbar {
     this.isAccountMenuOpen.update((open) => !open);
     if (this.isAccountMenuOpen()) {
       this.isMobileMenuOpen.set(false);
+      this.isNotificationOpen.set(false);
     }
   }
 
@@ -237,6 +249,7 @@ export class Navbar {
     if (this.isMobileMenuOpen()) {
       this.isAccountMenuOpen.set(false);
       this.isMobileSearchOpen.set(false);
+      this.isNotificationOpen.set(false);
     }
   }
 
@@ -249,6 +262,23 @@ export class Navbar {
     this.isMobileMenuOpen.set(false);
     this.isSearchOpen.set(false);
     this.isMobileSearchOpen.set(false);
+    this.isNotificationOpen.set(false);
+  }
+
+  openAddresses(): void {
+    this.closeAllMenus();
+
+    if (!this.isLoggedIn()) {
+      this.router.navigate(['/auth/login'], {
+        queryParams: { returnUrl: this.router.url },
+      });
+      return;
+    }
+
+    this.startWithForm.set(
+      this.addressStore.count() === 0 && !this.addressStore.loading(),
+    );
+    this.isAddressesOpen.set(true);
   }
 
   openSearch(): void {
@@ -260,7 +290,6 @@ export class Navbar {
   openMobileSearch(input: HTMLInputElement): void {
     this.closeAllMenus();
     this.isMobileSearchOpen.set(true);
-    // The drawer is invisible until this change is rendered, so focus after it.
     afterNextRender(() => input.focus(), { injector: this.injector });
   }
 
@@ -285,7 +314,6 @@ export class Navbar {
     const query = this.searchQuery().trim();
     this.searchSubmit.emit(query);
 
-    // Enter opens the top match, once the results reflect what was typed.
     const { term, products } = this.searchState();
     if (query && term && products.length) {
       this.router.navigate(['/shop/products', products[0].id]);
@@ -322,8 +350,16 @@ export class Navbar {
   }
 
   onNotificationClick(): void {
+    const wasOpen = this.isNotificationOpen();
     this.closeAllMenus();
-    this.router.navigate(['/shop/home']);
+    if (!wasOpen) {
+      this.isNotificationOpen.set(true);
+      this.notificationsStore.openPanel();
+    }
+  }
+
+  closeNotifications(): void {
+    this.isNotificationOpen.set(false);
   }
 
   onAccountMenuNavigate(targetRoute: string): void {
@@ -352,6 +388,12 @@ export class Navbar {
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent): void {
     const target = event.target as Node;
+    const isInsideCdkOverlay = (target as Element)?.closest?.(
+      '.cdk-overlay-container',
+    );
+    if (isInsideCdkOverlay) {
+      return;
+    }
     if (!this.elementRef.nativeElement.contains(target)) {
       this.closeAllMenus();
     } else if (!this.searchBox()?.nativeElement.contains(target)) {

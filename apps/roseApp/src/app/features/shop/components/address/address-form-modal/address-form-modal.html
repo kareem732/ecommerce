@@ -1,0 +1,21 @@
+<h2 class="m-0 font-primary text-xl font-semibold text-[var(--text-heading)]">
+  {{ titleKey() | translate }}
+</h2>
+
+<div class="my-4">
+  <app-checkout-steps [currentStep]="step()" />
+</div>
+
+@if (step() === 1) {
+  <app-address-details-step [initial]="details()" (next)="onDetailsNext($event)" />
+} @else {
+  <app-address-map-step
+    [point]="point()"
+    [city]="details()?.city ?? ''"
+    [street]="details()?.street ?? ''"
+    [saving]="saving()"
+    [submitLabelKey]="submitLabelKey()"
+    (back)="onBack($event)"
+    (confirm)="onConfirm($event)"
+  />
+}

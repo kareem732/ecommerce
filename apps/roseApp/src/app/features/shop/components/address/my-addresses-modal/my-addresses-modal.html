@@ -1,0 +1,57 @@
+<p-dialog
+  [visible]="visible()"
+  (visibleChange)="onDialogVisibleChange($event)"
+  [modal]="true"
+  [showHeader]="false"
+  [dismissableMask]="true"
+  [focusTrap]="!confirming()"
+  [draggable]="false"
+  [resizable]="false"
+  [style]="{ width: 'min(720px, 94vw)' }"
+  [contentStyle]="{ padding: '1.5rem' }"
+  [attr.aria-label]="'ADDRESS.MY_ADDRESSES' | translate"
+>
+  @if (showForm()) {
+    <app-address-form-modal
+      [address]="editing()"
+      [saving]="store.saving()"
+      (save)="onSave($event)"
+    />
+  } @else {
+    <div class="flex items-center justify-between gap-3 border-b border-[#E4E4E7] pb-4">
+      <h2 class="m-0 font-primary text-xl font-semibold text-[var(--text-heading)]">
+        {{ 'ADDRESS.MY_ADDRESSES' | translate }}
+      </h2>
+      <app-button
+        data-testid="add-address"
+        [bgColor]="'var(--btn-soft-bg)'"
+        [textColor]="'var(--btn-soft-text)'"
+        [label]="'ADDRESS.ADD_NEW' | translate"
+        (clicked)="openAdd()"
+      />
+    </div>
+
+    <div class="mt-4 flex flex-col gap-4 pt-2" [attr.aria-busy]="store.loading()">
+      @if (store.loading() && store.count() === 0) {
+        <p class="py-6 text-center font-primary text-sm text-[var(--text-secondary)]">
+          {{ 'COMMON.LOADING' | translate }}
+        </p>
+      } @else {
+        @for (address of store.groupedItems(); track address.id) {
+          <app-address-item
+            [address]="address"
+            [active]="store.selectedId() === address.id"
+            [busy]="deletingId() === address.id"
+            (picked)="store.select($event)"
+            (edit)="openEdit($event)"
+            (remove)="onRemove($event)"
+          />
+        } @empty {
+          <p class="py-6 text-center font-primary text-sm text-[var(--text-secondary)]">
+            {{ 'ADDRESS.EMPTY' | translate }}
+          </p>
+        }
+      }
+    </div>
+  }
+</p-dialog>

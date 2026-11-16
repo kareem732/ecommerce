@@ -1,0 +1,71 @@
+<form class="flex flex-col gap-4" novalidate [formGroup]="form">
+  <h3 class="border-b border-[#E4E4E7] pb-3 font-primary text-lg font-semibold text-[var(--text-accent)]">
+    {{ 'ADDRESS.DETAILS_TITLE' | translate }}
+  </h3>
+  <app-address-title-picker [(value)]="title" />
+  <div class="flex flex-col gap-1.5">
+    <label for="address-city" class="font-primary text-sm font-medium text-[var(--text-strong)]">
+      {{ 'ADDRESS.CITY' | translate }}
+    </label>
+    <input
+      id="address-city"
+      type="text"
+      formControlName="city"
+      autocomplete="address-level2"
+      class="field-control h-11"
+      [placeholder]="'ADDRESS.CITY_PLACEHOLDER' | translate"
+      [attr.aria-invalid]="invalid('city')"
+      [attr.aria-describedby]="invalid('city') ? 'address-city-error' : null"
+    />
+    @if (invalid('city')) {
+      <p id="address-city-error" role="alert" class="field-error">
+        {{ errorKey('city') | translate }}
+      </p>
+    }
+  </div>
+
+  <div class="flex flex-col gap-1.5">
+    <label for="address-street" class="font-primary text-sm font-medium text-[var(--text-strong)]">
+      {{ 'ADDRESS.ADDRESS' | translate }}
+    </label>
+    <textarea
+      id="address-street"
+      rows="5"
+      formControlName="street"
+      autocomplete="street-address"
+      class="field-control resize-none py-2.5"
+      [placeholder]="'ADDRESS.ADDRESS_PLACEHOLDER' | translate"
+      [attr.aria-invalid]="invalid('street')"
+      [attr.aria-describedby]="invalid('street') ? 'address-street-error' : null"
+    ></textarea>
+    @if (invalid('street')) {
+      <p id="address-street-error" role="alert" class="field-error">
+        {{ errorKey('street') | translate }}
+      </p>
+    }
+  </div>
+
+  <app-phone
+    formControlName="phone"
+    defaultCountry="EG"
+    [label]="'ADDRESS.PHONE' | translate"
+    [placeholder]="'ADDRESS.PHONE_PLACEHOLDER' | translate"
+    [error]="invalid('phone') ? (errorKey('phone') | translate) : ''"
+  />
+
+  <app-checkbox
+    data-testid="is-primary"
+    [label]="'ADDRESS.SET_PRIMARY' | translate"
+    [(checked)]="isPrimary"
+  />
+
+  <app-button
+    data-testid="details-next"
+    class="mt-2 w-full"
+    [fullWidth]="true"
+    [bgColor]="'var(--btn-brand-bg)'"
+    [textColor]="'var(--btn-brand-text)'"
+    [label]="'ADDRESS.NEXT' | translate"
+    (clicked)="onNext()"
+  />
+</form>

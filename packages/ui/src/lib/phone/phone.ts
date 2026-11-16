@@ -21,8 +21,6 @@ import { Country } from './phone.types';
 
 let nextId = 0;
 
-const MENU_HEIGHT = 260;
-
 @Component({
   selector: 'app-phone',
   standalone: true,
@@ -62,7 +60,7 @@ export class Phone implements ControlValueAccessor {
   country = signal<CountryCode | null>(null);
   national = signal('');
   open = signal(false);
-  openUp = signal(false);
+  openUp = signal(true);
   search = signal('');
   formDisabled = signal(false);
   isDisabled = computed(() => this.disabled() || this.formDisabled());
@@ -132,7 +130,6 @@ export class Phone implements ControlValueAccessor {
 
   toggle(): void {
     if (this.isDisabled()) return;
-    if (!this.open()) this.openUp.set(this.shouldOpenUp());
     this.open.update((v) => !v);
     if (!this.open()) this.search.set('');
   }
@@ -143,13 +140,6 @@ export class Phone implements ControlValueAccessor {
 
   onBlur(): void {
     this.onTouched();
-  }
-
-  private shouldOpenUp(): boolean {
-    const rect = this.host.nativeElement.getBoundingClientRect();
-    const below = window.innerHeight - rect.bottom;
-    const above = rect.top;
-    return below < MENU_HEIGHT && above > below;
   }
 
   private emit(): void {

@@ -1,0 +1,42 @@
+<button
+  type="button"
+  role="radio"
+  class="flex min-h-[91px] w-full cursor-pointer items-center justify-between gap-4 rounded-[10px] border px-4 py-[14px] text-start transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#A6252A] focus-visible:ring-offset-2"
+  [class]="
+    selected()
+      ? 'border-[#A6252A] bg-[#A6252A] text-white'
+      : 'border-[#D9D9D9] bg-[var(--bg-card)] text-[#27272A] hover:border-[#A6252A]'
+  "
+  [attr.aria-checked]="selected()"
+  [attr.tabindex]="selected() ? 0 : -1"
+  (click)="picked.emit(address().id)"
+>
+  <span class="flex min-w-0 flex-1 flex-col items-start gap-1.5">
+    <span class="block max-w-full truncate font-primary text-2xl font-semibold leading-none">
+      {{ address().city }}
+    </span>
+
+    <span
+      class="inline-block max-w-full wrap-break-word rounded-lg px-3 py-1.5 font-primary text-sm font-medium"
+      [class]="selected() ? 'bg-[#27272A] text-white' : 'bg-[#D9D9D9] text-[#27272A]'"
+    >
+      {{ address().street }}
+    </span>
+  </span>
+
+  <span class="flex shrink-0 items-center gap-2">
+    <span
+      class="grid size-8 place-items-center rounded-full"
+      [class]="selected() ? 'bg-white text-[#A6252A]' : 'bg-[#A6252A] text-white'"
+    >
+      <lucide-icon [img]="phoneIcon" [size]="16" aria-hidden="true" />
+    </span>
+    <span
+      dir="ltr"
+      class="font-primary text-base font-medium leading-none"
+      [class]="selected() ? 'text-[#FAFAFA]' : 'text-[#71717A]'"
+    >
+      {{ address().phone }}
+    </span>
+  </span>
+</button>
