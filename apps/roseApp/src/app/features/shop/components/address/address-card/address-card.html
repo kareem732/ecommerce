@@ -1,11 +1,11 @@
 <button
   type="button"
   role="radio"
-  class="flex min-h-[91px] w-full cursor-pointer items-center justify-between gap-4 rounded-[10px] border px-4 py-[14px] text-start transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#A6252A] focus-visible:ring-offset-2"
+  class="flex min-h-[91px] w-full cursor-pointer items-center justify-between gap-4 rounded-[10px] border px-4 py-[14px] text-start transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-primary)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg-page)]"
   [class]="
     selected()
       ? 'border-[#A6252A] bg-[#A6252A] text-white'
-      : 'border-[#D9D9D9] bg-[var(--bg-card)] text-[#27272A] hover:border-[#A6252A]'
+      : 'border-[var(--border-input)] bg-[var(--bg-card)] text-[var(--text-strong)] hover:border-[#A6252A]'
   "
   [attr.aria-checked]="selected()"
   [attr.tabindex]="selected() ? 0 : -1"
@@ -18,7 +18,7 @@
 
     <span
       class="inline-block max-w-full wrap-break-word rounded-lg px-3 py-1.5 font-primary text-sm font-medium"
-      [class]="selected() ? 'bg-[#27272A] text-white' : 'bg-[#D9D9D9] text-[#27272A]'"
+      [class]="selected() ? 'bg-[#27272A] text-white' : 'bg-[var(--bg-chip)] text-[var(--text-strong)]'"
     >
       {{ address().street }}
     </span>
@@ -34,7 +34,7 @@
     <span
       dir="ltr"
       class="font-primary text-base font-medium leading-none"
-      [class]="selected() ? 'text-[#FAFAFA]' : 'text-[#71717A]'"
+      [class]="selected() ? 'text-[#FAFAFA]' : 'text-[var(--text-secondary)]'"
     >
       {{ address().phone }}
     </span>

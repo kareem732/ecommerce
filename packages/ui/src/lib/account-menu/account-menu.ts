@@ -1,29 +1,15 @@
-import {ChangeDetectionStrategy,Component,ElementRef,HostListener,inject,input,output,signal} from '@angular/core';
-import {LucideAngularModule,User,CreditCard,Settings,Keyboard,Users,UserPlus,Plus,Github,LifeBuoy,Cloud,LogOut,ChevronRight} from 'lucide-angular';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  HostListener,
+  inject,
+  input,
+  output,
+  signal,
+} from '@angular/core';
+import { ChevronRight, LucideAngularModule } from 'lucide-angular';
 import { AccountMenuItem } from './account-menu.types';
-
-const DEFAULT_GROUPS: AccountMenuItem[][] = [
-  [
-    { id: 'profile', label: 'Profile Item', icon: User, shortcut: '⌘⇧B' },
-    { id: 'billing', label: 'Billing', icon: CreditCard, shortcut: '⌘⇧B' },
-    { id: 'settings', label: 'Settings', icon: Settings, shortcut: '⌘⇧B' },
-    {
-      id: 'shortcuts',
-      label: 'Keyboard shortcuts',
-      icon: Keyboard,
-      shortcut: '⌘⇧B',
-    },
-  ],
-  [
-    { id: 'team', label: 'Team', icon: Users },
-    { id: 'invite', label: 'Invite users', icon: UserPlus, hasSubmenu: true },
-    { id: 'new-team', label: 'New team', icon: Plus, shortcut: '⌘⇧B' },
-    { id: 'github', label: 'Github', icon: Github },
-    { id: 'support', label: 'Support', icon: LifeBuoy, hasSubmenu: true },
-    { id: 'api', label: 'API', icon: Cloud, disabled: true },
-    { id: 'logout', label: 'Log out', icon: LogOut, shortcut: '⌘⇧B' },
-  ],
-];
 
 @Component({
   selector: 'app-account-menu',
@@ -39,8 +25,8 @@ export class AccountMenu {
   readonly ChevronRight = ChevronRight;
 
   triggerLabel = input<string>('Account');
-  title = input<string>('My Account');
-  groups = input<AccountMenuItem[][]>(DEFAULT_GROUPS);
+  title = input<string>('');
+  groups = input<AccountMenuItem[][]>([]);
 
   itemSelected = output<AccountMenuItem>();
 

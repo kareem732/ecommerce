@@ -27,8 +27,8 @@
       role="radio"
       [attr.aria-checked]="selected() === option.method"
       (click)="select(option.method)"
-      class="flex h-[299px] max-w-[373px] cursor-pointer flex-col items-center justify-center gap-2.5 rounded-xl border bg-[var(--bg-card)] p-4 text-center transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#A6252A]"
-      [style.border-color]="selected() === option.method ? '#A6252A' : 'var(--border-input)'"
+      class="flex h-[299px] max-w-[373px] cursor-pointer flex-col items-center justify-center gap-2.5 rounded-xl border bg-[var(--bg-card)] p-4 text-center transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-primary)]"
+      [style.border-color]="selected() === option.method ? 'var(--color-primary)' : 'var(--border-input)'"
       [style.border-width.px]="selected() === option.method ? 2 : 1"
     >
       <img
@@ -38,7 +38,7 @@
       />
       <span
         class="font-primary text-base font-semibold"
-        [style.color]="selected() === option.method ? '#A6252A' : 'var(--text-strong)'"
+        [style.color]="selected() === option.method ? 'var(--text-accent)' : 'var(--text-strong)'"
       >
         {{ option.titleKey | translate }}
       </span>
