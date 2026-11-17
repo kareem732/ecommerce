@@ -517,6 +517,8 @@
       "FAILED": "فشل الدفع",
       "CANCELLED": "تم الإلغاء",
       "REFUNDED": "تم استرداد المبلغ"
+    }
+  },
   "CHECKOUT": {
     "STEP_PROGRESS": "الخطوة {{current}} من {{total}}"
   },

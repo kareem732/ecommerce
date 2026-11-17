@@ -1,76 +1,76 @@
 <app-checkout-steps [currentStep]="1" />
 
-<h1
-  class="mt-6 mb-4 font-primary text-2xl font-semibold leading-none text-[var(--text-heading)] sm:text-[30px]"
->
-  {{ 'ADDRESS.TITLE' | translate }}
-</h1>
+  <h1
+    class="mt-6 mb-4 font-primary text-2xl font-semibold leading-none text-[var(--text-heading)] sm:text-[30px]"
+  >
+    {{ 'ADDRESS.TITLE' | translate }}
+  </h1>
 
-@if (store.loading() && store.count() === 0) {
-  <div class="flex flex-col gap-3" aria-busy="true">
-    @for (row of skeletonRows; track row) {
-      <div
-        data-testid="skeleton"
-        class="h-18 w-full animate-pulse rounded-[10px] bg-[var(--bg-card)]"
-      ></div>
-    }
-  </div>
-} @else {
-  @if (store.count() > 0) {
-    <div
-      role="radiogroup"
-      tabindex="-1"
-      class="flex flex-col gap-3 outline-none"
-      [attr.aria-label]="'ADDRESS.TITLE' | translate"
-      (keydown)="onKeydown($event)"
-    >
-      @for (address of store.items(); track address.id) {
-        <app-address-card
-          [address]="address"
-          [selected]="store.selectedId() === address.id"
-          (picked)="store.select($event)"
-        />
+  @if (store.loading() && store.count() === 0) {
+    <div class="flex flex-col gap-3" aria-busy="true">
+      @for (row of skeletonRows; track row) {
+        <div
+          data-testid="skeleton"
+          class="h-18 w-full animate-pulse rounded-[10px] bg-[var(--bg-card)]"
+        ></div>
       }
     </div>
-
-    <div class="my-4 flex items-center gap-3" role="separator">
-      <span class="h-px flex-1 bg-[#E4E4E7]"></span>
-      <span class="font-primary text-sm font-medium text-[var(--text-muted)]">
-        {{ 'ADDRESS.OR' | translate }}
-      </span>
-      <span class="h-px flex-1 bg-[#E4E4E7]"></span>
-    </div>
   } @else {
-    <p class="mb-4 font-primary text-sm text-[var(--text-secondary)]">
-      {{ 'ADDRESS.EMPTY' | translate }}
-    </p>
-  }
-
-  <app-button
-    data-testid="add-address"
-    class="w-full"
-    [fullWidth]="true"
-    [bgColor]="'var(--btn-soft-bg)'"
-    [textColor]="'var(--btn-soft-text)'"
-    [label]="'ADDRESS.ADD_NEW' | translate"
-    (clicked)="onAddAddress()"
-  />
-
-  @if (store.selectedAddress()) {
-    <div class="mt-6 flex justify-end">
-      <button
-        type="button"
-        data-testid="next"
-        class="inline-flex h-[41px] w-[152px] cursor-pointer items-center justify-center gap-2.5 rounded-[10px] bg-[#A6252A] px-4 py-2.5 font-primary text-sm font-medium text-white transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#A6252A] focus-visible:ring-offset-2"
-        (click)="onNext()"
+    @if (store.count() > 0) {
+      <div
+        role="radiogroup"
+        tabindex="-1"
+        class="flex flex-col gap-3 outline-none"
+        [attr.aria-label]="'ADDRESS.TITLE' | translate"
+        (keydown)="onKeydown($event)"
       >
-        {{ 'ADDRESS.NEXT' | translate }}
-        <lucide-icon [img]="arrowRight" [size]="16" class="rtl:rotate-180" aria-hidden="true" />
-      </button>
-    </div>
-  }
-}
+        @for (address of store.items(); track address.id) {
+          <app-address-card
+            [address]="address"
+            [selected]="store.selectedId() === address.id"
+            (picked)="store.select($event)"
+          />
+        }
+      </div>
 
-@defer (when addressesOpen(); prefetch on idle) {
-  <app-my-addresses-modal [(visible)]="addressesOpen" [startWithForm]="startWithForm()" />
-}
+      <div class="my-4 flex items-center gap-3" role="separator">
+        <span class="h-px flex-1 bg-[var(--border-default)]"></span>
+        <span class="font-primary text-sm font-medium text-[var(--text-muted)]">
+          {{ 'ADDRESS.OR' | translate }}
+        </span>
+        <span class="h-px flex-1 bg-[var(--border-default)]"></span>
+      </div>
+    } @else {
+      <p class="mb-4 font-primary text-sm text-[var(--text-secondary)]">
+        {{ 'ADDRESS.EMPTY' | translate }}
+      </p>
+    }
+
+    <app-button
+      data-testid="add-address"
+      class="w-full"
+      [fullWidth]="true"
+      [bgColor]="'var(--btn-soft-bg)'"
+      [textColor]="'var(--btn-soft-text)'"
+      [label]="'ADDRESS.ADD_NEW' | translate"
+      (clicked)="onAddAddress()"
+    />
+
+    @if (store.selectedAddress()) {
+      <div class="mt-6 flex justify-end">
+        <button
+          type="button"
+          data-testid="next"
+          class="inline-flex h-[41px] w-[152px] cursor-pointer items-center justify-center gap-2.5 rounded-[10px] bg-[var(--btn-brand-bg)] px-4 py-2.5 font-primary text-sm font-medium text-[var(--btn-brand-text)] transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--btn-brand-bg)] focus-visible:ring-offset-2"
+          (click)="onNext()"
+        >
+          {{ 'ADDRESS.NEXT' | translate }}
+          <lucide-icon [img]="arrowRight" [size]="16" class="rtl:rotate-180" aria-hidden="true" />
+        </button>
+      </div>
+    }
+  }
+
+  @defer (when addressesOpen(); prefetch on idle) {
+    <app-my-addresses-modal [(visible)]="addressesOpen" [startWithForm]="startWithForm()" />
+  }

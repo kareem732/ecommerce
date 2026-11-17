@@ -17,7 +17,7 @@ import {
 } from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
-import { TranslatePipe } from '@ngx-translate/core';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { first, switchMap } from 'rxjs';
 import {
   Bell,
@@ -64,6 +64,7 @@ import {
   ProductSearchService,
 } from '../../../features/shop/services/product-search.service';
 import { SearchResults } from '../../../shared/business/search-results/search-results';
+import { AccountMenu, AccountMenuItem } from '@org/ui';
 
 @Component({
   selector: 'app-navbar',
@@ -75,6 +76,7 @@ import { SearchResults } from '../../../shared/business/search-results/search-re
     SearchResults,
     MyAddressesModal,
     NotificationsPanel,
+    AccountMenu,
   ],
   templateUrl: './navbar.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -85,6 +87,7 @@ export class Navbar {
   private readonly cookieService = inject(CookieService);
   private readonly languageService = inject(LanguageService);
   private readonly themeService = inject(ThemeService);
+  private readonly translate = inject(TranslateService);
   private readonly router = inject(Router);
   private readonly elementRef = inject(ElementRef<HTMLElement>);
   private readonly document = inject(DOCUMENT);
@@ -95,6 +98,8 @@ export class Navbar {
   private readonly cart = inject(CartStore);
   private readonly addressStore = inject(AddressStore);
   protected readonly notificationsStore = inject(NotificationsStore);
+
+  private readonly ordersRoute = '/shop/order';
 
   readonly notificationCount = computed(() =>
     this.notificationsStore.unreadCount(),
@@ -182,6 +187,28 @@ export class Navbar {
   readonly currentLang = computed(() => this.languageService.currentLang());
   readonly isRTL = computed(() => this.languageService.isRTL());
   readonly isDarkMode = computed(() => this.themeService.theme() === 'dark');
+
+  /** Account menu groups; re-computed when the language changes. */
+  readonly accountGroups = computed<AccountMenuItem[][]>(() => {
+    this.currentLang();
+    const t = (key: string) => this.translate.instant(key);
+
+    const main: AccountMenuItem[] = [
+      { id: 'profile', label: t('HEADER.MY_PROFILE'), icon: User },
+      { id: 'addresses', label: t('HEADER.MY_ADDRESSES'), icon: MapPinHouse },
+      { id: 'orders', label: t('HEADER.MY_ORDERS'), icon: ScrollText },
+    ];
+
+    if (this.isAdmin()) {
+      main.push({
+        id: 'dashboard',
+        label: t('HEADER.DASHBOARD'),
+        icon: Settings,
+      });
+    }
+
+    return [main, [{ id: 'logout', label: t('COMMON.LOGOUT'), icon: LogOut }]];
+  });
 
   readonly Search = Search;
   readonly MapPin = MapPin;
@@ -346,6 +373,39 @@ export class Navbar {
       this.router.navigate(['/auth/login'], {
         queryParams: { returnUrl: '/shop/cart' },
       });
+    }
+  }
+
+  onOrdersClick(): void {
+    this.closeAllMenus();
+
+    if (!this.isLoggedIn()) {
+      this.router.navigate(['/auth/login'], {
+        queryParams: { returnUrl: this.ordersRoute },
+      });
+      return;
+    }
+
+    this.router.navigate([this.ordersRoute]);
+  }
+
+  onAccountItemSelected(item: AccountMenuItem): void {
+    switch (item.id) {
+      case 'profile':
+        this.onAccountMenuNavigate('/shop/home');
+        break;
+      case 'addresses':
+        this.openAddresses();
+        break;
+      case 'orders':
+        this.onOrdersClick();
+        break;
+      case 'dashboard':
+        this.onAccountMenuNavigate('/adminDashboard');
+        break;
+      case 'logout':
+        this.logout();
+        break;
     }
   }
 

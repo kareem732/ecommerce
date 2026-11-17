@@ -1,370 +1,378 @@
 {
   "COMMON": {
-    "HOME": "الرئيسية",
-    "LOGIN": "تسجيل الدخول",
-    "LOGOUT": "تسجيل الخروج",
-    "SAVE": "حفظ",
-    "CANCEL": "إلغاء",
-    "NEXT": "التالي",
-    "BACK": "رجوع",
-    "SWITCH_LANGUAGE": "English",
-    "LOADING": "جاري التحميل...",
-    "CONFIRM": "تأكيد",
-    "CLOSE": "إغلاق"
+    "HOME": "Home",
+    "LOGIN": "Log in",
+    "LOGOUT": "Log out",
+    "SAVE": "Save",
+    "CANCEL": "Cancel",
+    "NEXT": "Next",
+    "BACK": "Back",
+    "SWITCH_LANGUAGE": "العربية",
+    "LOADING": "Loading...",
+    "CONFIRM": "Confirm",
+    "CLOSE": "Close",
+    "LIGHT_MODE": "Light Mode",
+    "DARK_MODE": "Dark Mode"
   },
   "NAVIGATION": {
-    "DASHBOARD": "لوحة التحكم",
-    "SETTINGS": "الإعدادات"
+    "DASHBOARD": "Dashboard",
+    "SETTINGS": "Settings"
   },
   "HEADER": {
-    "DELIVER_TO": "التوصيل إلى:",
-    "SELECT_LOCATION": "اختر موقعك",
-    "SEARCH_PLACEHOLDER": "ما هي الهدية الرائعة التي تبحث عنها؟",
-    "SEARCH_ARIA": "البحث عن الهدايا والمنتجات",
-    "HELLO": "مرحبًا",
-    "LOGIN": "تسجيل الدخول",
-    "ACCOUNT": "الحساب",
-    "MY_PROFILE": "ملفي الشخصي",
-    "ADDRESSES": "العناوين",
-    "MY_ADDRESSES": "عناويني",
-    "ORDERS": "الطلبات",
-    "MY_ORDERS": "طلباتي",
-    "DASHBOARD": "لوحة التحكم",
-    "WISHLIST": "قائمة الرغبات",
-    "CART": "سلة التسوق",
-    "NOTIFICATIONS": "الإشعارات",
-    "THEME_TOGGLE": "تبديل المظهر",
-    "MENU": "القائمة",
-    "CLOSE_MENU": "إغلاق القائمة"
+    "DELIVER_TO": "Deliver to:",
+    "SELECT_LOCATION": "Select your location",
+    "SEARCH_PLACEHOLDER": "What perfect gift are you looking for?",
+    "SEARCH_ARIA": "Search for gifts and products",
+    "HELLO": "Hello",
+    "LOGIN": "Log in",
+    "ACCOUNT": "Account",
+    "MY_PROFILE": "My Profile",
+    "ADDRESSES": "Addresses",
+    "MY_ADDRESSES": "My Addresses",
+    "ORDERS": "Orders",
+    "MY_ORDERS": "My Orders",
+    "DASHBOARD": "Dashboard",
+    "WISHLIST": "Wishlist",
+    "CART": "Shopping Cart",
+    "NOTIFICATIONS": "Notifications",
+    "THEME_TOGGLE": "Toggle theme",
+    "MENU": "Menu",
+    "CLOSE_MENU": "Close menu",
+    "LOGO_ARIA": "Rose Storefront Home",
+    "ACCOUNT_MENU_ARIA": "User account menu",
+    "PRIMARY_NAV_ARIA": "Primary navigation",
+    "MOBILE_NAV_ARIA": "Mobile navigation"
   },
   "SEARCH": {
-    "LOADING": "جارٍ تحميل المنتجات…",
-    "SUGGESTIONS": "منتجات قد تعجبك:",
-    "NO_RESULTS": "لا توجد منتجات تطابق \"{{query}}\"",
-    "CLEAR": "مسح البحث",
-    "CLOSE": "إغلاق البحث",
-    "RATING": "التقييم:",
-    "RATINGS_COUNT": "({{count}} تقييم)"
+    "LOADING": "Loading products…",
+    "SUGGESTIONS": "Products you may like:",
+    "NO_RESULTS": "No products match \"{{query}}\"",
+    "CLEAR": "Clear search",
+    "CLOSE": "Close search",
+    "RATING": "Rating:",
+    "RATINGS_COUNT": "({{count}} ratings)"
   },
   "NAV": {
-    "HOME": "الرئيسية",
-    "PRODUCTS": "المنتجات",
-    "CATEGORIES": "الفئات",
-    "OCCASIONS": "المناسبات",
-    "CONTACT": "تواصل معنا",
-    "ABOUT": "من نحن"
+    "HOME": "Home",
+    "PRODUCTS": "Products",
+    "CATEGORIES": "Categories",
+    "OCCASIONS": "Occasions",
+    "CONTACT": "Contact Us",
+    "ABOUT": "About Us"
   },
   "AUTH": {
-    "LOGIN_TITLE": "مرحبًا بعودتك",
-    "GREETING": "أهلًا {{name}}",
+    "LOGIN_TITLE": "Welcome back",
+    "GREETING": "Hi {{name}}",
     "LOGIN": {
-      "TITLE": "أهلًا بعودتك",
-      "SUBTITLE": "سجّل دخولك إلى حسابك",
-      "USERNAME": "اسم المستخدم",
-      "USERNAME_PLACEHOLDER": "اسم المستخدم",
-      "PASSWORD": "كلمة المرور",
+      "TITLE": "Welcome back",
+      "SUBTITLE": "Log in to your account",
+      "USERNAME": "Username",
+      "USERNAME_PLACEHOLDER": "Username",
+      "PASSWORD": "Password",
       "PASSWORD_PLACEHOLDER": "*******",
-      "REMEMBER_ME": "تذكرني",
-      "FORGOT_PASSWORD": "نسيت كلمة المرور؟",
-      "SUBMIT": "تسجيل الدخول",
-      "NO_ACCOUNT": "ليس لديك حساب؟",
-      "CREATE_ACCOUNT": "إنشاء حساب",
+      "REMEMBER_ME": "Remember me",
+      "FORGOT_PASSWORD": "Forgot password?",
+      "SUBMIT": "Log in",
+      "NO_ACCOUNT": "Don't have an account?",
+      "CREATE_ACCOUNT": "Create account",
       "ERRORS": {
-        "REQUIRED": "هذا الحقل مطلوب"
+        "REQUIRED": "This field is required"
       }
     },
     "REGISTER": {
-      "TITLE": "إنشاء حساب",
-      "FAMILY_TITLE": "كن جزءًا من عائلتنا!",
-      "ALREADY_HAVE_ACCOUNT": "هل لديك حساب بالفعل؟",
-      "NEED_HELP": "تحتاج مساعدة؟",
-      "CONTACT_US": "تواصل معنا",
+      "TITLE": "Create account",
+      "FAMILY_TITLE": "Become part of our family!",
+      "ALREADY_HAVE_ACCOUNT": "Already have an account?",
+      "NEED_HELP": "Need help?",
+      "CONTACT_US": "Contact us",
       "SUBTITLE": {
-        "1": "أدخل بريدك الإلكتروني",
-        "2": "تأكيد بريدك الإلكتروني",
-        "3": "عرّفنا بنفسك",
-        "4": "إنشاء كلمة مرور قوية"
+        "1": "Enter your email",
+        "2": "Verify your email",
+        "3": "Tell us about yourself",
+        "4": "Create a strong password"
       },
       "DESCRIPTION": {
-        "1": "أدخل بريدك الإلكتروني لنرسل لك رمز التحقق",
-        "2": "أدخل رمز التحقق الذي وصلك",
-        "3": "أدخل بياناتك لإكمال ملفك الشخصي",
-        "4": "اختر كلمة مرور آمنة لحماية حسابك"
+        "1": "Enter your email and we'll send you a verification code",
+        "2": "Enter the verification code you received",
+        "3": "Enter your details to complete your profile",
+        "4": "Choose a secure password to protect your account"
       },
-      "STEPS_LABEL": "خطوات إنشاء الحساب",
-      "EMAIL": "البريد الإلكتروني",
+      "STEPS_LABEL": "Account creation steps",
+      "EMAIL": "Email",
       "EMAIL_PLACEHOLDER": "name@example.com",
-      "SEND_CODE": "إرسال الرمز",
-      "OTP_SENT_TO": "أرسلنا رمز تحقق من 6 أرقام إلى",
-      "EDIT_EMAIL": "تعديل",
-      "RESEND": "إعادة إرسال الرمز",
-      "RESEND_IN": "إعادة الإرسال بعد {{seconds}} ثانية",
-      "VERIFY": "تأكيد الرمز",
-      "FIRST_NAME": "الاسم الأول",
-      "LAST_NAME": "اسم العائلة",
-      "USERNAME": "اسم المستخدم",
-      "PHONE_OPTIONAL": "رقم الهاتف (اختياري)",
-      "GENDER": "النوع",
-      "GENDER_PLACEHOLDER": "اختر النوع",
-      "MALE": "ذكر",
-      "FEMALE": "أنثى",
-      "PASSWORD": "كلمة المرور",
+      "SEND_CODE": "Send code",
+      "OTP_SENT_TO": "We sent a 6-digit verification code to",
+      "EDIT_EMAIL": "Edit",
+      "RESEND": "Resend code",
+      "RESEND_IN": "Resend in {{seconds}}s",
+      "VERIFY": "Verify code",
+      "FIRST_NAME": "First name",
+      "LAST_NAME": "Last name",
+      "USERNAME": "Username",
+      "PHONE_OPTIONAL": "Phone number (optional)",
+      "GENDER": "Gender",
+      "GENDER_PLACEHOLDER": "Select gender",
+      "MALE": "Male",
+      "FEMALE": "Female",
+      "PASSWORD": "Password",
       "PASSWORD_PLACEHOLDER": "*******",
-      "CONFIRM_PASSWORD": "تأكيد كلمة المرور",
+      "CONFIRM_PASSWORD": "Confirm password",
       "CONFIRM_PASSWORD_PLACEHOLDER": "*******",
-      "SUBMIT": "إنشاء الحساب",
+      "SUBMIT": "Create account",
       "ERRORS": {
-        "REQUIRED": "هذا الحقل مطلوب",
-        "EMAIL": "أدخل بريدًا إلكترونيًا صحيحًا",
-        "MIN_LENGTH": "عدد الأحرف قليل جدًا",
-        "PATTERN": "الصيغة غير صحيحة",
-        "PHONE": "أدخل رقم هاتف مصري صحيح",
-        "PASSWORD": "8 أحرف على الأقل، وتحتوي على حروف وأرقام",
-        "MISMATCH": "كلمتا المرور غير متطابقتين"
+        "REQUIRED": "This field is required",
+        "EMAIL": "Enter a valid email address",
+        "MIN_LENGTH": "Too few characters",
+        "PATTERN": "Invalid format",
+        "PHONE": "Enter a valid Egyptian phone number",
+        "PASSWORD": "At least 8 characters, including letters and numbers",
+        "MISMATCH": "Passwords do not match"
       },
       "TOAST": {
-        "CODE_SENT": "تم إرسال رمز التحقق إلى بريدك الإلكتروني",
-        "CODE_VERIFIED": "تم تأكيد بريدك الإلكتروني بنجاح",
-        "ACCOUNT_CREATED": "تم إنشاء حسابك بنجاح"
+        "CODE_SENT": "Verification code sent to your email",
+        "CODE_VERIFIED": "Your email has been verified successfully",
+        "ACCOUNT_CREATED": "Your account has been created successfully"
       }
     },
     "FORGOT": {
-      "TITLE": "نسيت كلمة المرور؟",
-      "SUBTITLE": "أدخل بريدك الإلكتروني وسنرسل لك رابط إعادة التعيين",
-      "EMAIL": "البريد الإلكتروني",
+      "TITLE": "Forgot password?",
+      "SUBTITLE": "Enter your email and we'll send you a reset link",
+      "EMAIL": "Email",
       "EMAIL_PLACEHOLDER": "name@example.com",
-      "SUBMIT": "إرسال الرابط",
-      "SENT_TITLE": "تم إرسال رابط إعادة التعيين",
-      "SENT": "إذا كان الحساب موجودًا، أرسلنا رابط إعادة التعيين إلى",
-      "SENT_HINT": "إذا لم يصلك البريد خلال بضع دقائق، تحقق من مجلد الرسائل غير المرغوب فيها.",
-      "CHECK_INBOX": "تفقّد بريدك الوارد واتبع التعليمات لإعادة تعيين كلمة المرور.",
-      "SPAM_HINT": "إذا لم يصلك البريد خلال بضع دقائق، تحقق من مجلد الرسائل غير المرغوب فيها.",
-      "BACK_TO_LOGIN": "العودة لتسجيل الدخول",
-      "RESET_TITLE": "إنشاء كلمة مرور جديدة",
-      "RESET_SUBTITLE": "اختر كلمة مرور جديدة وقوية لحسابك",
-      "NEW_PASSWORD": "كلمة المرور",
+      "SUBMIT": "Send link",
+      "SENT_TITLE": "Reset link sent",
+      "SENT": "If an account exists, we've sent a reset link to",
+      "SENT_HINT": "If you don't receive the email within a few minutes, check your spam folder.",
+      "CHECK_INBOX": "Check your inbox and follow the instructions to reset your password.",
+      "SPAM_HINT": "If you don't receive the email within a few minutes, check your spam folder.",
+      "BACK_TO_LOGIN": "Back to log in",
+      "RESET_TITLE": "Create a new password",
+      "RESET_SUBTITLE": "Choose a new, strong password for your account",
+      "NEW_PASSWORD": "Password",
       "PASSWORD_PLACEHOLDER": "*******",
-      "CONFIRM_PASSWORD": "تأكيد كلمة المرور",
+      "CONFIRM_PASSWORD": "Confirm password",
       "CONFIRM_PASSWORD_PLACEHOLDER": "*******",
-      "RESET_SUBMIT": "تغيير كلمة المرور",
-      "SUCCESS": "تم تغيير كلمة المرور بنجاح. جارٍ تحويلك إلى تسجيل الدخول...",
-      "INVALID_LINK": "رابط إعادة التعيين غير صالح أو ناقص. اطلب رابطًا جديدًا.",
+      "RESET_SUBMIT": "Change password",
+      "SUCCESS": "Your password has been changed successfully. Redirecting you to log in...",
+      "INVALID_LINK": "The reset link is invalid or incomplete. Please request a new one.",
       "ERRORS": {
-        "REQUIRED": "هذا الحقل مطلوب",
-        "EMAIL": "أدخل بريدًا إلكترونيًا صحيحًا",
-        "PASSWORD": "8 أحرف على الأقل، وتحتوي على حروف وأرقام",
-        "MISMATCH": "كلمتا المرور غير متطابقتين"
+        "REQUIRED": "This field is required",
+        "EMAIL": "Enter a valid email address",
+        "PASSWORD": "At least 8 characters, including letters and numbers",
+        "MISMATCH": "Passwords do not match"
       },
       "TOAST": {
-        "PASSWORD_CHANGED": "تم تغيير كلمة المرور بنجاح"
+        "PASSWORD_CHANGED": "Password changed successfully"
       }
     },
     "RESET": {
-      "TITLE": "إعادة تعيين كلمة المرور",
-      "SUBTITLE": "اختر كلمة مرور جديدة لحسابك",
-      "NEW_PASSWORD": "كلمة المرور الجديدة",
-      "CONFIRM_PASSWORD": "تأكيد كلمة المرور",
-      "SUBMIT": "إعادة تعيين كلمة المرور",
-      "SUCCESS": "تمت إعادة تعيين كلمة المرور بنجاح.",
-      "GO_TO_LOGIN": "الذهاب لتسجيل الدخول",
-      "INVALID_LINK": "رابط إعادة التعيين غير صالح أو ناقص.",
-      "REQUEST_NEW": "اطلب رابطًا جديدًا",
+      "TITLE": "Reset password",
+      "SUBTITLE": "Choose a new password for your account",
+      "NEW_PASSWORD": "New password",
+      "CONFIRM_PASSWORD": "Confirm password",
+      "SUBMIT": "Reset password",
+      "SUCCESS": "Your password has been reset successfully.",
+      "GO_TO_LOGIN": "Go to log in",
+      "INVALID_LINK": "The reset link is invalid or incomplete.",
+      "REQUEST_NEW": "Request a new link",
       "ERRORS": {
-        "REQUIRED": "هذا الحقل مطلوب",
-        "PASSWORD": "8 أحرف على الأقل، وتحتوي على حروف وأرقام",
-        "MISMATCH": "كلمتا المرور غير متطابقتين"
+        "REQUIRED": "This field is required",
+        "PASSWORD": "At least 8 characters, including letters and numbers",
+        "MISMATCH": "Passwords do not match"
       }
     }
   },
   "HOME": {
-    "HELLO": "مرحبًا،",
-    "GREETING": "أهلًا بك {{name}} 👋"
+    "HELLO": "Hello,",
+    "GREETING": "Welcome {{name}} 👋"
   },
   "FOOTER": {
-    "APP_TITLE": "تطبيق روز للتجارة الإلكترونية",
-    "RIGHTS": "جميع الحقوق محفوظة",
-    "DISCOVER_TITLE": "اكتشف موقعنا",
-    "HOME": "الرئيسية",
-    "PRODUCTS": "المنتجات",
-    "CATEGORIES": "الفئات",
-    "OCCASIONS": "المناسبات",
-    "CONTACT": "تواصل معنا",
-    "ABOUT": "من نحن",
-    "TERMS": "الشروط والأحكام",
-    "PRIVACY": "سياسة الخصوصية",
-    "FAQS": "الأسئلة الشائعة",
-    "DISCOUNT_TITLE": "احصل على كوبون خصم 20%",
-    "DISCOUNT_SUBTITLE": "من خلال الاشتراك في نشرتنا البريدية",
-    "EMAIL_PLACEHOLDER": "أدخل بريدك الإلكتروني",
-    "SUBSCRIBE": "اشتراك",
-    "SUCCESS": "شكراً لاشتراكك في نشرتنا البريدية!",
-    "INVALID_EMAIL": "يرجى إدخال بريد إلكتروني صحيح"
+    "APP_TITLE": "Rose E-commerce App",
+    "RIGHTS": "All rights reserved",
+    "DISCOVER_TITLE": "Discover our site",
+    "HOME": "Home",
+    "PRODUCTS": "Products",
+    "CATEGORIES": "Categories",
+    "OCCASIONS": "Occasions",
+    "CONTACT": "Contact Us",
+    "ABOUT": "About Us",
+    "TERMS": "Terms & Conditions",
+    "PRIVACY": "Privacy Policy",
+    "FAQS": "FAQs",
+    "DISCOUNT_TITLE": "Get a 20% discount coupon",
+    "DISCOUNT_SUBTITLE": "by subscribing to our newsletter",
+    "EMAIL_PLACEHOLDER": "Enter your email",
+    "SUBSCRIBE": "Subscribe",
+    "SUCCESS": "Thanks for subscribing to our newsletter!",
+    "INVALID_EMAIL": "Please enter a valid email address",
+    "LOGO_ARIA": "Rose Home",
+    "NAV_ARIA": "Footer navigation"
   },
   "ABOUT": {
-    "LABEL": "من نحن",
-    "TITLE_START": "نقدم",
-    "TITLE_HIGHLIGHT_1": "أفخم",
-    "TITLE_MIDDLE": "علب الهدايا من أجل",
-    "TITLE_HIGHLIGHT_2": "لحظاتك",
-    "TITLE_END": "المميزة",
-    "DESCRIPTION": "اجعل كل لحظة ذكرى لا تُنسى مع علب الهدايا الفاخرة التي نقدمها. نختار محتويات كل علبة بعناية وننسقها بتغليف أنيق ومميز. سواء كانت المناسبة عيد ميلاد أو حفل زفاف أو هدية بسيطة للتعبير عن الشكر، فإن علب الهدايا لدينا مصممة لتترك انطباعًا يدوم، لأن الهدية المميزة تبدأ من هنا.",
-    "DISCOVER": "اكتشف المزيد",
-    "FEATURE_1": "أسعار تنافسية وتجربة تسوق سهلة",
-    "FEATURE_2": "جودة فائقة وتغليف أنيق",
-    "FEATURE_3": "مثالية لجميع المناسبات",
-    "FEATURE_4": "توصيل سريع وموثوق",
-    "MAIN_IMAGE_ALT": "علبة هدايا مزينة بشريط",
-    "SECOND_IMAGE_ALT": "علبة هدايا أنيقة",
-    "THIRD_IMAGE_ALT": "علبة هدايا مع بالونات"
+    "LABEL": "About Us",
+    "TITLE_START": "Offering",
+    "TITLE_HIGHLIGHT_1": "the most luxurious",
+    "TITLE_MIDDLE": "gift boxes for",
+    "TITLE_HIGHLIGHT_2": "your",
+    "TITLE_END": "special moments",
+    "DESCRIPTION": "Turn every moment into an unforgettable memory with our luxury gift boxes. We carefully select the contents of each box and arrange them in elegant, distinctive packaging. Whether it's a birthday, a wedding, or a simple gesture of thanks, our gift boxes are designed to leave a lasting impression, because a special gift starts here.",
+    "DISCOVER": "Discover more",
+    "FEATURE_1": "Competitive prices and an easy shopping experience",
+    "FEATURE_2": "Superior quality and elegant packaging",
+    "FEATURE_3": "Perfect for every occasion",
+    "FEATURE_4": "Fast and reliable delivery",
+    "MAIN_IMAGE_ALT": "Gift box decorated with a ribbon",
+    "SECOND_IMAGE_ALT": "Elegant gift box",
+    "THIRD_IMAGE_ALT": "Gift box with balloons"
   },
   "GALLERY": {
-    "LABEL": "معرض الصور",
-    "TITLE_REST": "اكتشف معرضنا الرائع",
-    "IMAGE_1_ALT": "مجموعة من علب الهدايا",
-    "IMAGE_2_ALT": "هدايا أنيقة للمناسبات الخاصة",
-    "IMAGE_3_ALT": "علبة هدايا بتغليف مميز",
-    "IMAGE_4_ALT": "تنسيق هدايا من الزهور والشوكولاتة",
-    "IMAGE_5_ALT": "هدايا الزفاف والتخرج",
-    "IMAGE_6_ALT": "أفكار لتغليف الهدايا الفاخرة"
+    "LABEL": "Gallery",
+    "TITLE_REST": "Discover our amazing gallery",
+    "IMAGE_1_ALT": "A collection of gift boxes",
+    "IMAGE_2_ALT": "Elegant gifts for special occasions",
+    "IMAGE_3_ALT": "Gift box with distinctive wrapping",
+    "IMAGE_4_ALT": "Gift arrangement of flowers and chocolates",
+    "IMAGE_5_ALT": "Wedding and graduation gifts",
+    "IMAGE_6_ALT": "Luxury gift wrapping ideas"
   },
   "SHOP": {
     "REVIEWS": {
-      "TITLE": "تقييمات المنتج",
-      "GENERAL_RATING": "التقييم العام:",
-      "RATINGS_COUNT": "({{count}} تقييم)",
-      "LOADING": "جاري تحميل التقييمات...",
-      "EMPTY": "لا توجد تقييمات بعد. كن أول من يشاركنا رأيه!",
-      "LOAD_ERROR": "تعذر تحميل التقييمات.",
-      "RETRY": "إعادة المحاولة",
-      "LOAD_MORE": "عرض المزيد من التقييمات",
+      "TITLE": "Product Reviews",
+      "GENERAL_RATING": "Overall rating:",
+      "RATINGS_COUNT": "({{count}} ratings)",
+      "LOADING": "Loading reviews...",
+      "EMPTY": "No reviews yet. Be the first to share your opinion!",
+      "LOAD_ERROR": "Couldn't load reviews.",
+      "RETRY": "Try again",
+      "LOAD_MORE": "Show more reviews",
       "FORM": {
-        "YOUR_RATING": "تقييمك:",
-        "HEADLINE": "العنوان",
-        "HEADLINE_PLACEHOLDER": "أدخل عنوان التقييم",
-        "CONTENT": "التقييم",
-        "CONTENT_PLACEHOLDER": "ما رأيك في هذا المنتج؟",
-        "SUBMIT": "إضافة تقييم",
-        "SUCCESS": "شكرًا لك! تمت إضافة تقييمك.",
+        "YOUR_RATING": "Your rating:",
+        "HEADLINE": "Headline",
+        "HEADLINE_PLACEHOLDER": "Enter a review headline",
+        "CONTENT": "Review",
+        "CONTENT_PLACEHOLDER": "What do you think of this product?",
+        "SUBMIT": "Add review",
+        "SUCCESS": "Thank you! Your review has been added.",
         "ERRORS": {
-          "RATING_REQUIRED": "من فضلك اختر تقييمًا.",
-          "HEADLINE_REQUIRED": "من فضلك أدخل عنوانًا.",
-          "MAX_LENGTH": "يجب ألا يزيد عن {{max}} حرفًا."
+          "RATING_REQUIRED": "Please select a rating.",
+          "HEADLINE_REQUIRED": "Please enter a headline.",
+          "MAX_LENGTH": "Must not exceed {{max}} characters."
         }
       }
     },
     "PROMO": {
       "SPECIAL_GIFTS": {
-        "BADGE": "تبدأ من 10.99 جنيه",
-        "TITLE": "هدايا مميزة لأحب الناس إليك",
-        "CTA": "تسوق الآن"
+        "BADGE": "Starting from EGP 10.99",
+        "TITLE": "Special gifts for the ones you love most",
+        "CTA": "Shop now"
       },
       "SLIDES": {
         "FLOWERS": {
-          "TITLE": "عبّر بالورود",
-          "SUBTITLE": "هدايا أنيقة لكل لحظة مميزة."
+          "TITLE": "Say it with flowers",
+          "SUBTITLE": "Elegant gifts for every special moment."
         },
         "ROSES": {
-          "TITLE": "حب في أبهى صوره",
-          "SUBTITLE": "ورود طازجة مع شوكولاتة مصنوعة يدويًا."
+          "TITLE": "Love at its finest",
+          "SUBTITLE": "Fresh roses with handmade chocolates."
         },
         "SWEETS": {
-          "TITLE": "مفاجآت صغيرة حلوة",
-          "SUBTITLE": "صناديق مختارة تجعل كل يوم مميزًا."
+          "TITLE": "Sweet little surprises",
+          "SUBTITLE": "Curated boxes that make every day special."
         },
         "GIFTS": {
-          "TITLE": "مغلّفة بالحب",
-          "SUBTITLE": "هدايا مدروسة للحظات التي تهمك."
+          "TITLE": "Wrapped with love",
+          "SUBTITLE": "Thoughtful gifts for the moments that matter."
         },
-        "CTA": "اشترِ الآن!"
+        "CTA": "Buy now!"
       },
       "OCCASIONS": {
         "WEDDING": {
-          "BADGE": "زفاف",
-          "TITLE": "احتفل بها للأبد بهدية لن تنساها"
+          "BADGE": "Wedding",
+          "TITLE": "Celebrate it forever with an unforgettable gift"
         },
         "ENGAGEMENT": {
-          "BADGE": "خطوبة",
-          "TITLE": "احتفِ ببداية رحلة جميلة معًا"
+          "BADGE": "Engagement",
+          "TITLE": "Celebrate the start of a beautiful journey together"
         },
         "ANNIVERSARY": {
-          "BADGE": "ذكرى سنوية",
-          "TITLE": "احتفل بكل عام من الحب بمفاجأة مميزة"
+          "BADGE": "Anniversary",
+          "TITLE": "Celebrate every year of love with a special surprise"
         }
       },
       "SLIDER": {
-        "LABEL": "عروض مميزة",
-        "PREV": "الشريحة السابقة",
-        "NEXT": "الشريحة التالية",
-        "GO_TO": "انتقل إلى الشريحة {{index}}"
+        "LABEL": "Featured offers",
+        "PREV": "Previous slide",
+        "NEXT": "Next slide",
+        "GO_TO": "Go to slide {{index}}"
       }
     },
     "FEATURES": {
       "DELIVERY": {
-        "TITLE": "توصيل مجاني",
-        "TEXT": "للطلبات فوق 120 جنيه"
+        "TITLE": "Free Delivery",
+        "TEXT": "On orders over EGP 120"
       },
       "REFUND": {
-        "TITLE": "استرداد الأموال",
-        "TEXT": "استرداد خلال 30 يومًا"
+        "TITLE": "Money Back",
+        "TEXT": "30-day refund"
       },
       "PAYMENT": {
-        "TITLE": "دفع آمن",
-        "TEXT": "دفع آمن 100%"
+        "TITLE": "Secure Payment",
+        "TEXT": "100% secure payment"
       },
       "SUPPORT": {
-        "TITLE": "دعم 24/7",
-        "TEXT": "تواصل معنا في أي وقت"
+        "TITLE": "24/7 Support",
+        "TEXT": "Reach us anytime"
       }
     },
     "BEST_SELLING": {
-      "EYEBROW": "الأكثر مبيعًا",
+      "EYEBROW": "Best Sellers",
       "TITLE": {
-        "ACCENT_1": "اكتشف",
-        "MIDDLE": "ما يشتريه",
-        "ACCENT_2": "الجميع",
-        "END": "الآن"
+        "ACCENT_1": "Discover",
+        "MIDDLE": "what",
+        "ACCENT_2": "everyone",
+        "END": "is buying now"
       },
       "TEXT": {
-        "LINE_1": "لست متأكدًا مما تختار؟",
-        "LINE_2": "ابدأ بالأكثر مبيعًا لدينا، فهي الهدايا التي يعود إليها عملاؤنا دائمًا. سواء كنت تحتفل بعيد ميلاد أو ذكرى سنوية أو زفاف، فإن اختياراتنا الأفضل ستترك انطباعًا لا يُنسى."
+        "LINE_1": "Not sure what to choose?",
+        "LINE_2": "Start with our best sellers, the gifts our customers keep coming back to. Whether you're celebrating a birthday, an anniversary, or a wedding, our top picks will leave a lasting impression."
       },
-      "CTA": "تصفح الهدايا"
+      "CTA": "Browse gifts"
     },
     "MOST_POPULAR": {
-      "TITLE": "الأكثر رواجًا",
-      "VIEW_MORE": "عرض المزيد",
-      "EMPTY": "لا توجد منتجات لهذه المناسبة."
+      "TITLE": "Most Popular",
+      "VIEW_MORE": "View more",
+      "EMPTY": "No products for this occasion."
     },
     "PRODUCTS": {
-      "TITLE": "المنتجات",
-      "EMPTY": "لم يتم العثور على منتجات.",
-      "LOADING": "جارٍ تحميل المنتجات..."
+      "TITLE": "Products",
+      "EMPTY": "No products found.",
+      "LOADING": "Loading products..."
     },
     "PRODUCT_FILTERS": {
-      "TITLE": "الفلاتر",
-      "SHOW": "عرض الفلاتر",
-      "HIDE": "إخفاء الفلاتر",
-      "CATEGORY": "الفئة",
-      "OCCASION": "المناسبة",
-      "RATING": "التقييم",
-      "RATING_OPTION": "{{count}} نجوم فأكثر",
-      "PRICE": "السعر",
-      "FROM": "من",
-      "TO": "إلى",
-      "RESET": "إعادة تعيين",
-      "RESET_ALL": "إعادة تعيين الكل",
-      "NO_MATCH": "لا توجد منتجات تطابق هذه الفلاتر."
+      "TITLE": "Filters",
+      "SHOW": "Show filters",
+      "HIDE": "Hide filters",
+      "CATEGORY": "Category",
+      "OCCASION": "Occasion",
+      "RATING": "Rating",
+      "RATING_OPTION": "{{count}} stars & up",
+      "PRICE": "Price",
+      "FROM": "From",
+      "TO": "To",
+      "RESET": "Reset",
+      "RESET_ALL": "Reset all",
+      "NO_MATCH": "No products match these filters."
     },
     "RELATED": {
       "TITLE": {
-        "ACCENT": "منتجات",
-        "REST": "ذات صلة"
+        "ACCENT": "Related",
+        "REST": "Products"
       }
     },
     "YOU_MAY_LIKE": {
       "TITLE": {
-        "ACCENT": "منتجات",
-        "REST": "قد تعجبك"
+        "ACCENT": "Products",
+        "REST": "You May Like"
       }
     },
     "PAYMENT": {
@@ -373,234 +381,238 @@
       "COD_TITLE": "Cash on Delivery",
       "COD_SUBTITLE": "Pay fully in cash when your order is delivered.",
       "CC_TITLE": "Credit Card",
-      "CC_SUBTITLE": "You’ll be securely redirected to Stripe to complete your payment.",
+      "CC_SUBTITLE": "You'll be securely redirected to Stripe to complete your payment.",
       "CHECKOUT": "Checkout",
       "NO_ADDRESS": "Please select a shipping address first.",
-      "ORDER_ERROR": "We couldn’t place your order. Please try again.",
-      "CHECKOUT_ERROR": "We couldn’t start the payment. Please try again.",
+      "ORDER_ERROR": "We couldn't place your order. Please try again.",
+      "CHECKOUT_ERROR": "We couldn't start the payment. Please try again.",
       "SUCCESS_TITLE": "Payment Successful",
       "SUCCESS_SUBTITLE": "Thank you! Your order has been placed successfully.",
       "CONTINUE_SHOPPING": "Continue Shopping",
       "CANCEL_TITLE": "Payment Cancelled",
-      "CANCEL_SUBTITLE": "Your payment wasn’t completed. You can try again whenever you’re ready.",
+      "CANCEL_SUBTITLE": "Your payment wasn't completed. You can try again whenever you're ready.",
       "TRY_AGAIN": "Try Again",
       "BACK_TO_CART": "Back to Cart"
     },
     "CART": {
-      "ADDED": "تمت الإضافة إلى سلتك.",
-      "ADD_ERROR": "تعذّرت الإضافة إلى السلة. حاول مرة أخرى.",
-      "UPDATE_ERROR": "تعذّر تحديث السلة. حاول مرة أخرى.",
-      "REMOVED": "تمت الإزالة من سلتك.",
-      "CLEARED": "تم إفراغ سلتك."
+      "ADDED": "Added to your cart.",
+      "ADD_ERROR": "Couldn't add to cart. Please try again.",
+      "UPDATE_ERROR": "Couldn't update your cart. Please try again.",
+      "REMOVED": "Removed from your cart.",
+      "CLEARED": "Your cart has been cleared."
     },
     "FILTER": {
-      "LABEL": "تصفية حسب المناسبة",
-      "ALL": "الكل"
+      "LABEL": "Filter by occasion",
+      "ALL": "All"
     },
     "OCCASIONS": {
-      "Eid al-Fitr Gifts4": "هدايا عيد الفطر",
-      "Hajj Congratulations": "تهاني الحج",
-      "Wedding": "زفاف",
-      "Engagement": "خطوبة",
-      "Molestias adipisicin": "مناسبة تجريبية"
+      "Eid al-Fitr Gifts4": "Eid al-Fitr Gifts",
+      "Hajj Congratulations": "Hajj Congratulations",
+      "Wedding": "Wedding",
+      "Engagement": "Engagement",
+      "Molestias adipisicin": "Test Occasion"
     },
     "PRODUCT": {
       "BADGE": {
-        "NEW": "جديد",
-        "HOT": "رائج",
-        "OUT_OF_STOCK": "نفد المخزون"
+        "NEW": "New",
+        "HOT": "Hot",
+        "OUT_OF_STOCK": "Out of stock"
       },
-      "ADD_TO_WISHLIST": "إضافة إلى المفضلة",
-      "QUICK_VIEW": "نظرة سريعة",
-      "ADD_TO_CART": "إضافة إلى السلة",
-      "RATING": "التقييم {{rating}} من 5",
-      "PRICE": "{{value}} جنيه"
+      "ADD_TO_WISHLIST": "Add to wishlist",
+      "QUICK_VIEW": "Quick view",
+      "ADD_TO_CART": "Add to cart",
+      "RATING": "Rated {{rating}} out of 5",
+      "PRICE": "EGP {{value}}"
     },
     "PRODUCT_DETAILS": {
-      "LEFT_IN_STOCK": "{{count}} متبقي في المخزون",
-      "OUT_OF_STOCK": "نفد من المخزون",
-      "RATING_LABEL": "التقييم: {{rating}}/5",
-      "RATINGS_COUNT": "({{count}} تقييم)",
-      "NO_RATINGS": "(لا توجد تقييمات بعد)",
-      "LOADING": "جاري تحميل تفاصيل المنتج...",
-      "ERROR": "تعذر تحميل تفاصيل المنتج.",
-      "NOT_FOUND": "المنتج غير موجود.",
-      "RETRY": "إعادة المحاولة",
-      "VIEW_IMAGE": "عرض الصورة",
-      "MAIN_IMAGE_ALT": "{{title}} العرض الرئيسي للمنتج",
-      "THUMBNAIL_ALT": "{{title}} صورة مصغرة {{index}}"
+      "LEFT_IN_STOCK": "{{count}} left in stock",
+      "OUT_OF_STOCK": "Out of stock",
+      "RATING_LABEL": "Rating: {{rating}}/5",
+      "RATINGS_COUNT": "({{count}} ratings)",
+      "NO_RATINGS": "(No ratings yet)",
+      "LOADING": "Loading product details...",
+      "ERROR": "Couldn't load product details.",
+      "NOT_FOUND": "Product not found.",
+      "RETRY": "Try again",
+      "VIEW_IMAGE": "View image",
+      "MAIN_IMAGE_ALT": "{{title}} main product view",
+      "THUMBNAIL_ALT": "{{title}} thumbnail {{index}}",
+      "PRICE_ARIA": "Price"
     },
     "trustedCompanies": {
-      "before": "موثوق بنا من أكثر من",
-      "count": "4.5 ألف",
-      "after": "شركة"
+      "before": "Trusted by over",
+      "count": "4.5K",
+      "after": "companies"
     },
     "TESTIMONIALS": {
-      "LABEL": "آراء العملاء",
-      "TITLE": "كلمات حقيقية من عملاء سعداء",
-      "EMPTY": "لا توجد آراء بعد.",
-      "RATING": "{{rating}} من 5"
+      "LABEL": "Testimonials",
+      "TITLE": "Real words from happy customers",
+      "EMPTY": "No testimonials yet.",
+      "RATING": "{{rating}} out of 5"
     }
   },
   "WISHLIST": {
-    "TITLE": "قائمة الرغبات",
-    "ITEMS_COUNT": "{{count}} منتجات",
-    "CLEAR": "مسح القائمة",
-    "IN_STOCK": "متوفر",
-    "OUT_OF_STOCK": "نفد من المخزون",
-    "EXPLORE_SIMILAR": "استكشف منتجات مشابهة",
-    "REMOVE": "إزالة من قائمة الرغبات",
-    "CONTINUE_SHOPPING": "متابعة التسوق",
-    "EMPTY": "قائمة رغباتك فارغة.",
-    "LOAD_ERROR": "تعذر تحميل قائمة الرغبات.",
-    "CONFIRM_CLEAR": "هل أنت متأكد أنك تريد مسح قائمة الرغبات؟",
-    "ADDED": "تمت الإضافة إلى قائمة الرغبات",
-    "REMOVED": "تمت الإزالة من قائمة الرغبات",
-    "CLEARED": "تم مسح قائمة الرغبات"
+    "TITLE": "Wishlist",
+    "ITEMS_COUNT": "{{count}} items",
+    "CLEAR": "Clear list",
+    "IN_STOCK": "In stock",
+    "OUT_OF_STOCK": "Out of stock",
+    "EXPLORE_SIMILAR": "Explore similar products",
+    "REMOVE": "Remove from wishlist",
+    "CONTINUE_SHOPPING": "Continue shopping",
+    "EMPTY": "Your wishlist is empty.",
+    "LOAD_ERROR": "Couldn't load your wishlist.",
+    "CONFIRM_CLEAR": "Are you sure you want to clear your wishlist?",
+    "ADDED": "Added to wishlist",
+    "REMOVED": "Removed from wishlist",
+    "CLEARED": "Wishlist cleared"
   },
   "PRODUCTS": {
     "DETAILS": {
-      "PRODUCT_NOT_FOUND": "المنتج غير موجود",
-      "CURRENCY": "جنيه",
-      "NO_IMAGE": "لا تتوفر صورة"
+      "PRODUCT_NOT_FOUND": "Product not found",
+      "CURRENCY": "EGP",
+      "NO_IMAGE": "No image available"
     }
   },
   "CART": {
-    "TITLE": "سلة التسوق",
-    "PRODUCTS_COUNT": "{{count}} منتجات",
-    "CLEAR": "إفراغ السلة",
-    "CONFIRM_CLEAR": "هل أنت متأكد أنك تريد حذف كل المنتجات من السلة؟",
-    "REMOVE": "إزالة",
-    "RATING": "التقييم:",
-    "RATINGS_COUNT": "({{count}} تقييم)",
-    "QUANTITY": "الكمية",
-    "COUPON_CODE": "كود الخصم",
-    "APPLY_COUPON": "تطبيق الكوبون",
-    "NO_COUPONS": "لم يتم تطبيق أي كوبونات",
-    "SUBTOTAL": "المجموع الفرعي",
-    "TOTAL": "الإجمالي",
-    "CHECKOUT": "إتمام الشراء",
-    "CONTINUE_SHOPPING": "متابعة التسوق",
-    "EMPTY": "سلتك فارغة، هل تريد تجربة التسوق؟",
-    "SUMMARY": "ملخص الطلب",
-    "RECOMMENDED_PRODUCTS": "منتجات قد تعجبك"
+    "TITLE": "Shopping Cart",
+    "PRODUCTS_COUNT": "{{count}} items",
+    "CLEAR": "Clear cart",
+    "CONFIRM_CLEAR": "Are you sure you want to remove all items from your cart?",
+    "REMOVE": "Remove",
+    "RATING": "Rating:",
+    "RATINGS_COUNT": "({{count}} ratings)",
+    "QUANTITY": "Quantity",
+    "COUPON_CODE": "Coupon code",
+    "APPLY_COUPON": "Apply coupon",
+    "NO_COUPONS": "No coupons applied",
+    "SUBTOTAL": "Subtotal",
+    "TOTAL": "Total",
+    "CHECKOUT": "Checkout",
+    "CONTINUE_SHOPPING": "Continue shopping",
+    "EMPTY": "Your cart is empty. Ready to start shopping?",
+    "SUMMARY": "Order summary",
+    "RECOMMENDED_PRODUCTS": "Products you may like",
+    "CURRENCY": "EGP"
   },
   "ORDERS": {
-    "TITLE": "الطلبات",
-    "ORDER_NUMBER": "طلب رقم {{number}}",
-    "CREATED_IN": "تاريخ الإنشاء:",
-    "TOTAL_PRICE": "السعر الإجمالي:",
-    "PAID": "تم الدفع",
-    "STATUS": "الحالة:",
-    "IN_PROGRESS": "قيد التنفيذ",
-    "PAYMENT_METHOD": "طريقة الدفع:",
-    "CASH": "نقدًا",
-    "DELIVERY_STATUS": "حالة التوصيل:",
-    "PENDING": "قيد الانتظار",
-    "ORDER_ITEMS": "منتجات الطلب:",
+    "TITLE": "Orders",
+    "ORDER_NUMBER": "Order #{{number}}",
+    "CREATED_IN": "Created on:",
+    "TOTAL_PRICE": "Total price:",
+    "PAID": "Paid",
+    "STATUS": "Status:",
+    "IN_PROGRESS": "In progress",
+    "PAYMENT_METHOD": "Payment method:",
+    "CASH": "Cash",
+    "DELIVERY_STATUS": "Delivery status:",
+    "PENDING": "Pending",
+    "ORDER_ITEMS": "Order items:",
     "CURRENCY": "EGP",
-    "SHOW_ALL": "عرض الكل",
-    "SHOW_LESS": "عرض أقل",
+    "SHOW_ALL": "Show all",
+    "SHOW_LESS": "Show less",
+    "LOADING": "Loading orders...",
+    "EMPTY": "No orders found",
     "STATUS_TYPES": {
-      "PENDING": "قيد الانتظار",
-      "PROCESSING": "قيد المعالجة",
-      "CONFIRMED": "تم التأكيد",
-      "SHIPPED": "تم الشحن",
-      "DELIVERED": "تم التوصيل",
-      "CANCELLED": "ملغي",
-      "DONE": "مكتمل"
+      "PENDING": "Pending",
+      "PROCESSING": "Processing",
+      "CONFIRMED": "Confirmed",
+      "SHIPPED": "Shipped",
+      "DELIVERED": "Delivered",
+      "CANCELLED": "Cancelled",
+      "DONE": "Completed"
     },
     "PAYMENT_STATUS": {
-      "PENDING": "قيد الانتظار",
-      "PROCESSING": "قيد المعالجة",
-      "SUCCEEDED": "تم الدفع",
-      "FAILED": "فشل الدفع",
-      "CANCELLED": "تم الإلغاء",
-      "REFUNDED": "تم استرداد المبلغ"
+      "PENDING": "Pending",
+      "PROCESSING": "Processing",
+      "SUCCEEDED": "Paid",
+      "FAILED": "Payment failed",
+      "CANCELLED": "Cancelled",
+      "REFUNDED": "Refunded"
     }
   },
   "CHECKOUT": {
-    "STEP_PROGRESS": "الخطوة {{current}} من {{total}}"
+    "STEP_PROGRESS": "Step {{current}} of {{total}}"
   },
   "ADDRESS": {
-    "TITLE": "عنوان الشحن",
-    "MY_ADDRESSES": "عناويني",
-    "EMPTY": "لا توجد عناوين محفوظة بعد.",
-    "OR": "أو",
-    "ADD_NEW": "إضافة عنوان جديد",
-    "ADD_TITLE": "إضافة عنوان جديد",
-    "UPDATE_ADDRESS": "تحديث العنوان",
-    "UPDATE_TITLE": "تعديل العنوان",
-    "ADD_ADDRESS": "إضافة العنوان",
-    "SAVE_CHANGES": "حفظ التغييرات",
-    "EDIT": "تعديل العنوان",
-    "DELETE": "حذف العنوان",
-    "CONFIRM_DELETE": "هل أنت متأكد أنك تريد حذف هذا العنوان؟",
-    "NEXT": "التالي",
-    "BACK": "رجوع",
-    "DETAILS_TITLE": "أدخل تفاصيل العنوان",
-    "CATEGORY": "نوع العنوان",
+    "TITLE": "Shipping Address",
+    "MY_ADDRESSES": "My Addresses",
+    "EMPTY": "No saved addresses yet.",
+    "OR": "or",
+    "ADD_NEW": "Add new address",
+    "ADD_TITLE": "Add new address",
+    "UPDATE_ADDRESS": "Update address",
+    "UPDATE_TITLE": "Edit address",
+    "ADD_ADDRESS": "Add address",
+    "SAVE_CHANGES": "Save changes",
+    "EDIT": "Edit address",
+    "DELETE": "Delete address",
+    "CONFIRM_DELETE": "Are you sure you want to delete this address?",
+    "NEXT": "Next",
+    "BACK": "Back",
+    "DETAILS_TITLE": "Enter address details",
+    "CATEGORY": "Address type",
     "CATEGORIES": {
-      "HOME": "المنزل",
-      "WORK": "العمل",
-      "FAMILY": "العائلة"
+      "HOME": "Home",
+      "WORK": "Work",
+      "FAMILY": "Family"
     },
-    "CITY": "المدينة",
-    "CITY_PLACEHOLDER": "أدخل اسم المدينة",
-    "ADDRESS": "العنوان",
-    "ADDRESS_PLACEHOLDER": "أدخل عنوانك بالكامل",
-    "PHONE": "رقم الهاتف",
-    "PHONE_PLACEHOLDER": "رقم الهاتف",
-    "SET_PRIMARY": "العنوان الرئيسي",
-    "FIND_LOCATION": "حدّد موقعك",
-    "MAP_LABEL": "خريطة لتحديد موقع العنوان",
-    "FIND_MY_LOCATION": "موقعي الحالي",
-    "LOCATING": "جارٍ تحديد الموقع...",
-    "MAP_HINT": "اضغط على الخريطة أو اسحب الدبوس لتحديد موقعك.",
-    "SELECTED_LOCATION": "الموقع المختار",
+    "CITY": "City",
+    "CITY_PLACEHOLDER": "Enter city name",
+    "ADDRESS": "Address",
+    "ADDRESS_PLACEHOLDER": "Enter your full address",
+    "PHONE": "Phone number",
+    "PHONE_PLACEHOLDER": "Phone number",
+    "SET_PRIMARY": "Primary address",
+    "FIND_LOCATION": "Find your location",
+    "MAP_LABEL": "Map for selecting the address location",
+    "FIND_MY_LOCATION": "My current location",
+    "LOCATING": "Locating...",
+    "MAP_HINT": "Tap the map or drag the pin to set your location.",
+    "SELECTED_LOCATION": "Selected location",
     "ERRORS": {
-      "REQUIRED": "هذا الحقل مطلوب",
-      "INVALID": "القيمة غير صحيحة",
-      "PHONE_INVALID": "أدخل رقم هاتف مصري صحيح",
-      "STREET_SHORT": "العنوان قصير جدًا (5 أحرف على الأقل)",
-      "PICK_LOCATION": "من فضلك حدّد موقعك على الخريطة",
-      "GEO_UNSUPPORTED": "متصفحك لا يدعم تحديد الموقع",
-      "GEO_DENIED": "تم رفض إذن الموقع. فعّله من إعدادات المتصفح.",
-      "GEO_FAILED": "تعذّر تحديد موقعك. حاول مرة أخرى.",
-      "MAP_LOAD_FAILED": "تعذّر تحميل الخريطة"
+      "REQUIRED": "This field is required",
+      "INVALID": "Invalid value",
+      "PHONE_INVALID": "Enter a valid Egyptian phone number",
+      "STREET_SHORT": "Address is too short (at least 5 characters)",
+      "PICK_LOCATION": "Please select your location on the map",
+      "GEO_UNSUPPORTED": "Your browser doesn't support geolocation",
+      "GEO_DENIED": "Location permission denied. Enable it in your browser settings.",
+      "GEO_FAILED": "Couldn't determine your location. Please try again.",
+      "MAP_LOAD_FAILED": "Couldn't load the map"
     }
   },
   "ERRORS": {
-    "INSUFFICIENT_STOCK": "الكمية المتاحة في المخزون غير كافية."
+    "INSUFFICIENT_STOCK": "The available stock is insufficient."
   },
   "TOAST": {
-    "INVALID_CREDENTIALS": "البريد الإلكتروني أو كلمة المرور غير صحيحة",
-    "UNAUTHORIZED": "غير مصرّح لك بتنفيذ هذا الإجراء",
-    "SESSION_EXPIRED": "انتهت جلستك، من فضلك سجّل الدخول مرة أخرى",
-    "ADDRESS_ADDED": "تمت إضافة العنوان بنجاح",
-    "ADDRESS_UPDATED": "تم تحديث العنوان بنجاح",
-    "ADDRESS_DELETED": "تم حذف العنوان بنجاح",
-    "REVIEW_ADDED": "تمت إضافة تقييمك",
-    "ONLY_LEFT": "متبقي {{count}} فقط في المخزون",
-    "NETWORK": "خطأ في الاتصال، تحقق من الإنترنت",
-    "SERVER": "خطأ في الخادم، حاول مرة أخرى لاحقاً",
-    "GENERIC": "حدث خطأ ما، حاول مرة أخرى"
+    "INVALID_CREDENTIALS": "Incorrect email or password",
+    "UNAUTHORIZED": "You are not authorized to perform this action",
+    "SESSION_EXPIRED": "Your session has expired, please log in again",
+    "ADDRESS_ADDED": "Address added successfully",
+    "ADDRESS_UPDATED": "Address updated successfully",
+    "ADDRESS_DELETED": "Address deleted successfully",
+    "REVIEW_ADDED": "Your review has been added",
+    "ONLY_LEFT": "Only {{count}} left in stock",
+    "NETWORK": "Connection error, check your internet",
+    "SERVER": "Server error, please try again later",
+    "GENERIC": "Something went wrong, please try again"
   },
   "NOTIFICATIONS": {
-    "TITLE": "الإشعارات",
-    "EMPTY": "لا توجد إشعارات حالياً",
-    "EMPTY_DESCRIPTION": "سنخبرك عندما يصلك أي جديد!",
-    "LOADING": "جارٍ تحميل الإشعارات...",
-    "ERROR": "تعذر تحميل الإشعارات",
-    "RETRY": "إعادة المحاولة",
-    "CLEAR_ALL": "مسح الكل",
-    "MARK_ALL_READ": "تعيين الكل كمقروء",
-    "MARK_READ": "تعيين كمقروء",
-    "DELETE": "حذف",
-    "ITEM_ACTIONS": "إجراءات الإشعار",
-    "CLOSE": "إغلاق",
-    "UNREAD_BADGE": "{{count}} إشعارات غير مقروءة",
-    "CONFIRM_CLEAR_TITLE": "مسح جميع الإشعارات",
-    "CONFIRM_CLEAR_MESSAGE": "هل أنت متأكد من رغبتك في مسح جميع الإشعارات؟ لا يمكن التراجع عن هذا الإجراء."
+    "TITLE": "Notifications",
+    "EMPTY": "No notifications right now",
+    "EMPTY_DESCRIPTION": "We'll let you know when there's something new!",
+    "LOADING": "Loading notifications...",
+    "ERROR": "Couldn't load notifications",
+    "RETRY": "Try again",
+    "CLEAR_ALL": "Clear all",
+    "MARK_ALL_READ": "Mark all as read",
+    "MARK_READ": "Mark as read",
+    "DELETE": "Delete",
+    "ITEM_ACTIONS": "Notification actions",
+    "CLOSE": "Close",
+    "UNREAD_BADGE": "{{count}} unread notifications",
+    "CONFIRM_CLEAR_TITLE": "Clear all notifications",
+    "CONFIRM_CLEAR_MESSAGE": "Are you sure you want to clear all notifications? This action cannot be undone."
   }
 }

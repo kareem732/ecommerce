@@ -1,4 +1,6 @@
 @mixin light-tokens {
+  color-scheme: light;
+
   /* brand */
   --color-primary:        var(--color-maroon-500);
   --color-primary-hover:  var(--color-maroon-600);
@@ -78,6 +80,15 @@
   --btn-clear-bg:   var(--color-red-600);
   --btn-clear-text: #ffffff;
 
+  /* orders / addresses / payment */
+  --order-card-bg:     var(--color-zinc-100);
+  --order-tile-bg:     var(--color-white);
+  --order-header-bg:   var(--color-maroon-700);
+  --order-header-text: var(--color-white);
+  --bg-chip:           var(--color-zinc-300);
+  --bg-success-subtle: var(--color-emerald-50);
+  --bg-danger-subtle:  var(--color-red-50);
+
   /* dialog */
   --dialog-bg:               #ffffff;
   --dialog-text:             #1a1a1a;
@@ -93,6 +104,8 @@
 }
 
 @mixin dark-tokens {
+  color-scheme: dark;
+
   /* brand */
   --color-primary:        var(--color-maroon-400);
   --color-primary-hover:  var(--color-maroon-300);
@@ -171,6 +184,15 @@
   /* wishlist clear button */
   --btn-clear-bg:   var(--btn-soft-bg);
   --btn-clear-text: var(--btn-soft-text);
+
+  /* orders / addresses / payment */
+  --order-card-bg:     var(--color-zinc-900);
+  --order-tile-bg:     var(--color-zinc-800);
+  --order-header-bg:   var(--color-maroon-800);
+  --order-header-text: var(--color-white);
+  --bg-chip:           var(--color-zinc-700);
+  --bg-success-subtle: color-mix(in srgb, var(--color-emerald-400) 15%, transparent);
+  --bg-danger-subtle:  color-mix(in srgb, var(--color-red-400) 15%, transparent);
 
   /* dialog */
   --dialog-bg:               var(--color-zinc-900);
