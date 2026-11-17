@@ -1,0 +1,66 @@
+<section class="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
+  <app-page-header class="mb-8 block" titleKey="NAV.CONTACT" subtitleKey="CONTACT.SUBTITLE" />
+
+  <div class="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.5fr)]">
+    <!-- Contact channels -->
+    <ul class="grid content-start gap-4 sm:grid-cols-2 lg:grid-cols-1">
+      @for (channel of channels; track channel.id) {
+        <li class="flex items-start gap-4 rounded-2xl border border-(--border-default) bg-(--bg-surface) p-4">
+          <span
+            class="grid size-11 shrink-0 place-items-center rounded-full bg-(--color-primary-subtle) text-(--text-accent)"
+            aria-hidden="true"
+          >
+            <lucide-angular [img]="channel.icon" [size]="20" />
+          </span>
+          <div class="min-w-0">
+            <p class="text-sm font-semibold text-(--text-strong)">{{ channel.labelKey | translate }}</p>
+            @if (channel.href) {
+              <a
+                [href]="channel.href"
+                dir="ltr"
+                class="text-sm break-all text-(--text-secondary) hover:text-(--text-accent) hover:underline"
+              >
+                {{ channel.value }}
+              </a>
+            } @else {
+              <p class="text-sm text-(--text-secondary)">
+                {{ channel.translate ? (channel.value | translate) : channel.value }}
+              </p>
+            }
+          </div>
+        </li>
+      }
+    </ul>
+
+    <!-- Message form -->
+    <form
+      [formGroup]="form"
+      (ngSubmit)="submit()"
+      class="flex flex-col gap-4 rounded-2xl border border-(--border-default) bg-(--bg-surface) p-5 sm:p-6"
+      novalidate
+    >
+      <h2 class="text-xl font-semibold text-(--text-title-brand)">{{ 'CONTACT.FORM_TITLE' | translate }}</h2>
+
+      <div class="grid gap-4 sm:grid-cols-2">
+        <app-input formControlName="name" [label]="'CONTACT.NAME' | translate" [error]="error('name')" />
+        <app-input
+          formControlName="email"
+          type="email"
+          [label]="'CONTACT.EMAIL' | translate"
+          [error]="error('email')"
+        />
+      </div>
+      <app-input formControlName="subject" [label]="'CONTACT.SUBJECT' | translate" [error]="error('subject')" />
+      <app-textarea
+        formControlName="message"
+        [rows]="6"
+        [label]="'CONTACT.MESSAGE' | translate"
+        [error]="error('message')"
+      />
+
+      <div class="flex justify-end">
+        <app-button type="submit" class="w-full sm:w-auto sm:min-w-44" [label]="'CONTACT.SEND' | translate" [fullWidth]="true" />
+      </div>
+    </form>
+  </div>
+</section>

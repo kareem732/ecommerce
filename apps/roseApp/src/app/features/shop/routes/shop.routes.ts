@@ -20,6 +20,22 @@ export const SHOP_ROUTES: Routes = [
           import('../pages/product-details/product-details').then((m) => m.ProductDetails),
       },
       {
+        path: 'gift-finder',
+        loadComponent: () => import('../../gift-finder/gift-finder').then((m) => m.GiftFinder),
+      },
+      {
+        path: 'categories',
+        loadComponent: () => import('../pages/categories/categories').then((m) => m.Categories),
+      },
+      {
+        path: 'occasions',
+        loadComponent: () => import('../pages/occasions/occasions').then((m) => m.Occasions),
+      },
+      {
+        path: 'contact',
+        loadComponent: () => import('../pages/contact/contact').then((m) => m.Contact),
+      },
+      {
         path: 'wishlist',
         loadComponent: () => import('../pages/wishlist/wishlist').then((m) => m.Wishlist),
       },
@@ -27,6 +43,11 @@ export const SHOP_ROUTES: Routes = [
         path: 'order',
         loadComponent: () =>
           import('../pages/order/order').then((m) => m.Order),
+      },
+      {
+        path: 'order/:id',
+        loadComponent: () =>
+          import('../pages/order-details/order-details').then((m) => m.OrderDetails),
       },
       CHECKOUT_FLOW_ROUTE,
       {

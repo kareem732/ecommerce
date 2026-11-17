@@ -25,3 +25,9 @@ export interface TestimonialsResponse {
     metadata: Metadata;
   };
 }
+export interface CreateTestimonialRequest {
+  name: string;
+  email?: string;
+  content: string;
+  rating?: number;
+}

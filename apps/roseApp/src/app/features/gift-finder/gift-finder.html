@@ -1,0 +1,117 @@
+@let answers = store.answers();
+
+<section class="mx-auto flex w-full max-w-6xl flex-col gap-8 px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
+  <app-page-header titleKey="GIFT_FINDER.TITLE" subtitleKey="GIFT_FINDER.SUBTITLE" [centered]="true" />
+
+  <div class="mx-auto flex w-full max-w-md items-center gap-2">
+    <div class="size-10 shrink-0">
+      @if (canGoBack()) {
+        <app-back-button (clicked)="store.back()" />
+      }
+    </div>
+    <app-stepper class="flex-1" [current]="currentStep()" [total]="totalQuestions" labelKey="GIFT_FINDER.STEPS_LABEL" />
+  </div>
+
+  @switch (store.step()) {
+    @case (Step.Occasion) {
+      <fieldset class="flex flex-col gap-5">
+        <legend class="mb-5 w-full text-center text-xl font-semibold text-(--text-strong)">
+          {{ 'GIFT_FINDER.QUESTIONS.OCCASION' | translate }}
+        </legend>
+        <div class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
+          @for (occasion of store.occasions(); track occasion.id) {
+            <app-option-tile
+              [label]="occasion.title | occasionTitle"
+              [image]="occasion.image"
+              [icon]="AnyOccasionIcon"
+              [selected]="answers.occasionId === occasion.id"
+              (picked)="store.answer({ occasionId: occasion.id })"
+            />
+          }
+          <app-option-tile
+            [label]="'GIFT_FINDER.ANY_OCCASION' | translate"
+            [icon]="AnyOccasionIcon"
+            (picked)="store.answer({ occasionId: null })"
+          />
+        </div>
+      </fieldset>
+    }
+
+    @case (Step.Recipient) {
+      <fieldset class="flex flex-col gap-5">
+        <legend class="mb-5 w-full text-center text-xl font-semibold text-(--text-strong)">
+          {{ 'GIFT_FINDER.QUESTIONS.RECIPIENT' | translate }}
+        </legend>
+        <div class="grid grid-cols-2 gap-4 sm:grid-cols-3">
+          @for (recipient of recipients; track recipient.id) {
+            <app-option-tile
+              [label]="recipient.labelKey | translate"
+              [icon]="recipient.icon"
+              [selected]="answers.recipient === recipient.id"
+              (picked)="store.answer({ recipient: recipient.id })"
+            />
+          }
+        </div>
+      </fieldset>
+    }
+
+    @case (Step.Budget) {
+      <fieldset class="flex flex-col gap-5">
+        <legend class="mb-5 w-full text-center text-xl font-semibold text-(--text-strong)">
+          {{ 'GIFT_FINDER.QUESTIONS.BUDGET' | translate }}
+        </legend>
+        <div class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
+          @for (budget of budgets; track budget.id) {
+            <app-option-tile
+              [label]="budget.labelKey | translate"
+              [icon]="AnyBudgetIcon"
+              [selected]="answers.budget?.id === budget.id"
+              (picked)="store.answer({ budget })"
+            />
+          }
+          <app-option-tile
+            [label]="'GIFT_FINDER.BUDGETS.ANY' | translate"
+            [icon]="AnyBudgetIcon"
+            (picked)="store.answer({ budget: null })"
+          />
+        </div>
+      </fieldset>
+    }
+
+    @case (Step.Category) {
+      <fieldset class="flex flex-col gap-5">
+        <legend class="mb-5 w-full text-center text-xl font-semibold text-(--text-strong)">
+          {{ 'GIFT_FINDER.QUESTIONS.CATEGORY' | translate }}
+        </legend>
+        <div class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
+          @for (category of store.categories(); track category.id) {
+            <app-option-tile
+              [label]="category.title"
+              [image]="category.image"
+              [icon]="AnyCategoryIcon"
+              [selected]="answers.categoryId === category.id"
+              (picked)="store.answer({ categoryId: category.id })"
+            />
+          }
+          <app-option-tile
+            [label]="'GIFT_FINDER.SURPRISE_ME' | translate"
+            [icon]="AnyCategoryIcon"
+            (picked)="store.answer({ categoryId: null })"
+          />
+        </div>
+      </fieldset>
+    }
+
+    @case (Step.Results) {
+      <app-gift-results
+        [matches]="store.matches()"
+        [searching]="store.status() === 'searching'"
+        [failed]="store.status() === 'error'"
+        [relaxed]="store.relaxed()"
+        [recipient]="answers.recipient"
+        (retry)="store.retry()"
+        (restart)="store.restart()"
+      />
+    }
+  }
+</section>

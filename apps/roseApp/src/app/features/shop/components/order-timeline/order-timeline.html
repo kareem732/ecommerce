@@ -1,0 +1,52 @@
+<section class="rounded-2xl border border-(--border-default) bg-(--bg-surface) p-5">
+  <h2 class="mb-5 text-lg font-semibold text-(--text-strong)">{{ 'ORDERS.TIMELINE.TITLE' | translate }}</h2>
+
+  @if (isCanceled()) {
+    <p class="flex items-center gap-2 rounded-xl bg-(--bg-danger-subtle) p-4 text-(--color-danger)" role="status">
+      <lucide-angular [img]="CanceledIcon" [size]="20" aria-hidden="true" />
+      {{ 'ORDERS.TIMELINE.CANCELED' | translate: { status: ('ORDERS.STATUS_TYPES.' + status() | translate) } }}
+    </p>
+  } @else {
+    <ol class="flex flex-col gap-0 sm:flex-row">
+      @for (step of steps(); track step.status) {
+        <li
+          class="flex gap-3 sm:flex-1 sm:flex-col sm:items-center sm:text-center"
+          [attr.aria-current]="step.state === 'current' ? 'step' : null"
+        >
+          <div class="flex flex-col items-center sm:w-full sm:flex-row">
+            <span
+              class="hidden h-0.5 flex-1 sm:block"
+              [class.invisible]="$first"
+              [class]="step.state === 'upcoming' ? 'bg-(--border-default)' : 'bg-(--color-success)'"
+              aria-hidden="true"
+            ></span>
+            <span
+              class="grid size-10 shrink-0 place-items-center rounded-full border-2 transition-colors"
+              [class]="
+                step.state === 'upcoming'
+                  ? 'border-(--border-default) text-(--text-disabled)'
+                  : step.state === 'current'
+                    ? 'border-(--color-success) bg-(--bg-success-subtle) text-(--color-success)'
+                    : 'border-(--color-success) bg-(--color-success) text-white'
+              "
+            >
+              <lucide-angular [img]="step.icon" [size]="18" aria-hidden="true" />
+            </span>
+            <span
+              class="w-0.5 flex-1 min-h-6 sm:h-0.5 sm:min-h-0 sm:w-auto"
+              [class.invisible]="step.last"
+              [class]="step.state === 'done' ? 'bg-(--color-success)' : 'bg-(--border-default)'"
+              aria-hidden="true"
+            ></span>
+          </div>
+          <p
+            class="pb-4 pt-2 text-sm font-medium sm:pb-0"
+            [class]="step.state === 'upcoming' ? 'text-(--text-disabled)' : 'text-(--text-strong)'"
+          >
+            {{ 'ORDERS.STATUS_TYPES.' + step.status | translate }}
+          </p>
+        </li>
+      }
+    </ol>
+  }
+</section>

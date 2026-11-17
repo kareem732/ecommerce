@@ -1,0 +1,21 @@
+<section
+  class="flex flex-col items-center justify-between gap-5 rounded-2xl bg-(--order-header-bg) px-6 py-8 text-center text-(--order-header-text) sm:flex-row sm:text-start"
+>
+  <div class="flex flex-col items-center gap-4 sm:flex-row">
+    <span class="grid size-16 shrink-0 place-items-center rounded-full bg-white/15" aria-hidden="true">
+      <lucide-angular [img]="Gift" [size]="32" [strokeWidth]="1.5" />
+    </span>
+    <div class="flex flex-col gap-1">
+      <h2 class="text-xl font-bold sm:text-2xl">{{ 'GIFT_FINDER.BANNER.TITLE' | translate }}</h2>
+      <p class="text-sm opacity-90 sm:text-base">{{ 'GIFT_FINDER.BANNER.SUBTITLE' | translate }}</p>
+    </div>
+  </div>
+
+  <a
+    [routerLink]="path"
+    class="inline-flex shrink-0 items-center gap-2 rounded-[10px] bg-white px-5 py-3 font-medium text-(--order-header-bg) transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+  >
+    {{ 'GIFT_FINDER.BANNER.CTA' | translate }}
+    <lucide-angular [img]="ArrowRight" [size]="18" class="rtl:-scale-x-100" aria-hidden="true" />
+  </a>
+</section>

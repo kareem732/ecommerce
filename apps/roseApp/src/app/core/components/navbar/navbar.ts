@@ -16,7 +16,7 @@ import {
   untracked,
 } from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
-import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { IsActiveMatchOptions, Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { first, switchMap } from 'rxjs';
 import {
@@ -53,6 +53,7 @@ import { LanguageEnum, LanguageService } from '@org/shared-i18n';
 import { ThemeService } from '@org/theme';
 import { CartStore } from '../../../features/shop/stores/cart/cart.store';
 import { WishlistStore } from '../../../features/shop/stores/wishlist/wishlist.store';
+import { ORDERS_PATH } from '../../../features/shop/constants/shop-routes.constants';
 import { AddressStore } from '../../../features/shop/stores/address/address.store';
 import { MyAddressesModal } from '../../../features/shop/components/address/my-addresses-modal/my-addresses-modal';
 import { NotificationsStore } from '../../../features/notifications/notifications.store';
@@ -99,7 +100,7 @@ export class Navbar {
   private readonly addressStore = inject(AddressStore);
   protected readonly notificationsStore = inject(NotificationsStore);
 
-  private readonly ordersRoute = '/shop/order';
+  protected readonly ordersRoute = ORDERS_PATH;
 
   readonly notificationCount = computed(() =>
     this.notificationsStore.unreadCount(),
@@ -233,6 +234,13 @@ export class Navbar {
   readonly Moon = Moon;
 
   readonly navItems: NavItem[] = NAVBAR_NAVIGATION_LINKS;
+  /** Exact path + fragment so "Home" and "About Us" (home#about) aren't both active. */
+  readonly navLinkActiveOptions: IsActiveMatchOptions = {
+    paths: 'exact',
+    queryParams: 'subset',
+    fragment: 'exact',
+    matrixParams: 'ignored',
+  };
 
   constructor() {
     effect(() => {

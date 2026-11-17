@@ -1,22 +1,31 @@
-export interface OrderHistoryResponse {
-  status: boolean;
-  code: number;
-  payload: {
-    data: order[];
-    metadata: {
-      page: number;
-      limit: number;
-      total: number;
-      totalPages: number;
-    };
-  };
-}
+import { ApiResponse, PaginatedPayload } from '../home.model/home-model-response';
+import { PaymentMethod } from './order.model';
 
-export interface order {
+export type OrderStatus =
+  | 'PENDING'
+  | 'CONFIRMED'
+  | 'PROCESSING'
+  | 'SHIPPED'
+  | 'DELIVERED'
+  | 'CANCELLED'
+  | 'REFUNDED';
+
+export type PaymentStatus =
+  | 'PENDING'
+  | 'PROCESSING'
+  | 'SUCCEEDED'
+  | 'FAILED'
+  | 'REFUNDED'
+  | 'CANCELLED';
+
+export type OrderHistoryResponse = ApiResponse<PaginatedPayload<OrderSummary>>;
+export type OrderDetailsResponse = ApiResponse<{ order: OrderSummary }>;
+
+export interface OrderSummary {
   id: string;
-  status: string;
-  paymentMethod: string;
-  paymentStatus: string;
+  status: OrderStatus;
+  paymentMethod: PaymentMethod;
+  paymentStatus: PaymentStatus;
   subtotal: string;
   discount: string;
   shipping: string;
@@ -32,10 +41,10 @@ export interface order {
     street: string;
     phone: string;
   };
-  orderItems: orderItem[];
+  orderItems: OrderItem[];
 }
 
-export interface orderItem {
+export interface OrderItem {
   id: string;
   orderId: string;
   productId: string;

@@ -1,78 +1,30 @@
-import { Component, inject, signal } from '@angular/core';
-import { Check, ChevronDown, ChevronUp, LucideAngularModule, Star, Truck, Wallet } from 'lucide-angular';
-import { finalPrice } from '../../../../shared/utils/product-price';
-import { CartItem } from '../../interfaces/cart.model/cart.model';
-import { CartStore } from '../../stores/cart/cart.store';
-import { DecimalPipe } from '@angular/common';
+import { DOCUMENT } from '@angular/common';
+import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { TranslatePipe } from '@ngx-translate/core';
+import { Pagination } from '@org/ui';
+import { skipLoading } from '../../../../core/interceptors/loading.interceptor';
+import { PageHeader } from '../../../../shared/ui/page-header/page-header';
+import { OrderCard } from '../../components/order-card/order-card';
 import { ShopService } from '../../services/shop.service';
-import { order } from '../../interfaces/order.model/order-history.model';
-import { DatePipe } from '@angular/common';
+import { pagedCollection } from '../../utils/paged-collection';
 
 @Component({
   selector: 'app-order',
-  imports: [LucideAngularModule, DecimalPipe, TranslatePipe, DatePipe],
+  imports: [TranslatePipe, OrderCard, PageHeader, Pagination],
   templateUrl: './order.html',
-  styleUrl: './order.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Order {
-  protected readonly Check = Check
-  protected readonly Wallet = Wallet
-  protected readonly Truck = Truck
-  protected readonly star = Star;
-  protected readonly chevronDown = ChevronDown;
-  protected readonly chevronUp = ChevronUp;
+  private readonly shop = inject(ShopService);
+  private readonly document = inject(DOCUMENT);
 
-  protected readonly cart = inject(CartStore);
-  private readonly shopService = inject(ShopService)
+  protected readonly orders = pagedCollection((query) =>
+    this.shop.getOrderHistory(query, skipLoading()),
+  );
+  protected readonly first = computed(() => (this.orders.page() - 1) * this.orders.pageSize);
 
-  expandedOrders = signal<Set<string>>(new Set())
-  orders = signal<order[]>([]);
-  loading = signal<boolean>(false);
-
-  ngOnInit(): void {
-    this.cart.load();
-    this.getOrders();
-  }
-
-  protected unitPrice(item: CartItem): number {
-    return finalPrice(item.product);
-  }
-
-  isOrderExpanded(orderId: string): boolean {
-    return this.expandedOrders().has(orderId);
-  }
-
-  toggleOrderItems(orderId: string): void {
-    this.expandedOrders.update(current => {
-      const updated = new Set(current);
-
-      if (updated.has(orderId)) {
-        updated.delete(orderId);
-      } else {
-        updated.add(orderId);
-      }
-
-      return updated;
-    });
-  }
-
-  getOrders() {
-    this.loading.set(true);
-
-    this.shopService.getOrderHistory().subscribe({
-      next: (res) => {
-        console.log(res);
-        console.log('Orders:', res.payload.data);
-        this.orders.set(res.payload.data);
-
-        this.loading.set(false);
-      },
-      error: (err) => {
-        console.error('Orders API Error:', err);
-
-        this.loading.set(false);
-      }
-    });
+  protected onPageChange(page: number): void {
+    this.orders.page.set(page);
+    this.document.defaultView?.scrollTo({ top: 0, behavior: 'smooth' });
   }
 }

@@ -24,7 +24,7 @@ import {
   ProductResponse,
   ProductsResponse,
 } from '../interfaces/home.model/home-model-response';
-import { TestimonialsResponse } from '../interfaces/home.Testimonial/Testimonial';
+import { CreateTestimonialRequest, TestimonialsResponse } from '../interfaces/home.Testimonial/Testimonial';
 import { CreateReviewRequest, ReviewsQuery } from '../interfaces/review.model/review-request';
 import {
   CreateReviewResponse,
@@ -42,6 +42,7 @@ export default abstract class ShopApi {
   abstract getCategories(query?: PageQuery): Observable<CategoriesResponse>;
   abstract getOccasions(query?: PageQuery): Observable<OccasionsResponse>;
   abstract getTestimonials(): Observable<TestimonialsResponse>;
+  abstract addTestimonial(body: CreateTestimonialRequest): Observable<unknown>;
 
   abstract getReviews(query?: ReviewsQuery): Observable<ReviewsResponse>;
   abstract addReview(body: CreateReviewRequest): Observable<CreateReviewResponse>;
