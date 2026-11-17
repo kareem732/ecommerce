@@ -731,5 +731,48 @@
       "CTA": "Find a gift"
     },
     "STEPS_LABEL": "Gift Finder steps"
+  },
+  "ACCOUNT": {
+    "TITLE": "Account Settings",
+    "NAV": {
+      "PROFILE": "Profile",
+      "CHANGE_PASSWORD": "Change Password"
+    },
+    "PROFILE": {
+      "UPLOAD_PHOTO": "Upload Photo",
+      "UPLOAD_HINT": "You can upload a .jpg, .png, or .gif photo with max size of 5MB.",
+      "PHOTO_ALT": "Profile photo",
+      "PHOTO_INVALID_TYPE": "Only .jpg, .png, or .gif images are allowed",
+      "PHOTO_TOO_LARGE": "Photo must be 5MB or smaller",
+      "FIRST_NAME": "First name",
+      "LAST_NAME": "Last name",
+      "EMAIL": "Email",
+      "PHONE": "Phone",
+      "GENDER": "Gender",
+      "GENDERS": {
+        "MALE": "Male",
+        "FEMALE": "Female"
+      },
+      "DELETE_ACCOUNT": "Delete My Account",
+      "SAVE": "Save Changes"
+    },
+    "PASSWORD": {
+      "CURRENT": "Old Password",
+      "NEW": "New Password",
+      "CONFIRM": "Confirm New Password",
+      "SUBMIT": "Change Password"
+    },
+    "DELETE": {
+      "MESSAGE": "Are you sure you want to delete your account?",
+      "DESCRIPTION": "This action is permanent and cannot be undone.",
+      "CONFIRM": "Yes, delete",
+      "CANCEL": "Nope, not doing it"
+    },
+    "ERRORS": {
+      "REQUIRED": "This field is required",
+      "PHONE": "Enter a valid phone number",
+      "PASSWORD": "At least 8 characters, including letters and numbers",
+      "MISMATCH": "Passwords do not match"
+    }
   }
 }

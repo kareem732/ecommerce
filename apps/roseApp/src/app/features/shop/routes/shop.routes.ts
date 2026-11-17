@@ -49,6 +49,11 @@ export const SHOP_ROUTES: Routes = [
         loadComponent: () =>
           import('../pages/order-details/order-details').then((m) => m.OrderDetails),
       },
+      {
+        path: 'account',
+        loadChildren: () =>
+          import('../../account/account.routes').then((m) => m.ACCOUNT_ROUTES),
+      },
       CHECKOUT_FLOW_ROUTE,
       {
         path: 'payment-success',

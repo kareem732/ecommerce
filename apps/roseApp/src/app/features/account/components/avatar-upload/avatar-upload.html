@@ -1,0 +1,38 @@
+<div class="flex flex-col gap-1">
+  <div class="flex items-center gap-4">
+    <label
+      class="relative block size-20 shrink-0 cursor-pointer rounded-full focus-within:ring-2 focus-within:ring-(--border-focus)"
+      [attr.aria-label]="'ACCOUNT.PROFILE.UPLOAD_PHOTO' | translate"
+    >
+      @if (displayUrl(); as url) {
+        <img
+          [src]="url"
+          [alt]="'ACCOUNT.PROFILE.PHOTO_ALT' | translate"
+          class="size-full rounded-full object-cover"
+        />
+      } @else {
+        <span class="grid size-full place-items-center rounded-full bg-(--bg-muted) text-(--text-secondary)">
+          <lucide-angular [img]="User" [size]="36" aria-hidden="true" />
+        </span>
+      }
+
+      <span
+        class="absolute -bottom-1 end-0 grid size-7 place-items-center rounded-full border border-(--border-default) bg-(--bg-surface) text-(--text-primary)"
+        aria-hidden="true"
+      >
+        <lucide-angular [img]="CloudUpload" [size]="16" />
+      </span>
+
+      <input type="file" class="sr-only" [accept]="accept" (change)="onFileChange($event)" />
+    </label>
+
+    <div>
+      <p class="font-semibold text-(--text-primary)">{{ 'ACCOUNT.PROFILE.UPLOAD_PHOTO' | translate }}</p>
+      <p class="text-sm text-(--text-secondary)">{{ 'ACCOUNT.PROFILE.UPLOAD_HINT' | translate }}</p>
+    </div>
+  </div>
+
+  @if (errorKey(); as key) {
+    <app-error-message [message]="key | translate" />
+  }
+</div>
