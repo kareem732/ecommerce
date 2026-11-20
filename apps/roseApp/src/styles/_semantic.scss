@@ -89,6 +89,10 @@
   --bg-success-subtle: var(--color-emerald-50);
   --bg-danger-subtle:  var(--color-red-50);
 
+  /* account settings */
+  --account-nav-active-bg:   var(--color-zinc-800);
+  --account-nav-active-text: var(--color-white);
+
   /* dialog */
   --dialog-bg:               #ffffff;
   --dialog-text:             #1a1a1a;
@@ -193,6 +197,10 @@
   --bg-chip:           var(--color-zinc-700);
   --bg-success-subtle: color-mix(in srgb, var(--color-emerald-400) 15%, transparent);
   --bg-danger-subtle:  color-mix(in srgb, var(--color-red-400) 15%, transparent);
+
+  /* account settings */
+  --account-nav-active-bg:   var(--color-zinc-100);
+  --account-nav-active-text: var(--color-zinc-900);
 
   /* dialog */
   --dialog-bg:               var(--color-zinc-900);

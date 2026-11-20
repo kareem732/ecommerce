@@ -28,6 +28,7 @@ import {
   Heart,
   House,
   Info,
+  Lock,
   LogOut,
   LucideAngularModule,
   MapPin,
@@ -53,6 +54,7 @@ import { LanguageEnum, LanguageService } from '@org/shared-i18n';
 import { ThemeService } from '@org/theme';
 import { CartStore } from '../../../features/shop/stores/cart/cart.store';
 import { WishlistStore } from '../../../features/shop/stores/wishlist/wishlist.store';
+import { ACCOUNT_PATHS } from '../../../features/account/constants/account.constants';
 import { AddressStore } from '../../../features/shop/stores/address/address.store';
 import { MyAddressesModal } from '../../../features/shop/components/address/my-addresses-modal/my-addresses-modal';
 import { NotificationsStore } from '../../../features/notifications/notifications.store';
@@ -195,6 +197,7 @@ export class Navbar {
 
     const main: AccountMenuItem[] = [
       { id: 'profile', label: t('HEADER.MY_PROFILE'), icon: User },
+      { id: 'change-password', label: t('ACCOUNT.NAV.CHANGE_PASSWORD'), icon: Lock },
       { id: 'addresses', label: t('HEADER.MY_ADDRESSES'), icon: MapPinHouse },
       { id: 'orders', label: t('HEADER.MY_ORDERS'), icon: ScrollText },
     ];
@@ -392,7 +395,10 @@ export class Navbar {
   onAccountItemSelected(item: AccountMenuItem): void {
     switch (item.id) {
       case 'profile':
-        this.onAccountMenuNavigate('/shop/home');
+        this.onAccountMenuNavigate(ACCOUNT_PATHS.profile);
+        break;
+      case 'change-password':
+        this.onAccountMenuNavigate(ACCOUNT_PATHS.changePassword);
         break;
       case 'addresses':
         this.openAddresses();

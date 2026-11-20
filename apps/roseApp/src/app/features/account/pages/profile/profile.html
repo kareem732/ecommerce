@@ -1,0 +1,48 @@
+<form [formGroup]="form" (ngSubmit)="save()" class="flex flex-col gap-4" novalidate>
+  <app-avatar-upload [photoUrl]="profile()?.photo ?? null" (fileSelected)="selectedPhoto.set($event)" />
+
+  <div class="grid gap-4 sm:grid-cols-2">
+    <app-input
+      formControlName="firstName"
+      [label]="'ACCOUNT.PROFILE.FIRST_NAME' | translate"
+      [error]="error('firstName')"
+    />
+    <app-input
+      formControlName="lastName"
+      [label]="'ACCOUNT.PROFILE.LAST_NAME' | translate"
+      [error]="error('lastName')"
+    />
+  </div>
+
+  <app-input formControlName="email" type="email" [label]="'ACCOUNT.PROFILE.EMAIL' | translate" />
+
+  <app-phone formControlName="phone" [label]="'ACCOUNT.PROFILE.PHONE' | translate" [error]="error('phone')" />
+
+  @if (profile()?.gender; as gender) {
+    <div class="flex flex-col gap-1.5">
+      <app-label [text]="'ACCOUNT.PROFILE.GENDER' | translate" [disabled]="true" />
+      <p class="rounded-lg border border-(--border-default) bg-(--bg-disabled) px-3 py-2.5 text-sm text-(--text-disabled)">
+        {{ 'ACCOUNT.PROFILE.GENDERS.' + gender | translate }}
+      </p>
+    </div>
+  }
+
+  <div class="mt-10 flex flex-wrap items-center justify-between gap-4">
+    <button
+      type="button"
+      class="text-sm text-(--text-error) underline-offset-4 hover:underline focus-visible:underline focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50"
+      [disabled]="deleting()"
+      (click)="deleteAccount()"
+    >
+      {{ 'ACCOUNT.PROFILE.DELETE_ACCOUNT' | translate }}
+    </button>
+
+    <app-button
+      type="submit"
+      class="w-full sm:w-auto sm:min-w-52"
+      [label]="'ACCOUNT.PROFILE.SAVE' | translate"
+      [loading]="saving()"
+      [fullWidth]="true"
+    />
+  </div>
+</form>

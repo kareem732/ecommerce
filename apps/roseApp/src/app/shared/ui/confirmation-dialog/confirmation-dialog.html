@@ -16,6 +16,10 @@
 
   <p class="dialog__message" dir="auto">{{ data.message | translate }}</p>
 
+  @if (data.description) {
+  <p class="dialog__description" dir="auto">{{ data.description | translate }}</p>
+  }
+
   <div class="dialog__actions">
     <button type="button" class="btn btn--secondary" (click)="close(false)">
       {{ data.cancelText! | translate }}

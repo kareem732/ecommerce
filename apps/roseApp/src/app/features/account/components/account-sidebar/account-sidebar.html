@@ -1,0 +1,30 @@
+<aside
+  class="flex h-full flex-col justify-between gap-6 rounded-2xl border border-(--border-default) bg-(--bg-card) p-2 md:min-h-[420px]"
+>
+  <nav [attr.aria-label]="'ACCOUNT.TITLE' | translate">
+    <ul class="flex gap-2 md:flex-col">
+      @for (item of items; track item.route) {
+        <li class="flex-1 md:flex-none">
+          <a
+            [routerLink]="item.route"
+            routerLinkActive="bg-(--account-nav-active-bg)! text-(--account-nav-active-text)!"
+            ariaCurrentWhenActive="page"
+            class="flex items-center gap-2 rounded-lg px-3 py-2.5 text-sm text-(--text-primary) transition-colors hover:bg-(--bg-muted) focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--border-focus)"
+          >
+            <lucide-angular [img]="item.icon" [size]="18" aria-hidden="true" />
+            <span>{{ item.label | translate }}</span>
+          </a>
+        </li>
+      }
+    </ul>
+  </nav>
+
+  <button
+    type="button"
+    class="flex items-center gap-2 rounded-lg bg-(--bg-muted) px-3 py-2.5 text-sm text-(--text-error) transition-colors hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--border-focus)"
+    (click)="logout()"
+  >
+    <lucide-angular [img]="LogOut" [size]="18" class="rtl:-scale-x-100" aria-hidden="true" />
+    <span>{{ 'COMMON.LOGOUT' | translate }}</span>
+  </button>
+</aside>

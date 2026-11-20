@@ -51,6 +51,19 @@
     unicode-bidi: plaintext;
   }
 
+  &__message:has(+ .dialog__description) {
+    margin-block-end: 4px;
+    font-weight: 600;
+  }
+
+  &__description {
+    margin: 0 0 36px;
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--text-error);
+    unicode-bidi: plaintext;
+  }
+
   &__actions {
     display: flex;
     gap: 12px;
