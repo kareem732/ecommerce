@@ -1,0 +1,26 @@
+<button
+  type="button"
+  class="relative flex h-full w-full cursor-pointer flex-col items-center gap-3 overflow-hidden rounded-2xl border-2 bg-(--bg-surface) p-4 text-center transition-all hover:-translate-y-0.5 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--border-focus)"
+  [class]="selected() ? 'border-(--color-primary) shadow-md' : 'border-(--border-default)'"
+  [attr.aria-pressed]="selected()"
+  (click)="picked.emit()"
+>
+  @if (selected()) {
+    <span
+      class="absolute end-2 top-2 grid size-6 place-items-center rounded-full bg-(--color-primary) text-(--text-on-primary)"
+      aria-hidden="true"
+    >
+      <lucide-angular [img]="Check" [size]="14" />
+    </span>
+  }
+
+  @if (image(); as src) {
+    <img [src]="src" alt="" loading="lazy" class="aspect-square w-full rounded-xl object-cover" />
+  } @else if (icon(); as ic) {
+    <span class="grid size-14 place-items-center rounded-full bg-(--color-primary-subtle) text-(--text-accent)">
+      <lucide-angular [img]="ic" [size]="26" [strokeWidth]="1.5" aria-hidden="true" />
+    </span>
+  }
+
+  <span class="text-sm font-semibold text-(--text-strong)">{{ label() }}</span>
+</button>

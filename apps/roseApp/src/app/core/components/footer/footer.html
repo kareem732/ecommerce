@@ -27,7 +27,7 @@
             <ul class="flex flex-col items-center sm:items-start gap-0.5">
               @for (link of navLinks; track link.id) {
               <li>
-                <a [routerLink]="link.route"
+                <a [routerLink]="link.route" [fragment]="link.fragment"
                   class="text-sm font-normal transition-colors text-zinc-300 hover:text-[var(--color-rose-accent)] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[var(--color-rose-accent)] rounded py-1.5 leading-tight block">
                   {{ link.labelKey | translate }}
                 </a>

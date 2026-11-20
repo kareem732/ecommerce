@@ -12,7 +12,9 @@
     "CONFIRM": "Confirm",
     "CLOSE": "Close",
     "LIGHT_MODE": "Light Mode",
-    "DARK_MODE": "Dark Mode"
+    "DARK_MODE": "Dark Mode",
+    "RETRY": "Try again",
+    "SHOP_NOW": "Shop now"
   },
   "NAVIGATION": {
     "DASHBOARD": "Dashboard",
@@ -58,7 +60,8 @@
     "CATEGORIES": "Categories",
     "OCCASIONS": "Occasions",
     "CONTACT": "Contact Us",
-    "ABOUT": "About Us"
+    "ABOUT": "About Us",
+    "GIFT_FINDER": "Find Your Gift"
   },
   "AUTH": {
     "LOGIN_TITLE": "Welcome back",
@@ -502,11 +505,8 @@
     "TOTAL_PRICE": "Total price:",
     "PAID": "Paid",
     "STATUS": "Status:",
-    "IN_PROGRESS": "In progress",
     "PAYMENT_METHOD": "Payment method:",
-    "CASH": "Cash",
     "DELIVERY_STATUS": "Delivery status:",
-    "PENDING": "Pending",
     "ORDER_ITEMS": "Order items:",
     "CURRENCY": "EGP",
     "SHOW_ALL": "Show all",
@@ -520,7 +520,8 @@
       "SHIPPED": "Shipped",
       "DELIVERED": "Delivered",
       "CANCELLED": "Cancelled",
-      "DONE": "Completed"
+      "DONE": "Completed",
+      "REFUNDED": "Refunded"
     },
     "PAYMENT_STATUS": {
       "PENDING": "Pending",
@@ -529,6 +530,39 @@
       "FAILED": "Payment failed",
       "CANCELLED": "Cancelled",
       "REFUNDED": "Refunded"
+    },
+    "DATE_AT_TIME": "{{date}} at {{time}}",
+    "PAYMENT_METHODS": {
+      "CASH_ON_DELIVERY": "Cash",
+      "CREDIT_CARD": "Credit Card"
+    },
+    "PROGRESS": {
+      "IN_PROGRESS": "In Progress",
+      "CANCELED": "Canceled",
+      "DONE": "Done"
+    },
+    "VIEW_DETAILS": "View details",
+    "REVIEW": {
+      "CTA": "Write a review",
+      "TITLE": "How was your experience?",
+      "SUBTITLE": "Your order was delivered — share your experience with other customers.",
+      "PLACEHOLDER": "Tell us about the gift, packaging and delivery…",
+      "SUCCESS": "Thank you! Your review was sent and will appear once it's approved."
+    },
+    "TIMELINE": {
+      "TITLE": "Order progress",
+      "CANCELED": "This order is {{status}}."
+    },
+    "DETAILS": {
+      "ADDRESS": "Shipping address",
+      "TRACKING": "Tracking number",
+      "NO_TRACKING": "Not available yet",
+      "SUMMARY": "Order summary",
+      "SUBTOTAL": "Subtotal",
+      "SHIPPING": "Shipping",
+      "DISCOUNT": "Discount",
+      "NOTES": "Order notes",
+      "NOT_FOUND": "This order could not be found."
     }
   },
   "CHECKOUT": {
@@ -614,6 +648,89 @@
     "UNREAD_BADGE": "{{count}} unread notifications",
     "CONFIRM_CLEAR_TITLE": "Clear all notifications",
     "CONFIRM_CLEAR_MESSAGE": "Are you sure you want to clear all notifications? This action cannot be undone."
+  },
+  "COLLECTIONS": {
+    "PRODUCTS_COUNT": "{{count}} products",
+    "CATEGORIES": {
+      "SUBTITLE": "Browse our gifts by category and find exactly what you're looking for.",
+      "EMPTY": "No categories available right now"
+    },
+    "OCCASIONS": {
+      "SUBTITLE": "Find the perfect gift for every special moment.",
+      "EMPTY": "No occasions available right now"
+    }
+  },
+  "CONTACT": {
+    "SUBTITLE": "Have a question about an order or need help choosing a gift? We'd love to hear from you.",
+    "PHONE": "Phone",
+    "EMAIL": "Email",
+    "ADDRESS": "Address",
+    "ADDRESS_VALUE": "Cairo, Egypt",
+    "HOURS": "Working hours",
+    "HOURS_VALUE": "Every day, 9:00 AM – 10:00 PM",
+    "FORM_TITLE": "Send us a message",
+    "NAME": "Full name",
+    "SUBJECT": "Subject",
+    "MESSAGE": "Message",
+    "SEND": "Send message"
+  },
+  "GIFT_FINDER": {
+    "TITLE": "Gift Finder",
+    "SUBTITLE": "Answer a few quick questions and we'll pick the perfect gift for you.",
+    "QUESTIONS": {
+      "OCCASION": "What's the occasion?",
+      "RECIPIENT": "Who is the gift for?",
+      "BUDGET": "What's your budget?",
+      "CATEGORY": "What kind of gift do you have in mind?"
+    },
+    "ANY_OCCASION": "Just because",
+    "SURPRISE_ME": "Surprise me",
+    "RECIPIENTS": {
+      "PARTNER": "My partner",
+      "MOM": "Mom",
+      "DAD": "Dad",
+      "FRIEND": "A friend",
+      "COLLEAGUE": "A colleague",
+      "MYSELF": "Myself"
+    },
+    "BUDGETS": {
+      "UNDER_250": "Under 250 EGP",
+      "FROM_250_TO_500": "250 – 500 EGP",
+      "FROM_500_TO_1000": "500 – 1,000 EGP",
+      "OVER_1000": "Over 1,000 EGP",
+      "ANY": "No limit"
+    },
+    "RESULTS": {
+      "TITLE": "Our top picks for you",
+      "TITLE_FOR": {
+        "PARTNER": "Gifts your partner will love",
+        "MOM": "Gifts Mom will love",
+        "DAD": "Gifts Dad will love",
+        "FRIEND": "Gifts your friend will love",
+        "COLLEAGUE": "Gifts your colleague will appreciate",
+        "MYSELF": "Treat yourself"
+      },
+      "RELAXED": "We couldn't find enough exact matches, so we widened the search a little.",
+      "SEARCHING": "Finding the perfect gifts…",
+      "ERROR": "Something went wrong while finding gifts.",
+      "EMPTY": "No gifts found. Try different answers.",
+      "TOP_PICK": "Top pick",
+      "WHY": "Why we picked it",
+      "RESTART": "Start over"
+    },
+    "REASONS": {
+      "OCCASION": "Fits the occasion",
+      "CATEGORY": "Your style",
+      "BUDGET": "In budget",
+      "TOP_RATED": "Top rated",
+      "DEAL": "On sale"
+    },
+    "BANNER": {
+      "TITLE": "Not sure what to gift?",
+      "SUBTITLE": "Answer 4 quick questions and let us find the perfect gift.",
+      "CTA": "Find a gift"
+    },
+    "STEPS_LABEL": "Gift Finder steps"
   },
   "ACCOUNT": {
     "TITLE": "Account Settings",

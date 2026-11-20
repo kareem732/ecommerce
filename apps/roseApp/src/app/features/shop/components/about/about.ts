@@ -3,10 +3,11 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { ArrowRight, Check, LucideAngularModule } from 'lucide-angular';
 import { map, startWith } from 'rxjs';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-about',
-  imports: [LucideAngularModule, TranslatePipe],
+  imports: [LucideAngularModule, TranslatePipe, RouterLink],
   templateUrl: './about.html',
   styleUrl: './about.scss',
 })

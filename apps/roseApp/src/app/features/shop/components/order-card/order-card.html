@@ -1,0 +1,150 @@
+@let o = order();
+
+<article class="overflow-hidden rounded-lg border border-(--border-default) bg-(--order-card-bg)">
+  <!-- Header -->
+  <header
+    class="flex flex-col justify-between gap-1 bg-(--order-header-bg) px-4 py-3 text-(--order-header-text) sm:flex-row sm:items-center"
+  >
+    <h2 class="text-lg font-semibold sm:text-xl">
+      {{ 'ORDERS.ORDER_NUMBER' | translate: { number: orderNumber() } }}
+    </h2>
+    <p class="text-xs opacity-90 sm:text-sm">
+      {{ 'ORDERS.CREATED_IN' | translate }}
+      <time class="font-semibold" [attr.datetime]="o.createdAt">
+        {{
+          'ORDERS.DATE_AT_TIME'
+            | translate: { date: (o.createdAt | date: 'd MMMM, y'), time: (o.createdAt | date: 'h:mm a') }
+        }}
+      </time>
+    </p>
+  </header>
+
+  <div class="flex flex-col gap-4 p-4">
+    <!-- Total & status -->
+    <div
+      class="flex flex-col justify-between gap-3 border-b border-(--border-default) pb-4 sm:flex-row sm:items-center"
+    >
+      <div class="flex flex-wrap items-center gap-3">
+        <p class="text-lg font-medium text-(--text-strong) sm:text-xl">
+          {{ 'ORDERS.TOTAL_PRICE' | translate }}
+          <span class="text-xl font-bold sm:text-2xl">
+            {{ o.total | number: '1.0-2' }} {{ 'ORDERS.CURRENCY' | translate }}
+          </span>
+        </p>
+
+        @if (isPaid()) {
+          <span
+            class="inline-flex items-center gap-1 rounded-full bg-(--color-success) px-2.5 py-0.5 text-xs font-medium text-white"
+          >
+            <lucide-angular [img]="Check" [size]="14" aria-hidden="true" />
+            {{ 'ORDERS.PAID' | translate }}
+          </span>
+        }
+      </div>
+
+      <p class="flex items-center gap-2 text-sm font-semibold text-(--text-heading)">
+        {{ 'ORDERS.STATUS' | translate }}
+        <span class="rounded-full px-2.5 py-0.5 text-xs font-medium text-white" [class]="progressBadgeClass()">
+          {{ 'ORDERS.PROGRESS.' + progress() | translate }}
+        </span>
+      </p>
+    </div>
+
+    @if (showActions()) {
+      <div class="flex flex-wrap items-center justify-end gap-4 border-b border-(--border-default) pb-4 text-sm font-medium">
+        @if (isDelivered()) {
+          <a
+            [routerLink]="[ordersPath, o.id]"
+            fragment="review"
+            class="flex items-center gap-1 text-(--text-accent) hover:underline"
+          >
+            <lucide-angular [img]="ReviewIcon" [size]="16" aria-hidden="true" />
+            {{ 'ORDERS.REVIEW.CTA' | translate }}
+          </a>
+        }
+        <a [routerLink]="[ordersPath, o.id]" class="flex items-center gap-1 text-(--text-accent) hover:underline">
+          {{ 'ORDERS.VIEW_DETAILS' | translate }}
+          <lucide-angular [img]="ArrowRight" [size]="16" class="rtl:-scale-x-100" aria-hidden="true" />
+        </a>
+      </div>
+    }
+
+    <!-- Payment & delivery -->
+    <dl class="flex flex-col gap-2 text-sm">
+      <div class="flex flex-wrap items-center gap-2">
+        <dt class="font-semibold text-(--text-strong)">{{ 'ORDERS.PAYMENT_METHOD' | translate }}</dt>
+        <dd class="flex items-center gap-1 text-(--text-secondary)">
+          <lucide-angular [img]="paymentIcon()" [size]="16" aria-hidden="true" />
+          {{ 'ORDERS.PAYMENT_METHODS.' + o.paymentMethod | translate }}
+        </dd>
+      </div>
+
+      <div class="flex flex-wrap items-center gap-2">
+        <dt class="font-semibold text-(--text-strong)">{{ 'ORDERS.DELIVERY_STATUS' | translate }}</dt>
+        <dd class="flex items-center gap-1" [class]="deliveryStyle().textClass">
+          <lucide-angular [img]="deliveryStyle().icon" [size]="16" aria-hidden="true" />
+          {{ 'ORDERS.STATUS_TYPES.' + o.status | translate }}
+        </dd>
+      </div>
+    </dl>
+
+    <!-- Items -->
+    <section class="flex flex-col gap-2">
+      <h3 class="text-sm font-semibold text-(--text-strong)">{{ 'ORDERS.ORDER_ITEMS' | translate }}</h3>
+
+      <div class="grid grid-cols-1 gap-3 md:grid-cols-2">
+        @for (item of visibleItems(); track item.id) {
+          <ng-container *ngTemplateOutlet="itemTile; context: { $implicit: item }" />
+        }
+      </div>
+
+      @if (canExpand()) {
+        <div class="relative">
+          @if (peekItems().length) {
+            <div class="grid max-h-14 grid-cols-1 gap-3 overflow-hidden opacity-40 md:grid-cols-2" aria-hidden="true">
+              @for (item of peekItems(); track item.id) {
+                <ng-container *ngTemplateOutlet="itemTile; context: { $implicit: item }" />
+              }
+            </div>
+            <div class="pointer-events-none absolute inset-0 bg-linear-to-t from-(--order-card-bg) to-transparent"></div>
+          }
+
+          <button
+            type="button"
+            class="relative mx-auto flex cursor-pointer flex-col items-center text-xs font-medium text-(--text-accent) focus-visible:underline focus-visible:outline-none"
+            [class.-mt-8]="peekItems().length"
+            [class.mt-1]="!peekItems().length"
+            [attr.aria-expanded]="expanded()"
+            (click)="toggleItems()"
+          >
+            {{ (expanded() ? 'ORDERS.SHOW_LESS' : 'ORDERS.SHOW_ALL') | translate }}
+            <lucide-angular [img]="expanded() ? ChevronUp : ChevronDown" [size]="16" aria-hidden="true" />
+          </button>
+        </div>
+      }
+    </section>
+  </div>
+</article>
+
+<ng-template #itemTile let-item>
+  <div
+    class="flex h-26 min-w-0 gap-3 overflow-hidden rounded-xl border border-(--border-default) bg-(--order-tile-bg) p-2 shadow-sm"
+  >
+    <img
+      [src]="item.product.cover"
+      [alt]="item.product.title"
+      loading="lazy"
+      class="h-full w-22 shrink-0 rounded-lg object-cover"
+    />
+    <div class="flex min-w-0 flex-1 flex-col justify-between py-1">
+      <p class="truncate text-sm font-semibold text-(--text-title-brand)" [title]="item.product.title">
+        {{ item.product.title }}
+      </p>
+      <p class="flex items-baseline gap-1.5">
+        <span class="text-xs text-(--text-accent)">(×{{ item.quantity }})</span>
+        <span class="text-lg font-bold text-(--text-strong)">{{ item.price | number: '1.0-2' }}</span>
+        <span class="text-xs text-(--text-secondary)">{{ 'ORDERS.CURRENCY' | translate }}</span>
+      </p>
+    </div>
+  </div>
+</ng-template>

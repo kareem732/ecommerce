@@ -1,0 +1,30 @@
+<section class="page-container py-8 sm:py-12">
+  <app-page-header class="mb-8 block" [titleKey]="titleKey()" [subtitleKey]="subtitleKey()" />
+
+  <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+    @if (items(); as list) {
+      @for (item of list; track item.id) {
+        <app-collection-card [item]="item" />
+      } @empty {
+        <p class="col-span-full py-16 text-center text-lg font-semibold text-(--text-strong)">
+          {{ emptyKey() | translate }}
+        </p>
+      }
+    } @else {
+      @for (i of skeletons(); track i) {
+        <div class="h-72 animate-pulse rounded-2xl bg-(--bg-muted)" aria-hidden="true"></div>
+      }
+    }
+  </div>
+
+  @if (total() > pageSize()) {
+    <app-pagination
+      class="mt-8"
+      [totalRecords]="total()"
+      [rows]="pageSize()"
+      [pageLinks]="5"
+      [first]="first()"
+      (pageChange)="onPageChange($event)"
+    />
+  }
+</section>

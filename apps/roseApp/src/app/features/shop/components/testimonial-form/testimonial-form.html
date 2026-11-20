@@ -1,0 +1,43 @@
+<section class="rounded-2xl border border-(--border-default) bg-(--bg-surface) p-5">
+  <h2 class="mb-1 text-lg font-semibold text-(--text-strong)">{{ 'ORDERS.REVIEW.TITLE' | translate }}</h2>
+
+  @if (sent()) {
+    <p class="rounded-xl bg-(--bg-success-subtle) p-4 text-sm text-(--color-success)" role="status">
+      {{ 'ORDERS.REVIEW.SUCCESS' | translate }}
+    </p>
+  } @else {
+    <p class="mb-4 text-sm text-(--text-secondary)">{{ 'ORDERS.REVIEW.SUBTITLE' | translate }}</p>
+
+    <form [formGroup]="form" (ngSubmit)="submit()" class="flex flex-col gap-4" novalidate>
+      <div class="flex flex-col gap-1.5">
+        <span id="testimonial-rating-label" class="text-sm font-medium text-(--text-strong)">
+          {{ 'SHOP.REVIEWS.FORM.YOUR_RATING' | translate }}
+        </span>
+        <p-rating formControlName="rating" aria-labelledby="testimonial-rating-label" />
+        @if (form.controls.rating.touched && form.controls.rating.invalid) {
+          <p class="text-xs text-(--text-error)" role="alert">
+            {{ 'SHOP.REVIEWS.FORM.ERRORS.RATING_REQUIRED' | translate }}
+          </p>
+        }
+      </div>
+
+      <app-textarea
+        formControlName="content"
+        [rows]="4"
+        [label]="'SHOP.REVIEWS.FORM.CONTENT' | translate"
+        [placeholder]="'ORDERS.REVIEW.PLACEHOLDER' | translate"
+        [error]="contentError()"
+      />
+
+      <div class="flex justify-end">
+        <app-button
+          type="submit"
+          class="w-full sm:w-auto sm:min-w-44"
+          [label]="'SHOP.REVIEWS.FORM.SUBMIT' | translate"
+          [loading]="loading()"
+          [fullWidth]="true"
+        />
+      </div>
+    </form>
+  }
+</section>

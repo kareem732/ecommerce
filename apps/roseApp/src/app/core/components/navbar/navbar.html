@@ -430,8 +430,9 @@
       @for (item of navItems; track item.id) {
       <a
         [routerLink]="item.route"
+        [fragment]="item.fragment"
         [routerLinkActive]="'font-bold shadow-[inset_0_-2px_0_0_#FFC2D0] text-[#FFC2D0] dark:shadow-[inset_0_-2px_0_0_#A6252A] dark:text-zinc-800 rounded-none'"
-        [routerLinkActiveOptions]="{ exact: true }"
+        [routerLinkActiveOptions]="navLinkActiveOptions"
         class="header__nav-link flex items-center h-full gap-1.5 text-xs sm:text-sm font-medium transition-all px-2.5 rounded-none cursor-pointer hover:opacity-90 hover:text-white dark:hover:text-[#A6252A]"
         (click)="closeAllMenus()"
       >
@@ -566,8 +567,9 @@
       @for (item of navItems; track item.id) {
       <a
         [routerLink]="item.route"
+        [fragment]="item.fragment"
         [routerLinkActive]="'bg-zinc-100 text-[#741c21] font-bold dark:bg-zinc-800 dark:text-[#ea9fa2]'"
-        [routerLinkActiveOptions]="{ exact: true }"
+        [routerLinkActiveOptions]="navLinkActiveOptions"
         class="header__mobile-link flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-colors cursor-pointer text-zinc-800 dark:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-800 hover:text-[#741c21] dark:hover:text-[#ea9fa2]"
         (click)="closeAllMenus()"
       >
@@ -583,9 +585,9 @@
       <!-- My Orders (mobile, logged-in only) -->
       @if (isLoggedIn()) {
       <a
-        routerLink="/shop/order"
+        [routerLink]="ordersRoute"
         routerLinkActive="bg-zinc-100 text-[#741c21] font-bold dark:bg-zinc-800 dark:text-[#ea9fa2]"
-        [routerLinkActiveOptions]="{ exact: true }"
+        [routerLinkActiveOptions]="navLinkActiveOptions"
         class="header__mobile-link flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-colors cursor-pointer text-zinc-800 dark:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-800 hover:text-[#741c21] dark:hover:text-[#ea9fa2]"
         (click)="closeAllMenus()"
       >

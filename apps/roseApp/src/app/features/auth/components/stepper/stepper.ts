@@ -10,6 +10,7 @@ import { TranslatePipe } from '@ngx-translate/core';
 export class Stepper {
   readonly current = input.required<number>();
   readonly total = input(4);
+  readonly labelKey = input('AUTH.REGISTER.STEPS_LABEL');
 
   readonly steps = computed(() =>
     Array.from({ length: this.total() }, (_, i) => {

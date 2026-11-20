@@ -1,0 +1,78 @@
+<section class="flex flex-col gap-6" aria-live="polite">
+  <header class="flex flex-col items-center gap-2 text-center">
+    <span
+      class="grid size-14 place-items-center rounded-full bg-(--color-primary-subtle) text-(--text-accent)"
+      aria-hidden="true"
+    >
+      <lucide-angular [img]="Sparkles" [size]="28" />
+    </span>
+    <h2 class="text-2xl font-bold text-(--text-heading)">
+      @if (recipient(); as who) {
+        {{ 'GIFT_FINDER.RESULTS.TITLE_FOR.' + who | translate }}
+      } @else {
+        {{ 'GIFT_FINDER.RESULTS.TITLE' | translate }}
+      }
+    </h2>
+    @if (relaxed() && !searching()) {
+      <p class="max-w-xl text-sm text-(--text-secondary)">{{ 'GIFT_FINDER.RESULTS.RELAXED' | translate }}</p>
+    }
+  </header>
+
+  @if (searching()) {
+    <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4" role="status">
+      <span class="sr-only">{{ 'GIFT_FINDER.RESULTS.SEARCHING' | translate }}</span>
+      @for (i of skeletons; track i) {
+        <div class="h-96 animate-pulse rounded-2xl bg-(--bg-muted)" aria-hidden="true"></div>
+      }
+    </div>
+  } @else if (failed()) {
+    <div class="flex flex-col items-center gap-4 py-8 text-center">
+      <p class="text-(--text-secondary)">{{ 'GIFT_FINDER.RESULTS.ERROR' | translate }}</p>
+      <app-button [label]="'COMMON.RETRY' | translate" (clicked)="retry.emit()" />
+    </div>
+  } @else {
+    <ul class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+      @for (match of matches(); track match.product.id; let isFirst = $first) {
+        <li class="relative flex flex-col gap-2">
+          @if (isFirst) {
+            <span
+              class="absolute -top-3 start-3 z-10 rounded-full bg-(--color-primary) px-3 py-1 text-xs font-semibold text-(--text-on-primary) shadow"
+            >
+              {{ 'GIFT_FINDER.RESULTS.TOP_PICK' | translate }}
+            </span>
+          }
+          <app-product-card
+            [product]="match.product"
+            [wishlisted]="wishlist.ids().has(match.product.id)"
+            (addToCart)="addToCart($event)"
+            (addToWishlist)="toggleWishlist($event)"
+          />
+          @if (match.reasons.length) {
+            <ul class="flex flex-wrap gap-1.5" [attr.aria-label]="'GIFT_FINDER.RESULTS.WHY' | translate">
+              @for (reason of match.reasons; track reason) {
+                <li
+                  class="rounded-full bg-(--color-primary-subtle) px-2.5 py-0.5 text-xs font-medium text-(--text-accent)"
+                >
+                  {{ 'GIFT_FINDER.REASONS.' + reason | translate }}
+                </li>
+              }
+            </ul>
+          }
+        </li>
+      } @empty {
+        <li class="col-span-full py-8 text-center text-(--text-secondary)">
+          {{ 'GIFT_FINDER.RESULTS.EMPTY' | translate }}
+        </li>
+      }
+    </ul>
+  }
+
+  <div class="flex justify-center">
+    <app-button
+      variant="outline"
+      [icon]="RotateCcw"
+      [label]="'GIFT_FINDER.RESULTS.RESTART' | translate"
+      (clicked)="restart.emit()"
+    />
+  </div>
+</section>

@@ -6,6 +6,7 @@ import {
   withMethods,
   withState,
 } from '@ngrx/signals';
+import { NotificationService } from '@org/auth-service';
 import { firstValueFrom } from 'rxjs';
 import {
   AddressRequest,
@@ -30,7 +31,7 @@ export const AddressStore = signalStore(
       selectedAddress: computed(() => items().find((a) => a.id === selectedId()) ?? null),
     };
   }),
-  withMethods((store, api = inject(ShopService)) => {
+  withMethods((store, api = inject(ShopService), notifications = inject(NotificationService)) => {
     let inflight: Promise<boolean> | null = null;
 
     const setSelected = (id: string | null): void => {
@@ -70,6 +71,11 @@ export const AddressStore = signalStore(
       return startRequest();
     };
 
+    /** Shows the shared success toast unless the backend already sent its own message (the error interceptor toasts that one). */
+    const notifySuccess = (result: unknown, key: string): void => {
+      if (!(result as { message?: string } | null)?.message) notifications.success(key);
+    };
+
     const mutate = async <T>(
       run: () => Promise<T>,
       after?: (result: T) => void,
@@ -95,19 +101,27 @@ export const AddressStore = signalStore(
       add: (body: AddressRequest): Promise<boolean> =>
         mutate(
           () => firstValueFrom(api.addAddress(body)),
-          (res) => setSelected(res.payload.address.id),
+          (res) => {
+            notifySuccess(res, 'TOAST.ADDRESS_ADDED');
+            const id = res?.payload?.address?.id;
+            if (id) setSelected(id);
+          },
         ),
 
       update: (id: string, body: UpdateAddressRequest): Promise<boolean> =>
         mutate(
           () => firstValueFrom(api.updateAddress(id, body)),
-          () => {
+          (res) => {
+            notifySuccess(res, 'TOAST.ADDRESS_UPDATED');
             if (body.isPrimary) setSelected(id);
           },
         ),
 
       remove: (id: string): Promise<boolean> =>
-        mutate(() => firstValueFrom(api.deleteAddress(id))),
+        mutate(
+          () => firstValueFrom(api.deleteAddress(id)),
+          (res) => notifySuccess(res, 'TOAST.ADDRESS_DELETED'),
+        ),
 
       reset(): void {
         patchState(store, initialAddressState);

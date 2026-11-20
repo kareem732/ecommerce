@@ -5,12 +5,13 @@ import ShopApi from '../base/shopApi';
 import ShopEndPoint from '../enums/EndPoints';
 import { PageQuery, ProductsQuery } from '../interfaces/home.model/home-model-request';
 import {
+  ApiResponse,
   CategoriesResponse,
   OccasionsResponse,
   ProductResponse,
   ProductsResponse,
 } from '../interfaces/home.model/home-model-response';
-import { TestimonialsResponse } from '../interfaces/home.Testimonial/Testimonial';
+import { CreateTestimonialRequest, TestimonialsResponse } from '../interfaces/home.Testimonial/Testimonial';
 import {
   CreateReviewRequest,
   ReviewsQuery,
@@ -32,7 +33,7 @@ import {
   UpdateCartRequest,
   UpdateCartResponse,
 } from '../interfaces/cart.model/cart.model';
-import { OrderHistoryResponse } from '../interfaces/order.model/order-history.model';
+import { OrderDetailsResponse, OrderHistoryResponse } from '../interfaces/order.model/order-history.model';
 import {
   AddressRequest,
   UpdateAddressRequest,
@@ -101,6 +102,10 @@ export class ShopService implements ShopApi {
     return this._httpClient.get<TestimonialsResponse>(
       ShopEndPoint.TESTIMONIALS,
     );
+  }
+
+  addTestimonial(body: CreateTestimonialRequest): Observable<ApiResponse<unknown>> {
+    return this._httpClient.post<ApiResponse<unknown>>(ShopEndPoint.TESTIMONIALS, body);
   }
 
   getWishlist(): Observable<WishlistResponse> {
@@ -201,7 +206,14 @@ export class ShopService implements ShopApi {
     return params;
   }
 
-  getOrderHistory(): Observable<OrderHistoryResponse> {
-    return this._httpClient.get<OrderHistoryResponse>(ShopEndPoint.ORDERHISTORY)
+  getOrderHistory(query: PageQuery = {}, context?: HttpContext): Observable<OrderHistoryResponse> {
+    return this._httpClient.get<OrderHistoryResponse>(ShopEndPoint.ORDERHISTORY, {
+      context,
+      params: this.buildParams(query),
+    });
+  }
+
+  getOrder(id: string): Observable<OrderDetailsResponse> {
+    return this._httpClient.get<OrderDetailsResponse>(`${ShopEndPoint.ORDERS}/${id}`);
   }
 }
