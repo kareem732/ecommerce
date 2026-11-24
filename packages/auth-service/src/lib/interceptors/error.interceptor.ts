@@ -26,6 +26,17 @@ export function skipErrorNotification(
   return context.set(SKIP_ERROR_NOTIFICATION, true);
 }
 
+export const SKIP_SUCCESS_NOTIFICATION = new HttpContextToken<boolean>(
+  () => false,
+);
+
+/** Use when the caller shows its own (translated) success toast. */
+export function skipSuccessNotification(
+  context = new HttpContext(),
+): HttpContext {
+  return context.set(SKIP_SUCCESS_NOTIFICATION, true);
+}
+
 export const errorInterceptor: HttpInterceptorFn = (req, next) => {
   const session = inject(SessionService);
   const router = inject(Router);
@@ -36,6 +47,7 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
     tap((event) => {
       if (event.type !== HttpEventType.Response) return;
       if (!MUTATING_METHODS.includes(req.method)) return;
+      if (req.context.get(SKIP_SUCCESS_NOTIFICATION)) return;
 
       const message = (event as HttpResponse<{ message?: string }>).body
         ?.message;

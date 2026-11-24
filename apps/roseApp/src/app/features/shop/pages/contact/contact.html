@@ -42,19 +42,31 @@
       <h2 class="text-xl font-semibold text-(--text-title-brand)">{{ 'CONTACT.FORM_TITLE' | translate }}</h2>
 
       <div class="grid gap-4 sm:grid-cols-2">
-        <app-input formControlName="name" [label]="'CONTACT.NAME' | translate" [error]="error('name')" />
+        <app-input
+          formControlName="name"
+          [label]="'CONTACT.NAME' | translate"
+          [placeholder]="'CONTACT.NAME_PLACEHOLDER' | translate"
+          [error]="error('name')"
+        />
         <app-input
           formControlName="email"
           type="email"
           [label]="'CONTACT.EMAIL' | translate"
+          [placeholder]="'CONTACT.EMAIL_PLACEHOLDER' | translate"
           [error]="error('email')"
         />
       </div>
-      <app-input formControlName="subject" [label]="'CONTACT.SUBJECT' | translate" [error]="error('subject')" />
+      <app-input
+        formControlName="subject"
+        [label]="'CONTACT.SUBJECT' | translate"
+        [placeholder]="'CONTACT.SUBJECT_PLACEHOLDER' | translate"
+        [error]="error('subject')"
+      />
       <app-textarea
         formControlName="message"
         [rows]="6"
         [label]="'CONTACT.MESSAGE' | translate"
+        [placeholder]="'CONTACT.MESSAGE_PLACEHOLDER' | translate"
         [error]="error('message')"
       />
 

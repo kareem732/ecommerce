@@ -1,0 +1,93 @@
+<div
+  class="relative flex w-[min(480px,92vw)] flex-col gap-5 rounded-2xl bg-(--dialog-bg) p-6 sm:p-7"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="change-email-title"
+  [attr.dir]="dir()"
+>
+  <div class="flex items-center gap-3">
+    <app-stepper class="flex-1" [current]="store.step()" [total]="2" />
+    <button
+      type="button"
+      class="grid size-8 shrink-0 place-items-center rounded-lg text-(--dialog-close) transition-colors hover:bg-(--dialog-close-hover-bg) hover:text-(--dialog-close-hover)"
+      [attr.aria-label]="'COMMON.CLOSE' | translate"
+      (click)="close()"
+    >
+      <lucide-angular [img]="X" [size]="20" />
+    </button>
+  </div>
+
+  <div class="flex flex-col gap-1">
+    <h2 id="change-email-title" class="text-2xl font-bold text-(--text-strong)">
+      {{ 'ACCOUNT.CHANGE_EMAIL.TITLE' | translate }}
+    </h2>
+    <p class="text-base font-semibold text-(--text-accent)">
+      {{ 'ACCOUNT.CHANGE_EMAIL.SUBTITLE.' + store.step() | translate }}
+    </p>
+  </div>
+
+  @switch (store.step()) {
+    @case (Step.Email) {
+      <form [formGroup]="form" (ngSubmit)="submitEmail()" class="flex flex-col gap-5" novalidate>
+        <app-input
+          formControlName="email"
+          type="email"
+          [label]="'ACCOUNT.CHANGE_EMAIL.EMAIL' | translate"
+          [placeholder]="'ACCOUNT.CHANGE_EMAIL.EMAIL_PLACEHOLDER' | translate"
+          [error]="sameEmail() ? ('ACCOUNT.ERRORS.SAME_EMAIL' | translate) : emailError()"
+        />
+
+        <app-button
+          type="submit"
+          [label]="'COMMON.NEXT' | translate"
+          [endIcon]="NextIcon()"
+          [loading]="loading()"
+          [fullWidth]="true"
+        />
+      </form>
+    }
+
+    @case (Step.Verify) {
+      <div class="flex flex-col gap-5">
+        <p class="text-sm text-(--text-secondary)">
+          {{ 'ACCOUNT.CHANGE_EMAIL.CODE_SENT_TO' | translate: { length: OTP_LENGTH } }}
+          <span class="font-medium text-(--text-strong)" dir="ltr">{{ store.newEmail() }}</span>.
+          <button
+            type="button"
+            class="ms-1 font-medium text-(--text-accent) underline underline-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+            [disabled]="loading() || resending()"
+            (click)="editEmail()"
+          >
+            {{ 'ACCOUNT.CHANGE_EMAIL.EDIT' | translate }}
+          </button>
+        </p>
+
+        <app-otp [length]="OTP_LENGTH" [disabled]="loading()" (changed)="otpCode.set($event)" (completed)="submitCode()" />
+
+        <p class="text-center text-sm text-(--text-secondary)">
+          @if (resendSeconds() > 0) {
+            {{ 'ACCOUNT.CHANGE_EMAIL.RESEND_IN' | translate: { seconds: resendSeconds() } }}
+          } @else {
+            <button
+              type="button"
+              class="font-medium text-(--text-accent) underline underline-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+              [disabled]="loading() || resending()"
+              (click)="resendCode()"
+            >
+              {{ 'ACCOUNT.CHANGE_EMAIL.RESEND' | translate }}
+            </button>
+          }
+        </p>
+
+        <app-button
+          type="button"
+          [label]="'ACCOUNT.CHANGE_EMAIL.VERIFY' | translate"
+          [loading]="loading()"
+          [disabled]="otpCode().length !== OTP_LENGTH || resending()"
+          [fullWidth]="true"
+          (clicked)="submitCode()"
+        />
+      </div>
+    }
+  }
+</div>

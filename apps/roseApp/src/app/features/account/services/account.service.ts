@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { ApiResponse } from '@org/auth-service';
+import { ApiResponse, skipSuccessNotification } from '@org/auth-service';
 import { Observable, map } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 import AccountEndPoint from '../enums/account-endpoints';
@@ -38,6 +38,18 @@ export class AccountService {
 
   changePassword(body: ChangePasswordRequest): Observable<ApiResponse<unknown>> {
     return this.http.post<ApiResponse<unknown>>(AccountEndPoint.CHANGE_PASSWORD, body);
+  }
+
+  requestEmailChange(newEmail: string): Observable<ApiResponse<unknown>> {
+    return this.http.post<ApiResponse<unknown>>(AccountEndPoint.EMAIL_REQUEST, { newEmail });
+  }
+
+  confirmEmailChange(code: string): Observable<ApiResponse<unknown>> {
+    return this.http.post<ApiResponse<unknown>>(
+      AccountEndPoint.EMAIL_CONFIRM,
+      { code },
+      { context: skipSuccessNotification() },
+    );
   }
 
   deleteAccount(): Observable<ApiResponse<unknown>> {

@@ -1,12 +1,19 @@
+import { Dialog } from '@angular/cdk/dialog';
+import { Overlay } from '@angular/cdk/overlay';
 import { ChangeDetectionStrategy, Component, effect, inject, signal } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslatePipe } from '@ngx-translate/core';
 import { Button, Input, Label, Phone } from '@org/ui';
-import { Trash2 } from 'lucide-angular';
+import { LucideAngularModule, Pencil, Trash2 } from 'lucide-angular';
+import { firstValueFrom } from 'rxjs';
 import { ConfirmationDialogService } from '../../../../shared/business/confirmation-dialog.service';
 import { optionalPhone } from '../../../auth/utils/auth-validators';
 import { FormErrorService } from '../../../auth/utils/form-error.service';
 import { AvatarUpload } from '../../components/avatar-upload/avatar-upload';
+import {
+  ChangeEmailDialog,
+  ChangeEmailDialogData,
+} from '../../components/change-email-dialog/change-email-dialog';
 import { UserProfile } from '../../interfaces/account.models';
 import { ProfileForm } from '../../interfaces/profile-form.interface';
 import { DeleteAccountStore } from '../../stores/delete-account.store';
@@ -16,7 +23,16 @@ type EditableField = 'firstName' | 'lastName' | 'phone';
 
 @Component({
   selector: 'app-profile',
-  imports: [ReactiveFormsModule, TranslatePipe, Button, Input, Label, Phone, AvatarUpload],
+  imports: [
+    ReactiveFormsModule,
+    TranslatePipe,
+    LucideAngularModule,
+    Button,
+    Input,
+    Label,
+    Phone,
+    AvatarUpload,
+  ],
   providers: [ProfileStore, DeleteAccountStore, FormErrorService],
   templateUrl: './profile.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -25,9 +41,12 @@ export class Profile {
   private readonly fb = inject(NonNullableFormBuilder);
   private readonly store = inject(ProfileStore);
   private readonly deleteStore = inject(DeleteAccountStore);
-  private readonly dialog = inject(ConfirmationDialogService);
+  private readonly confirmDialog = inject(ConfirmationDialogService);
+  private readonly dialog = inject(Dialog);
+  private readonly overlay = inject(Overlay);
   private readonly errors = inject(FormErrorService).scope('ACCOUNT.ERRORS');
 
+  protected readonly Pencil = Pencil;
   protected readonly profile = this.store.profile;
   protected readonly saving = this.store.loading;
   protected readonly deleting = this.deleteStore.loading;
@@ -64,8 +83,23 @@ export class Profile {
     });
   }
 
+  protected async changeEmail(): Promise<void> {
+    const currentEmail = this.profile()?.email;
+    if (!currentEmail) return;
+
+    const ref = this.dialog.open<boolean, ChangeEmailDialogData>(ChangeEmailDialog, {
+      data: { currentEmail },
+      backdropClass: 'app-dialog-backdrop',
+      autoFocus: 'first-tabbable',
+      disableClose: true,
+      scrollStrategy: this.overlay.scrollStrategies.block(),
+    });
+
+    if (await firstValueFrom(ref.closed)) this.store.loadProfile();
+  }
+
   protected async deleteAccount(): Promise<void> {
-    const confirmed = await this.dialog.confirm({
+    const confirmed = await this.confirmDialog.confirm({
       icon: Trash2,
       message: 'ACCOUNT.DELETE.MESSAGE',
       description: 'ACCOUNT.DELETE.DESCRIPTION',

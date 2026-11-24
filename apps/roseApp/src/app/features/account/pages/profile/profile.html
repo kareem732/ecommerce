@@ -14,7 +14,19 @@
     />
   </div>
 
-  <app-input formControlName="email" type="email" [label]="'ACCOUNT.PROFILE.EMAIL' | translate" />
+  <div class="relative">
+    <app-input formControlName="email" type="email" [label]="'ACCOUNT.PROFILE.EMAIL' | translate" />
+    <button
+      type="button"
+      class="absolute end-0 top-0 inline-flex items-center gap-1.5 text-sm font-medium text-(--text-accent) underline-offset-4 hover:underline focus-visible:underline focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50"
+      [attr.aria-label]="'ACCOUNT.PROFILE.CHANGE_EMAIL_ARIA' | translate"
+      [disabled]="!profile()"
+      (click)="changeEmail()"
+    >
+      <lucide-angular [img]="Pencil" [size]="16" aria-hidden="true" />
+      {{ 'ACCOUNT.PROFILE.CHANGE_EMAIL' | translate }}
+    </button>
+  </div>
 
   <app-phone formControlName="phone" [label]="'ACCOUNT.PROFILE.PHONE' | translate" [error]="error('phone')" />
 

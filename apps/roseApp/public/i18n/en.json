@@ -672,7 +672,11 @@
     "NAME": "Full name",
     "SUBJECT": "Subject",
     "MESSAGE": "Message",
-    "SEND": "Send message"
+    "SEND": "Send message",
+    "NAME_PLACEHOLDER": "Enter your full name",
+    "EMAIL_PLACEHOLDER": "you@example.com",
+    "SUBJECT_PLACEHOLDER": "What is your message about?",
+    "MESSAGE_PLACEHOLDER": "Write your message here..."
   },
   "GIFT_FINDER": {
     "TITLE": "Gift Finder",
@@ -754,7 +758,24 @@
         "FEMALE": "Female"
       },
       "DELETE_ACCOUNT": "Delete My Account",
-      "SAVE": "Save Changes"
+      "SAVE": "Save Changes",
+      "CHANGE_EMAIL": "Change",
+      "CHANGE_EMAIL_ARIA": "Change email"
+    },
+    "CHANGE_EMAIL": {
+      "TITLE": "Change Email",
+      "SUBTITLE": {
+        "1": "Enter your new email",
+        "2": "Verify OTP"
+      },
+      "EMAIL": "Email",
+      "EMAIL_PLACEHOLDER": "user@example.com",
+      "CODE_SENT_TO": "Please enter the {{length}}-digit code we have sent to:",
+      "EDIT": "Edit",
+      "RESEND_IN": "You can request another code in: {{seconds}}s",
+      "RESEND": "Resend code",
+      "VERIFY": "Verify Code",
+      "SUCCESS": "Your email has been changed successfully"
     },
     "PASSWORD": {
       "CURRENT": "Old Password",
@@ -770,6 +791,8 @@
     },
     "ERRORS": {
       "REQUIRED": "This field is required",
+      "EMAIL": "Enter a valid email address",
+      "SAME_EMAIL": "This is already your current email",
       "PHONE": "Enter a valid phone number",
       "PASSWORD": "At least 8 characters, including letters and numbers",
       "MISMATCH": "Passwords do not match"
