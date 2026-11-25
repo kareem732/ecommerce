@@ -1,7 +1,12 @@
-import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, output } from '@angular/core';
 import { TranslatePipe } from '@ngx-translate/core';
 import { LucideAngularModule, MapPin, PenLine, Phone, Trash2 } from 'lucide-angular';
+import { ADDRESS_TITLES } from '../../../constants/address.constants';
 import { AddressLike } from '../../../interfaces/address.model/address.types';
+
+const KNOWN_TITLES: readonly string[] = (ADDRESS_TITLES as readonly string[]).map((t) =>
+  t.toLowerCase(),
+);
 
 @Component({
   selector: 'app-address-item',
@@ -23,6 +28,11 @@ export class AddressItem {
   protected readonly phoneIcon = Phone;
   protected readonly editIcon = PenLine;
   protected readonly deleteIcon = Trash2;
+
+  protected readonly titleKey = computed(() => {
+    const title = this.address().title?.trim().toLowerCase();
+    return title && KNOWN_TITLES.includes(title) ? `ADDRESS.CATEGORIES.${title.toUpperCase()}` : null;
+  });
 
   protected select(): void {
     if (this.busy() || this.active()) return;

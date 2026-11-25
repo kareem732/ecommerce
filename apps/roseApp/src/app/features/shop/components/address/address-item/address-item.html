@@ -13,17 +13,26 @@
   (keydown.space)="onKey($event)"
 >
   @if (address().title) {
-    <legend class="ms-1 px-2 font-primary text-base font-medium leading-none text-[var(--text-accent)]">
-      {{ 'ADDRESS.CATEGORIES.' + address().title.toUpperCase() | translate }}
-    </legend>
+  <legend
+    class="ms-1 max-w-full truncate px-2 font-primary text-base font-medium leading-none text-[var(--text-accent)]"
+  >
+    @if (titleKey(); as key) { {{ key | translate }} } @else { {{
+    address().title }} }
+  </legend>
   }
 
-  <div class="mt-1 grid grid-cols-[minmax(0,1fr)_auto_0px] items-center gap-y-2.5">
+  <div
+    class="mt-1 grid grid-cols-[minmax(0,1fr)_auto_0px] items-center gap-y-2.5"
+  >
     <div class="flex min-w-0 items-center gap-2.5">
-      <span class="grid size-7 shrink-0 place-items-center rounded-full bg-emerald-600 text-white">
+      <span
+        class="grid size-7 shrink-0 place-items-center rounded-full bg-emerald-600 text-white"
+      >
         <lucide-icon [img]="pinIcon" [size]="14" aria-hidden="true" />
       </span>
-      <h4 class="m-0 truncate font-primary text-lg font-medium leading-none text-[var(--text-strong)]">
+      <h4
+        class="m-0 truncate font-primary text-lg font-medium leading-none text-[var(--text-strong)]"
+      >
         {{ address().city }}
       </h4>
     </div>

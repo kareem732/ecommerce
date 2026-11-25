@@ -1,4 +1,5 @@
 export const ADDRESS_FIELD_LIMITS = {
+  titleMax: 30,
   cityMax: 60,
   streetMin: 5,
   streetMax: 250,

@@ -575,7 +575,8 @@
     "NEXT": "التالي",
     "BACK": "رجوع",
     "DETAILS_TITLE": "أدخل تفاصيل العنوان",
-    "CATEGORY": "نوع العنوان",
+    "CATEGORY": "اسم العنوان",
+    "CATEGORY_PLACEHOLDER": "مثال: المنزل، العمل، النادي",
     "CATEGORIES": {
       "HOME": "المنزل",
       "WORK": "العمل",
