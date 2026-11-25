@@ -1,15 +1,7 @@
-import { NxWelcome } from './nx-welcome';
 import { Route } from '@angular/router';
 import { loadRemote } from '@module-federation/enhanced/runtime';
 
 export const appRoutes: Route[] = [
-  {
-    path: 'roseApp',
-    loadChildren: () =>
-      loadRemote<typeof import('roseApp/Routes')>('roseApp/Routes').then(
-        (m) => m!.remoteRoutes,
-      ),
-  },
   {
     path: 'adminDashboard',
     loadChildren: () =>
@@ -18,7 +10,12 @@ export const appRoutes: Route[] = [
       ).then((m) => m!.remoteRoutes),
   },
   {
+    // roseApp is the main site and uses absolute links (/shop/home, /auth/login),
+    // so it is mounted at the root instead of under /roseApp.
     path: '',
-    component: NxWelcome,
+    loadChildren: () =>
+      loadRemote<typeof import('roseApp/Routes')>('roseApp/Routes').then(
+        (m) => m!.remoteRoutes,
+      ),
   },
 ];

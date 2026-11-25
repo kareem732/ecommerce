@@ -5,6 +5,16 @@ const config: ModuleFederationConfig = {
   // Keep icons tree-shakeable instead of sharing the full catalog.
   shared: (packageName, sharedConfig) =>
     packageName === '@lucide/angular' ? false : sharedConfig,
+  // The shell never imports rxjs-interop itself, so it would not be shared and each
+  // remote would load its own copy (with duplicated Angular core internals), breaking DI
+  // (e.g. "No provider found for ChangeDetectionScheduler" from toSignal/toObservable).
+  // Tuple form is required: Nx silently ignores secondary entry points passed as strings.
+  additionalShared: [
+    [
+      '@angular/core/rxjs-interop',
+      { singleton: true, strictVersion: true, requiredVersion: '21.2.25' },
+    ],
+  ],
   /**
    * To use a remote that does not exist in your current Nx Workspace
    * You can use the tuple-syntax to define your remote
