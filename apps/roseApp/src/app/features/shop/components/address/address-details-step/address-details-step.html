@@ -2,7 +2,28 @@
   <h3 class="border-b border-[#E4E4E7] pb-3 font-primary text-lg font-semibold text-[var(--text-accent)]">
     {{ 'ADDRESS.DETAILS_TITLE' | translate }}
   </h3>
-  <app-address-title-picker [(value)]="title" />
+
+  <div class="flex flex-col gap-1.5">
+    <label for="address-title" class="font-primary text-sm font-medium text-[var(--text-strong)]">
+      {{ 'ADDRESS.CATEGORY' | translate }}
+    </label>
+    <input
+      id="address-title"
+      type="text"
+      formControlName="title"
+      autocomplete="off"
+      class="field-control h-11"
+      [placeholder]="'ADDRESS.CATEGORY_PLACEHOLDER' | translate"
+      [attr.aria-invalid]="invalid('title')"
+      [attr.aria-describedby]="invalid('title') ? 'address-title-error' : null"
+    />
+    @if (invalid('title')) {
+      <p id="address-title-error" role="alert" class="field-error">
+        {{ errorKey('title') | translate }}
+      </p>
+    }
+  </div>
+
   <div class="flex flex-col gap-1.5">
     <label for="address-city" class="font-primary text-sm font-medium text-[var(--text-strong)]">
       {{ 'ADDRESS.CITY' | translate }}

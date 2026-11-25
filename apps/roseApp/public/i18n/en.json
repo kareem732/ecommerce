@@ -585,7 +585,8 @@
     "NEXT": "Next",
     "BACK": "Back",
     "DETAILS_TITLE": "Enter address details",
-    "CATEGORY": "Address type",
+    "CATEGORY": "Address name",
+    "CATEGORY_PLACEHOLDER": "e.g. Home, Work, Gym",
     "CATEGORIES": {
       "HOME": "Home",
       "WORK": "Work",

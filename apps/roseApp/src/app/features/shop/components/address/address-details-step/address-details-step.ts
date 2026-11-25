@@ -10,21 +10,19 @@ import {
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslatePipe } from '@ngx-translate/core';
 import { Button, Checkbox, Phone } from '@org/ui';
-import { DEFAULT_ADDRESS_TITLE } from '../../../constants/address.constants';
 import { AddressDetails } from '../../../interfaces/address.model/address.types';
 import { egPhoneValidator } from '../../../utils/address.validators';
-import { AddressTitlePicker } from '../address-title-picker/address-title-picker';
 import {
   ADDRESS_FIELD_LIMITS,
   ADDRESS_FORM_ERROR_KEYS,
   FALLBACK_ERROR_KEY,
 } from './address-details.config';
 
-type FieldName = 'city' | 'street' | 'phone';
+type FieldName = 'title' | 'city' | 'street' | 'phone';
 
 @Component({
   selector: 'app-address-details-step',
-  imports: [ReactiveFormsModule, TranslatePipe, Button, Phone, Checkbox, AddressTitlePicker],
+  imports: [ReactiveFormsModule, TranslatePipe, Button, Phone, Checkbox],
   templateUrl: './address-details-step.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -34,10 +32,10 @@ export class AddressDetailsStep {
 
   private readonly fb = inject(NonNullableFormBuilder);
 
-  protected readonly title = signal<string>(DEFAULT_ADDRESS_TITLE);
   protected readonly isPrimary = signal(false);
 
   protected readonly form = this.fb.group({
+    title: ['', [Validators.required, Validators.maxLength(ADDRESS_FIELD_LIMITS.titleMax)]],
     city: ['', [Validators.required, Validators.maxLength(ADDRESS_FIELD_LIMITS.cityMax)]],
     street: [
       '',
@@ -54,8 +52,12 @@ export class AddressDetailsStep {
     effect(() => {
       const value = this.initial();
       if (!value) return;
-      this.form.reset({ city: value.city, street: value.street, phone: value.phone });
-      this.title.set(value.title);
+      this.form.reset({
+        title: value.title,
+        city: value.city,
+        street: value.street,
+        phone: value.phone,
+      });
       this.isPrimary.set(value.isPrimary);
     });
   }
@@ -76,9 +78,9 @@ export class AddressDetailsStep {
       this.form.markAllAsTouched();
       return;
     }
-    const { city, street, phone } = this.form.getRawValue();
+    const { title, city, street, phone } = this.form.getRawValue();
     this.next.emit({
-      title: this.title(),
+      title: title.trim(),
       city: city.trim(),
       street: street.trim(),
       phone,

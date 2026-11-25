@@ -1,10 +1,12 @@
 import { ADDRESS_TITLES } from '../../constants/address.constants';
 import { AddressLike } from '../../interfaces/address.model/address.types';
 
-const TITLE_ORDER: readonly string[] = ADDRESS_TITLES;
+const TITLE_ORDER: readonly string[] = (ADDRESS_TITLES as readonly string[]).map((t) =>
+  t.toLowerCase(),
+);
 
 const titleRank = (title: string): number => {
-  const index = TITLE_ORDER.indexOf(title);
+  const index = TITLE_ORDER.indexOf((title ?? '').trim().toLowerCase());
   return index === -1 ? TITLE_ORDER.length : index;
 };
 
