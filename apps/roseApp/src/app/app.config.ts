@@ -1,17 +1,26 @@
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
-import { LanguageService, provideI18n } from '@org/shared-i18n';
-import { i18nConfig } from './i18n.config';
-import { ApplicationConfig,inject,provideAppInitializer,provideBrowserGlobalErrorListeners} from '@angular/core';
-import { authInterceptor, errorInterceptor, provideAuth } from '@org/auth-service';
-import { ThemeService } from '@org/theme';
+import {
+  ApplicationConfig,
+  inject,
+  provideAppInitializer,
+  provideBrowserGlobalErrorListeners,
+} from '@angular/core';
 import { provideRouter, withInMemoryScrolling } from '@angular/router';
 import { definePreset } from '@primeuix/themes';
 import Aura from '@primeuix/themes/aura';
-import { providePrimeNG } from 'primeng/config';
-import { appRoutes } from './app.routes';
-import { environment } from '../environments/environment';
-import { loadingInterceptor } from './core/interceptors/loading.interceptor';
+import {
+  authInterceptor,
+  errorInterceptor,
+  provideAuth,
+} from '@org/auth-service';
+import { LanguageService, provideI18n } from '@org/shared-i18n';
+import { loadingInterceptor } from '@org/shared-loading';
+import { ThemeService } from '@org/theme';
 import { provideToastr } from 'ngx-toastr';
+import { providePrimeNG } from 'primeng/config';
+import { environment } from '../environments/environment';
+import { appRoutes } from './app.routes';
+import { i18nConfig } from './i18n.config';
 
 const RosePreset = definePreset(Aura, {
   semantic: {
@@ -48,7 +57,7 @@ const RosePreset = definePreset(Aura, {
 
 export const appConfig: ApplicationConfig = {
   providers: [
-     provideToastr(),
+    provideToastr(),
     provideBrowserGlobalErrorListeners(),
     provideHttpClient(
       withInterceptors([loadingInterceptor, authInterceptor, errorInterceptor]),

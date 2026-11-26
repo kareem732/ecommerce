@@ -1,0 +1,43 @@
+<section
+  class="flex h-full flex-col gap-4 rounded-2xl bg-white p-5 shadow-[0_1px_4px_rgba(0,0,0,0.05)] dark:bg-slate-900"
+  [attr.aria-busy]="loading()"
+>
+  <header
+    class="flex items-center justify-between gap-3"
+    [class.lg:justify-center]="centerTitle()"
+    [class.lg:text-center]="centerTitle()"
+  >
+    <h2
+      class="font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif] text-[24px] font-semibold leading-[100%] tracking-normal text-[#27272A] dark:text-slate-100"
+    >
+      {{ title() }}
+    </h2>
+    <ng-content select="[card-actions]" />
+  </header>
+
+  @if (!loading()) {
+    @if (error()) {
+      <div
+        class="flex flex-1 flex-col items-center justify-center py-6 text-center"
+        data-testid="error"
+      >
+        <p-button
+          data-testid="retry"
+          size="small"
+          severity="secondary"
+          [label]="'ADMIN.OVERVIEW.RETRY' | translate"
+          (onClick)="retry.emit()"
+        />
+      </div>
+    } @else if (empty()) {
+      <p
+        class="flex-1 py-6 text-center text-sm text-slate-500 dark:text-slate-400"
+        data-testid="empty"
+      >
+        {{ 'ADMIN.OVERVIEW.EMPTY' | translate }}
+      </p>
+    } @else {
+      <ng-content />
+    }
+  }
+</section>

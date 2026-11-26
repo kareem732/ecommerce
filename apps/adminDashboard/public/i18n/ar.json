@@ -30,6 +30,32 @@
       "PROFILE": "الملف الشخصي",
       "LOGOUT": "تسجيل الخروج"
     },
-    "THEME_TOGGLE": "تبديل الوضع الليلي"
+    "THEME_TOGGLE": "تبديل الوضع الليلي",
+    "OVERVIEW": {
+      "TOTAL_PRODUCTS": "إجمالي المنتجات",
+      "TOTAL_ORDERS": "إجمالي الطلبات",
+      "TOTAL_CATEGORIES": "إجمالي الفئات",
+      "TOTAL_REVENUE": "إجمالي الإيرادات",
+      "ALL_CATEGORIES": "كل الفئات",
+      "ORDERS_STATUS": "حالة الطلبات",
+      "REVENUE": "الإيرادات",
+      "TOP_SELLING": "الأكثر مبيعًا",
+      "LOW_STOCK": "منتجات مخزونها قليل",
+      "STATUS": {
+        "COMPLETED": "مكتملة",
+        "IN_PROGRESS": "قيد التنفيذ",
+        "CANCELED": "ملغاة"
+      },
+      "PERIOD": {
+        "MONTHLY": "شهري",
+        "LAST_WEEK": "آخر أسبوع"
+      },
+      "PRODUCTS_COUNT": "{{count}} منتج",
+      "SALES_COUNT": "{{count}} مبيعات",
+      "CURRENCY": "ج.م",
+      "EMPTY": "لا توجد بيانات للعرض",
+      "ERROR": "حدث خطأ ما",
+      "RETRY": "إعادة المحاولة"
+    }
   }
 }
