@@ -1,0 +1,129 @@
+<p-table
+  [value]="$any(data())"
+  [columns]="$any(columns())"
+  [dataKey]="dataKey()"
+  [loading]="loading()"
+  [paginator]="paginator()"
+  [rows]="rows()"
+  [rowsPerPageOptions]="rowsPerPageOptions()"
+  [lazy]="lazy()"
+  [totalRecords]="total()"
+  [scrollable]="true"
+  [tableStyle]="{ 'min-width': minWidth() }"
+  (onLazyLoad)="onLazyLoad($event)"
+>
+  <ng-template #header let-columns>
+    <tr>
+      @for (col of columns; track col.field) {
+        <th
+          [pSortableColumn]="col.field"
+          [pSortableColumnDisabled]="!col.sortable"
+          [style.width]="col.width"
+        >
+          <span class="data-table__header">
+            {{ col.header | translate }}
+            @if (col.sortable) {
+              <p-sortIcon [field]="col.field" />
+            }
+          </span>
+        </th>
+      }
+      @if (hasActions()) {
+        <th
+          class="data-table__actions"
+          pFrozenColumn
+          alignFrozen="right"
+          [style.left.px]="rtlFrozenLeft()"
+        >{{ actionsHeader() | translate }}</th>
+      }
+    </tr>
+  </ng-template>
+
+  <ng-template #body let-row let-columns="columns">
+    <tr>
+      @for (col of columns; track col.field) {
+        @let value = valueOf(row, col.field);
+        <td>
+          @if (templates().get(col.field); as tpl) {
+            <ng-container *ngTemplateOutlet="tpl; context: { $implicit: row, value }" />
+          } @else if (col.format) {
+            {{ col.format(value, row) }}
+          } @else {
+            @switch (col.type) {
+              @case ('number') {
+                {{ $any(value) | number }}
+              }
+              @case ('currency') {
+                {{ $any(value) | currency: (col.currency ?? 'EGP') : 'code' : '1.0-2' }}
+              }
+              @case ('date') {
+                {{ $any(value) | date: (col.dateFormat ?? 'mediumDate') }}
+              }
+              @case ('image') {
+                @if (value) {
+                  <img class="data-table__image" [src]="value" [alt]="col.header | translate" loading="lazy" />
+                }
+              }
+              @case ('badge') {
+                @if (value != null && value !== '') {
+                  <app-badge [value]="'' + value" [variant]="col.badgeVariant?.(row) ?? 'soft'" />
+                }
+              }
+              @default {
+                {{ value }}
+              }
+            }
+          }
+        </td>
+      }
+
+      @if (hasActions()) {
+        <td
+          class="data-table__actions"
+          pFrozenColumn
+          alignFrozen="right"
+          [style.left.px]="rtlFrozenLeft()"
+        >
+          <button
+            type="button"
+            class="data-table__action"
+            [class.data-table__action--open]="menuRow() === row"
+            aria-haspopup="menu"
+            [attr.aria-expanded]="menuRow() === row"
+            [attr.aria-label]="actionsHeader() | translate"
+            [title]="actionsHeader() | translate"
+            (click)="openActions($event, row)"
+          >
+            <lucide-icon [img]="EllipsisVertical" [size]="18" aria-hidden="true" />
+          </button>
+        </td>
+      }
+    </tr>
+  </ng-template>
+
+  <ng-template #emptymessage>
+    <tr>
+      <td class="data-table__empty" [attr.colspan]="colspan()">{{ emptyMessage() | translate }}</td>
+    </tr>
+  </ng-template>
+</p-table>
+
+<!-- One shared popup; filled with the clicked row's actions. -->
+<p-menu
+  #actionsMenu
+  [model]="menuItems()"
+  [popup]="true"
+  appendTo="body"
+  (onHide)="onMenuHide()"
+>
+  <ng-template #item let-item>
+    <a
+      class="data-table__menu-item"
+      [class.data-table__menu-item--danger]="item.state?.danger"
+      [class.data-table__menu-item--disabled]="item.disabled"
+    >
+      <lucide-icon [img]="item.state?.icon" [size]="16" aria-hidden="true" />
+      <span>{{ item.label | translate }}</span>
+    </a>
+  </ng-template>
+</p-menu>

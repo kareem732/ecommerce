@@ -30,6 +30,33 @@
       "PROFILE": "Profile",
       "LOGOUT": "Log out"
     },
-    "THEME_TOGGLE": "Toggle dark mode"
+    "THEME_TOGGLE": "Toggle dark mode",
+    "PRODUCTS": {
+      "TITLE": "Products",
+      "COUNT": "{{count}} products",
+      "EMPTY": "No products found",
+      "STOCK_COUNT": "{{count}} pcs",
+      "COLUMNS": {
+        "IMAGE": "Image",
+        "TITLE": "Product",
+        "CATEGORY": "Category",
+        "PRICE": "Price",
+        "STOCK": "Stock",
+        "SOLD": "Sold",
+        "STATUS": "Status",
+        "CREATED": "Created",
+        "ACTIONS": "Actions"
+      },
+      "STATUS": {
+        "ACTIVE": "Active",
+        "DRAFT": "Draft"
+      },
+      "ACTIONS": {
+        "VIEW": "View",
+        "EDIT": "Edit",
+        "DELETE": "Delete"
+      }
+
+    }
   }
 }
