@@ -29,6 +29,7 @@
         "styles": [
           "styles/tailwind.css",
           "apps/roseApp/src/styles/index.scss",
+          "apps/roseApp/src/styles.scss",
           "apps/shell/src/styles.scss",
           "node_modules/flag-icons/css/flag-icons.min.css",
           "node_modules/@fontsource/sarabun/400.css",

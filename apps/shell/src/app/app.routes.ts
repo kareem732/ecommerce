@@ -1,9 +1,11 @@
 import { Route } from '@angular/router';
 import { loadRemote } from '@module-federation/enhanced/runtime';
+import { adminGuard } from '@org/auth-service';
 
 export const appRoutes: Route[] = [
   {
     path: 'adminDashboard',
+    canActivate: [adminGuard],
     loadChildren: () =>
       loadRemote<typeof import('adminDashboard/Routes')>(
         'adminDashboard/Routes',

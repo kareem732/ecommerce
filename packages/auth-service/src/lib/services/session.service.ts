@@ -13,6 +13,11 @@ export class SessionService {
 
   readonly user = this._user.asReadonly();
   readonly isLoggedIn = computed(() => !this.tokens.isExpired(this._token()));
+  /** Role from the signed JWT, falling back to the stored user (the cookie can be edited by hand). */
+  readonly role = computed(
+    () => this.tokens.getPayload(this._token())?.role ?? this._user()?.role ?? null,
+  );
+  readonly isAdmin = computed(() => this.isLoggedIn() && this.role() === 'ADMIN');
 
   start(payload: AuthPayload, remember = false): void {
     this.tokens.setToken(payload.token, remember);

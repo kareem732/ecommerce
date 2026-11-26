@@ -1,0 +1,33 @@
+<main class="flex min-h-dvh items-center justify-center bg-[var(--bg-page)] px-4 py-12 text-[var(--text-primary)]">
+  <section class="flex max-w-md flex-col items-center text-center" aria-labelledby="unauthorized-title">
+    <span
+      class="flex size-20 items-center justify-center rounded-full bg-[var(--color-primary-subtle)] text-[var(--color-primary)]"
+      aria-hidden="true"
+    >
+      <lucide-icon [img]="icons.ShieldAlert" [size]="40" />
+    </span>
+
+    <p class="mt-6 text-sm font-semibold tracking-widest text-[var(--color-primary)]">403</p>
+    <h1 id="unauthorized-title" class="mt-2 text-2xl font-bold sm:text-3xl">
+      {{ 'UNAUTHORIZED.TITLE' | translate }}
+    </h1>
+    <p class="mt-3 text-[var(--text-secondary)]">{{ 'UNAUTHORIZED.DESCRIPTION' | translate }}</p>
+
+    <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
+      <app-button
+        variant="primary"
+        [icon]="icons.House"
+        [label]="'UNAUTHORIZED.GO_HOME' | translate"
+        (clicked)="goHome()"
+      />
+      @if (canGoBack) {
+        <app-button
+          variant="outline"
+          [icon]="backIcon()"
+          [label]="'COMMON.BACK' | translate"
+          (clicked)="goBack()"
+        />
+      }
+    </div>
+  </section>
+</main>

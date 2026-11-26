@@ -6,6 +6,8 @@ export interface AuthConfig {
   tokenCookieName: string;
   loginRoute: string;
   homeRoute: string;
+  /** Where logged-in users are sent when their role is not allowed (e.g. non-admins on admin pages). */
+  unauthorizedRoute: string;
 }
 
 export type AuthConfigInput = Pick<AuthConfig, 'apiUrl'> &
@@ -17,6 +19,7 @@ export const DEFAULT_AUTH_CONFIG: Omit<AuthConfig, 'apiUrl'> = {
   tokenCookieName: 'rose_token',
   loginRoute: '/auth/login',
   homeRoute: '/',
+  unauthorizedRoute: '/unauthorized',
 };
 
 export const AUTH_CONFIG = new InjectionToken<AuthConfig>('AUTH_CONFIG');

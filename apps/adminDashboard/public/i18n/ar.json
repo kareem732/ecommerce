@@ -14,5 +14,22 @@
   "HOME": {
     "HELLO": "مرحبًا،",
     "GREETING": "أهلًا بك في {{name}} 👋"
+  },
+  "ADMIN": {
+    "PREVIEW_WEBSITE": "معاينة الموقع",
+    "MAIN_NAV": "القائمة الرئيسية",
+    "NAV": {
+      "OVERVIEW": "نظرة عامة",
+      "CATEGORIES": "الفئات",
+      "OCCASIONS": "المناسبات",
+      "PRODUCTS": "المنتجات"
+    },
+    "USER_MENU": {
+      "OPEN": "فتح قائمة المستخدم",
+      "ACCOUNT": "الحساب",
+      "PROFILE": "الملف الشخصي",
+      "LOGOUT": "تسجيل الخروج"
+    },
+    "THEME_TOGGLE": "تبديل الوضع الليلي"
   }
 }

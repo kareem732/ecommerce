@@ -14,5 +14,22 @@
   "HOME": {
     "HELLO": "Hello there,",
     "GREETING": "Welcome {{name}} 👋"
+  },
+  "ADMIN": {
+    "PREVIEW_WEBSITE": "Preview website",
+    "MAIN_NAV": "Main navigation",
+    "NAV": {
+      "OVERVIEW": "Overview",
+      "CATEGORIES": "Categories",
+      "OCCASIONS": "Occasions",
+      "PRODUCTS": "Products"
+    },
+    "USER_MENU": {
+      "OPEN": "Open user menu",
+      "ACCOUNT": "Account",
+      "PROFILE": "Profile",
+      "LOGOUT": "Log out"
+    },
+    "THEME_TOGGLE": "Toggle dark mode"
   }
 }

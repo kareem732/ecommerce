@@ -798,5 +798,10 @@
       "PASSWORD": "At least 8 characters, including letters and numbers",
       "MISMATCH": "Passwords do not match"
     }
+  },
+  "UNAUTHORIZED": {
+    "TITLE": "You are not authorized to view this page",
+    "DESCRIPTION": "Your account does not have permission to access this page. If you think this is a mistake, contact the site administrator.",
+    "GO_HOME": "Go to home"
   }
 }
