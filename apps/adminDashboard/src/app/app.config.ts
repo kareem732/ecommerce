@@ -9,6 +9,8 @@ import {
 } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { appRoutes } from './app.routes';
+import { provideAuth } from '@org/auth-service';
+import { environment } from '../environments/environment';
 import { providePrimeNG } from 'primeng/config';
 import Aura from '@primeuix/themes/aura';
 
@@ -18,6 +20,8 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(),
     provideI18n(i18nConfig),
     provideAppInitializer(() => inject(LanguageService).initialize()),
+    // Needed when running standalone; inside the shell, auth comes from the shell root.
+    provideAuth({ apiUrl: environment.apiUrl, includeHttpClient: false }),
     provideRouter(appRoutes),
     providePrimeNG({
       theme: {

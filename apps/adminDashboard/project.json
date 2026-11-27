@@ -21,7 +21,11 @@
             "input": "apps/adminDashboard/public"
           }
         ],
-        "styles": ["styles/tailwind.css", "apps/adminDashboard/src/styles.scss"],
+        "styles": [
+          "styles/tailwind.css",
+          "apps/roseApp/src/styles/index.scss",
+          "apps/adminDashboard/src/styles.scss"
+        ],
         "inlineStyleLanguage": "scss",
         "customWebpackConfig": {
           "path": "apps/adminDashboard/webpack.config.ts"

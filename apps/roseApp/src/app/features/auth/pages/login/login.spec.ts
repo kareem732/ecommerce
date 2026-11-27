@@ -2,12 +2,14 @@ import { type MockInstance, vi } from 'vitest';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute, Router, provideRouter } from '@angular/router';
 import { provideTranslateService } from '@ngx-translate/core';
-import { LoginService } from '@org/auth-service';
+import { signal } from '@angular/core';
+import { LoginService, SessionService } from '@org/auth-service';
 import { of, throwError } from 'rxjs';
 import { Login } from './login';
 
 describe('Login', () => {
   const loginService = { login: vi.fn() };
+  const isAdmin = signal(false);
   let fixture: ComponentFixture<Login>;
   let component: Login;
   let navigate: MockInstance;
@@ -23,6 +25,7 @@ describe('Login', () => {
 
   beforeEach(async () => {
     loginService.login.mockReset();
+    isAdmin.set(false);
 
     await TestBed.configureTestingModule({
       imports: [Login],
@@ -30,6 +33,7 @@ describe('Login', () => {
         provideRouter([]),
         provideTranslateService(),
         { provide: LoginService, useValue: loginService },
+        { provide: SessionService, useValue: { isAdmin } },
       ],
     }).compileComponents();
 
@@ -77,7 +81,18 @@ describe('Login', () => {
 
     submit();
 
-    expect(navigate).toHaveBeenCalledWith('/');
+    expect(navigate).toHaveBeenCalledWith('/shop/home');
+  });
+
+  it('navigates admins to the dashboard on success', () => {
+    loginService.login.mockReturnValue(of({}));
+    isAdmin.set(true);
+    setReturnUrl(null);
+    fill();
+
+    submit();
+
+    expect(navigate).toHaveBeenCalledWith('/adminDashboard');
   });
 
   it('navigates to the returnUrl on success', () => {
@@ -97,7 +112,7 @@ describe('Login', () => {
 
     submit();
 
-    expect(navigate).toHaveBeenCalledWith('/');
+    expect(navigate).toHaveBeenCalledWith('/shop/home');
   });
 
   it('shows the server error and stops loading on failure', () => {

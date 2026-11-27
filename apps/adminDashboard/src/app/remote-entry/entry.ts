@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
-import { NxWelcome } from './nx-welcome';
+import { RouterOutlet } from '@angular/router';
 
+/** Root component when adminDashboard runs standalone (port 4201). */
 @Component({
-  imports: [NxWelcome],
+  imports: [RouterOutlet],
   selector: 'app-admin-dashboard-entry',
-  template: `<app-nx-welcome></app-nx-welcome>`,
+  host: { class: 'block h-full w-full' },
+  template: `<router-outlet />`,
 })
 export class RemoteEntry {}

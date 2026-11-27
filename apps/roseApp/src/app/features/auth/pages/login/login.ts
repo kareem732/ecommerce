@@ -8,13 +8,14 @@ import {
 } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
-import { LoginService } from '@org/auth-service';
+import { LoginService, SessionService } from '@org/auth-service';
 import { Button, Checkbox, Input } from '@org/ui';
 import { finalize } from 'rxjs';
 import { AuthRoute } from '../../enums/auth-route.enum';
 import { LoginForm } from '../../interfaces/login-form.interface';
 
 const DEFAULT_REDIRECT = '/shop/home';
+const ADMIN_REDIRECT = '/adminDashboard';
 
 @Component({
   selector: 'app-login',
@@ -30,6 +31,7 @@ export class Login {
   private readonly translate = inject(TranslateService);
   private readonly destroyRef = inject(DestroyRef);
   private readonly loginService = inject(LoginService);
+  private readonly session = inject(SessionService);
 
   protected readonly Route = AuthRoute;
   protected readonly parent = this.route.parent ?? undefined;
@@ -61,8 +63,8 @@ export class Login {
       )
       .subscribe({
         next: () => {
-  void this.router.navigateByUrl(this.returnUrl());
-},
+          void this.router.navigateByUrl(this.returnUrl());
+        },
         error: () => undefined,
       });
   }
@@ -70,6 +72,7 @@ export class Login {
   private returnUrl(): string {
     const url = this.route.snapshot.queryParamMap.get('returnUrl');
     const isInternal = !!url && url.startsWith('/') && !url.startsWith('//');
-    return isInternal ? url : DEFAULT_REDIRECT;
+    if (isInternal) return url;
+    return this.session.isAdmin() ? ADMIN_REDIRECT : DEFAULT_REDIRECT;
   }
 }

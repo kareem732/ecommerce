@@ -1,0 +1,231 @@
+<div
+  class="flex h-full w-full bg-[var(--bg-page)] font-primary text-[var(--text-primary)]"
+  [dir]="language.direction()"
+>
+  <!-- ===== Sidebar (desktop) ===== -->
+  <aside
+    class="hidden w-60 shrink-0 flex-col border-e border-[var(--border-default)] bg-[var(--bg-surface)] px-6 pt-10 pb-6 lg:flex"
+  >
+    <a [routerLink]="storefrontHome" class="mx-auto block" [attr.aria-label]="'ADMIN.PREVIEW_WEBSITE' | translate">
+      <img [src]="logo" alt="Rose" class="h-20 w-auto object-contain" />
+    </a>
+
+    <a
+      [routerLink]="storefrontHome"
+      class="mt-6 flex items-center justify-center gap-2 rounded-md bg-[var(--color-maroon-600)] px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-[var(--color-maroon-700)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-maroon-600)] focus-visible:ring-offset-2"
+    >
+      <lucide-icon [img]="icons.Flower2" [size]="18" aria-hidden="true" />
+      {{ 'ADMIN.PREVIEW_WEBSITE' | translate }}
+    </a>
+
+    <nav class="mt-5" [attr.aria-label]="'ADMIN.MAIN_NAV' | translate">
+      <ul class="flex flex-col gap-1.5">
+        @for (item of navItems; track item.path) {
+          <li>
+            <a
+              [routerLink]="item.path"
+              routerLinkActive="bg-[var(--color-primary-subtle)] text-[var(--color-maroon-600)] dark:text-[var(--color-maroon-300)]"
+              ariaCurrentWhenActive="page"
+              class="flex items-center gap-3 rounded-md px-2.5 py-2 text-sm font-medium transition-colors hover:bg-[var(--color-primary-subtle)] hover:text-[var(--color-maroon-600)] dark:hover:text-[var(--color-maroon-300)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-maroon-600)]"
+            >
+              <lucide-icon [img]="item.icon" [size]="20" aria-hidden="true" />
+              {{ item.labelKey | translate }}
+            </a>
+          </li>
+        }
+      </ul>
+    </nav>
+
+    <!-- User -->
+    <div class="relative mt-auto border-t border-[var(--border-default)] pt-4">
+      <div class="flex items-center gap-3">
+        <span
+          class="flex size-10 shrink-0 items-center justify-center rounded-full bg-[var(--color-primary-subtle)] text-sm font-semibold text-[var(--color-maroon-600)] dark:text-[var(--color-maroon-300)]"
+          aria-hidden="true"
+          >{{ initials() }}</span
+        >
+        <div class="min-w-0 flex-1">
+          <p class="truncate text-sm font-medium">{{ fullName() }}</p>
+          <p class="truncate text-xs text-[var(--text-secondary)]">{{ user()?.email }}</p>
+        </div>
+        <button
+          type="button"
+          class="rounded-md p-1 text-[var(--text-secondary)] transition-colors hover:bg-[var(--bg-page)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-maroon-600)]"
+          [attr.aria-label]="'ADMIN.USER_MENU.OPEN' | translate"
+          aria-haspopup="menu"
+          [attr.aria-expanded]="userMenuOpen()"
+          (click)="toggleUserMenu()"
+        >
+          <lucide-icon [img]="icons.EllipsisVertical" [size]="18" aria-hidden="true" />
+        </button>
+      </div>
+
+      @if (userMenuOpen()) {
+        <button
+          type="button"
+          class="fixed inset-0 z-10 cursor-default"
+          tabindex="-1"
+          aria-hidden="true"
+          (click)="closeMenus()"
+        ></button>
+        <div
+          role="menu"
+          class="absolute start-0 bottom-full z-20 mb-2 w-48 overflow-hidden rounded-lg border border-[var(--border-default)] bg-[var(--bg-surface)] text-sm shadow-lg"
+        >
+          <p class="truncate border-b border-[var(--border-default)] px-3 py-2.5 font-medium text-[var(--color-maroon-700)]">
+            {{ fullName() }}
+          </p>
+          <a
+            role="menuitem"
+            [routerLink]="profileRoute"
+            class="flex items-center gap-2 border-b border-[var(--border-default)] px-3 py-2.5 transition-colors hover:bg-[var(--bg-page)]"
+            (click)="closeMenus()"
+          >
+            <lucide-icon [img]="icons.User" [size]="16" aria-hidden="true" />
+            {{ 'ADMIN.USER_MENU.ACCOUNT' | translate }}
+          </a>
+          <button
+            type="button"
+            role="menuitem"
+            class="flex w-full items-center gap-2 px-3 py-2.5 text-start transition-colors hover:bg-[var(--bg-page)]"
+            (click)="logout()"
+          >
+            <lucide-icon [img]="icons.LogOut" [size]="16" class="rtl:-scale-x-100" aria-hidden="true" />
+            {{ 'ADMIN.USER_MENU.LOGOUT' | translate }}
+          </button>
+        </div>
+      }
+    </div>
+  </aside>
+
+  <!-- ===== Content ===== -->
+  <div class="flex min-w-0 flex-1 flex-col">
+    <header
+      class="flex h-14 shrink-0 items-center gap-3 border-b border-[var(--border-default)] bg-[var(--bg-surface)] px-4 lg:h-12 lg:px-3"
+    >
+      <img [src]="logo" alt="Rose" class="h-9 w-auto object-contain lg:hidden" />
+      <span class="text-xs text-[var(--text-secondary)]">{{ 'NAVIGATION.DASHBOARD' | translate }}</span>
+
+      <div class="ms-auto flex items-center gap-1">
+        <!-- Theme -->
+        <button
+          type="button"
+          class="inline-flex rounded-lg p-1.5 transition-colors hover:bg-[var(--bg-page)] hover:text-[var(--color-maroon-600)] dark:hover:text-[var(--color-maroon-300)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-maroon-600)]"
+          [attr.aria-label]="'ADMIN.THEME_TOGGLE' | translate"
+          [attr.aria-pressed]="isDark()"
+          (click)="toggleTheme()"
+        >
+          <lucide-icon [img]="isDark() ? icons.Sun : icons.Moon" [size]="19" aria-hidden="true" />
+        </button>
+
+        <!-- Language -->
+        <button
+          type="button"
+          class="inline-flex items-center gap-1.5 rounded-lg p-1.5 text-sm font-semibold transition-colors hover:bg-[var(--bg-page)] hover:text-[var(--color-maroon-600)] dark:hover:text-[var(--color-maroon-300)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-maroon-600)]"
+          [attr.aria-label]="'COMMON.SWITCH_LANGUAGE' | translate"
+          (click)="toggleLanguage()"
+        >
+          <lucide-icon [img]="icons.Languages" [size]="19" aria-hidden="true" />
+          <span class="hidden sm:inline">{{ 'COMMON.SWITCH_LANGUAGE' | translate }}</span>
+        </button>
+      </div>
+
+      <button
+        type="button"
+        class="flex items-center gap-3 rounded-md p-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-maroon-600)] lg:hidden"
+        [attr.aria-label]="'ADMIN.USER_MENU.OPEN' | translate"
+        aria-haspopup="menu"
+        [attr.aria-expanded]="mobileMenuOpen()"
+        (click)="openMobileMenu()"
+      >
+        <span
+          class="flex size-8 items-center justify-center rounded-full bg-[var(--color-primary-subtle)] text-xs font-semibold text-[var(--color-maroon-600)] dark:text-[var(--color-maroon-300)]"
+          aria-hidden="true"
+          >{{ initials() }}</span
+        >
+        <lucide-icon [img]="icons.Menu" [size]="22" aria-hidden="true" />
+      </button>
+    </header>
+
+    <main class="min-h-0 flex-1 overflow-y-auto p-4 pb-28 lg:p-3 lg:pb-3">
+      <router-outlet />
+    </main>
+  </div>
+
+  <!-- ===== Bottom navigation (mobile) ===== -->
+  <nav
+    class="fixed inset-x-0 bottom-0 z-30 border-t border-[var(--border-default)] bg-[var(--bg-surface)] px-2 pt-2 pb-[max(0.5rem,env(safe-area-inset-bottom))] lg:hidden"
+    [attr.aria-label]="'ADMIN.MAIN_NAV' | translate"
+  >
+    <ul class="grid grid-cols-5 items-end">
+      @for (item of navStart; track item.path) {
+        <li>
+          <ng-container *ngTemplateOutlet="bottomLink; context: { $implicit: item }" />
+        </li>
+      }
+      <li class="flex justify-center">
+        <a
+          [routerLink]="storefrontHome"
+          class="-mt-8 mb-5 flex size-12 items-center justify-center rounded-full bg-[var(--color-maroon-600)] text-white shadow-md transition-colors hover:bg-[var(--color-maroon-700)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-maroon-600)] focus-visible:ring-offset-2"
+          [attr.aria-label]="'ADMIN.PREVIEW_WEBSITE' | translate"
+        >
+          <lucide-icon [img]="icons.Flower2" [size]="24" aria-hidden="true" />
+        </a>
+      </li>
+      @for (item of navEnd; track item.path) {
+        <li>
+          <ng-container *ngTemplateOutlet="bottomLink; context: { $implicit: item }" />
+        </li>
+      }
+    </ul>
+  </nav>
+
+  <ng-template #bottomLink let-item>
+    <a
+      [routerLink]="item.path"
+      routerLinkActive="bg-[var(--color-primary-subtle)] text-[var(--color-maroon-600)] dark:text-[var(--color-maroon-300)]"
+      ariaCurrentWhenActive="page"
+      class="flex flex-col items-center gap-1 rounded-md px-1 py-2 text-xs font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-maroon-600)]"
+    >
+      <lucide-icon [img]="item.icon" [size]="20" aria-hidden="true" />
+      {{ item.labelKey | translate }}
+    </a>
+  </ng-template>
+
+  <!-- ===== User sheet (mobile) ===== -->
+  @if (mobileMenuOpen()) {
+    <div class="fixed inset-0 z-40 lg:hidden">
+      <button
+        type="button"
+        class="absolute inset-0 cursor-default bg-black/25"
+        tabindex="-1"
+        aria-hidden="true"
+        (click)="closeMenus()"
+      ></button>
+      <div
+        role="menu"
+        class="absolute inset-x-0 bottom-0 rounded-t-2xl bg-[var(--bg-surface)] px-5 pt-3 pb-[max(1.5rem,env(safe-area-inset-bottom))] text-sm shadow-lg"
+      >
+        <span class="mx-auto mb-4 block h-1.5 w-16 rounded-full bg-[var(--border-default)]" aria-hidden="true"></span>
+        <a
+          role="menuitem"
+          [routerLink]="profileRoute"
+          class="flex items-center gap-2 py-2.5 font-medium"
+          (click)="closeMenus()"
+        >
+          <lucide-icon [img]="icons.User" [size]="18" aria-hidden="true" />
+          {{ 'ADMIN.USER_MENU.PROFILE' | translate }}
+        </a>
+        <button
+          type="button"
+          role="menuitem"
+          class="flex w-full items-center gap-2 py-2.5 text-start font-medium text-[var(--color-maroon-500)]"
+          (click)="logout()"
+        >
+          <lucide-icon [img]="icons.LogOut" [size]="18" class="rtl:-scale-x-100" aria-hidden="true" />
+          {{ 'ADMIN.USER_MENU.LOGOUT' | translate }}
+        </button>
+      </div>
+    </div>
+  }
+</div>

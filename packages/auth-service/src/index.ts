@@ -23,6 +23,7 @@ export * from './lib/interceptors/auth.interceptor';
 export * from './lib/interceptors/error.interceptor';
 export * from './lib/guards/auth.guard';
 export * from './lib/guards/guest.guard';
+export * from './lib/guards/admin.guard';
 
 export * from './lib/utils/auth-error.mapper';
 
