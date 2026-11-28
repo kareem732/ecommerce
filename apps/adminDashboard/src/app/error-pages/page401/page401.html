@@ -1,0 +1,28 @@
+<main class="flex min-h-screen max-md:min-h-dvh w-full max-w-362.25 mx-auto flex-col items-center justify-center gap-12.5 max-md:gap-8 max-sm:gap-6 px-4 text-center overflow-x-hidden">
+    <section class="w-90 max-md:w-72 max-sm:w-56 max-w-full aspect-square shrink-0">
+        <img
+            src="http://localhost:4201/lock-shield.png"
+            alt=""
+            class="block h-full w-full object-contain"
+        >
+    </section>
+
+    <section class="flex w-full flex-col items-center">
+        <h1 class="mb-1.5 font-inter font-semibold text-[36px] max-lg:text-[32px] max-md:text-[28px] max-sm:text-[24px] leading-[150%] tracking-[0%] text-[#000000] wrap-break-word">
+           {{ 'UNAUTHORIZED.TITLE' | translate }}
+        </h1>
+
+        <p class="mb-4.5 font-inter font-normal text-[20px] max-md:text-[18px] max-sm:text-[16px] leading-[150%] tracking-[0%] text-[#A1A1AA] wrap-break-word">
+            {{ 'UNAUTHORIZED.DESCRIPTION' | translate }}
+        </p>
+
+        <div class="flex w-full max-w-115.75 min-h-20.75 items-center justify-center border-t border-[#D9D9D9]">
+            <button
+                type="button"
+                class="flex w-45.25 max-w-full h-10.25 items-center justify-center rounded-[10px] border border-[#D9D9D9] bg-[#FAFAFA] px-4 py-2.5 font-mulish font-semibold text-[14px] leading-[150%] tracking-[0%] text-[#27272A]"
+            >
+                {{ 'UNAUTHORIZED.GO_HOME' | translate }}
+            </button>
+        </div>
+    </section>
+</main>

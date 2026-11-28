@@ -57,5 +57,18 @@
       "ERROR": "Something went wrong",
       "RETRY": "Try again"
     }
+  },
+  "UNAUTHORIZED": {
+    "TITLE": "You are not authorized to access this page.",
+    "DESCRIPTION": "If you think this is wrong, please contact the support.",
+    "GO_HOME": "Go to Homepage"
+  },
+  "NOT_FOUND": {
+    "TITLE": "This page does not exist.",
+    "DESCRIPTION": "We couldn’t find the page you are looking for, please make sure you are in the right path."
+  },
+    "SERVER_ERROR": {
+    "TITLE": "Oops, something went wrong!",
+    "DESCRIPTION": "Something unexpected happened, please refresh the page or try again shortly."
   }
 }

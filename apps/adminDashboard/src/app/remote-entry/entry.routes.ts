@@ -14,13 +14,25 @@ export const localRoutes: Route[] = [
       { path: '', pathMatch: 'full', redirectTo: AdminRoute.Overview },
       // Pages are not built yet; these empty routes only make the sidebar links navigable.
       {
-  path: AdminRoute.Overview,
-  loadComponent: () => import('../overview/overview').then((m) => m.Overview),
-},
+        path: AdminRoute.Overview,
+        loadComponent: () => import('../overview/overview').then((m) => m.Overview),
+      },
+      {
+        path: "404",
+        loadComponent: () => import('../error-pages/page404/page404').then((m) => m.Page404),
+      },
+      {
+        path: "500",
+        loadComponent: () => import('../error-pages/page500/page500').then((m) => m.Page500),
+      },
       { path: AdminRoute.Categories, children: [] },
       { path: AdminRoute.Occasions, children: [] },
       { path: AdminRoute.Products, children: [] },
     ],
+  },
+  {
+    path: '401',
+    loadComponent: () => import('../error-pages/page401/page401').then((m) => m.Page401),
   },
 ];
 
