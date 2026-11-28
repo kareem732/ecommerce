@@ -1,0 +1,49 @@
+<section class="flex flex-col gap-4">
+  <header class="flex flex-wrap items-baseline justify-between gap-2">
+    <h1 class="text-xl font-semibold">{{ 'ADMIN.PRODUCTS.TITLE' | translate }}</h1>
+    <span class="text-sm text-[var(--text-secondary)]">
+      {{ 'ADMIN.PRODUCTS.COUNT' | translate: { count: products().length } }}
+    </span>
+  </header>
+
+  @if (lastAction(); as last) {
+    <p class="rounded-md bg-[var(--color-primary-subtle)] px-3 py-2 text-sm" role="status">
+      {{ 'ADMIN.PRODUCTS.LAST_ACTION.' + last.action.toUpperCase() | translate: { title: last.title } }}
+    </p>
+  }
+
+  <div class="overflow-hidden rounded-xl border border-[var(--border-default)] bg-[var(--bg-surface)]">
+    <app-data-table
+      [data]="products()"
+      [columns]="columns"
+      [actions]="actions"
+      [rows]="8"
+      minWidth="64rem"
+      actionsHeader="ADMIN.PRODUCTS.COLUMNS.ACTIONS"
+      emptyMessage="ADMIN.PRODUCTS.EMPTY"
+      (actionClick)="onAction($event)"
+    >
+      <ng-template appDataTableCell="quantity" let-value="value">
+        <span
+          class="font-medium"
+          [style.color]="value <= lowStock ? 'var(--btn-danger-bg)' : null"
+        >
+          {{ 'ADMIN.PRODUCTS.STOCK_COUNT' | translate: { count: value } }}
+        </span>
+      </ng-template>
+
+      <ng-template appDataTableCell="status" [appDataTableCellOf]="products()" let-row>
+        <span
+          class="inline-flex rounded-full px-2.5 py-0.5 text-xs font-medium"
+          [class]="
+            row.status === 'ACTIVE'
+              ? 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300'
+              : 'bg-zinc-100 text-zinc-600 dark:bg-zinc-800 dark:text-zinc-300'
+          "
+        >
+          {{ 'ADMIN.PRODUCTS.STATUS.' + row.status | translate }}
+        </span>
+      </ng-template>
+    </app-data-table>
+  </div>
+</section>

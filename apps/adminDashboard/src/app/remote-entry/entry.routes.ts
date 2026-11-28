@@ -19,7 +19,10 @@ export const localRoutes: Route[] = [
 },
       { path: AdminRoute.Categories, children: [] },
       { path: AdminRoute.Occasions, children: [] },
-      { path: AdminRoute.Products, children: [] },
+      {
+        path: AdminRoute.Products,
+        loadComponent: () => import('../features/products/products').then((m) => m.Products),
+      },
     ],
   },
 ];

@@ -56,6 +56,32 @@
       "EMPTY": "لا توجد بيانات للعرض",
       "ERROR": "حدث خطأ ما",
       "RETRY": "إعادة المحاولة"
+    },
+    "PRODUCTS": {
+      "TITLE": "المنتجات",
+      "COUNT": "{{count}} منتج",
+      "EMPTY": "لا توجد منتجات",
+      "STOCK_COUNT": "{{count}} قطعة",
+      "COLUMNS": {
+        "IMAGE": "الصورة",
+        "TITLE": "المنتج",
+        "CATEGORY": "الفئة",
+        "PRICE": "السعر",
+        "STOCK": "المخزون",
+        "SOLD": "المبيعات",
+        "STATUS": "الحالة",
+        "CREATED": "تاريخ الإضافة",
+        "ACTIONS": "الإجراءات"
+      },
+      "STATUS": {
+        "ACTIVE": "نشط",
+        "DRAFT": "مسودة"
+      },
+      "ACTIONS": {
+        "VIEW": "عرض",
+        "EDIT": "تعديل",
+        "DELETE": "حذف"
+      }
     }
   }
 }
