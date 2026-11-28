@@ -13,7 +13,10 @@ export const localRoutes: Route[] = [
     children: [
       { path: '', pathMatch: 'full', redirectTo: AdminRoute.Overview },
       // Pages are not built yet; these empty routes only make the sidebar links navigable.
-      { path: AdminRoute.Overview, children: [] },
+      {
+  path: AdminRoute.Overview,
+  loadComponent: () => import('../overview/overview').then((m) => m.Overview),
+},
       { path: AdminRoute.Categories, children: [] },
       { path: AdminRoute.Occasions, children: [] },
       {

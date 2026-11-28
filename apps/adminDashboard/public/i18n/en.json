@@ -31,6 +31,32 @@
       "LOGOUT": "Log out"
     },
     "THEME_TOGGLE": "Toggle dark mode",
+    "OVERVIEW": {
+      "TOTAL_PRODUCTS": "Total products",
+      "TOTAL_ORDERS": "Total orders",
+      "TOTAL_CATEGORIES": "Total categories",
+      "TOTAL_REVENUE": "Total revenue",
+      "ALL_CATEGORIES": "All Categories",
+      "ORDERS_STATUS": "Orders Status",
+      "REVENUE": "Revenue",
+      "TOP_SELLING": "Top Selling Products",
+      "LOW_STOCK": "Low Stock Products",
+      "STATUS": {
+        "COMPLETED": "Completed",
+        "IN_PROGRESS": "In progress",
+        "CANCELED": "Canceled"
+      },
+      "PERIOD": {
+        "MONTHLY": "Monthly",
+        "LAST_WEEK": "Last Week"
+      },
+      "PRODUCTS_COUNT": "{{count}} Products",
+      "SALES_COUNT": "{{count}} Sales",
+      "CURRENCY": "EGP",
+      "EMPTY": "No data to show",
+      "ERROR": "Something went wrong",
+      "RETRY": "Try again"
+    },
     "PRODUCTS": {
       "TITLE": "Products",
       "COUNT": "{{count}} products",
@@ -56,7 +82,6 @@
         "EDIT": "Edit",
         "DELETE": "Delete"
       }
-
     }
   }
 }

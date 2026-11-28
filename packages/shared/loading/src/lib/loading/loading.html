@@ -1,0 +1,12 @@
+@if (isLoading()) {
+  <div
+    class="loading-overlay"
+    role="status"
+    aria-live="polite"
+    aria-busy="true"
+    [attr.aria-label]="loadingLabel() | translate"
+  >
+    <span class="loader" aria-hidden="true"></span>
+    <span class="sr-only">{{ loadingLabel() | translate }}</span>
+  </div>
+}

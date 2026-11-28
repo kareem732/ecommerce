@@ -1,0 +1,27 @@
+<article
+  class="flex h-full min-h-[116px] w-full flex-col justify-start gap-3 rounded-2xl px-4 pb-4 pt-6"
+  [class]="classes().card"
+>
+  <span [class]="classes().accent" aria-hidden="true">
+    <lucide-icon [img]="icon()" [size]="34" [strokeWidth]="1.5" />
+  </span>
+
+  <div class="min-w-0">
+    <p
+      class="truncate font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif] text-[24px] font-semibold leading-[100%] tracking-normal"
+      [class]="classes().accent"
+      data-testid="value"
+    >
+      {{ value() | number }}
+      @if (suffix()) {
+        <span class="ms-1 text-sm font-medium" data-testid="suffix">{{ suffix() }}</span>
+      }
+    </p>
+    <p
+      class="mt-2 truncate font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif] text-[16px] font-medium leading-[100%] tracking-normal text-[#27272A] dark:text-slate-200"
+      data-testid="label"
+    >
+      {{ label() }}
+    </p>
+  </div>
+</article>

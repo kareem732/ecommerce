@@ -1,5 +1,7 @@
 import {
   ApplicationConfig,
+  inject,
+  provideAppInitializer,
   provideBrowserGlobalErrorListeners,
 } from '@angular/core';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
@@ -12,8 +14,11 @@ import {
   errorInterceptor,
   provideAuth,
 } from '@org/auth-service';
+import { LanguageService, provideI18n } from '@org/shared-i18n';
+import { loadingInterceptor } from '@org/shared-loading';
 import { appRoutes } from './app.routes';
 import { environment } from '../environments/environment';
+import { i18nConfig } from './i18n.config';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -22,9 +27,11 @@ export const appConfig: ApplicationConfig = {
       appRoutes,
       withInMemoryScrolling({ scrollPositionRestoration: 'top' }),
     ),
-    // The remotes use `providedIn: 'root'` services (auth store, API services)
-    // that resolve from the shell's root injector, so they must be provided here.
-    provideHttpClient(withInterceptors([authInterceptor, errorInterceptor])),
+    provideHttpClient(
+      withInterceptors([loadingInterceptor, authInterceptor, errorInterceptor]),
+    ),
+    provideI18n(i18nConfig),
+    provideAppInitializer(() => inject(LanguageService).initialize()),
     provideAuth({
       apiUrl: environment.apiUrl,
       homeRoute: '/shop',

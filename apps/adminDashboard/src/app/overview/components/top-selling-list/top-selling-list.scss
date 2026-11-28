@@ -1,0 +1,19 @@
+li {
+  background: #f4f4f5;
+}
+
+li:nth-child(1) {
+  background: linear-gradient(to right, #dfac1640, #dfac161a);
+}
+
+li:nth-child(2) {
+  background: linear-gradient(to right, #757f9540, #757f951a);
+}
+
+li:nth-child(3) {
+  background: linear-gradient(to right, #91440040, #9144001a);
+}
+
+:host-context(.dark) li:nth-child(n + 4) {
+  background: #1e293b;
+}

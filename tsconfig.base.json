@@ -22,7 +22,8 @@
       "@org/shared-i18n": ["./packages/shared/i18n/src/index.ts"],
       "@org/shared": ["./packages/shared/core/src/index.ts"],
       "@org/ui": ["./packages/ui/src/index.ts"],
-      "@org/theme": ["./packages/theme/src/index.ts"]
+      "@org/theme": ["./packages/theme/src/index.ts"],
+      "@org/shared-loading": ["./packages/shared/loading/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

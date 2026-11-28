@@ -1,0 +1,14 @@
+<div
+  class="relative w-full min-w-0 overflow-hidden"
+  role="img"
+  [attr.aria-label]="'ADMIN.OVERVIEW.REVENUE' | translate"
+>
+  <p-chart
+    type="line"
+    width="100%"
+    height="19rem"
+    [data]="data()"
+    [options]="options()"
+    [plugins]="plugins()"
+  />
+</div>
